@@ -2,7 +2,7 @@
 layout: default
 title: Home
 nav_order: 1
-description: "Trace+ financial accounting technical specifications"
+description: "Trace financial accounting software technical specifications"
 permalink: /
 ---
 
