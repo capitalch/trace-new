@@ -30,6 +30,8 @@ make # takes a long time
 https://www.erlang.org/doc/installation_guide/install
 https://blog.differentpla.net/blog/2019/01/30/erlang-build-prerequisites/
 
+apt-get install -y erlang-base erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key  erlang-runtime-tools erlang-snmp erlang-ssl erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+
 
 
 
