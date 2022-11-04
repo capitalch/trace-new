@@ -1,6 +1,6 @@
 trace-link ubunto app server
 Login: root
-Password: UyyF58B1qq
+Password: y8f5CzJpbu
 
 # erlang make
 mkdir -p /usr/share/man/man1
