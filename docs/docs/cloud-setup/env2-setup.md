@@ -105,4 +105,18 @@ Some useful RabbitMQ control commands using **rabbitmqctl**
 
 `rabbitmqctl set_permissions`
 
+Install node.js
+{: .fs-6 .fw-600}
+
+- Run following scripts. It installs node version 18.12.0 as on date
+```
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs            
+```
+- Now install forever, express
+```
+cd /home && mkdir nodejs-server && cd nodejs-server
+npm install express
+npm install -g forever
+```
 
