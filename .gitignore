@@ -128,3 +128,14 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.ppk/
+
+# others
+config*.*
+__pycache*/
+build/
+static/
+dist/
+keys/
+*.zip
+*.jks
+
