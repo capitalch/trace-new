@@ -57,10 +57,10 @@ function AppMain1() {
         </Sider>
         <Layout>
             {/* <Header  style={{ width: '100vw'}}>Header</Header> */}
-            <div style={{ width: 'calc(100vw - 200px)', backgroundColor: geekblue.primary, height: '38px', color: 'white' }}>
-                <Space >
-                    <Button type='ghost' style={{ color: 'white', verticalAlign: 'center' }}>Test</Button>
-                </Space>
+            <div style={{ width: 'calc(100vw - 200px)', backgroundColor: geekblue.primary, height: '38px', color: 'white', display: 'flex', alignItems:'center' }}>
+
+                <Button size='small' type='ghost' style={{ color: 'white', }}>Test</Button>
+
             </div>
             <Content style={{ backgroundColor: 'red', height: '200px' }}>Content</Content>
         </Layout>
