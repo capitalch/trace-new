@@ -12,20 +12,36 @@ import {
     Button,
     ButtonGroup,
     IconButton,
+    Select,
+    Spacer,
     Stack,
+    useMediaQuery,
 } from "@chakra-ui/react"
 import { AddIcon, ArrowForwardIcon, EmailIcon, PhoneIcon, } from '@chakra-ui/icons'
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import { Logo } from "./Logo"
 import { AiFillAlert } from 'react-icons/ai'
 
-export const AppMain = () => (
-    <Box minW='100%' bg='blue.500' h='10' justifyContent='space-between' sx={myStyle} shadow='md'>
+export const AppMain = () => {
+    const [isSmallDevice] = useMediaQuery("(max-width: 768px)")
+    return <Box minW='100%' bg='blue.500' h='10' justifyContent='space-between' sx={myStyle} shadow='md'>
         {/* <HStack align='center' justifyItems='space-between'> */}
-        <Button size='xs' ml={10} colorScheme='gray' fontSize='sm'>Test</Button>
-        <Button size='xs'>Test</Button>
-        <Button className="myClass" size='xs'>Test</Button>
-        <Circle size={10} bg='red.400' color='white' onClick={() => console.log('phone')}
+        <HStack>
+            <Button size='xs' ml={10} colorScheme='gray' fontSize='sm'>Test</Button>
+            <Button size='xs'>Test</Button>
+            <Text color={['red', 'green', 'blue', 'white', 'yellow', 'pink']}>Responsive</Text>
+            <Text color = {isSmallDevice?'red':'white'}>Is small device</Text>
+        </HStack>
+        <Spacer />
+        <HStack>
+            <Button className="myClass" size='xs' mr={2}>New</Button>
+            <Select placeholder='Select option' size='sm' bg='Background'>
+                <option value='option1'>Option 1</option>
+                <option value='option2'>Option 2</option>
+                <option value='option3'>Option 3</option>
+            </Select>
+        </HStack>
+        {/* <Circle size={10} bg='red.400' color='white' onClick={() => console.log('phone')}
             _hover={{ bg: "teal.600", cursor: 'pointer' }}
             _active={{
                 bg: 'red.500',
@@ -34,7 +50,7 @@ export const AppMain = () => (
             }}
         >
             <PhoneIcon />
-        </Circle>
+        </Circle> */}
         {/* </HStack> */}
     </Box>
     // <Box fontSize="xs">
@@ -77,7 +93,7 @@ export const AppMain = () => (
     //         </VStack>
     //     </Grid>
     // </Box>
-)
+    }
 
 const myStyle = {
     display: 'flex',
