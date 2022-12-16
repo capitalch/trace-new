@@ -15,6 +15,8 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import { Logo } from "./Logo"
 import { AppMain } from "./app-main"
 
+import { LayoutMain } from './layouts/header'
+
 const customTheme = extendTheme({
   colors: {
     purple: "#8966ff",
@@ -43,6 +45,7 @@ const colors = {
 const theme = extendTheme({colors})
 export const App = () => (
   <ChakraProvider >
-    <AppMain />
+    {/* <AppMain /> */}
+    <LayoutMain />
   </ChakraProvider>
 )
