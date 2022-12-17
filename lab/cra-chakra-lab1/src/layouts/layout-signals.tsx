@@ -165,3 +165,25 @@ function ContentSignals() {
         >AAA</Box>
     )
 }
+// <Box
+            //     bg='teal.300'
+            //     mt='32px'
+            //     w={200}
+            //     h='100%'
+            //     shadow='xs'
+            //     overflowY='auto'
+            // >
+            //     <CloseButton
+            //         onClick={() => globalStore.isSideMenuOpen.value = false}
+            //     />
+            //     <Menu
+            //         defaultSelectedKeys={['1']}
+            //         defaultOpenKeys={['sub1']}
+            //         theme='light'
+            //         onClick={(e: any) => console.log(e)}
+            //         style={{ width: 200 }}
+            //         mode='inline'
+            //         // inlineCollapsed={true}
+            //         items={getItems()}
+            //     />
+            // </Box>
