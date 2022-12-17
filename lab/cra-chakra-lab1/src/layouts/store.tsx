@@ -1,7 +1,8 @@
 import { deepSignal } from "@deepsignal/react";
 
 const store = {
-    isSideMenuOpen: false
+    isSideMenuOpen: false,
+    isDrawerOpen: false
 }
 
 let globalStore = deepSignal(store)

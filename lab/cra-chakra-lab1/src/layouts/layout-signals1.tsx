@@ -5,9 +5,11 @@ import { AiFillAlert, AiFillAlipayCircle, AiFillAliwangwang } from "react-icons/
 import { TiThMenu } from 'react-icons/ti'
 import { Menu, type MenuProps, MenuTheme } from 'antd'
 import { If } from "react-if";
+const left = '200px', top = '38px'
 
-function LayoutSignals() {
+function LayoutSignals1() {
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
+
 
     useEffect(() => {
         if (isLargerThan1536) {
@@ -21,30 +23,35 @@ function LayoutSignals() {
             <HeaderSignals />
             <Box>
                 <SidebarSignals />
+                <DrawerSignals />
                 <ContentSignals />
             </Box>
         </Box>
     )
 }
 
-export { LayoutSignals }
+export { LayoutSignals1 }
 
 function HeaderSignals() {
+    const [isSmallerThan768] = useMediaQuery("(max-width: 768px)", { ssr: false })
     return (
-        <Box minW='100%' h='32px' bg='blue.500' shadow='md' display='flex'>
+        <Box
+            w={globalStore.isSideMenuOpen.value ? `calc(100vw - ${left})` : '100vw'}
+            ml={globalStore.isSideMenuOpen.value ? left : 0}
+            h={top} bg='blue.500' shadow='md' display='flex'>
             <HStack>
                 <If condition={!globalStore.isSideMenuOpen.value}>
-                    <IconButton ml='2' variant='unstyled' rounded='full' size='lg' aria-label="Side menu" icon={<TiThMenu color="white" />} onClick={() => globalStore.isSideMenuOpen.value = true} />
+                    <IconButton ml='2' variant='unstyled' rounded='full' size='lg' aria-label="Side menu" icon={<TiThMenu color="white" />}
+                        onClick={() => {
+                            if (isSmallerThan768) {
+                                globalStore.isDrawerOpen.value = true
+                            } else {
+                                globalStore.isSideMenuOpen.value = true
+                            }
+                        }
+                        } />
                 </If>
-
             </HStack>
-
-            {/* <HStack>
-                <Button size='xs' ml={10} colorScheme='gray' fontSize='sm'>Test</Button>
-                <Button size='xs'>Test</Button>
-
-            </HStack> */}
-
         </Box>
     )
 }
@@ -52,23 +59,66 @@ export { HeaderSignals }
 
 function SidebarSignals() {
     return (
-        <Slide direction='left' in={globalStore.isSideMenuOpen.value} style={{ width: 200, marginTop: 32 }} >
-            <VStack w={200} h='100%' shadow='xs' overflowY='auto'>
-                <HStack justifyContent='flex-end' w='100%'>
-                    <CloseButton onClick={() => globalStore.isSideMenuOpen.value = false} />
+        <Slide direction='left' in={globalStore.isSideMenuOpen.value} style={{ width: left, backgroundColor: 'lightgray', overflowY: 'auto', overflowX: 'clip' }}>
+            <VStack w={left} shadow='xs' overflowY='auto'>
+                <HStack justifyContent='flex-end' w='100%' h='30px'>
+                    <CloseButton onClick={() => globalStore.isSideMenuOpen.value = false} mr='15px' />
                 </HStack>
-                <Menu
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
-                    theme='light'
-                    onClick={(e: any) => console.log(e)}
-                    style={{ width: 200 }}
-                    mode='inline'
-                    // inlineCollapsed={true}
-                    items={getItems()}
-                />
+                <SideMenu />
             </VStack>
         </Slide>
+    )
+}
+
+function ContentSignals() {
+    return (
+        <Box
+            w={globalStore.isSideMenuOpen.value ? `calc(100vw - ${left})` : '100vw'}
+            ml={globalStore.isSideMenuOpen.value ? left : 0}
+            bg='gray.50'
+            h={`calc(100vh - ${top})`}
+        >AAA</Box>
+    )
+}
+
+function DrawerSignals() {
+
+    return (
+        <Drawer
+            isOpen={globalStore.isDrawerOpen.value}
+            placement='left'
+            
+            size='xs'
+            onClose={() => {globalStore.isDrawerOpen.value = false}}>
+            {/* <DrawerOverlay /> */}
+            <DrawerContent bg='lightgray'>
+                <DrawerCloseButton />
+                <DrawerHeader>Create your account</DrawerHeader>
+                <DrawerBody>
+                    <SideMenu />
+                </DrawerBody>
+                <DrawerFooter>
+
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+    )
+}
+
+export { DrawerSignals }
+
+function SideMenu() {
+    return (
+        <Menu
+            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['sub1']}
+            theme='dark'
+            onClick={(e: any) => {globalStore.isDrawerOpen.value=false}}
+            style={{ width: 200 }}
+            mode='inline'
+            // inlineCollapsed={true}
+            items={getItems()}
+        />
     )
 
     function getItems() {
@@ -169,34 +219,4 @@ function SidebarSignals() {
     }
 }
 
-function ContentSignals() {
-    return (
-        <Box
-            w={globalStore.isSideMenuOpen.value ? 'calc(100vw - 200px)' : '100vw'}
-            ml={globalStore.isSideMenuOpen.value ? '200px' : 0}
-            bg='gray.50' h="calc(100vh - 32px)"
-        >AAA</Box>
-    )
-}
-// <Box
-            //     bg='teal.300'
-            //     mt='32px'
-            //     w={200}
-            //     h='100%'
-            //     shadow='xs'
-            //     overflowY='auto'
-            // >
-            //     <CloseButton
-            //         onClick={() => globalStore.isSideMenuOpen.value = false}
-            //     />
-                // <Menu
-                //     defaultSelectedKeys={['1']}
-                //     defaultOpenKeys={['sub1']}
-                //     theme='light'
-                //     onClick={(e: any) => console.log(e)}
-                //     style={{ width: 200 }}
-                //     mode='inline'
-                //     // inlineCollapsed={true}
-                //     items={getItems()}
-                // />
-            // </Box>
+export { SideMenu }
