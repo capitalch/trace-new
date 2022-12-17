@@ -16,6 +16,7 @@ import { Logo } from "./Logo"
 import { AppMain } from "./app-main"
 
 import { LayoutMain } from './layouts/header'
+import { LayoutSignals } from "./layouts/layout-signals"
 
 const customTheme = extendTheme({
   colors: {
@@ -46,6 +47,7 @@ const theme = extendTheme({colors})
 export const App = () => (
   <ChakraProvider >
     {/* <AppMain /> */}
-    <LayoutMain />
+    {/* <LayoutMain /> */}
+    <LayoutSignals />
   </ChakraProvider>
 )
