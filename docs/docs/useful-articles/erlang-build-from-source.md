@@ -1,11 +1,12 @@
 ---
 layout: default
-title: Install Erlang from source and latest RabbitMQ
-nav_order: 3
+title: Erlang RabbitMQ from source
+nav_order: 1
+parent: Useful articles
 ---
 
-What we are going to do
-{: .fs-6 }
+### What we are going to do
+
 - We shall install the latest version of Erlang (25.1)on Ubuntu Jammy (22.04)
 - The two blog articles [Compile Erlang from source](https://www.erlang.org/doc/installation_guide/install) and [Pre-requisites for Erlang compilation from source](https://blog.differentpla.net/blog/2019/01/30/erlang-build-prerequisites/) were useful.
 

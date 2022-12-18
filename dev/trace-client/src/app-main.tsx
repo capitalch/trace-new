@@ -1,10 +1,10 @@
-import { Box, Text } from "@chakra-ui/react"
-function AppMain(){
-    return(
-        <Box>
-            <Text>Test</Text>
-        </Box>
+// import { Box } from "@features"
+import { Layouts } from '@navigation/*'
+
+function AppMain() {
+    return (
+        <Layouts />
     )
 }
 
-export {AppMain}
+export { AppMain }

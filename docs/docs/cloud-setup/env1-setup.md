@@ -1,15 +1,14 @@
 ---
 layout: default
 title: Environment1 setup
-parent: Cloud server
+parent: Cloud setup
 nav_order: 1
 ---
 
-Environment1 setup
-{: .fs-7 .fw800}
+# Environment1 setup
 
-What we are going to do
-{: .fs-6 }
+### What we are going to do
+
 
 - Create an Ubuntu environment from latest docker image from docker hub
 - Deploy and setup Gunicorn, uvicorn and fastapi and set them as self-start Linux service
@@ -18,11 +17,11 @@ What we are going to do
 - Deploy a React application
 - Test **fastapi** and **react application** at _http://host/api_ and _http://host_ respectively
 
-Detailed steps
-{: .fs-7 .fw-600}
+## Detailed steps
+
 I have taken help from [This](https://www.vultr.com/es/docs/how-to-deploy-fastapi-applications-with-gunicorn-and-nginx-on-ubuntu-20-04/?lang=es&utm_source=performance-max-apac&utm_medium=paidmedia&obility_id=16876059738&utm_adgroup=&utm_campaign=&utm_term=&utm_content=&gclid=CjwKCAjw5P2aBhAlEiwAAdY7dIBuAX_1_n62r4ty-lE-oau5SVqf-Yrv-K3QbtD0-3tR6y7ca2JUUhoCCmYQAvD_BwE) blog article
 
-[Click here to see how to run Linux commands using SSH at your local Windows desktop](../../putty-ssh)
+[Click here to see how to run Linux commands using SSH at your local Windows desktop](../../useful-articles/putty-ssh)
 
 1. Create environment
 

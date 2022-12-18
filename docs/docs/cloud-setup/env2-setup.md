@@ -1,14 +1,16 @@
 ---
 layout: default
 title: Environment2 setup
-parent: Cloud server
+parent: Cloud setup
 nav_order: 2
 ---
+
+# Environment2 setup
 
 {: .highlight}
 We can avail hosting solutions like CloudAMQP or local RabbitMQ deployment. We decided to go for local RabbitMQ deployment.
 
-What we are going to do
+### What we are going to do
 {: .fs-6 }
 - Create a new cloudjiffy environment from Ubuntu docker image
 - Install and expose the port of RabbitMQ server as an endpoint of Cloudjiffy
@@ -17,8 +19,7 @@ What we are going to do
 - Create a new server for PostgreSQL and expose its endpoint
 - Create a MongoDB server and expose its endpoint
 
-Detailed steps for RabbitMQ server
-{: .fs-6 .fw-600}
+## Detailed steps for RabbitMQ server
 
 {: .note}
 Erlang is a dependency of RabbitMQ. The Ubuntu repository does not have latest versions of both, Erlang and RabbitMQ. You need to register third party repositories of Erlang and RabbitMQ with Ubuntu to get their latest versions. At this point RabbitMQ 3.11.2, Erlang 25.1.2 and Ubuntu 22,04, Jammy are latest ones. [I followed this blog](https://www.cherryservers.com/blog/how-to-install-and-start-using-rabbitmq-on-ubuntu-22-04)
@@ -65,8 +66,8 @@ It shows the version as 3.11.2, which is latest version so far.
 {: .note}
 If you want to install latest version of Erlang from source [follow the process as explained here](../erlang-build-from-source). I did it successfully. Although it is not required in the present case.
 
-RabbitMQ management server
-{: .fs-6 .fw-600}
+## RabbitMQ management server
+
 
 - When the RabbitMQ service is on, give this command to enable RabbitMQ management.
 ```
@@ -76,8 +77,7 @@ rabbitmq-plugins enable rabbitmq_management
 
 - I created a new admin user, made it administrator and set permissions by using rabbitmqctl commands explained later on. I was able to connect to cloudjiffy endpoint for management from the browser through the url <http://trace-link.cloudjiffy.net:11363/> by logging in with the new user.
 
-Some useful RabbitMQ control commands using **rabbitmqctl**
-{: .fs-6 .fw-600}
+## Some useful RabbitMQ control commands using **rabbitmqctl**
 
 [Elaborated list of command and options](https://www.rabbitmq.com/rabbitmqctl.8.html#set_user_tags)
 

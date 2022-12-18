@@ -7,12 +7,12 @@ permalink: /
 ---
 
 # Platform and technology
-{: .fs-8 .fw-600}
+
+Trace version 2.0 is developed new from scratch. Several technologies used in Trace version 1.0 are deprecated. In the cloud now, **RabbitMQ** is proposed for messaging purposes. **FastAPI** is being used instead of **Flask**. At client side **React version 18.x** is being used. For UI **Material-UI** is now discarded and **Chakra UI** along with **Ant design** is being used, although data grid of Material-ui (now MUI) is proposed to be used.
 
 ---
 
-Cloud platform
-{: .fs-7 }
+## Cloud platform
 > We selected **Jelastic cloud** which is based on **Virtuozzo** application platform. Cloudjiffy is service providers for Jelastic. This platform is flexible and economical in comparison to other cloud platforms like DigitalOcean, Amazon AWS, Microsoft Azure, Google cloud or Heroku.
 
 > We hosted the application at **Cloudjiffy**. The url is [Here](https://app.cloudjiffy.com). You need to login by providing user ID and password.
@@ -21,8 +21,8 @@ Cloud platform
 
 ---
 
-Server technologies
-{: .fs-7 }
+## Server technologies
+
 > *Database*              : **PostgreSQL**
 
 > *API*        : **Fastapi with GraphQL using Ariadne schema generator**
@@ -39,8 +39,7 @@ Server technologies
 
 ---
 
-Client technologies
-{: .fs-7 }
+## Client technologies
 
 > *React.js* 
 {: .fw-700}

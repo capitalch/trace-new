@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Box, CloseButton, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Hide, HStack, Input, Show, Slide, useBreakpointValue, useDisclosure, useMediaQuery } from "@chakra-ui/react"
+import { Box, CloseButton, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Hide, HStack, Input, Show, Slide, useBreakpointValue, useDisclosure, useMediaQuery } from "@chakra-ui/react"
 import { AiFillAlert, AiFillAlipayCircle, AiFillAliwangwang } from "react-icons/ai"
 import { Menu, type MenuProps, MenuTheme } from 'antd'
+import {Button, Comp1} from '@features/*'
 
 function LayoutMain() {
     const { isOpen, onClose, onOpen, onToggle } = useDisclosure()
