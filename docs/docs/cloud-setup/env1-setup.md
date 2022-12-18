@@ -2,7 +2,7 @@
 layout: default
 title: Environment1 setup
 parent: Cloud server
-nav_order: 3
+nav_order: 1
 ---
 
 Environment1 setup
