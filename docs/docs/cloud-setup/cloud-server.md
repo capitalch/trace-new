@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Cloud server
+title: Cloud server1
 nav_order: 2
 has_children: true
 ---

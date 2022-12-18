@@ -11,7 +11,7 @@ permalink: /
 
 ---
 
-Cloud platform1
+Cloud platform
 {: .fs-7 }
 > We selected **Jelastic cloud** which is based on **Virtuozzo** application platform. Cloudjiffy is service providers for Jelastic. This platform is flexible and economical in comparison to other cloud platforms like DigitalOcean, Amazon AWS, Microsoft Azure, Google cloud or Heroku.
 
