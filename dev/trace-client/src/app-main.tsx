@@ -1,9 +1,8 @@
-// import { Box } from "@features"
-import { Layouts } from '@navigation/*'
+import { Box } from '@features/*'
 
 function AppMain() {
     return (
-        <Layouts />
+        <Box />
     )
 }
 

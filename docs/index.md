@@ -12,6 +12,9 @@ Trace version 2.0 is developed new from scratch. Several technologies used in Tr
 
 ---
 
+## This documentation
+Documentation site is create using `jekyll` tool using *just the docs* template. Documentation site is enabled in `github` in the `docs` folder and appropriate settings are done in `github`. We had installed `ruby` and `jekyll` in local machine to visualize this documentation site locally. It is proposed that the documentation would proceed side by side along with the project development process.
+
 ## Cloud platform
 > We selected **Jelastic cloud** which is based on **Virtuozzo** application platform. Cloudjiffy is service providers for Jelastic. This platform is flexible and economical in comparison to other cloud platforms like DigitalOcean, Amazon AWS, Microsoft Azure, Google cloud or Heroku.
 
@@ -41,17 +44,20 @@ Trace version 2.0 is developed new from scratch. Several technologies used in Tr
 
 ## Client technologies
 
-> *React.js* 
-{: .fw-700}
+> **React.js**
 
-> *Material-UI*
-{: .fw-700}
+> **Material-UI**
 
-> *TypeScript*
-{: .fw-700}
+> **chakra-ui**
 
-> *Socket.io*
-{: .fw-700}
+> **ant design**
 
-> *GraphQL*
-{: .fw-700}
+> **prime-react**
+
+> **TypeScript**
+
+> **Socket.io**
+
+> **GraphQL**
+
+> **React signals** for state management

@@ -1,14 +1,14 @@
 {
-  "compilerOptions": {  
-    // "baseUrl": "src",  
+  "compilerOptions": {
+    "target": "es5",
     "paths": {
-      "@features/*":["./src/features" ]
+      "@src/*":["./src/*"],
+      "@features1/*":["./src/*"]
     },
-    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
-      "ESNext"
+      "esnext"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,5 +26,5 @@
   },
   "include": [
     "src"
-  ]
+  ],
 }
