@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "paths": {
-      "@src/*":["./src/*"],
+      // "@src/*":["./src/*"],
       "@features1/*":["./src/*"]
     },
     "lib": [
