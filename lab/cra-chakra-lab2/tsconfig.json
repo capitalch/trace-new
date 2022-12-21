@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es5",
     "paths": {
-      // "@src/*":["./src/*"],
-      "@features1/*":["./src/*"]
+      "@src/*":["./src/*"],
+      // "@features1/*":["./src/*"]
     },
     "lib": [
       "dom",

@@ -1,8 +1,7 @@
 {
   "compilerOptions": {  
-    // "baseUrl": "src",  
     "paths": {
-      "@features/*":["./src/features" ]
+      "@src/*":["./src/*"],
     },
     "target": "ESNext",
     "lib": [

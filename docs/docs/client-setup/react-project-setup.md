@@ -26,14 +26,22 @@ const path = require('path');
 module.exports = {
   webpack: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@src': path.resolve(__dirname, 'src'),
     },
   },
 };
 ```
 - In package.json file `scrips` section change all occurrences of `react-scripts` with `craco`
+- In `tsconfig.json` in `compilerOptions` add:
+```json
+"paths": {
+      "@src/*":["./src/*"],
+    },
+```
+- Now you are in a position to name all your imports from topdown w.r.o `src` folder. So instead of writing import statement like `../../../ ...` you can write them like `@src/...`. The import statements are same in all files for same library imports.
+- It is a good practice to add an `index.tsx` file in each folder of components. This file will export all the components in the folder. So in the import statements in other places of project you can name the parent folder of the index file.
 
-We have enabled `craco` in Trace version 2.x
+`craco` is enabled in Trace version 2.x
 
 ## Project conventions and guidelines
 - In _tsconfig.json_ file **paths** property is defined. This is used to simplify the imports in other project files
