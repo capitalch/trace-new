@@ -1,21 +1,28 @@
-import { appStore, Box, HEADER_HEIGHT, HStack, IconButton, If, SIDEBAR_WIDTH, StoreType, Then, TiThMenu } from '@src/features'
+import {
+    AppConstants, appStore, Box, Else, HStack, IconButton, If
+    , Then, TiThMenu, useEffect, useMediaQuery
+} from '@src/features'
 
 function AppHeader() {
-    const store: StoreType | any = appStore
     
-    const SIDEBARWIDTH = store.appConstants.sidebarWidth.value
-    const HEIGHT = store.appConstants.headerHeight.value
-    const isSidebarOpen = store.layouts.isSidebarOpen.value
+    const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
+    const HEIGHT = AppConstants.HEADER_HEIGHT
+    const isSidebarOpen = appStore.layouts.isSidebarOpen.value
+
     return (<Box h={HEIGHT} bg={'twitter.700'} color='white' shadow='md' display='flex'
         w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
         ml={isSidebarOpen ? SIDEBARWIDTH : 0} >
         <HStack>
-            Test
-            <If condition={!isSidebarOpen}>
+            {isSidebarOpen ? <></> : <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} />}
+            {/* <If condition={!isSidebarOpen}>
                 <Then>
                     <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} />
                 </Then>
-            </If>
+                <Else>
+                    <></>
+                </Else>
+            </If>  */}
+            
         </HStack>
     </Box>)
 }
