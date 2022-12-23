@@ -1,6 +1,6 @@
 import {
-    AppConstants, appStore, Box, Else, HStack, IconButton, If
-    , Then, TiThMenu, useEffect, useMediaQuery
+    AppConstants, appStore, Box, HStack, IconButton,
+    MenuIcon,
 } from '@src/features'
 
 function AppHeader() {
@@ -15,7 +15,7 @@ function AppHeader() {
             {
                 isSidebarOpen
                     ? <></>
-                    : <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} onClick={handleMenuClick}
+                    : <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<MenuIcon />} onClick={handleMenuClick}
                     />
             }
         </HStack>

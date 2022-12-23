@@ -1,44 +1,79 @@
-import { React, SalesPurchaseIcon, useEffect, VouchersIcon } from "@src/features"
+import { appStore, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
 import { AppJournals, AppPayments, AppSales } from "@src/components"
 
 function useSideMenu() {
     let num: number = 1
-    const componentsMap: { id: number, component: React.FC }[] = []
+    const componentsMap: { [key:string]: React.FC} = {}
 
-    useEffect(()=>{
-        console.log('a')
-    },[])
-
-    function getMenuItems(items: MenuItemType[]) {
-        const menuItems = items.map((item, index) => {
-            const id = getUniqId()
-            const temp: any = { id: id, label: item.label }
-            if (item.icon) {
-                temp.icon = item.icon
-            }
+    function getMenuItems(items: MenuItemType[]): any[] {
+        const menuItemsWithKeys: MenuItemType[] = items.map((item: MenuItemType) => {
+            item.key = incr()
             if (item.component) {
-                componentsMap.push({ id: id, component: item.component })
-            } else if (item.children) {
-                temp.children = getMenuItems(item.children)
+                componentsMap[item.key] = item.component
+            } else if (item.children && (item.children.length > 0)) {
+                item.children = getMenuItems(item.children)
             }
-            return (temp)
+            return (item)
         })
-        return (menuItems)
+        return (menuItemsWithKeys)
     }
 
-    function getUniqId() {
-        return (num++)
+    function handleOnSelect({ item, key, keyPath, selectedKeys, domEvent }: any) {
+        appStore.layouts.sideMenuSelectedKeys.value = [key]
+        appStore.layouts.selectedComponent.value = componentsMap[key]
+        const x:any = componentsMap[key]
+        const y = x
     }
 
-    interface MenuItemType {
-        label: string
-        component?: React.FC
-        icon?: any
-        children?: MenuItemType[]
+    function handleOnOpenChange(openKeys: string[]) {
+        const lastOpenKeyIndex = (openKeys.length - 1) || 0
+        const lastOpenKey = openKeys[lastOpenKeyIndex]
+        appStore.layouts.sideMenuOpenKeys.value = [lastOpenKey]
+        appStore.layouts.sideMenuSelectedKeys.value = ['0']
     }
 
-    return { getMenuItems, }
+    function incr() {
+        return (String(num++))
+    }
+
+
+    return { componentsMap, getMenuItems, handleOnOpenChange, handleOnSelect, menuItems }
 
 }
 export { useSideMenu }
+
+interface MenuItemType {
+    key?: string
+    label: string
+    component?: React.FC
+    icon?: any
+    children?: MenuItemType[]
+}
+
+const menuItems: MenuItemType[] = [
+    {
+        label: 'Vouchers',
+        icon: <VouchersIcon color='red' />,
+        children: [
+            {
+                label: 'Journals',
+                component: AppJournals
+            },
+            {
+                label: 'Payments',
+                component: AppPayments
+            }
+        ],
+    },
+    {
+        label: 'Sales / purchases',
+        icon: <SalesPurchaseIcon color='green' />,
+        children: [
+            {
+                label: 'Sales',
+                component: AppSales
+            }
+        ]
+    }
+]
 
