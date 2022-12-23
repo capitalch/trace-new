@@ -12,6 +12,8 @@ import { deepSignal } from "@deepsignal/react"
 const store = {
     layouts: {
         isSidebarOpen: false,
+        sideMenuOpenKeys:['sub1'],
+        sideMenuSelectedKeys:['1']
     }
 }
 const appStore: any = deepSignal(store)

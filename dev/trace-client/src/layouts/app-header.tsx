@@ -4,26 +4,25 @@ import {
 } from '@src/features'
 
 function AppHeader() {
-    
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEIGHT = AppConstants.HEADER_HEIGHT
     const isSidebarOpen = appStore.layouts.isSidebarOpen.value
 
-    return (<Box h={HEIGHT} bg={'twitter.700'} color='white' shadow='md' display='flex'
+    return (<Box h={HEIGHT} bg={AppConstants.HEADER_BACKGROUND_COLOR} color={AppConstants.HEADER_COLOR} shadow='md' display='flex'
         w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
         ml={isSidebarOpen ? SIDEBARWIDTH : 0} >
         <HStack>
-            {isSidebarOpen ? <></> : <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} />}
-            {/* <If condition={!isSidebarOpen}>
-                <Then>
-                    <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} />
-                </Then>
-                <Else>
-                    <></>
-                </Else>
-            </If>  */}
-            
+            {
+                isSidebarOpen
+                    ? <></>
+                    : <IconButton ml={2} colorScheme='whiteAlpha' size='xs' aria-label='Side bar' icon={<TiThMenu />} onClick={handleMenuClick}
+                    />
+            }
         </HStack>
     </Box>)
+
+    function handleMenuClick() {
+        appStore.layouts.isSidebarOpen.value = true
+    }
 }
 export { AppHeader }
