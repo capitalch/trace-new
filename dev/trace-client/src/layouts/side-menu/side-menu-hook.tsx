@@ -1,9 +1,9 @@
-import { appStore, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
-import { AppJournals, AppPayments, AppSales } from "@src/components"
+import { appStore, HomeIcon, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
+import {AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
 
 function useSideMenu() {
     let num: number = 1
-    const componentsMap: { [key:string]: React.FC} = {}
+    const componentsMap: { [key: string]: React.FC } = {}
 
     function getMenuItems(items: MenuItemType[]): any[] {
         const menuItemsWithKeys: MenuItemType[] = items.map((item: MenuItemType) => {
@@ -21,8 +21,6 @@ function useSideMenu() {
     function handleOnSelect({ item, key, keyPath, selectedKeys, domEvent }: any) {
         appStore.layouts.sideMenuSelectedKeys.value = [key]
         appStore.layouts.selectedComponent.value = componentsMap[key]
-        const x:any = componentsMap[key]
-        const y = x
     }
 
     function handleOnOpenChange(openKeys: string[]) {
@@ -51,6 +49,16 @@ interface MenuItemType {
 }
 
 const menuItems: MenuItemType[] = [
+    {
+        label: 'Home',
+        icon: <HomeIcon color='blue' />,
+        children: [
+            {
+                label: 'Dashboard',
+                component: AppDashboard
+            }
+        ]
+    },
     {
         label: 'Vouchers',
         icon: <VouchersIcon color='red' />,

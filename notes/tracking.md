@@ -1,8 +1,8 @@
-## To do for layout in Chakra UI
-1.  Put logo, conditional menu and login in header
-																							2. Sidebar menu submenu antd final
-3. Click of menu item loads component in content
-4. Breadcrumb in content
-5. Drawer for mobile with same menu. Click of menu item loads component
-6. Open close of sidebar
-7. Conditional menu in header
+## To do for layout
+1. Breadcrumb in content
+2. Header login / logout mechanism
+3. If isSuperAdmin then show superadmin menu in sidebar and superadmin dashboard
+4. If isAdmin then show admin menu in sidebar and admin dashboard
+5. if isUser then show normal user menu in sidebar and user dashboard
+6. Logout mechanism
+7. Modal dialog

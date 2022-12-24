@@ -1,9 +1,10 @@
 import { appStore, Box, useEffect, useMediaQuery } from '@src/features'
-import { AppContent } from './app-content'
-import { AppHeader } from './app-header'
-import { AppSidebar } from './app-sidebar'
+import { AppLogin } from '@src/components'
+import { AppContent, AppDrawer, AppHeader, AppSidebar } from '@src/layouts'
+
 function AppLayouts() {
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
+
     useEffect(() => {
         if (isLargerThan1536) {
             appStore.layouts.isSidebarOpen.value = true
@@ -12,10 +13,15 @@ function AppLayouts() {
         }
     })
 
+    useEffect(() => {
+        appStore.layouts.selectedComponent.value = AppLogin
+    }, [])
+
     return (<Box>
         <AppHeader />
         <Box>
             <AppSidebar />
+            <AppDrawer />
             <AppContent />
         </Box>
 

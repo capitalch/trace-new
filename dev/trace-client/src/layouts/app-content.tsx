@@ -1,4 +1,5 @@
 import { AppConstants, appStore, Box } from '@src/features'
+
 function AppContent() {
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEADER_HEIGHT = AppConstants.HEADER_HEIGHT
