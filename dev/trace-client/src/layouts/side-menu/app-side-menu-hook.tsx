@@ -1,7 +1,7 @@
 import { appStore, HomeIcon, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
 import {AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
 
-function useSideMenu() {
+function useAppSideMenu() {
     let num: number = 1
     const componentsMap: { [key: string]: React.FC } = {}
 
@@ -34,11 +34,10 @@ function useSideMenu() {
         return (String(num++))
     }
 
-
-    return { componentsMap, getMenuItems, handleOnOpenChange, handleOnSelect, menuItems }
+    return { componentsMap, getMenuItems, handleOnOpenChange, handleOnSelect, menuItemsForAccounts }
 
 }
-export { useSideMenu }
+export { useAppSideMenu }
 
 interface MenuItemType {
     key?: string
@@ -48,7 +47,7 @@ interface MenuItemType {
     children?: MenuItemType[]
 }
 
-const menuItems: MenuItemType[] = [
+const menuItemsForAccounts: MenuItemType[] = [
     {
         label: 'Home',
         icon: <HomeIcon color='blue' />,

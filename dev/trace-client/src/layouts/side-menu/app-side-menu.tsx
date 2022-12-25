@@ -1,12 +1,12 @@
 import { appStore, AppConstants, MenuAnt, } from '@src/features'
-import { useSideMenu } from './side-menu-hook'
+import { useAppSideMenu } from './app-side-menu-hook'
 
-function SideMenu() {
-    const { getMenuItems, handleOnOpenChange, handleOnSelect, menuItems } = useSideMenu()
+function AppSideMenu() {
+    const { getMenuItems, handleOnOpenChange, handleOnSelect, menuItemsForAccounts } = useAppSideMenu()
     return (<MenuAnt
-        items={getMenuItems(menuItems)}
+        items={getMenuItems(menuItemsForAccounts)}
         mode='inline'
-        onClick={(e: any) => { appStore.layouts.isDrawerOpen.value = false }}
+        onClick={() => appStore.layouts.isDrawerOpen.value = false }
         onOpenChange={handleOnOpenChange}
         onSelect={handleOnSelect}
         openKeys={appStore.layouts.sideMenuOpenKeys.value}
@@ -17,4 +17,4 @@ function SideMenu() {
     </MenuAnt>)
 }
 
-export { SideMenu }
+export { AppSideMenu }

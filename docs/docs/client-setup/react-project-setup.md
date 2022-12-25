@@ -46,3 +46,4 @@ module.exports = {
 ## Project conventions and guidelines
 - In _tsconfig.json_ file **paths** property is defined. This is used to simplify the imports in other project files
 - _index.tsx_ file in every folder exports all the components in that folder
+- We explored `Formik`, `Yup` and 'React hook form' for react form validations and finally decided to use the library [React hook form](https://react-hook-form.com/) for the purpose. This library is flexible and also the global state management `preact signals` or more specifically `deepSignal` can be used with it
