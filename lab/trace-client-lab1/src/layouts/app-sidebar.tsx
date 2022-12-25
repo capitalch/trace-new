@@ -2,11 +2,11 @@ import { AppConstants, appStore, ArrowLeftIconChakra, HStack, IconButton, Image,
 import { AppSideMenu } from './side-menu/app-side-menu'
 
 function AppSidebar() {
-    const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
+    // const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
     const isSidebarOpen = appStore.layouts.isSidebarOpen.value
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEIGHT = AppConstants.HEADER_HEIGHT
-    const isClose:any = useDeepSignal({clicked: false})
+    // const isClose:any = useDeepSignal({clicked: false})
     useEffect(() => {
         // let ret = false
         // if(isLargerThan1536){
@@ -35,7 +35,7 @@ function AppSidebar() {
     )
 
     function handleClickSidebarClose() {
-        isClose.clicked.value = true
+        // isClose.clicked.value = true
         appStore.layouts.isSidebarOpen.value = false
     }
 }
