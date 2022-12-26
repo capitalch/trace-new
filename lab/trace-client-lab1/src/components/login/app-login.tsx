@@ -1,4 +1,4 @@
-import { appValidators, Box, Button, Center, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Messages, Text, useForm } from '@src/features'
+import { appStaticStore, appStore, appValidators, Box, Button, Center, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Messages, Text, useForm } from '@src/features'
 import { useAppLogin } from './app-login-hook'
 
 function AppLogin() {
@@ -46,6 +46,9 @@ function AppLogin() {
                     Sign In
                 </Button>
             </form>
+            <Button onClick={() => {
+                appStaticStore.doReload()
+            }}>Reload</Button>
         </Box>
     </Center>)
 }

@@ -1,4 +1,4 @@
-import { AppConstants, appStore, ArrowLeftIconChakra, HStack, IconButton, Image, Slide, useDeepSignal, useEffect, useMediaQuery, useState, VStack } from '@src/features'
+import { AppConstants, appStore, appStaticStore, ArrowLeftIconChakra, HStack, IconButton, Image, Slide, useDeepSignal, useEffect, useMediaQuery, useState, VStack } from '@src/features'
 import { AppSideMenu } from './side-menu/app-side-menu'
 
 function AppSidebar() {
@@ -35,8 +35,10 @@ function AppSidebar() {
     )
 
     function handleClickSidebarClose() {
-        // isClose.clicked.value = true
-        appStore.layouts.isSidebarOpen.value = false
+        // appStore.layouts.isSidebarOpen.value = false
+        // appStore.layouts.isCloseClicked.value = true
+        appStaticStore.isCloseClicked = true
+        appStaticStore.doReload()
     }
 }
 export { AppSidebar }
