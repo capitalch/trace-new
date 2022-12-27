@@ -1,10 +1,20 @@
-import { appStore, HomeIcon, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
-import {AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
+import { appStore, HomeIcon, React, SalesPurchaseIcon, SideMenuTypesEnum, VouchersIcon } from "@src/features"
+import { AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
 
 function useAppSideMenu() {
+    // const userType = appStore.login.userType
+    const sideMenuType = appStore.layouts.sideMenuType.value
     let num: number = 1
     const componentsMap: { [key: string]: React.FC } = {}
-
+    function getItems() {
+        if (sideMenuType === SideMenuTypesEnum.accountsMennu) {
+            return getMenuItems(accountsMenu)
+        } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
+            return getMenuItems(superAdminMenu)
+        } else {
+            return getMenuItems(adminMenu)
+        }
+    }
     function getMenuItems(items: MenuItemType[]): any[] {
         const menuItemsWithKeys: MenuItemType[] = items.map((item: MenuItemType) => {
             item.key = incr()
@@ -34,7 +44,7 @@ function useAppSideMenu() {
         return (String(num++))
     }
 
-    return { componentsMap, getMenuItems, handleOnOpenChange, handleOnSelect, menuItemsForAccounts }
+    return { accountsMenu, componentsMap, getItems, handleOnOpenChange, handleOnSelect, }
 
 }
 export { useAppSideMenu }
@@ -47,7 +57,7 @@ interface MenuItemType {
     children?: MenuItemType[]
 }
 
-const menuItemsForAccounts: MenuItemType[] = [
+const accountsMenu: MenuItemType[] = [
     {
         label: 'Home',
         icon: <HomeIcon color='blue' />,
@@ -84,3 +94,28 @@ const menuItemsForAccounts: MenuItemType[] = [
     }
 ]
 
+const superAdminMenu: MenuItemType[] = [
+    {
+        label: 'Home',
+        icon: <HomeIcon color='blue' />,
+        children: [
+            {
+                label: 'Dashboard',
+                component: AppDashboard
+            }
+        ]
+    },
+]
+
+const adminMenu: MenuItemType[] = [
+    {
+        label: 'Home',
+        icon: <HomeIcon color='blue' />,
+        children: [
+            {
+                label: 'Dashboard',
+                component: AppDashboard
+            }
+        ]
+    },
+]

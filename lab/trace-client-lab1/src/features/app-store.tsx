@@ -3,9 +3,9 @@ import { deepSignal } from "@deepsignal/react"
 const store: any = {
     layouts: {
         isDrawerOpen: false,
-        isCloseClicked: false,
+        // isCloseClicked: false,
         isSidebarOpen: true,
-        isOpenClicked: false,
+        // isOpenClicked: false,
         selectedComponent: undefined,
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2']

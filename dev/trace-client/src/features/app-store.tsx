@@ -1,17 +1,33 @@
 import { deepSignal } from "@deepsignal/react"
+import { AppConstants } from "./app-constants"
 
-const store:any = {
+const store: any = {
     layouts: {
         isDrawerOpen: false,
-        isSidebarOpen: false,
+        isSidebarOpen: true,
         selectedComponent: undefined,
-        sideMenuOpenKeys:['1'],
-        sideMenuSelectedKeys:['2']
+        sideMenuOpenKeys: ['1'],
+        sideMenuSelectedKeys: ['2'],
+        sideMenuType:'',
     },
-    login:{
+    login: {
         isLoggedIn: false,
+        uidEmail: 'capitalch',
         userType: undefined,
-    }
+    },
+    reload: false,
 }
+
 const appStore: any = deepSignal(store)
-export { appStore }
+const appStaticStore: AppStaticStoreType = {
+    isCloseClicked: false,
+    isOpenClicked: false,
+    doReload: () => appStore.reload.value = !appStore.reload.value
+}
+export { appStore, appStaticStore }
+
+interface AppStaticStoreType {
+    doReload: () => void,
+    isCloseClicked: boolean,
+    isOpenClicked: boolean,
+}
