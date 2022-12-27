@@ -6,8 +6,8 @@ function useLogoutMenuButton() {
             [
                 <LogoutMenuItem itemText='Change uid' key='1' />,
                 <LogoutMenuItem itemText='Change password' key='2' />,
-                <LogoutMenuItem itemText='Admin' key='3' />,
-                <LogoutMenuItem itemText='Accounts' key='4' />,
+                <LogoutMenuItem itemText='Show admin menu' key='3' />,
+                <LogoutMenuItem itemText='Show accounts menu' key='4' />,
                 <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='5' />,
             ]
         )
