@@ -1,11 +1,11 @@
-import { AppConstants, appStore, appStaticStore, ArrowLeftIconChakra, HStack, IconButton, Image, Slide, useDeepSignal, useEffect, useMediaQuery, useState, VStack } from '@src/features'
+import { AppConstants, appStaticStore, appStore, ArrowLeftIconChakra, HStack, IconButton, Image, Slide, VStack } from '@src/features'
 import { AppSideMenu } from './side-menu/app-side-menu'
 
 function AppSidebar() {
     const isSidebarOpen = appStore.layouts.isSidebarOpen.value
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEIGHT = AppConstants.HEADER_HEIGHT
-    
+
     return (
         <Slide direction='left' in={isSidebarOpen} style={{ width: SIDEBARWIDTH, overflowY: 'auto', overflowX: 'clip', backgroundColor: `${AppConstants.SIDEBAR_BACKGROUND_COLOR}` }}>
             <VStack w={SIDEBARWIDTH} shadow='xs' overflowY='auto'>
@@ -23,6 +23,7 @@ function AppSidebar() {
         appStore.layouts.isSidebarOpen.value = false
         appStaticStore.isCloseClicked = true
     }
+
 }
 export { AppSidebar }
 

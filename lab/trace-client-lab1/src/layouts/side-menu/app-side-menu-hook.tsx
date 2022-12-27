@@ -1,10 +1,19 @@
-import { appStore, HomeIcon, React, SalesPurchaseIcon, VouchersIcon } from "@src/features"
-import {AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
+import { appStore, HomeIcon, React, SalesPurchaseIcon, SideMenuTypesEnum, VouchersIcon } from "@src/features"
+import { AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
 
 function useAppSideMenu() {
+    const sideMenuType = appStore.layouts.sideMenuType.value
     let num: number = 1
     const componentsMap: { [key: string]: React.FC } = {}
-
+    function getItems() {
+        if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
+            return getMenuItems(accountsMenu)
+        } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
+            return getMenuItems(superAdminMenu)
+        } else {
+            return getMenuItems(adminMenu)
+        }
+    }
     function getMenuItems(items: MenuItemType[]): any[] {
         const menuItemsWithKeys: MenuItemType[] = items.map((item: MenuItemType) => {
             item.key = incr()
@@ -18,9 +27,13 @@ function useAppSideMenu() {
         return (menuItemsWithKeys)
     }
 
-    function handleOnSelect({ item, key, keyPath, selectedKeys, domEvent }: any) {
-        appStore.layouts.sideMenuSelectedKeys.value = [key]
+    function handleOnClick({ key }: any) {
+        appStore.layouts.isDrawerOpen.value = false
         appStore.layouts.selectedComponent.value = componentsMap[key]
+    }
+
+    function handleOnSelect({ key, }: any) {
+        appStore.layouts.sideMenuSelectedKeys.value = [key]
     }
 
     function handleOnOpenChange(openKeys: string[]) {
@@ -34,7 +47,7 @@ function useAppSideMenu() {
         return (String(num++))
     }
 
-    return { componentsMap, getMenuItems, handleOnOpenChange, handleOnSelect, menuItemsForAccounts }
+    return { accountsMenu, componentsMap, getItems, handleOnClick, handleOnOpenChange, handleOnSelect, }
 
 }
 export { useAppSideMenu }
@@ -47,7 +60,7 @@ interface MenuItemType {
     children?: MenuItemType[]
 }
 
-const menuItemsForAccounts: MenuItemType[] = [
+const accountsMenu: MenuItemType[] = [
     {
         label: 'Home',
         icon: <HomeIcon color='blue' />,
@@ -84,3 +97,28 @@ const menuItemsForAccounts: MenuItemType[] = [
     }
 ]
 
+const superAdminMenu: MenuItemType[] = [
+    {
+        label: 'Home',
+        icon: <HomeIcon color='blue' />,
+        children: [
+            {
+                label: 'Dashboard',
+                component: AppDashboard
+            }
+        ]
+    },
+]
+
+const adminMenu: MenuItemType[] = [
+    {
+        label: 'Home',
+        icon: <HomeIcon color='blue' />,
+        children: [
+            {
+                label: 'Dashboard',
+                component: AppDashboard
+            }
+        ]
+    },
+]
