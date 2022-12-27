@@ -1,4 +1,4 @@
-import { appStore, Box, useEffect, useLayoutEffect, useMediaQuery } from '@src/features'
+import { appStore, Box, useEffect, } from '@src/features'
 import { AppLogin, DummyComponent } from '@src/components'
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from '@src/layouts'
 // import { useAppLayouts } from './app-layouts-hook'
@@ -9,7 +9,7 @@ function AppLayouts() {
     useEffect(() => {
         // isLoggedIn ? <></> : appStore.layouts.selectedComponent.value = AppLogin
         appStore.layouts.selectedComponent.value = isLoggedIn ? DummyComponent : AppLogin
-    }, [appStore.layouts.selectedComponent.value, isLoggedIn])
+    }, [isLoggedIn])
 
     return (<Box>
         <AppHeader />

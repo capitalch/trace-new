@@ -2,12 +2,11 @@ import { appStore, HomeIcon, React, SalesPurchaseIcon, SideMenuTypesEnum, Vouche
 import { AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
 
 function useAppSideMenu() {
-    // const userType = appStore.login.userType
     const sideMenuType = appStore.layouts.sideMenuType.value
     let num: number = 1
     const componentsMap: { [key: string]: React.FC } = {}
     function getItems() {
-        if (sideMenuType === SideMenuTypesEnum.accountsMennu) {
+        if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
             return getMenuItems(accountsMenu)
         } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
             return getMenuItems(superAdminMenu)
@@ -28,9 +27,13 @@ function useAppSideMenu() {
         return (menuItemsWithKeys)
     }
 
-    function handleOnSelect({ item, key, keyPath, selectedKeys, domEvent }: any) {
-        appStore.layouts.sideMenuSelectedKeys.value = [key]
+    function handleOnClick({ key }: any) {
+        appStore.layouts.isDrawerOpen.value = false
         appStore.layouts.selectedComponent.value = componentsMap[key]
+    }
+
+    function handleOnSelect({ key, }: any) {
+        appStore.layouts.sideMenuSelectedKeys.value = [key]
     }
 
     function handleOnOpenChange(openKeys: string[]) {
@@ -44,7 +47,7 @@ function useAppSideMenu() {
         return (String(num++))
     }
 
-    return { accountsMenu, componentsMap, getItems, handleOnOpenChange, handleOnSelect, }
+    return { accountsMenu, componentsMap, getItems, handleOnClick, handleOnOpenChange, handleOnSelect, }
 
 }
 export { useAppSideMenu }

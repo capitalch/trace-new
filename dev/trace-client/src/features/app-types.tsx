@@ -9,6 +9,6 @@ enum UserTypesEnum {
 enum SideMenuTypesEnum {
     'superAdminMenu',
     'adminMenu',
-    'accountsMennu'
+    'accountsMenu'
 }
 export { SideMenuTypesEnum, UserTypesEnum }

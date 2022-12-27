@@ -1,7 +1,8 @@
 import {
-    AppConstants, appStaticStore, appStore, Box, Button, ChevronDownIcon, IconButton,Menu, MenuButton, MenuList, MenuItem, PersonIcon,
+    AppConstants, appStaticStore, appStore, Box, Button, ChevronDownIcon, IconButton, Menu, MenuButton, MenuList, MenuItem, PersonIcon,
     MenuIcon, useEffect, useMediaQuery, Flex
 } from '@src/features'
+import { LogoutMenuButton } from './logout-menu-button'
 
 function AppHeader() {
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)", { ssr: false })
@@ -40,23 +41,23 @@ function AppHeader() {
             appStore.layouts.isSidebarOpen.value = false
             appStore.layouts.isDrawerOpen.value = false
         }
-    }, [isSidebarOpen, isLargerThan1536, isLoggedIn, appStaticStore.isCloseClicked, appStaticStore.isOpenClicked])
+    }, [isSidebarOpen, isLargerThan1536, isLoggedIn,])
 
 
     return (
         isLoggedIn &&
         <Box h={HEIGHT} bg={AppConstants.HEADER_BACKGROUND_COLOR} color={AppConstants.HEADER_COLOR} shadow='md' display='flex'
-        w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
-        ml={isSidebarOpen ? SIDEBARWIDTH : 0} >
-        <Flex w='100%' alignItems='center'>
-            {
-                isSidebarOpen
-                    ? <></>
-                    : <IconButton ml={2} variant='unstyled' size='sm' aria-label='Side bar' icon={<MenuIcon fontSize='1.2rem' />} onClick={handleMenuClick}
-                    />
-            }
+            w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
+            ml={isSidebarOpen ? SIDEBARWIDTH : 0} >
+            <Flex w='100%' alignItems='center'>
+                {
+                    isSidebarOpen
+                        ? <></>
+                        : <IconButton ml={2} variant='unstyled' size='sm' aria-label='Side bar' icon={<MenuIcon fontSize='1.2rem' />} onClick={handleMenuClick}
+                        />
+                }
 
-            {/* <Button variant='ghost' ml='auto' mr={2}
+                {/* <Button variant='ghost' ml='auto' mr={2}
                 _hover={{
                     background: "blue.500",
                     color: "gray.800",
@@ -65,29 +66,10 @@ function AppHeader() {
                 leftIcon={<PersonIcon fontSize='1.2rem' />}
                 size='sm' >{appStore.login.uidEmail.value}</Button> */}
 
-            <Menu>
-                <MenuButton ml='auto' mr={2}
-                    _hover={{
-                        background: "blue.500",
-                        color: "gray.800",
-                    }}
-                    _expanded={{bg:'amber'}}
-                    // _focus={{boxShadow:'outline', }}
-                    size='sm'
-                    as={Button}
-                    aria-label='Logout'
-                    leftIcon={<PersonIcon fontSize='1.2rem' />}
-                    rightIcon={<ChevronDownIcon fontSize='1.2rem' />}
-                    variant='ghost'>{appStore.login.uidEmail}</MenuButton>
-                <MenuList color='amber' bg='gray.400' >
-                    <MenuItem bg='white' color='gray.800' >Change uid</MenuItem>
-                    <MenuItem bg='white' color='gray.800'>Change password</MenuItem>
-                    <MenuItem bg='white' color='gray.800'>Logout</MenuItem>
-                </MenuList>
-            </Menu>
+                <LogoutMenuButton />
 
-        </Flex>
-    </Box> 
+            </Flex>
+        </Box>
     )
 
     function handleMenuClick() {

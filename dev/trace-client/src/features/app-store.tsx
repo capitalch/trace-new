@@ -1,5 +1,6 @@
 import { deepSignal } from "@deepsignal/react"
-import { AppConstants } from "./app-constants"
+import { _, produce } from '@src/features'
+// import { AppConstants } from "./app-constants"
 
 const store: any = {
     layouts: {
@@ -8,7 +9,7 @@ const store: any = {
         selectedComponent: undefined,
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
-        sideMenuType:'',
+        sideMenuType: '',
     },
     login: {
         isLoggedIn: false,
@@ -18,13 +19,18 @@ const store: any = {
     reload: false,
 }
 
-const appStore: any = deepSignal(store)
+let appStore: any = deepSignal(_.cloneDeep(store))
+function resetAppStore() {
+    appStore.layouts.value = { ...store.layouts }
+    appStore.login.value = { ...store.login }
+}
+
 const appStaticStore: AppStaticStoreType = {
     isCloseClicked: false,
     isOpenClicked: false,
     doReload: () => appStore.reload.value = !appStore.reload.value
 }
-export { appStore, appStaticStore }
+export { appStore, appStaticStore, resetAppStore }
 
 interface AppStaticStoreType {
     doReload: () => void,

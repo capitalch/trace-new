@@ -12,13 +12,13 @@ function useAppLogin() {
         appStore.login.isLoggedIn.value = true
         if (userType === 'superAdmin') {
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
-            appStore.laouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
         } else if (userType === 'admin') {
             appStore.login.userType.value = UserTypesEnum.ADMIN
-            appStore.laouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
         } else {
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
-            appStore.laouts.sideMenuType.value = SideMenuTypesEnum.accountsMennu
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
         }
     }
 
