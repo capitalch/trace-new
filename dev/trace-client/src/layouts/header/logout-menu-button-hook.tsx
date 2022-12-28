@@ -1,14 +1,15 @@
-import { appStore, MenuItem, resetAppStore, UserTypesEnum } from '@src/features'
+import { AccountsIcon, AdminMenuIcon, appStore, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, resetAppStore, UserTypesEnum } from '@src/features'
 function useLogoutMenuButton() {
     const userType = appStore.login.userType.value
+
     function getAdminMenuItems() {
         return (
             [
-                <LogoutMenuItem itemText='Change uid' key='1' />,
-                <LogoutMenuItem itemText='Change password' key='2' />,
-                <LogoutMenuItem itemText='Show admin menu' key='3' />,
-                <LogoutMenuItem itemText='Show accounts menu' key='4' />,
-                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='5' />,
+                <LogoutMenuItem itemText='Change uid' key='1' MenuIcon={ChangeUidIcon} />,
+                <LogoutMenuItem itemText='Change password' key='2' MenuIcon={ChangePasswordIcon} />,
+                <LogoutMenuItem itemText='Show admin menu' key='3' MenuIcon={AdminMenuIcon} />,
+                <LogoutMenuItem itemText='Show accounts menu' key='4' MenuIcon={AccountsIcon} />,
+                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='5' MenuIcon={LogoutIcon} />,
             ]
         )
     }
@@ -16,7 +17,7 @@ function useLogoutMenuButton() {
     function getSuperAdminMenuItems() {
         return (
             [
-                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='1' />,
+                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='1' MenuIcon={LogoutIcon} />,
             ]
         )
     }
@@ -24,9 +25,9 @@ function useLogoutMenuButton() {
     function getBusinessUserMenuItems() {
         return (
             [
-                <LogoutMenuItem itemText='Change uid' key='1' />,
-                <LogoutMenuItem itemText='Change password' key='2' />,
-                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='3' />,
+                <LogoutMenuItem itemText='Change uid' key='1' MenuIcon={ChangeUidIcon} />,
+                <LogoutMenuItem itemText='Change password' key='2' MenuIcon={ChangePasswordIcon} />,
+                <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='3' MenuIcon={LogoutIcon} />,
             ]
         )
     }
@@ -52,13 +53,14 @@ function useLogoutMenuButton() {
 
 export { useLogoutMenuButton }
 
-function LogoutMenuItem({ itemText, handleOnClick }: any) {
+function LogoutMenuItem({ handleOnClick, MenuIcon, itemText }: any) {
     return (<MenuItem as='button'
         // transition='all 0.5s cubic-bezier(.08,.52,.52,1)'
         bg='gray.50'
         borderWidth='1px'
         borderColor='gray.200'
         color='blue.700'
+        icon={<MenuIcon fontSize='1.2rem' />}
         _hover={{ bg: 'gray.100' }}
         _active={{
             transform: 'scale(0.98)',

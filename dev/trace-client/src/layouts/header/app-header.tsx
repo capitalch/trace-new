@@ -1,6 +1,5 @@
 import {
-    AppConstants, appStaticStore, appStore, Box, Button, ChevronDownIcon, IconButton, Menu, MenuButton, MenuList, MenuItem, PersonIcon,
-    MenuIcon, useEffect, useMediaQuery, Flex
+    AppConstants, appStaticStore, appStore, Box, IconButton, MenuIcon, useEffect, useMediaQuery, Flex
 } from '@src/features'
 import { LogoutMenuButton } from './logout-menu-button'
 

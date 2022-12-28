@@ -8,17 +8,16 @@ function LogoutMenuButton() {
     return (
         <Menu>
             <MenuButton ml='auto' mr={2}
+                 as={Button}
                 _hover={{
                     background: "blue.500",
-                    color: "gray.800",
+                    color: "gray.50",
                 }}
                 _active={{
                     transform: 'scale(0.98)',
                 }}
                 _expanded={{ bg: 'amber' }}
-                // _focus={{boxShadow:'outline', }}
                 size='sm'
-                as={Button}
                 aria-label='Logout'
                 leftIcon={<PersonIcon fontSize='1.2rem' />}
                 rightIcon={<ChevronDownIcon fontSize='1.2rem' />}

@@ -27,7 +27,7 @@ export { ArrowLeftIcon as ArrowLeftIconChakra, ChevronDownIcon } from '@chakra-u
 // export { TiThMenu as MenuIcon, } from 'react-icons/ti'
 
 // Material design icons
-export { MdMenu as MenuIcon } from 'react-icons/md'
+export {MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,  MdOutlineChangeCircle as ChangeUidIcon, MdLogout as LogoutIcon, MdMenu as MenuIcon } from 'react-icons/md'
 
 // Bootstrap icons
 export { BsFillMenuButtonWideFill as SalesPurchaseIcon, BsPersonFill as PersonIcon, BsReceipt as VouchersIcon, } from 'react-icons/bs'
