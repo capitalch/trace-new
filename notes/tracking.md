@@ -20,9 +20,8 @@
 ## Tables
 1. ClientM: id, clientCode, clientName, 
 2. BuM: id, clientId, buCode, buName
-3. RoleM: id, roleName
-4. ClientRoleX: id, clientId, roleId
-5. UserM: id, clientRoleId, buId
-6. ProtectedControlM: id, controlName, weight
-7. RoleProtectedControlX: id, protectedControlId, roleId
-8. 
+3. RoleM: id, roleName, clientId
+4. UserM: id, roleId, buId
+5. ProtectedControlM: id, controlName, weight
+6. RoleProtectedControlX: id, protectedControlId, roleId
+7. 
