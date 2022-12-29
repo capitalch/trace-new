@@ -2,7 +2,7 @@ import { appStore, AppConstants, MenuAnt, } from '@src/features'
 import { useAppSideMenu } from './app-side-menu-hook'
 
 function AppSideMenu() {
-    const { accountsMenu, getItems, handleOnClick, handleOnOpenChange, handleOnSelect } = useAppSideMenu()
+    const { getItems, handleOnClick, handleOnOpenChange, handleOnSelect } = useAppSideMenu()
     return (<MenuAnt
         items={getItems()}
         mode='inline'

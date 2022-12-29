@@ -1,10 +1,10 @@
 import {
-    appStore, Button, ChevronDownIcon, Menu, MenuButton, MenuList, MenuItem, PersonIcon, resetAppStore,
+    appStore, Button, ChevronDownIcon, Menu, MenuButton, MenuList,PersonIcon, 
 } from '@src/features'
 import { useLogoutMenuButton } from './logout-menu-button-hook'
 
 function LogoutMenuButton() {
-    const {getMenuItems, handleLogoutOnClick } = useLogoutMenuButton()
+    const {getMenuItems, } = useLogoutMenuButton()
     return (
         <Menu>
             <MenuButton ml='auto' mr={2}

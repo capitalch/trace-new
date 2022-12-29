@@ -18,10 +18,14 @@
 		At server there is 'ProtectedControlM' table was id, controlName, weight, descr. When a new protected control is created at client side then super admin does corresponding entry in this table. The CRUD of this table is available in Super Admin menu
 
 ## Tables
-1. ClientM: id, clientCode, clientName, 
-2. BuM: id, clientId, buCode, buName
-3. RoleM: id, roleName, clientId
-4. UserM: id, roleId, buId
-5. ProtectedControlM: id, controlName, weight
-6. RoleProtectedControlX: id, protectedControlId, roleId
-7. 
+1. ClientM: id, clientCode, clientName, isActive, timestamp
+
+2. BuM: id, clientId, buCode, buName, timestamp
+
+3. RoleM: id, roleName, clientId, descr
+
+4. UserM: id, roleId, buId, uid, userEmail, hash, isActive, parentId, descr, userName, branchIds, lastUsedBuId, lastUsedBranchId, timestamp
+
+5. SecuredControlM: id, controlName, weight
+
+6. RoleSecuredControlX: id, securedControlId, roleId
