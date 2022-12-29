@@ -1,34 +1,28 @@
 ## To do for layout
-1. Breadcrumb in content
-2. Header login / logout mechanism
-3. If isSuperAdmin then show superadmin menu in sidebar and superadmin dashboard
-4. If isAdmin then show admin menu in sidebar and admin dashboard
-5. if isUser then show normal user menu in sidebar and user dashboard
-6. Logout mechanism
-7. Modal dialog
 
-## Login mechanism
-if logged in
-	Show logout icon with name of logged in user
-	Show drop down log out in header
-		Drop down menu
-		if super admin
-			Show super admin menu in sidebar
-			Change uid
-			Change pwd
-			Logout
-		else if admin
-			Admin menu
-			Accounts menu
-			Change uid
-			Change pwd
-			Logout
-		else
-			Show accounts menu in sidebar
-			change uid
-			change pwd
-			Logout
-else
-	show nil in sidebar
-	show clean header
-	show login UI
+
+## Access control
+1. Builtin user roles: Reader, Manager, Accountant
+2. Super admin can alter builtin user roles
+3. Protected controls: Has control weight, an absolute prime number
+3. Every role has a weight which is product of each individual protected control weight
+	If a control is enabled then its weight is taken into account
+	Reader has role weight as 0
+	Manager has role weight as 1
+	Accountant has role weight based on calculations
+3. Logic
+	Every user has a role weight. 
+		If role weight is 0, that is reader, then all protected controls are disabled
+		If role weight is 1, that is manager, then all protected controls are enabled
+		New roles can be defined by admin. Every protected control has weight as data-weight attribute. At run time user's role weight is divided by protected control's data-weight. If remainder is 0 then the contol is enabled otherwise disabled
+		At server there is 'ProtectedControlM' table was id, controlName, weight, descr. When a new protected control is created at client side then super admin does corresponding entry in this table. The CRUD of this table is available in Super Admin menu
+
+## Tables
+1. ClientM: id, clientCode, clientName, 
+2. BuM: id, clientId, buCode, buName
+3. RoleM: id, roleName
+4. ClientRoleX: id, clientId, roleId
+5. UserM: id, clientRoleId, buId
+6. ProtectedControlM: id, controlName, weight
+7. RoleProtectedControlX: id, protectedControlId, roleId
+8. 

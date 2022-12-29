@@ -13,7 +13,7 @@ export {
 export { deepSignal, useDeepSignal } from '@deepsignal/react'
 export { Messages } from './messages'
 export { _, produce, React }
-export { useEffect, useLayoutEffect, useState } from 'react'
+export { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 export { useForm } from 'react-hook-form'
 export { Else, Fallback, If, Then, } from 'react-if'
