@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Jelastic SSH putty
-# nav_exclude: true
+nav_order: 2
 parent: Useful articles
 ---
 
