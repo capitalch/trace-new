@@ -1,5 +1,5 @@
-from features import FastAPI, GraphQL, load_schema_from_path, make_executable_schema, QueryType
-from fastapi import APIRouter
+from features import FastAPI, GraphQL, load_schema_from_path, make_executable_schema, PLAYGROUND_HTML, QueryType
+from graphql_app.graphql_api import graphQLApp
 import accounts.accounts_main
 app = FastAPI()
 app.include_router(accounts.accounts_main.router)
@@ -9,15 +9,5 @@ app.include_router(accounts.accounts_main.router)
 async def root():
     return ({"message": "Hello world1"})
 
-type_defs = load_schema_from_path('graphql')
-query = QueryType()
-
-
-@query.field('user')
-def resolve_user(*_):
-    return ('Sushant')
-
-
-schema = make_executable_schema(type_defs, query)
-app = GraphQL(schema)
-
+app.mount('/graphql', graphQLApp)
+# app.mount('/graphql', GraphQL(schema=schema))
