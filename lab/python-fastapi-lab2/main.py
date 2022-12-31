@@ -5,7 +5,7 @@ import asyncpg
 import accounts.accounts_main
 
 async def run():
-    conn = await asyncpg.connect(user='webadmin', password='NAFacr72163', port=11107, host='chisel.cloudjiffy.net', database='capital_accounts')
+    conn = await asyncpg.connect(user='', password='', port=11107, host='', database='')
     values = await conn.fetch(
         'select * from "capitalchowringhee"."TranD"'
     )
