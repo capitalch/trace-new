@@ -29,3 +29,8 @@
 5. SecuredControlM: id, controlName, weight
 
 6. RoleSecuredControlX: id, securedControlId, roleId
+
+## Check in FastAPI
+1. Middleware
+2. AsyncPG
+3. socket-io

@@ -52,3 +52,22 @@ router = APIRouter()
 async def resolve_route():
     return ({"message": "Hello routes"})
 ```
+
+## Using GraphQL with fastapi
+We could not make use of router for enabling `GraphQL` in `fastapi`. The 'GraphQL' implementation is done using a new `fastapi` app and this new app is mounted in the main app. Following process was used:
+- In a new folder say `graphql_app` created a file `gaphql_api.py`. Implement `graphql` in this file and mount the `graphql` app in `main.py` file
+```python
+from features import GraphQL, load_schema_from_path, make_executable_schema, QueryType
+type_defs = load_schema_from_path('graphql_app')
+query = QueryType()
+@query.field('user')
+def resolve_user(*_):
+    return ('Sushant')
+schema = make_executable_schema(type_defs, query)
+graphQLApp = GraphQL(schema)
+```
+`main.py`
+```python
+from graphql_app.graphql_api import graphQLApp
+app.mount('/graphql', graphQLApp)
+```

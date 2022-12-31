@@ -1,4 +1,4 @@
-pip install uvicorn[all] fastapi[uvicorn] ariadne
+pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg
 
 ## Chakra UI breakpoints
 const breakpoints = {
