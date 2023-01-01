@@ -1,5 +1,7 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.responses import RedirectResponse
+# from app.schemas import UserOut, UserAuth, TokenSchema
 
 app = FastAPI()
 
