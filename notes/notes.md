@@ -17,3 +17,4 @@ xl: '80em',
 '2xl': '96em',
 
 ## Small display is 1366px and wide display is 1920px. So switchover at 2xl will make side menu appear for wide displays.
+## For fastapi security visit https://www.freecodecamp.org/news/how-to-add-jwt-authentication-in-fastapi/

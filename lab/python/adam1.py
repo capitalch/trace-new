@@ -14,7 +14,7 @@ async def run1():
         print(result)
 
 async def run2():
-    pool = await asyncpg.create_pool(user='', password='', port=0, host='chisel.cloudjiffy.net', database='demo_accounts')
+    pool = await asyncpg.create_pool(user='webadmin', password='NAFacr72163', port=11107, host='chisel.cloudjiffy.net', database='demo_accounts')
     conn = await pool.acquire()
     result = await conn.fetch('select * from "demounit1"."AccM"')
     print(result)
