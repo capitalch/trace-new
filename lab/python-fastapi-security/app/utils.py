@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 from typing import Any
 from jose import jwt
 from passlib.context import CryptContext
-password_context = CryptContext(schemes=["bcrypt"], depecated='auto')
+password_context = CryptContext(schemes=["bcrypt"], deprecated='auto')
 
 
-def get_hashed_passwor(password: str) -> str:
+def get_hashed_password(password: str) -> str:
     return (password_context.hash(password))
 
 
@@ -21,7 +21,7 @@ JWT_SECRET_KEY = os.getenv('key', 'JWT_SECRET_KEY')
 JWT_REFRESH_SECRET_KEY = os.getenv('key', 'JWT_REFRESH_SECRET_KEY')
 
 
-def ceate_access_token(subject: str | Any, expires_delta: int = None) -> str:
+def create_access_token(subject: str | Any, expires_delta: int = None) -> str:
     if (expires_delta is not None):
         expires_delta = datetime.utcnow() + expires_delta
     else:

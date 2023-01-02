@@ -16,6 +16,18 @@
 		If role weight is 1, that is manager, then all protected controls are enabled
 		New roles can be defined by admin. Every protected control has weight as data-weight attribute. At run time user's role weight is divided by protected control's data-weight. If remainder is 0 then the contol is enabled otherwise disabled
 		At server there is 'ProtectedControlM' table was id, controlName, weight, descr. When a new protected control is created at client side then super admin does corresponding entry in this table. The CRUD of this table is available in Super Admin menu
+## Authentication
+### Server
+1. login(username, password)-> returns access token, refresh token
+	a) get password_hash_from_db for user, email from testing service; hashes password; compares password
+	b) If anything wrong; raise exception
+	c) otherwise create tokens and return
+2. Secured function call: verifies the token. If failure then raises exception; otherwise returns user
+3. Testing: Create user service which returns password_hash_from_db, email against a username
+
+## Client
+1. Login screen to hit /login
+2. Any other call to api will activate the secured function call
 
 ## Tables
 1. ClientM: id, clientCode, clientName, isActive, timestamp
