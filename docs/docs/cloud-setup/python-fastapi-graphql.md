@@ -290,3 +290,43 @@ async def resolve_refresh(payload: Any = Depends(get_current_user)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 ```
+
+## 12. For creation of random secret key
+
+{: .note}
+> In command prompt
+openssl rand -hex 32
+
+## 13. Configuration in fastapi
+Create a `config.py` file
+
+```python
+from app.vendors import BaseModel
+class Settings(BaseModel):
+    authentication: dict = {
+        "super_admin": {
+            "uid": "superAdmin",
+            "email":"capitalch@gmail.com",
+            "hash": ""
+        },
+        "jwt": {
+            "ACCESS_TOKEN_SECRET": "",
+            "algorithm": "HS256",
+            "ACCESS_TOKEN_EXPIRE_HOURS": "",
+            "REFRESH_TOKEN_SECRET": "",
+            "REFRESH_TOKEN_EXPIRE_WEEKS":"4"
+        }
+    },
+    db_connection: dict = {
+        "user": "webadmin",
+        "password": "",
+        "host": "",
+        "port": "",
+        "database": ""
+    }
+
+
+settings = Settings()
+```
+
+Now import settings in different files and use it.

@@ -56,6 +56,12 @@
 
 6. RoleSecuredControlX: id, securedControlId, roleId
 
+
+## 03-01-2023
+1. Created configuration
+2. Updated documentation for security model
+3. Started implementing security in server
+
 ## 01-01-2023 - 02-01-2023
 1. Security with access token and refresh token created in lab
 2. GraphQL checked
