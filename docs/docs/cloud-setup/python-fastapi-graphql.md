@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Fastapi graphql tips
-parent: Useful articles
+title: Fastapi graphql server
+parent: Cloud setup
 nav_order: 3
 has_children: false
 ---
@@ -146,6 +146,18 @@ async def my_generic_exception_handler(request: Request, exc: MyGenericException
 raise MyGenericException(name="This is generic exception raised")
 ```
 
+But the above exception handling process does not catch the unknown type of exceptions such as `division by 0`. To take care of any sort of exception use `middleware` like this in the `main.py`:
+```python
+@app.middleware("http")
+async def exception_handling(request: Request, call_next):
+    try:
+        return await call_next(request)
+    except Exception as exc:
+        return JSONResponse(status_code=500, content="some unknown error")
+```
+
+The above will catch any sort of unspecified error universally, happening anywhere in the codebase, in any file, at any execution stage. Only keep this middleware before anything else in `main.py`
+
 ## 9. Working with all types of parameters
 
 {: .note}
@@ -166,6 +178,7 @@ Suppose you want a shared function which takes on some parameters, work upon the
 
 For that to achieve, write a Python function, wrap that in `Depends` directive and include it in the method for resolving the path in following manner
 
+
 ```python
 async def params_injection(item_id: str | None = Path(default=None), q: str | None = Query(default=None), x_token: str | None = Header(default=None), formParam: str | None = Form(default=None)):
     return ({
@@ -181,4 +194,99 @@ async def resolve_item(inj = Depends(params_injection)):
     return (inj)
 ```
 
-## 11. Token based security
+## 11. JWT Token based security in fastapi
+
+{: .note}
+`fastapi` provides two dependencies for security. These two dependencies are mainly for the purpose of auto documentation provided by `fastapi`. That is by using `/docs` as documentation you can use security model in the `fastapi` based apps.
+a) `OAuth2PasswordRequestForm`: This expects user name and password in `html form url encoded` with strict spelling of `username` and `password` respectively and outputs `username` and `password`.
+b) `OAuth2PasswordBearer`: This has arguments `tokenUrl` and `scheme_name`. `tokenUrl` is relative url which expects username, password and outputs token. `scheme_name` is 'JWT' in most cases.
+
+### Flow for login, tokens and authentication
+
+- In login screen user clicks submit button. `username` and `password` are form fields with `urlencoded` which submits to `login` endpoint
+
+- `login` endpoint validates the `username` and compares the hash of `password` from database. If validation fails then `HTTPException` is raised by server; otherwise `access_token` and `refresh_token` is returned. The `access_token` is short lived and `refresh_token` is long lived. The `refresh_token` is used to create a new `access_token` when that expires.
+
+- For every *secured / protected* resource the client embeds `Autorization` header with value `Bearer access_token` in the request. At server endpoint say `check` the `access_token` is validated and user info is retrieved from `access_token`. For successful validations the user info is sent back to client; otherwise `token expired` or `invalid access token` errors are thrown by serevr as `HTTPException`. When client sees `token expired` exception, it retrieves `refresh_token` from its store and hits the `refresh` endpoint of server.
+
+- The `refresh` endpoint at server validates the `refresh_token` and gets user related informationfrom the `refresh_token`. It then creates a new short lived`access_token` from the information obtained from `refresh_token` and sends it back to client.
+
+- The client now uses the new `access_token` to communicate with protected resources.
+
+
+### Implementation of security model in `fastapi`
+a) endpoint `/login`:
+Inputs username and password and outputs access_token and refresh_token. The refresh_token is used to create new access_token when expired, without doing a fresh login.
+```python
+@app.post('/login', summary='Create access and refresh tokens for user')
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = users.get(form_data.username, None)
+    if (user is None):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail='Incorrect uid or password')
+
+    hashed_pass = user.get('hash', None)
+    if not verify_password(form_data.password, hashed_pass):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect email or password"
+        )
+    return {
+        "access_token": create_access_token(user.get('email')),
+        "refresh_token": create_refresh_token(user.get('email')),
+    }
+```
+
+b) A secured endpoint `/check`: For any endpoint you want to secure, use the dependency `get_current_user` as below:
+
+```python
+reuseable_oauth = OAuth2PasswordBearer(
+    tokenUrl="/login",
+    scheme_name="JWT"
+)
+
+async def get_current_user(token:str = Depends(reuseable_oauth)):
+    try:
+        payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
+        return(payload)
+    
+    except(ValidationError, Exception):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+```
+
+```python
+@app.post('/check', summary='Check secured endpoint')
+async def resolve_check(payload: Any = Depends(get_current_user)):
+    try:
+        return (payload)
+
+    except (ValidationError, Exception):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+```
+
+c) Refresh endpoint `/refresh`: Used to create a new access_token from the refresh_token and expired access_token.
+
+```python
+@app.post('/refresh', summary='Issue access token from refresh token')
+async def resolve_refresh(payload: Any = Depends(get_current_user)):
+    try:
+        access_token = create_access_token(payload.get('sub'))
+        return ({
+            "access_token": access_token
+        })
+
+    except (ValidationError, Exception):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+```
