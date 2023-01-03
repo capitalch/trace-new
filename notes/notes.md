@@ -1,4 +1,4 @@
-pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg
+pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart
 
 ## Chakra UI breakpoints
 const breakpoints = {
