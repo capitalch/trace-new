@@ -33,8 +33,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             detail="Incorrect email or password"
         )
     return {
-        "access_token": create_access_token(user.get('email')),
-        "refresh_token": create_refresh_token(user.get('email')),
+        "access_token": create_access_token(user),
+        "refresh_token": create_refresh_token(user),
     }
 
 

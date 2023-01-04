@@ -293,9 +293,13 @@ async def resolve_refresh(payload: Any = Depends(get_current_user)):
 
 ## 12. For creation of random secret key
 
-{: .note}
-> In command prompt
+In command prompt type
+
+```linux
 openssl rand -hex 32
+```
+
+It will generate random key which can be used for jwt secret for access_token or refresh_token
 
 ## 13. Configuration in fastapi
 Create a `config.py` file
