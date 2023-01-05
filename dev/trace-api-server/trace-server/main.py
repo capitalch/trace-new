@@ -11,9 +11,9 @@ async def app_custom_exception_handler(request: Request, exc: AppHttpException):
     return JSONResponse(
         status_code=exc.statusCode,
         content={
-            'message': exc.message
+            'detail': exc.detail
         },
-        headers={"X-error": exc.message}
+        headers={"X-error": exc.detail}
     )
 
 

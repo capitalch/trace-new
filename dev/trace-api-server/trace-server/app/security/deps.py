@@ -15,7 +15,7 @@ def get_super_admin_uid_email_from_config():
         return superAdminUid, superAdminEmail
     except Exception:
         raise AppHttpException(
-            message=messages.err_config_file, statusCode=status.HTTP_401_UNAUTHORIZED)
+            detail=messages.err_config_file, statusCode=status.HTTP_401_UNAUTHORIZED)
 
 
 def is_super_admin(uidOrEmail, password) -> bool:
@@ -36,7 +36,7 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     }
     if ((not uidOrEmail) or (not password)):
         raise AppHttpException(
-            message=messages.err_uid_password_empty, statusCode=status.HTTP_400_BAD_REQUEST)
+            detail=messages.err_uid_password_empty, statusCode=status.HTTP_400_BAD_REQUEST)
 
     if (is_super_admin(uidOrEmail, password)):
         superAdminUid, superAdminEmail = get_super_admin_uid_email_from_config()
@@ -58,11 +58,31 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
 
 async def get_current_user(token: str = Depends(reuseable_oauth)):
     try:
+        if (not token.strip()):
+            raise Exception
         payload = jwt.decode(token, settings.ACCESS_TOKEN_SECRET_KEY,
                              algorithms=[settings.ALGORITHM])
         return (payload)
-    except (ValidationError):
+    except (Exception):
         raise AppHttpException(
             statusCode=status.HTTP_403_FORBIDDEN,
-            message=messages.err_invalid_credentials
+            detail=messages.err_invalid_credentials
+        )
+
+
+async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_oauth)):
+    try:
+        if (not token.strip()):
+            raise Exception
+        payload = jwt.decode(token, settings.REFRESH_TOKEN_SECRET_KEY,
+                             algorithms=[settings.ALGORITHM])
+        accessToken = create_access_token(payload.get('sub'))
+        return {
+            'access_token': accessToken
+        }
+
+    except (Exception):
+        raise AppHttpException(
+            statusCode=status.HTTP_400_BAD_REQUEST,
+            detail=messages.err_renew_access_token
         )

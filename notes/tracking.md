@@ -16,6 +16,7 @@
 		If role weight is 1, that is manager, then all protected controls are enabled
 		New roles can be defined by admin. Every protected control has weight as data-weight attribute. At run time user's role weight is divided by protected control's data-weight. If remainder is 0 then the contol is enabled otherwise disabled
 		At server there is 'ProtectedControlM' table was id, controlName, weight, descr. When a new protected control is created at client side then super admin does corresponding entry in this table. The CRUD of this table is available in Super Admin menu
+
 ## Authentication
 1. Client login submit
 2. Server login endpoint returns access_token, refresh_token, userKind and roleWeight
@@ -31,6 +32,7 @@
 	d. Exception handling
 	e. AsyncDB database handling
 	f. Security model
+
 ### Server
 1. login(username, password)-> returns access token, refresh token
 	a) get password_hash_from_db for user, email from testing service; hashes password; compares password
@@ -56,6 +58,12 @@
 
 6. RoleSecuredControlX: id, securedControlId, roleId
 
+## 05-01-2023
+1. Modified trace-access database
+2. Created endpoint renew-token in fastapi
+
+## 04-01-2023
+1. Fastapi login and protected control logic
 
 ## 03-01-2023
 1. Created configuration
