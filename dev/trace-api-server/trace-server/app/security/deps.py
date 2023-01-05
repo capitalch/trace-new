@@ -1,6 +1,7 @@
 from app.vendors import Depends,  jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, status, ValidationError
 from app import AppHttpException, messages, settings
 from .utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
+from app.db.db_main import fetch_sql
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
@@ -15,10 +16,10 @@ def get_super_admin_uid_email_from_config():
         return superAdminUid, superAdminEmail
     except Exception:
         raise AppHttpException(
-            detail=messages.err_config_file, statusCode=status.HTTP_401_UNAUTHORIZED)
+            detail=messages.err_config_file, status_code=status.HTTP_401_UNAUTHORIZED)
 
 
-def is_super_admin(uidOrEmail, password) -> bool:
+def is_super_admin_user(uidOrEmail, password) -> bool:
     ret = False
     superAdminUid, superAdminEmail = get_super_admin_uid_email_from_config()
     superAdminHash = settings.SUPER_ADMIN_HASH
@@ -26,6 +27,11 @@ def is_super_admin(uidOrEmail, password) -> bool:
         ret = verify_password(password, superAdminHash)
     return (ret)
 
+
+async def is_admin_user(uidOrEmail, password) -> bool:
+    data = await fetch_sql('trace_entry')
+    print(data)
+    return(True)
 
 async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     uidOrEmail = formData.username.strip()
@@ -36,9 +42,9 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     }
     if ((not uidOrEmail) or (not password)):
         raise AppHttpException(
-            detail=messages.err_uid_password_empty, statusCode=status.HTTP_400_BAD_REQUEST)
+            detail=messages.err_uid_password_empty, status_code=status.HTTP_400_BAD_REQUEST)
 
-    if (is_super_admin(uidOrEmail, password)):
+    if (is_super_admin_user(uidOrEmail, password)):
         superAdminUid, superAdminEmail = get_super_admin_uid_email_from_config()
         accessToken = create_access_token({
             "uid": superAdminUid,
@@ -52,6 +58,8 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
         })
         res.update({'access_token': accessToken,
                    'refresh_token': refreshToken})
+    elif await is_admin_user(uidOrEmail, password):
+        pass
 
     return res
 
@@ -65,7 +73,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
         return (payload)
     except (Exception):
         raise AppHttpException(
-            statusCode=status.HTTP_403_FORBIDDEN,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail=messages.err_invalid_credentials
         )
 
@@ -83,6 +91,6 @@ async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_o
 
     except (Exception):
         raise AppHttpException(
-            statusCode=status.HTTP_400_BAD_REQUEST,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=messages.err_renew_access_token
         )

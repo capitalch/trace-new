@@ -1,9 +1,16 @@
 pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt
 
-## Plan
+# Plan
+
 ### Server
+1. Logging
+2. GraphQL
+3. AsyncDB
 
 ### Client
+1. Login
+
+
 
 ## Chakra UI breakpoints
 const breakpoints = {
