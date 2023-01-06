@@ -5,24 +5,27 @@ from psycopg_pool import AsyncConnectionPool, ConnectionPool
 poolStore = {}
 
 
-def get_connection_pool(dbName: str) -> ConnectionPool:
-    pool = poolStore.get(dbName)
-    if (pool is None):
-        pool = ConnectionPool(conninfo='',open=False)
-        poolStore[dbName] = pool
+def get_connection_pool(connInfo: str) -> ConnectionPool:
+    pool = ConnectionPool(conninfo=connInfo)
+    # pool = poolStore.get(dbName)
+    # if (pool is None):
+    #     pool = ConnectionPool(conninfo=connInfo)
+    #     poolStore[dbName] = pool
     return (pool)
 
 
-def get_connection(dbName: str) -> Connection:
-    pool = get_connection_pool(dbName)
+def get_connection(connInfo: str) -> Connection:
+    pool = get_connection_pool(connInfo)
     pool.open()
     conn = pool.connection()
     return(conn)
 
 def get_accounts2():
-    conn: Connection = get_connection('demo_accounts')
-    conn.connect('user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts')
-    conn.execute('set search_path to demounit1')
+    connInfo = 'user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts'
+    conn: Connection = get_connection(connInfo)
+    # conn.connect('user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts')
+    cur = conn.cursor()
+    cur.execute('set search_path to demounit1')
     cur = conn.execute('select * from "AccM"')
     records = cur.fetchall()
     return(records)
