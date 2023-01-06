@@ -30,7 +30,7 @@ async def my_generic_exception_handler(request: Request, exc: Exception):
 @app.get('/')
 async def root():
     # s = 1/0
-    raise ArithmeticError('Division by zero')
+    # raise ArithmeticError('Division by zero')
     return ({"message": "Hello world1"})
 
 # @app.middleware('http')

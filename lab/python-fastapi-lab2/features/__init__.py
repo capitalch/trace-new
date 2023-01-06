@@ -7,7 +7,7 @@ from ariadne.constants import PLAYGROUND_HTML
 from asyncpg import connect, create_pool
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as SarletHttpException
-
+import psycopg
 
 class Settings(BaseModel):
     key: str = 'ABCD'

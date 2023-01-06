@@ -1,5 +1,7 @@
 type Query {
     user: String
     accounts: Generic
+    accounts1: Generic
+    accounts2: Generic
 }
 scalar Generic

@@ -1,4 +1,4 @@
-pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt
+pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool]
 
 # Plan
 
