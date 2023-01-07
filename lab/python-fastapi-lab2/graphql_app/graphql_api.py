@@ -1,6 +1,6 @@
 from features import GraphQL, load_schema_from_path, make_executable_schema, QueryType, jsonable_encoder
 from database.db_handler import getAccounts
-from database.async_psycopg import get_accounts1, get_accounts2
+from database.async_psycopg import get_accounts1, get_psycopg_data
 # from features import jsonable_encoder
 
 type_defs = load_schema_from_path('graphql_app')
@@ -22,9 +22,9 @@ async def resolve_psycopg(*_):
     data1 = jsonable_encoder(data)
     return(data1)
 
-@query.field('accounts2')
+@query.field('psycopg')
 async def resolve_psycopg(*_):
-    data = get_accounts2()
+    data = get_psycopg_data()
     data1 = jsonable_encoder(data)
     return(data1)
 

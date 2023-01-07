@@ -3,5 +3,7 @@ type Query {
     accounts: Generic
     accounts1: Generic
     accounts2: Generic
+
+    psycopg: Generic
 }
 scalar Generic

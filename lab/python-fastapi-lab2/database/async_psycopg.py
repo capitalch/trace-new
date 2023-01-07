@@ -1,5 +1,5 @@
-import psycopg
-from psycopg import connect, Connection, Cursor
+# import psycopg
+from psycopg import AsyncConnection, connect, Connection, Cursor
 from psycopg_pool import AsyncConnectionPool, ConnectionPool
 
 poolStore = {}
@@ -20,7 +20,7 @@ def get_connection(connInfo: str) -> Connection:
     conn = pool.connection()
     return(conn)
 
-def get_accounts2():
+def get_psycopg_data():
     connInfo = 'user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts'
     conn: Connection = get_connection(connInfo)
     # conn.connect('user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts')
@@ -31,7 +31,7 @@ def get_accounts2():
     return(records)
 
 async def get_accounts1():
-    async with await psycopg.AsyncConnection.connect("user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts") as aconn:
+    async with await AsyncConnection.connect("user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts") as aconn:
         async with aconn.cursor() as acur:
             await acur.execute('set search_path to demounit1')
             await acur.execute('select * from "AccM"')

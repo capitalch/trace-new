@@ -4,10 +4,10 @@ from fastapi.encoders import jsonable_encoder
 from ariadne import load_schema_from_path, make_executable_schema, QueryType
 from ariadne.asgi import GraphQL, graphql
 from ariadne.constants import PLAYGROUND_HTML
-from asyncpg import connect, create_pool
+# from asyncpg import connect, create_pool
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as SarletHttpException
-import psycopg
+# import psycopg
 
 class Settings(BaseModel):
     key: str = 'ABCD'
