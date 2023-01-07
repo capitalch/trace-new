@@ -5,8 +5,8 @@ from psycopg_pool import AsyncConnectionPool, ConnectionPool
 poolStore = {}
 
 
-def get_connection_pool(connInfo: str) -> ConnectionPool:
-    pool = ConnectionPool(conninfo=connInfo)
+def get_connection_pool(connInfo: str):  # -> ConnectionPool:
+    pool = ConnectionPool(connInfo, open=True)
     # pool = poolStore.get(dbName)
     # if (pool is None):
     #     pool = ConnectionPool(conninfo=connInfo)
@@ -14,21 +14,37 @@ def get_connection_pool(connInfo: str) -> ConnectionPool:
     return (pool)
 
 
-def get_connection(connInfo: str) -> Connection:
-    pool = get_connection_pool(connInfo)
-    pool.open()
+async def get_connection(connInfo: str):  # -> Connection:
+    # pool = get_connection_pool(connInfo)
+    pool = ConnectionPool(connInfo, open=True)
+    pool.wait()
+    # pool.open()
+    # with pool.connection() as conn:
+    #     conn.execute('set search_path to demounit1')
     conn = pool.connection()
-    return(conn)
+    return (conn)
 
-def get_accounts2():
+
+async def get_accounts2():
     connInfo = 'user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts'
-    conn: Connection = get_connection(connInfo)
+    pool = ConnectionPool(connInfo, open=True)
+    records = None
+    with pool.connection() as conn:
+        conn.execute('set search_path to demounit1')
+    #     cur = conn.execute('select * from "AccM"')
+    #     records = cur.fetchall()
+    # pool.close()
+
+    conn = await get_connection(connInfo)
     # conn.connect('user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts')
-    cur = conn.cursor()
-    cur.execute('set search_path to demounit1')
-    cur = conn.execute('select * from "AccM"')
-    records = cur.fetchall()
-    return(records)
+    # cur = conn.cursor()
+    with conn:
+        conn.execute('set search_path to demounit1')
+        cur = conn.execute('select * from "AccM"')
+        records = cur.fetchall()
+    # records = {}
+    return (records)
+
 
 async def get_accounts1():
     async with await psycopg.AsyncConnection.connect("user=webadmin password=NAFacr72163 port=11107 host=chisel.cloudjiffy.net dbname=demo_accounts") as aconn:

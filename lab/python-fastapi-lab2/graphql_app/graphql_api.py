@@ -24,7 +24,7 @@ async def resolve_psycopg(*_):
 
 @query.field('accounts2')
 async def resolve_psycopg(*_):
-    data = get_accounts2()
+    data = await get_accounts2()
     data1 = jsonable_encoder(data)
     return(data1)
 
