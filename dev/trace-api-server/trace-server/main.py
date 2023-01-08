@@ -1,8 +1,11 @@
-from app.vendors import FastAPI, JSONResponse, Request
+from app.vendors import  FastAPI, JSONResponse, Request, set_event_loop_policy, WindowsSelectorEventLoopPolicy
 from app.security import routes as security_routes
-from app import AppHttpException, messages, GraphQLApp
+from app import AppHttpException, messages
+from app.db.routes import GraphQLApp
 
+# set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 app = FastAPI()
+
 # Routers
 app.include_router(security_routes.router,)
 
@@ -39,3 +42,5 @@ async def exception_handling(request: Request, call_next):
 
 # Load graphQL as separate app
 app.mount('/graphql', GraphQLApp)
+
+# uvicorn.run('main:app')

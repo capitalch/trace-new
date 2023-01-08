@@ -1,7 +1,5 @@
-from features import connect, FastAPI, GraphQL, load_schema_from_path, make_executable_schema, QueryType, Request, JSONResponse, status
-from features import SarletHttpException
-from features import settings
-from graphql_app.graphql_api import graphQLApp
+from features import FastAPI,Request, JSONResponse, status
+from database.graphql_api import GraphQLApp
 from generic_classes import MyGenericException
 import accounts.accounts_main
 import lab.body_params
@@ -47,7 +45,7 @@ async def db():
     return (val)
 
 
-app.mount('/graphql', graphQLApp)
+app.mount('/graphql', GraphQLApp)
 
 
 # loop = asyncio.get_event_loop()

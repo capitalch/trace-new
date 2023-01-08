@@ -1,7 +1,7 @@
 from app.vendors import Depends,  jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, status, ValidationError
 from app import AppHttpException, messages, settings
 from .utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
-from app.db.db_main import fetch_sql
+# from app.db.db_main import fetch_sql
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
@@ -29,8 +29,8 @@ def is_super_admin_user(uidOrEmail, password) -> bool:
 
 
 async def is_admin_user(uidOrEmail, password) -> bool:
-    data = await fetch_sql('trace_entry')
-    print(data)
+#     data = await fetch_sql('trace_entry')
+#     print(data)
     return(True)
 
 async def app_login(formData: OAuth2PasswordRequestForm = Depends()):

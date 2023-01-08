@@ -1,4 +1,5 @@
-from features import create_pool, jsonable_encoder
+from features import jsonable_encoder
+from asyncpg import create_pool
 
 async def getAccounts():
     pool = await create_pool(user='webadmin', password='NAFacr72163', port=11107, host='chisel.cloudjiffy.net', database='demo_accounts')
