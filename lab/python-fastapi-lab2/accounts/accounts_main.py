@@ -1,5 +1,5 @@
 from features import APIRouter
-from features import FastAPI, GraphQL, load_schema_from_path, make_executable_schema, PLAYGROUND_HTML, QueryType
+# from features import FastAPI, GraphQL, load_schema_from_path, make_executable_schema, PLAYGROUND_HTML, QueryType
 
 router = APIRouter()
 

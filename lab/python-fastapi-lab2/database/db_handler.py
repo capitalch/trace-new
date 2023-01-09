@@ -2,7 +2,7 @@ from features import jsonable_encoder
 from asyncpg import create_pool
 
 async def getAccounts():
-    pool = await create_pool(user='webadmin', password='NAFacr72163', port=11107, host='chisel.cloudjiffy.net', database='demo_accounts')
+    pool = await create_pool(user='web', password='NA', port=11, host='chisel', database='demo')
     conn = await pool.acquire()
     result = await conn.fetch('select * from "demounit1"."AccM"')
     await conn.close()
