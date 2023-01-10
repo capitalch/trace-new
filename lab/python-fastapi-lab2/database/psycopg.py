@@ -1,8 +1,9 @@
 from psycopg import AsyncConnection, connect, Connection, Cursor
 from psycopg_pool import AsyncConnectionPool, ConnectionPool
+from psycopg.conninfo import make_conninfo
 
 poolStore = {}
-sql ='''
+sql = '''
 with cte1 as(--business user
             select u."id", "uid", "parentId", c."id" as "clientId", "clientCode", "clientName", 
                 "lastUsedBuCode", "lastUsedBranchId",
@@ -46,7 +47,7 @@ async def get_connection_pool_async(connInfo: str, db_name: str):
     if (pool is None):
         pool = AsyncConnectionPool(connInfo, open=True)
         poolStore[db_name] = pool
-    return(pool)
+    return (pool)
 
 
 # def get_psycopg_data():
@@ -62,13 +63,18 @@ async def get_connection_pool_async(connInfo: str, db_name: str):
 
 
 async def get_psycopg_data_async():
-    connInfo = "user=web password=NA port=11 host=ch dbname=tr"
-    apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, 'tr')
+    dct = {'user': 'webadmin', 'password': 'NAFacr72163', 'port':11107,
+           'host': 'chisel.cloudjiffy.net', 'dbname': 'traceEntry'}
+    connInfo = make_conninfo('', **dct)
+    # connInfo = "user=web password=NA port=11 host=ch dbname=tr"
+    apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, 'traceEntry')
     records = None
     async with apool.connection() as aconn:
         async with aconn.cursor() as acur:
-            # await acur.execute('set search_path to capitalchowringhee')
+            await acur.execute('set search_path to public')
+            if(acur.rowcount > 0):
+                r = await acur.fetchone()
             # await acur.execute('select * from "TranD"')
             await acur.execute(sql)
             records = await acur.fetchall()
-    return(records)
+    return (records)

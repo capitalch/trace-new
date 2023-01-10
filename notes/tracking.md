@@ -1,3 +1,9 @@
+## Logic for login
+bundle contains:
+adminUser: uid, userType, id,access_token, refresh_token, lastUsedBuCode, lastUsedBranchId, clientId, userWeight
+businessUser: sae as above
+superAdmin: uid, userType, id:None, access_token, refresh_token
+
 ## To do for layout
 
 
@@ -57,6 +63,9 @@
 5. SecuredControlM: id, controlName, weight
 
 6. RoleSecuredControlX: id, securedControlId, roleId
+
+## 06-01-2022 - 09-01-2022
+1. Database strategy
 
 ## 05-01-2023
 1. Modified trace-access database

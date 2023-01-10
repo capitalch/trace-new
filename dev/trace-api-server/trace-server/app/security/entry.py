@@ -1,5 +1,6 @@
 from app.vendors import Depends,  jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, status, ValidationError
 from app import AppHttpException, messages, settings
+from .helper import get_login_payload_bundle, get_super_admin_uid_email_from_config, is_super_admin_user
 from .utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
 # from app.db.db_main import fetch_sql
 
@@ -8,30 +9,6 @@ reuseable_oauth = OAuth2PasswordBearer(
     scheme_name="JWT"
 )
 
-
-def get_super_admin_uid_email_from_config():
-    try:
-        superAdminUid = settings.SUPER_ADMIN_UID
-        superAdminEmail = settings.SUPER_ADMIN_EMAIL
-        return superAdminUid, superAdminEmail
-    except Exception:
-        raise AppHttpException(
-            detail=messages.err_config_file, status_code=status.HTTP_401_UNAUTHORIZED)
-
-
-def is_super_admin_user(uidOrEmail, password) -> bool:
-    ret = False
-    superAdminUid, superAdminEmail = get_super_admin_uid_email_from_config()
-    superAdminHash = settings.SUPER_ADMIN_HASH
-    if ((uidOrEmail == superAdminUid) or (uidOrEmail == superAdminEmail)):
-        ret = verify_password(password, superAdminHash)
-    return (ret)
-
-
-async def is_admin_user(uidOrEmail, password) -> bool:
-#     data = await fetch_sql('trace_entry')
-#     print(data)
-    return(True)
 
 async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     uidOrEmail = formData.username.strip()
@@ -58,8 +35,8 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
         })
         res.update({'access_token': accessToken,
                    'refresh_token': refreshToken})
-    elif await is_admin_user(uidOrEmail, password):
-        pass
+    # elif await is_admin_user(uidOrEmail, password):
+    #     pass
 
     return res
 
