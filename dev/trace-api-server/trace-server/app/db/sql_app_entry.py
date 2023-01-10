@@ -5,4 +5,3 @@ class Sqls:
         where u."isActive"
             and (("uid" = 'capitalch') or ("userEmail" = 'capitalch@gmail.com'))
     '''
-sqls = Sqls()
