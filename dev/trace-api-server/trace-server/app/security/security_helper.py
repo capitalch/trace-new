@@ -1,11 +1,11 @@
 from app import AppHttpException, messages, settings
 from app.vendors import status
-from .utils import verify_password
-
+from .security_utils import verify_password
+from app.db.db_entry import get_user_details_from_db
 
 async def get_login_payload_bundle(uidOrEmail: str, password: str):
-    pass
-
+    records = await get_user_details_from_db()
+    return (records)
 
 def get_super_admin_uid_email_from_config():
     try:

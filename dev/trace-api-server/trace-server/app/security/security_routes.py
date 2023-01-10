@@ -1,5 +1,5 @@
 from app.vendors import APIRouter, Depends, HTTPException, status
-from .entry import app_login, get_current_user, renew_access_token_from_refresh_token
+from .security_entry import app_login, get_current_user, renew_access_token_from_refresh_token
 router = APIRouter()
 
 

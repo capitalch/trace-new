@@ -1,7 +1,9 @@
 from app.vendors import Depends,  jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, status, ValidationError
 from app import AppHttpException, messages, settings
-from .helper import get_login_payload_bundle, get_super_admin_uid_email_from_config, is_super_admin_user
-from .utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
+from .security_helper import get_login_payload_bundle, get_super_admin_uid_email_from_config, is_super_admin_user
+from .security_utils import create_access_token, create_refresh_token, get_hashed_password, verify_password
+from .security_helper import get_login_payload_bundle
+
 # from app.db.db_main import fetch_sql
 
 reuseable_oauth = OAuth2PasswordBearer(
@@ -20,6 +22,8 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     if ((not uidOrEmail) or (not password)):
         raise AppHttpException(
             detail=messages.err_uid_password_empty, status_code=status.HTTP_400_BAD_REQUEST)
+
+    records = await get_login_payload_bundle(uidOrEmail, password)
 
     if (is_super_admin_user(uidOrEmail, password)):
         superAdminUid, superAdminEmail = get_super_admin_uid_email_from_config()

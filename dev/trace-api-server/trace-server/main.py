@@ -1,7 +1,7 @@
 from app.vendors import  FastAPI, JSONResponse, Request, set_event_loop_policy, WindowsSelectorEventLoopPolicy
-from app.security import routes as security_routes
+from app.security import security_routes as security_routes
 from app import AppHttpException, messages
-from app.db.routes import GraphQLApp
+from app.db.db_routes import GraphQLApp
 
 # set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 app = FastAPI()
