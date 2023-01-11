@@ -5,3 +5,6 @@ class AppHttpException(Exception):
         self.detail = detail
         self.status_code = status_code
         self.error_code = error_code
+    detail: str
+    statusCode:str
+    errorCode: str

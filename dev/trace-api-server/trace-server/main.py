@@ -1,4 +1,4 @@
-from app.vendors import  FastAPI, JSONResponse, Request, set_event_loop_policy, WindowsSelectorEventLoopPolicy
+from app.vendors import FastAPI, JSONResponse, Request, set_event_loop_policy, WindowsSelectorEventLoopPolicy
 from app.security import routes_security
 from app import AppHttpException, Messages
 from app.db.routes_db import GraphQLApp
@@ -15,10 +15,10 @@ app.include_router(routes_security.router,)
 @app.exception_handler(AppHttpException)
 async def app_custom_exception_handler(request: Request, exc: AppHttpException):
     return JSONResponse(
-        error_code=exc.error_code,
         status_code=exc.status_code,
         content={
-            'detail': exc.detail
+            'detail': exc.detail,
+            'error_code': exc.error_code,
         },
         headers={"X-error": exc.detail}
     )
@@ -35,9 +35,9 @@ async def home():
 async def exception_handling(request: Request, call_next):
     try:
         return await call_next(request)
-    except Exception:
+    except (Exception, AppHttpException) as e:
         return JSONResponse(status_code=500, content={
-            'message': Messages.err_unknown_server_error
+            'detail': str(e)
         }, headers={"X-error": Messages.err_unknown_server_error})
 
 # Load graphQL as separate app

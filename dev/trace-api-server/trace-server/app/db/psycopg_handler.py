@@ -1,41 +1,35 @@
-from app import AppHttpException, Messages, Config
-# from app.vendors import status
-# from fastapi import status
-# from psycopg import AsyncConnection, connect, Connection, Cursor
-from app.vendors import AsyncConnectionPool,  make_conninfo, status
+from app import  Config
+from app.vendors import AsyncConnectionPool,  make_conninfo
+from psycopg.rows import dict_row
 
-pool_store = {}
-db_params: dict = {
+poolStore = {}
+dbParams: dict = {
     'user': Config.DB_USER,
     'password': Config.DB_PASSWORD,
     'port': Config.DB_PORT,
     'host': Config.DB_HOST,
-    # 'dbname': Config.DB_DATABASE
 }
 
 
-async def get_connection_pool_async(connInfo: str, db_name: str) -> AsyncConnectionPool:
-    pool = pool_store.get(db_name)
+async def get_connection_pool_async(connInfo: str, dbName: str) -> AsyncConnectionPool:
+    pool = poolStore.get(dbName)
     if (pool is None):
         pool = AsyncConnectionPool(connInfo)
-        pool_store[db_name] = pool
+        poolStore[dbName] = pool
     return (pool)
 
 
-async def exec_sql(db_name: str = Config.DB_ENTRY_DATABASE, db_params: dict = db_params, schema: str = 'public', sql: str = None, sql_args: dict = {}):
-    db_params.update({'dbname': db_name})
+async def exec_sql(dbName: str = Config.DB_ENTRY_DATABASE, db_params: dict = dbParams, schema: str = 'public', sql: str = None, sql_args: dict = {}):
+    db_params.update({'dbname': dbName})
     # creates connInfo from dict object
-    connInfo = make_conninfo('', **db_params)
-    apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, db_name)
+    connInfo = make_conninfo('', **dbParams)
+    apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, dbName)
     records = None
-    # try: does not work
     async with apool.connection() as aconn:
-        async with aconn.cursor() as acur:
+        async with aconn.cursor(row_factory=dict_row) as acur:
             await acur.execute(f'set search_path to {schema}')
             await acur.execute(sql, sql_args)
             if (acur.rowcount > 0):
                 records = await acur.fetchall()
     return (records)
-    # except Exception as ex:
-    #     raise
-    #     raise AppHttpException(detail=Messages.err_sql_execution_failed, error_code='sql_error', status_code=status.HTTP_501_NOT_IMPLEMENTED)
+    
