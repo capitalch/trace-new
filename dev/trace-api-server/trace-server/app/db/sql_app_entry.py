@@ -1,7 +1,6 @@
 class Sqls:
     get_user_details= '''
-        select id,"uid", "userEmail", "hash", "userName", "branchIds", "lastUsedBuId", "lastUsedBranchId", "clientId", "mobileNo"
+        select id as "userId", "uid", "userEmail", "hash", "userName", "branchIds", "lastUsedBuId", "lastUsedBranchId", "clientId", "mobileNo", "isActive"
         from "UserM" u
-        where u."isActive"
-            and (("uid" = 'capitalch') or ("userEmail" = 'capitalch@gmail.com'))
+            where (("uid" = 'capitalch') or ("userEmail" = 'capitalch@gmail.com'))
     '''

@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from app.vendors import Any, jwt, CryptContext
-from app import settings
+from app import Config
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated='auto')
 
-ACCESS_TOKEN_EXPIRE_HOURS = settings.ACCESS_TOKEN_EXPIRE_HOURS
-REFRESH_TOKEN_EXPIRE_WEEKS = settings.REFRESH_TOKEN_EXPIRE_WEEKS
-ALGORITHM = settings.ALGORITHM
-ACCESS_TOKEN_SECRET_KEY = settings.ACCESS_TOKEN_SECRET_KEY
-REFRESH_TOKEN_SECRET_KEY = settings.REFRESH_TOKEN_SECRET_KEY
+ACCESS_TOKEN_EXPIRE_HOURS = Config.ACCESS_TOKEN_EXPIRE_HOURS
+REFRESH_TOKEN_EXPIRE_WEEKS = Config.REFRESH_TOKEN_EXPIRE_WEEKS
+ALGORITHM = Config.ALGORITHM
+ACCESS_TOKEN_SECRET_KEY = Config.ACCESS_TOKEN_SECRET_KEY
+REFRESH_TOKEN_SECRET_KEY = Config.REFRESH_TOKEN_SECRET_KEY
 
 
 def get_hashed_password(password: str) -> str:

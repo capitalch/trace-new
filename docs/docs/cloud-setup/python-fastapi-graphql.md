@@ -305,32 +305,33 @@ It will generate random key which can be used for jwt secret for access_token or
 Create a `config.py` file
 
 ```python
-from app.vendors import BaseModel
-class Settings(BaseModel):
-    authentication: dict = {
-        "super_admin": {
-            "uid": "superAdmin",
-            "email":"capitalch@gmail.com",
-            "hash": ""
-        },
-        "jwt": {
-            "ACCESS_TOKEN_SECRET": "",
-            "algorithm": "HS256",
-            "ACCESS_TOKEN_EXPIRE_HOURS": "",
-            "REFRESH_TOKEN_SECRET": "",
-            "REFRESH_TOKEN_EXPIRE_WEEKS":"4"
-        }
-    },
-    db_connection: dict = {
-        "user": "webadmin",
-        "password": "",
-        "host": "",
-        "port": "",
-        "database": ""
-    }
-
-
-settings = Settings()
+class Config:
+    # super admin
+    SUPER_ADMIN_UID = 'superAdmin'
+    SUPER_ADMIN_EMAIL = ''
+    SUPER_ADMIN_HASH = '$2a$12$v'
+    SUPER_ADMIN_MOBILE_NO = '98888888888'
+    
+    # jwt
+    ACCESS_TOKEN_SECRET_KEY = '2ef5ec0b2fa7ed02aa8d'
+    ALGORITHM = "HS256"
+    ACCESS_TOKEN_EXPIRE_HOURS = '24'
+    REFRESH_TOKEN_SECRET_KEY = 'f1db69b910'
+    REFRESH_TOKEN_EXPIRE_WEEKS = '4'
+    
+    # dbconnect
+    DB_USER = 'webadmin'
+    DB_PASSWORD = ''
+    DB_HOST = 'tjiff'
+    DB_PORT = '1'
+    DB_ENTRY_DATABASE = 'a'
+    
+    comment: str = 'sper'
 ```
 
 Now import settings in different files and use it.
+
+## 14. Naming convention
+- All function names in snake convention (e.g get_hash())
+- All variable and class names in pascal convention (e.g isSuperAdmin, AppHttpException)
+- All constants and configurations in snake convention(e.g ACCESS_TOKEN_SECRET_KEY)
