@@ -1,9 +1,10 @@
 import { appStore, HomeIcon, React, SalesPurchaseIcon, SideMenuTypesEnum, VouchersIcon } from "@src/features"
 import { AppDashboard, AppJournals, AppPayments, AppSales } from "@src/components"
+import { SuperAdminDashboard } from '@src/super-admin'
 
 function useAppSideMenu() {
     const sideMenuType = appStore.layouts.sideMenuType.value
-    let num: number = 1
+    let num: number = 1 // For counter
     const componentsMap: { [key: string]: React.FC } = {}
     function getItems() {
         if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
@@ -104,10 +105,19 @@ const superAdminMenu: MenuItemType[] = [
         children: [
             {
                 label: 'Dashboard',
-                component: AppDashboard
+                component: SuperAdminDashboard
             }
         ]
     },
+    {
+        label:'Actions',
+        children:[
+            {
+                label: 'Client',
+                // component: <></>
+            }
+        ]
+    }
 ]
 
 const adminMenu: MenuItemType[] = [
