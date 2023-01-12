@@ -20,3 +20,4 @@ async def resolve_psycopg(*_):
 schema = make_executable_schema(type_defs, query)
 GraphQLApp: GraphQL = GraphQL(schema)
 
+

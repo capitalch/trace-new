@@ -11,8 +11,8 @@ superAdmin: uid, userType, id:None, access_token, refresh_token
 															4. superadmin user with correct password
 															5. admin user with wrong password
 															6. admin user with correct password
-7. business user with wrong password
-8. business user with correct password
+															7. business user with wrong password
+															8. business user with correct password
 															9. wrong user and wrong password
 
 

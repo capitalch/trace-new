@@ -7,14 +7,10 @@ from app.db import get_user_details, UserClass
 def get_bundle(user: UserClass):
     accessToken = create_access_token({
         'userId': user.userId,
-        'uid': user.uid,
-        'email': user.email,
         'clientId': user.clientId
     })
     refreshToken = create_refresh_token({
         'userId': user.userId,
-        'uid': user.uid,
-        'email': user.email,
         'clientId': user.clientId
     })
     return ({
@@ -41,12 +37,15 @@ def get_super_admin_bundle(uidOrEmail: str, password: str):
 async def get_other_user_bundle(uidOrEmail, password):
     user = None
     bundle = None
-    userType = 'B'
+    userType = None
     details: list = await get_user_details(uidOrEmail)
     if (details):
-        userDetails = details[0]
-        if (userDetails['parentId'] is None):
-            userType = 'A'
+        jsonResult = details[0]['jsonResult']
+        userDetails = jsonResult.get('userDetails')
+        businessUnits = jsonResult.get('businessUnits')
+        role = jsonResult.get('role')
+
+        userType = userDetails['userType']
         isActive = userDetails['isActive']
         if (not isActive):
             raise AppHttpException(
@@ -63,7 +62,10 @@ async def get_other_user_bundle(uidOrEmail, password):
                          email=userDetails['userEmail'],
                          mobileNo=userDetails['mobileNo'],
                          userName=userDetails['userName'],
-                         userId=userDetails['userId'])
+                         userId=userDetails['userId'],
+                         role=role,
+                         businessUnits=businessUnits
+                         )
         bundle = get_bundle(user)
     return (bundle)
 

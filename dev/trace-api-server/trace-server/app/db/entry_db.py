@@ -1,8 +1,8 @@
 from app import AppHttpException, Messages
 from app.vendors import status
 from .psycopg_handler import exec_sql
-from .sql_app_entry import Sqls
-from .utils_db import UserClass
+from .sql_entry import Sqls
+from .models_db import UserClass
 
 
 async def generic_query(sql: str, sqlArgs: dict, dbName: str, dbParams: dict, schema: str, ):
