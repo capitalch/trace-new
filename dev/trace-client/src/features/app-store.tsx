@@ -9,12 +9,15 @@ const store: any = {
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
         sideMenuType: '',
-        sideMenuHeading:''
+        sideMenuHeading: ''
     },
     login: {
         isLoggedIn: false,
         uidEmail: 'capitalch',
         userType: undefined,
+    },
+    content: {
+        breadcrumb: ''
     },
     reload: false,
 }

@@ -20,6 +20,8 @@ function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
   let num: number = 1; // For counter
   const componentsMap: { [key: string]: React.FC } = {};
+  const breadcrumbMap: { [key: string]: any } = {}
+
   function getItems() {
     if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
       return getMenuItems(accountsMenu);
@@ -29,12 +31,14 @@ function useAppSideMenu() {
       return getMenuItems(adminMenu);
     }
   }
+
   function getMenuItems(items: MenuItemType[]): any[] {
     const menuItemsWithKeys: MenuItemType[] = items.map(
       (item: MenuItemType) => {
         item.key = incr();
         if (item.component) {
           componentsMap[item.key] = item.component;
+          breadcrumbMap[item.key] = item.breadcrumb
         } else if (item.children && item.children.length > 0) {
           item.children = getMenuItems(item.children);
         }
@@ -47,6 +51,7 @@ function useAppSideMenu() {
   function handleOnClick({ key }: any) {
     appStore.layouts.isDrawerOpen.value = false;
     appStore.layouts.selectedComponent.value = componentsMap[key];
+    appStore.content.breadcrumb.value = breadcrumbMap[key]
   }
 
   function handleOnSelect({ key }: any) {
@@ -77,6 +82,7 @@ export { useAppSideMenu };
 
 interface MenuItemType {
   key?: string;
+  breadcrumb?: string;
   label: string;
   component?: React.FC;
   icon?: any;
@@ -122,11 +128,13 @@ const accountsMenu: MenuItemType[] = [
 
 const superAdminMenu: MenuItemType[] = [
   {
+    breadcrumb: 'Super admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
     component: SuperAdminDashboard,
   },
   {
+    breadcrumb: "Super admin actions",
     label: "Actions",
     icon: <ActionsIcon color="red" />,
     component: SuperAdminActions,

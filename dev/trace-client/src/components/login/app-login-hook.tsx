@@ -1,4 +1,4 @@
-import { appStore,type SideMenuHeadingsType,  SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants } from '@src/features'
+import { appStore, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',

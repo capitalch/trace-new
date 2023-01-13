@@ -1,4 +1,6 @@
 import * as React from "react"
+import { LicenseInfo } from '@mui/x-data-grid-pro'
+
 import {
   ChakraProvider,
   Box,
@@ -36,6 +38,9 @@ const customTheme = extendTheme({
     },
   },
 });
+LicenseInfo.setLicenseKey(
+  '094c13fcff99f49fe015161354d1d052T1JERVI6MjkzMjgsRVhQSVJZPTE2NjMxMjQ0NjcwMDAsS0VZVkVSU0lPTj0x'
+)
 
 const colors = {
   brand: {
@@ -44,11 +49,13 @@ const colors = {
     700: "#454B1B",
   }
 }
-const theme = extendTheme({colors})
+const theme = extendTheme({ colors })
 export const App = () => (
-  <ChakraProvider >
-    {/* <AppMain /> */}
+  // <ChakraProvider >
+  <>
+    <AppMain />
     {/* <LayoutMain /> */}
     <LayoutSignals1 />
-  </ChakraProvider>
+  </>
+  // </ChakraProvider>
 )

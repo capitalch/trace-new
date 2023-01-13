@@ -7,24 +7,9 @@ import {Button, Comp1} from '@features/*'
 function LayoutMain() {
     const { isOpen, onClose, onOpen, onToggle } = useDisclosure()
     const { isOpen: io, onClose: oc, onOpen: oo, onToggle: ot }: any = useDisclosure()
-    // const toOpen = useBreakpointValue({
-    //     md: true,
-    //     xl: false,
-    //     '2xl': false,
-    //     sm: 'true',
-    // })
+    
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
     useEffect(() => {
-
-        // if(isOpen){
-        //     if (isLargerThan1536) {
-        //         onClose()
-        //     } 
-        // } else {
-        //     if (isLargerThan1536) {
-        //         onOpen()
-        //     } 
-        // }
 
         if (isLargerThan1536) {
             onOpen()
@@ -37,7 +22,7 @@ function LayoutMain() {
             <Header isOpen={isOpen} />
             <Box>
                 <LeftDrawer isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
-                <Content isOpen={isOpen} />
+                {/* <Content isOpen={isOpen} /> */}
             </Box>
 
         </Box>
@@ -213,10 +198,9 @@ function Content({ isOpen }: any) {
         <Box
             w={isOpen ? 'calc(100vw - 200px)' : '100vw'}
             ml={isOpen ? '200px' : 0}
-            bg='gray.400' h="calc(100vh - 39px)" >AAA</Box>
-        // <Flex minW='100%' minH='100%' bg='gray.100' ml={200}>
-        //     <Button colorScheme='blue'>Content button</Button>
-        // </Flex>
+            bg='gray.400' h="calc(100vh - 39px)" >
+                <Comp1 />
+            </Box>
     )
 }
 export { Content }

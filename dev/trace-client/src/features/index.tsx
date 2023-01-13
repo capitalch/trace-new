@@ -6,36 +6,10 @@ export * from "./app-constants";
 export * from "./app-store";
 export { appValidators } from "./app-validators";
 export {
-  Box,
-  Button,
-  Center,
-  ChakraProvider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  HStack,
-  Icon,
-  IconButton,
-  Image,
-  Input,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Slide,
-  Text,
-  theme,
-  useMediaQuery,
-  VStack,
+  Box, Button, Center, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
+  DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
+  Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem,
+  Slide, Text, theme, useMediaQuery, VStack,
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
@@ -45,12 +19,12 @@ export { useEffect, useLayoutEffect, useState } from "react";
 export { useForm } from "react-hook-form";
 export { Else, Fallback, If, Then } from "react-if";
 export {
-  type SideMenuHeadingsType,
   SideMenuTypesEnum,
   UserTypesEnum,
 } from "./app-types";
-
+export { DataGridPro, type DataGridProProps } from '@mui/x-data-grid-pro'
 //icons
+
 // chakra-ui icons
 export {
   ArrowLeftIcon as ArrowLeftIconChakra,
@@ -62,24 +36,16 @@ export {
 
 // Material design icons
 export {
-  MdOutlineFactCheck as AccountsIcon,
-  MdAdminPanelSettings as AdminMenuIcon,
-  MdPassword as ChangePasswordIcon,
-  MdOutlineChangeCircle as ChangeUidIcon,
-  MdLogout as LogoutIcon,
-  MdMenu as MenuIcon,
+  MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,
+  MdOutlineChangeCircle as ChangeUidIcon, MdLogout as LogoutIcon, MdMenu as MenuIcon,
 } from "react-icons/md";
 
 // Bootstrap icons
 export {
-  BsFillMenuButtonWideFill as SalesPurchaseIcon,
-  BsPersonFill as PersonIcon,
-  BsReceipt as VouchersIcon,
+  BsFillMenuButtonWideFill as SalesPurchaseIcon, BsPersonFill as PersonIcon, BsReceipt as VouchersIcon,
 } from "react-icons/bs";
 
 // Box icons
 export {
-  BiBarChartAlt2 as DashboardIcon,
-  BiCamera as ActionsIcon,
-  BiHome as HomeIcon,
+  BiBarChartAlt2 as DashboardIcon, BiCamera as ActionsIcon, BiHome as HomeIcon,
 } from "react-icons/bi";

@@ -5,6 +5,7 @@ import { AiFillAlert, AiFillAlipayCircle, AiFillAliwangwang } from "react-icons/
 import { TiThMenu } from 'react-icons/ti'
 import { Menu, type MenuProps, MenuTheme } from 'antd'
 import { If } from "react-if";
+import { Comp1 } from "../features/comp1/comp1";
 const left = '200px', top = '38px'
 
 function LayoutSignals1() {
@@ -77,7 +78,9 @@ function ContentSignals() {
             ml={globalStore.isSideMenuOpen.value ? left : 0}
             bg='gray.50'
             h={`calc(100vh - ${top})`}
-        >AAA</Box>
+        >
+            <Comp1 />
+        </Box>
     )
 }
 

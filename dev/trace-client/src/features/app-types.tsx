@@ -12,9 +12,9 @@ enum SideMenuTypesEnum {
   "accountsMenu",
 }
 
-type SideMenuHeadingsType =
-  | "Super admin user"
-  | "Admin user"
-  | "Business user" | string & {}
+// type SideMenuHeadingsType =
+//   | "Super admin user"
+//   | "Admin user"
+//   | "Business user" | string & {}
 
-export {type SideMenuHeadingsType, SideMenuTypesEnum, UserTypesEnum };
+export { SideMenuTypesEnum, UserTypesEnum };

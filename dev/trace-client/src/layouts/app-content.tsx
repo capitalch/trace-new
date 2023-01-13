@@ -1,8 +1,10 @@
-import { AppConstants, appStore, Box } from '@src/features'
+import { AppConstants, appStore, Box, Flex, HStack, Text, VStack } from '@src/features'
 
 function AppContent() {
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
-    const HEADER_HEIGHT = AppConstants.HEADER_HEIGHT
+    const isLoggedIn = appStore.login.isLoggedIn.value
+    const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
+    // const HEADER_HEIGHT = AppConstants.HEADER_HEIGHT
     const isSidebarOpen = appStore.layouts.isSidebarOpen.value
     const selectedComponent = appStore.layouts.selectedComponent.value
 
@@ -10,8 +12,14 @@ function AppContent() {
         h={`calc(100vh - ${HEADER_HEIGHT})`}
         bg='white'
         w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
-        ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={.5}>
-        {selectedComponent ? <appStore.layouts.selectedComponent.value /> : <></>}
+        ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={1.5} pl={2.5}>
+
+        <Flex h='100%' direction='column'>
+            <HStack w='100%'>
+                <Text color='GrayText' fontWeight='bold' fontSize='md'>{appStore.content.breadcrumb.value}</Text>
+            </HStack>
+            {selectedComponent ? <appStore.layouts.selectedComponent.value /> : <></>}
+        </Flex>
     </Box>)
 }
 export { AppContent }
