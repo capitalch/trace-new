@@ -1,4 +1,4 @@
-import { appStore, SideMenuTypesEnum, useDeepSignal, UserTypesEnum } from '@src/features'
+import { appStore,type SideMenuHeadingsType,  SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
@@ -13,12 +13,15 @@ function useAppLogin() {
         if (userType === 'superAdmin') {
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
         } else if (userType === 'admin') {
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
         } else {
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
         }
     }
 

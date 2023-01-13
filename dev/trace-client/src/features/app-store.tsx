@@ -9,6 +9,7 @@ const store: any = {
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
         sideMenuType: '',
+        sideMenuHeading:''
     },
     login: {
         isLoggedIn: false,
