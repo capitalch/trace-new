@@ -1,26 +1,23 @@
 from app import AppHttpException, Messages
 from app.vendors import status
-from .psycopg_handler import exec_sql
-from .sql_entry import Sqls
+from .psycopg_db import exec_sql
+from .sql_auth import SqlAuth
 from .models_db import UserClass
 
 
-async def generic_query(sql: str, sqlArgs: dict, dbName: str, dbParams: dict, schema: str, ):
+async def generic_query(sql: str, sqlArgs: dict[str, str], dbName: str = None, dbParams: dict = None, schema: str = None, ):
     try:
-        records = await exec_sql(sql=sql, sqlArgs=sqlArgs, db_name=dbName)
+        records = await exec_sql(sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
     except Exception as e:
         raise AppHttpException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    return records
 
 
-async def get_user_details(uidOrEmail: str):
-    # isUserExsts: bool = False
-    try:
-        record = await exec_sql(sql=Sqls.get_user_details, sql_args={'uidOrEmail': uidOrEmail})
-    except Exception as e:
-        raise AppHttpException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    # user = None
-    # if(records):
-    #     user = UserClass()
-    return (record)
+# async def get_user_details(uidOrEmail: str):
+#     try:
+#         record = await exec_sql(sql=SqlAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
+#     except Exception as e:
+#         raise AppHttpException(
+#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+#     return (record)

@@ -1,6 +1,5 @@
 from app.vendors import GraphQL,load_schema_from_path, make_executable_schema, MutationType, QueryType,jsonable_encoder
-# from app import AppHttpException
-from app.db.psycopg_handler import exec_sql
+from app.db.psycopg_db import exec_sql
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()

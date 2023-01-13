@@ -1,7 +1,7 @@
 from app import AppHttpException, Messages, Config
 from app.vendors import status
-from .utils_security import create_access_token, create_refresh_token, verify_password
-from app.db import get_user_details, UserClass
+from .utils_auth import create_access_token, create_refresh_token, verify_password
+from app.db import generic_query, UserClass, SqlAuth
 
 
 def get_bundle(user: UserClass):
@@ -38,7 +38,8 @@ async def get_other_user_bundle(uidOrEmail, password):
     user = None
     bundle = None
     userType = None
-    details: list = await get_user_details(uidOrEmail)
+    # details: list = await get_user_details(uidOrEmail)
+    details: list = await generic_query(sql=SqlAuth.get_user_details, sqlArgs={'uidOrEmail':uidOrEmail})
     if (details):
         jsonResult = details[0]['jsonResult']
         userDetails = jsonResult.get('userDetails')

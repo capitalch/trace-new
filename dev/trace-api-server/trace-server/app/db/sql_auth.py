@@ -1,11 +1,11 @@
-class Sqls:
+class SqlAuth:
     get_user_details = '''
         with "uidOrEmail" as (values(%(uidOrEmail)s))
         --with "uidOrEmail" as (values('capitalch'))
         , cte1 as ( -- user details
             select u.id as "userId", "uid", "userEmail", "hash", "userName"
                 , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", "isActive", u."roleId", u."specialRoleId"
-                , CASE when "parentId" is null THEN 'A' ELSE 'B' END as "userType"		
+                , CASE when "isAdmin" THEN 'A' ELSE 'B' END as "userType"		
             from "UserM" u
             where (("uid" = (table "uidOrEmail") or ("userEmail" = (table "uidOrEmail")))))
         , cte2 as ( -- get bu's associated with user
