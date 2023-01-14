@@ -1,47 +1,22 @@
-import { Box } from "@chakra-ui/react"
-import { DataGridPro } from "@mui/x-data-grid-pro"
+import { Box } from "@chakra-ui/react";
+import DataGrid from "react-data-grid";
 
-function Comp1(){
-    return(
-        <Box>
-           <DataGridPro
-            checkboxSelection={true}
-            columns={columns}
-            disableColumnMenu={true}
-            getRowHeight={() => 'auto'}
-            rows={rows}
-            showCellRightBorder={true}
-            showColumnRightBorder={true}
-        />
-        </Box>
-    )
+function Comp1() {
+  return (
+    <Box>
+      return(
+      <DataGrid columns={columns} rows={rows} rowHeight={(r:any)=>25} />)
+    </Box>
+  );
 }
-export {Comp1}
+export { Comp1 };
 
 const columns = [
-    {
-        headerName: '#',
-        headerClassName: 'header-class',
-        description: 'Index',
-        field: 'id',
-        width: 60,
-    },
-    {
-        headerName: 'Pr code',
-        headerClassName: 'header-class',
-        description: 'Product code',
-        field: 'productCode',
-        width: 80,
-    },
-]
+  { key: "id", name: "ID" },
+  { key: "title", name: "Title" },
+];
 
-const rows= [
-    {
-        id:'1',
-        productCode: '1'
-    },
-    {
-        id:'2',
-        productCode: '2'
-    }
-]
+const rows = [
+  { id: 0, title: "example" },
+  { id: 1, title: "Demo" },
+];

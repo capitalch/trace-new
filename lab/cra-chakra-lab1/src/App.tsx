@@ -1,5 +1,5 @@
-import * as React from "react"
-import { LicenseInfo } from '@mui/x-data-grid-pro'
+import * as React from "react";
+import 'react-data-grid/lib/styles.css'
 
 import {
   ChakraProvider,
@@ -10,16 +10,17 @@ import {
   Link,
   VStack,
   Code,
-  Grid, useColorMode
+  Grid,
+  useColorMode,
   // theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
-import { AppMain } from "./app-main"
+} from "@chakra-ui/react";
+import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { Logo } from "./Logo";
+import { AppMain } from "./app-main";
 
-import { LayoutMain } from './layouts/header'
-import { LayoutSignals } from "./layouts/layout-signals"
-import { LayoutSignals1 } from "./layouts/layout-signals1"
+import { LayoutMain } from "./layouts/header";
+import { LayoutSignals } from "./layouts/layout-signals";
+import { LayoutSignals1 } from "./layouts/layout-signals1";
 
 const customTheme = extendTheme({
   colors: {
@@ -38,24 +39,19 @@ const customTheme = extendTheme({
     },
   },
 });
-LicenseInfo.setLicenseKey(
-  '094c13fcff99f49fe015161354d1d052T1JERVI6MjkzMjgsRVhQSVJZPTE2NjMxMjQ0NjcwMDAsS0VZVkVSU0lPTj0x'
-)
 
 const colors = {
   brand: {
     900: "#7CFC00",
     800: "#7FFFD4",
     700: "#454B1B",
-  }
-}
-const theme = extendTheme({ colors })
+  },
+};
+const theme = extendTheme({ colors });
 export const App = () => (
-  // <ChakraProvider >
-  <>
+  <ChakraProvider>
     <AppMain />
     {/* <LayoutMain /> */}
     <LayoutSignals1 />
-  </>
-  // </ChakraProvider>
-)
+  </ChakraProvider>
+);

@@ -1,6 +1,8 @@
 pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool]
 
-# Plan
+### React data grids
+1. react-data-grid: https://www.npmjs.com/package/react-data-grid
+2. frappe data table: https://frappe.io/datatable/docs/api/datatable
 
 ### Server
 1. Logging
