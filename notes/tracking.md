@@ -1,19 +1,23 @@
+## comparison different grids
+1. react-data-grid: dynamic row height missing
+2. ag grid community: Aggregation missing
+3. rsuite-table react: filter is missing
+4. TanStack table: Good need to check
+## react-data-grid check
+1. edit, delete
+2. Search
+3. Export
+4. Grouping
+5. Edit
+6. Select
+7. Filter
+8. refresh
+9. No of rows
+10. Value format
+
 ## Logic for login
-bundle contains:
-adminUser: uid, userType, id,access_token, refresh_token, lastUsedBuCode, lastUsedBranchId, clientId, userWeight
-businessUser: sae as above
-superAdmin: uid, userType, id:None, access_token, refresh_token
 
 ## login test use case
-															1. no username, password
-															2. no password, username
-															3. superadmin user with wrong password
-															4. superadmin user with correct password
-															5. admin user with wrong password
-															6. admin user with correct password
-															7. business user with wrong password
-															8. business user with correct password
-															9. wrong user and wrong password
 
 
 ## Access control
@@ -33,32 +37,11 @@ superAdmin: uid, userType, id:None, access_token, refresh_token
 		At server there is 'ProtectedControlM' table was id, controlName, weight, descr. When a new protected control is created at client side then super admin does corresponding entry in this table. The CRUD of this table is available in Super Admin menu
 
 ## Authentication
-1. Client login submit
-2. Server login endpoint returns access_token, refresh_token, userKind and roleWeight
-3. Server exception handling
-4. Client stores refresh_token in local store
-5. Server protected endpoint mechanism
-6. Server refresh token endpoint
-7. Client handling of authentication errors and display
-8. Server architecture setup
-	a. Folder hierarchy
-	b. GraphQL
-	c. Logging
-	d. Exception handling
-	e. AsyncDB database handling
-	f. Security model
 
 ### Server
-1. login(username, password)-> returns access token, refresh token
-	a) get password_hash_from_db for user, email from testing service; hashes password; compares password
-	b) If anything wrong; raise exception
-	c) otherwise create tokens and return
-2. Secured function call: verifies the token. If failure then raises exception; otherwise returns user
-3. Testing: Create user service which returns password_hash_from_db, email against a username
 
 ## Client
-1. Login screen to hit /login
-2. Any other call to api will activate the secured function call
+
 
 ## Tables
 1. ClientM: id, clientCode, clientName, isActive, timestamp
@@ -72,6 +55,11 @@ superAdmin: uid, userType, id:None, access_token, refresh_token
 5. SecuredControlM: id, controlName, weight
 
 6. RoleSecuredControlX: id, securedControlId, roleId
+## 10-01-2023 - 14-01-2023
+1. Changes in database
+2. Completed login, payload bundle in server and finalised architecture
+3. Started working at client architecture
+4. Research on react-data-grid, abondoning material-ui
 
 ## 06-01-2022 - 09-01-2022
 1. Database strategy
