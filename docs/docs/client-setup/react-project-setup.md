@@ -43,7 +43,32 @@ module.exports = {
 
 `craco` is enabled in Trace version 2.x
 
-## Project conventions and guidelines
+## 1. Project conventions and guidelines
 - In _tsconfig.json_ file **paths** property is defined. This is used to simplify the imports in other project files
 - _index.tsx_ file in every folder exports all the components in that folder
 - We explored `Formik`, `Yup` and 'React hook form' for react form validations and finally decided to use the library [React hook form](https://react-hook-form.com/) for the purpose. This library is flexible and also the global state management `preact signals` or more specifically `deepSignal` can be used with it
+
+## 2. Useful React tips learned
+- Remember that re-render of a child component does not occur when its property changes. Child component re-renders when parent renders
+- Its an anti pattern to create nested component inside a host component. Don't do that. It takes longer time for render. Reason is every time the host component renders, the nested component is created from scratch and then rendered. It is much more work when creating a component from scratch than just re-render. You will also lose focus from child component
+- Keep a watch on component re-renders
+  - Say you are using input box in a heavy component. For every key press, due to state change in input box, the entire heavy component re-renders. You can move the state down to child component. Create a new child component using the input box. Now only child component re-renders on keypress and not the whole heavy component
+  - Sometimes you can pass a component A as prop to another component B. Change or re=render of component A will not cause re-render of B. Because prop changes do not cause re-renders
+  - Always use unique string keys in lists. Never use randomely generated keys in lists
+- **useMemo**
+  - Its a hook which caches function return value between re-renders. Usage `const cachedValue = useMemo(calculateValue, dependencies)`
+  - When computationally heavy function result is to be used, then wrap this heavy function inside _useMemo_ with providing dependency array as empty. Now this heavy function will be computed only once and this value will be reused at every consequent render. If the function uses parameters then provide those parameters in dependency array; so whenever the parameters change the heavy function will re compute.
+    - Suppose _myHeavyFunc_ is a heavy function which returns a value _myHeavyValue_. With no function parameters the implementation will be as follows. You can make use of _myHeavyValue_ elsewhere in code
+  ```react
+  const myHeavyValue = useMemo(myHeavyFunc,[])
+  ```
+  Since dependency array is empty, this function will be called only once at page load and thereafter the memoised / cached value for _myHeavyValue_ will be used
+    - In case of parameters say _count_ the implementation will be as follows:
+    ```react
+    const myHeavyValue = useMemo(()=>myHeavyFunc(count), [count])
+    ```
+    Now if _count_ is a state, then for every change in _count_ the _myHeavyFunc_ will be recomputed.
+    - ***Remember*** useMemo returns a ***value*** and not ***function***. So you should use _myHeavyValue_ as variable usage `<span>{myHeavyValue}</span>` and not as function call `<span>{myHeavyValue()}</span>`
+- **useCallback**
+  - Its a hook which caches a function definition between re-renders. usage: `const cachedFn = useCallback(fn, dependencies)`
+

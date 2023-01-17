@@ -1,16 +1,19 @@
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import { Button } from "antd";
-import {useCallback, useMemo, useState } from "react";
+import {memo, useCallback, useMemo, useState } from "react";
 
 function Comp2Memo() {
   const [count, setCount] = useState(0);
   const [toDoCount, setToDoCount] = useState(0);
-  const myVal:any = useCallback(() => myFunc, [count]);
+  // const myVal:any = useCallback(() => myFunc, [count]);
+  // const myVal = useMemo(() => myFunc(count), [count])
+  const myCallbackFunc = useCallback(myFunc,[])
   return (
     <Box>
       <VStack>
-        <HStack>Value is: {myVal()}</HStack>
-        <span>{toDoCount}</span>
+        <HStack>Value is: </HStack>
+        {/* <span>{toDoCount}</span> */}
+        <span>{myCallbackFunc()}</span>
         <Button
           onClick={() => {
             setCount(count + 1);
@@ -31,13 +34,12 @@ function Comp2Memo() {
 
 
   function myFunc() {
-    // newStyleDelay()
-    setToDoCount(toDoCount + 1);
+    // setToDoCount(toDoCount + 1);
     let ret = 0;
     for (let i = 0; i < 1000; i++) {
       ret++;
     }
-    // return ret;
+    return ret;
   }
 }
 export { Comp2Memo };
