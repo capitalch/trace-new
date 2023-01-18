@@ -5,11 +5,12 @@ import {useCallback, useMemo, useState } from "react";
 function Comp2Memo() {
   const [count, setCount] = useState(0);
   const [toDoCount, setToDoCount] = useState(0);
-  const myVal:any = useCallback(() => myFunc, [count]);
+  const myCallVal:any = useCallback(()=>myFunc(), []);
   return (
     <Box>
       <VStack>
-        <HStack>Value is: {myVal()}</HStack>
+        {/* <HStack>Value is: {myCallVal()}</HStack> */}
+        <span>Value is {myCallVal()}</span>
         <span>{toDoCount}</span>
         <Button
           onClick={() => {
@@ -32,12 +33,12 @@ function Comp2Memo() {
 
   function myFunc() {
     // newStyleDelay()
-    setToDoCount(toDoCount + 1);
+    // setToDoCount(toDoCount + 1);
     let ret = 0;
     for (let i = 0; i < 1000; i++) {
       ret++;
     }
-    // return ret;
+    return ret;
   }
 }
 export { Comp2Memo };
