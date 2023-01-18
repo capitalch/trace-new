@@ -6,7 +6,7 @@ function Comp4UseCallback() {
   
     useEffect(()=>{
         console.log('useEffect')
-        aFunction()
+        refToAFunction()
     }, [refToAFunction])
 
   return (
