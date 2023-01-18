@@ -1,6 +1,6 @@
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import { Button } from "antd";
-import {useCallback, useMemo, useState } from "react";
+import {memo, useCallback, useMemo, useState } from "react";
 
 function Comp2Memo() {
   const [count, setCount] = useState(0);
