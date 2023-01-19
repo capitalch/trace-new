@@ -1,8 +1,8 @@
-import { Box, DataGridPro } from '@src/features'
+import { Box, } from '@src/features'
 
 function SuperAdminDashboard() {
     return (<Box>
-        <DataGridPro
+        {/* <DataGridPro
             checkboxSelection={true}
             columns={columns}
             disableColumnMenu={true}
@@ -10,7 +10,7 @@ function SuperAdminDashboard() {
             rows={rows}
             showCellRightBorder={true}
             showColumnRightBorder={true}
-        />
+        /> */}
     </Box>)
 }
 export { SuperAdminDashboard }

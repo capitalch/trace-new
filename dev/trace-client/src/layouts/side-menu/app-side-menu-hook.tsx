@@ -1,6 +1,6 @@
 import {
-  ActionsIcon,
   appStore,
+  ClientsIcon,
   DashboardIcon,
   HomeIcon,
   React,
@@ -14,7 +14,7 @@ import {
   AppPayments,
   AppSales,
 } from "@src/components";
-import { SuperAdminActions, SuperAdminDashboard } from "@src/super-admin";
+import { SuperAdminClients, SuperAdminDashboard } from "@src/super-admin";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -134,10 +134,10 @@ const superAdminMenu: MenuItemType[] = [
     component: SuperAdminDashboard,
   },
   {
-    breadcrumb: "Super admin actions",
-    label: "Actions",
-    icon: <ActionsIcon color="red" />,
-    component: SuperAdminActions,
+    breadcrumb: "Super admin clients",
+    label: "Clients",
+    icon: <ClientsIcon color="dodgerBlue" />,
+    component: SuperAdminClients,
   },
 ];
 

@@ -4,7 +4,6 @@ function AppContent() {
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const isLoggedIn = appStore.login.isLoggedIn.value
     const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
-    // const HEADER_HEIGHT = AppConstants.HEADER_HEIGHT
     const isSidebarOpen = appStore.layouts.isSidebarOpen.value
     const selectedComponent = appStore.layouts.selectedComponent.value
 
@@ -15,7 +14,7 @@ function AppContent() {
         ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={1.5} pl={2.5}>
 
         <Flex h='100%' direction='column'>
-            <HStack w='100%'>
+            <HStack w='100%' mb='1'>
                 <Text color='GrayText' fontWeight='bold' fontSize='md'>{appStore.content.breadcrumb.value}</Text>
             </HStack>
             {selectedComponent ? <appStore.layouts.selectedComponent.value /> : <></>}

@@ -26,6 +26,7 @@ let appStore: any = deepSignal(_.cloneDeep(store))
 function resetAppStore() {
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
+    appStore.content.value = { ...store.content }
 }
 
 const appStaticStore: AppStaticStoreType = {

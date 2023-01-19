@@ -11,9 +11,9 @@ import { CompMemo } from "./components/comp5-memo";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    {/* <Comp1 /> */}
+    <Comp1 />
     {/* <Comp3Memo /> */}
     {/* <Comp4UseCallback /> */}
-    <CompMemo />
+    {/* <CompMemo /> */}
   </ChakraProvider>
 )

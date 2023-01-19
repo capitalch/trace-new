@@ -56,9 +56,10 @@
 
 6. RoleSecuredControlX: id, securedControlId, roleId
 
-## 15-01-2023 - 18-01-2023
+## 15-01-2023 - 19-01-2023
 1. Research on React useMemo, useCallback and memo, ag-grid
 2. Finalized on ag-grid
+3. Started work on Super admin implementation
 
 ## 10-01-2023 - 14-01-2023
 1. Changes in database

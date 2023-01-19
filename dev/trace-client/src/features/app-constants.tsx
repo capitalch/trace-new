@@ -1,6 +1,7 @@
 const AppConstants: AppConstantsType = {
     ADMIN_USER: 'Admin user',
     BUSINESS_USER: 'Business user',
+    COMPONENT_TOOLBAR_HEIGHT: '38px',
     HEADER_BACKGROUND_COLOR: 'blue.600',
     HEADER_COLOR: 'white',
     HEADER_HEIGHT: '38px',
@@ -14,6 +15,7 @@ export { AppConstants }
 interface AppConstantsType {
     ADMIN_USER: string
     BUSINESS_USER: string
+    COMPONENT_TOOLBAR_HEIGHT: string
     HEADER_BACKGROUND_COLOR: string
     HEADER_COLOR: string
     HEADER_HEIGHT: string

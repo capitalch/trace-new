@@ -22,7 +22,7 @@ export {
   SideMenuTypesEnum,
   UserTypesEnum,
 } from "./app-types";
-export { DataGridPro, type DataGridProProps } from '@mui/x-data-grid-pro'
+
 //icons
 
 // chakra-ui icons
@@ -36,7 +36,7 @@ export {
 
 // Material design icons
 export {
-  MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,
+  MdContacts as ClientsIcon,  MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,
   MdOutlineChangeCircle as ChangeUidIcon, MdLogout as LogoutIcon, MdMenu as MenuIcon,
 } from "react-icons/md";
 

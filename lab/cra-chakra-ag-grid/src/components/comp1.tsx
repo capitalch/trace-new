@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
 import { Box, Button, space } from "@chakra-ui/react";
 import { faker } from "@faker-js/faker";
-import { AgGridReact } from "ag-grid-react";
+import { AgGridReact,  } from "ag-grid-react";
+import {ColDef,} from 'ag-grid-community'
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
 function Comp1() {
-  const [refresh, setRefresh] = useState({});
   const [rowData, setRowData]: any = useState([]);
 
   useEffect(() => {
     const rows: any[] = createRows();
     setRowData(rows);
   }, []);
-  // const [columnDefs, setColumnDefs] = useState([
-  //     {field: 'make'},
-  //     {field: 'model'},
-  //     {field: 'price'},
-  // ])
-  const columnDefs: any = [
+  
+  const columnDefs: ColDef[] = [
     {
       field: "id",
       cellRenderer: myRenderer
@@ -51,6 +47,7 @@ function Comp1() {
     { field: "version" },
     { field: "available" },
   ];
+
   return (
     <Box
       className="ag-theme-balham"
