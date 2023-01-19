@@ -55,6 +55,11 @@
 5. SecuredControlM: id, controlName, weight
 
 6. RoleSecuredControlX: id, securedControlId, roleId
+
+## 15-01-2023 - 18-01-2023
+1. Research on React useMemo, useCallback and memo, ag-grid
+2. Finalized on ag-grid
+
 ## 10-01-2023 - 14-01-2023
 1. Changes in database
 2. Completed login, payload bundle in server and finalised architecture

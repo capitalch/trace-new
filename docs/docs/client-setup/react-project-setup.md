@@ -55,7 +55,8 @@ module.exports = {
   - Say you are using input box in a heavy component. For every key press, due to state change in input box, the entire heavy component re-renders. You can move the state down to child component. Create a new child component using the input box. Now only child component re-renders on keypress and not the whole heavy component
   - Sometimes you can pass a component A as prop to another component B. Change or re=render of component A will not cause re-render of B. Because prop changes do not cause re-renders
   - Always use unique string keys in lists. Never use randomely generated keys in lists
-- **useMemo**
+
+## 3. useMemo hook
   - **purpose** At time of component re-render whether to execute a function or not
   - **signatue** `const cachedValue = useMemo(fn, dependencies)`
     - This hook executes _fn_ and returns its value
@@ -74,7 +75,8 @@ module.exports = {
     ```
     Now if _count_ is a state, then for every change in _count_ the _myHeavyFunc_ will be recomputed.
     - ***Remember*** useMemo returns a ***value*** and not ***function***. So you should use _myHeavyValue_ as variable usage `<span>{myHeavyValue}</span>` and not as function call `<span>{myHeavyValue()}</span>`
-- **useCallback**
+
+## 4. useCallback hook
   - **signature** `const cachedFn = useCallback(fn, dependencies)`
   - **Backdrop:** In JavaScript, functions are first class citizens and they are used as objects. Note that two instances of same object are not same, even if the values of both instances are same. An object is only equal to itself.
   ```javascript
@@ -111,3 +113,75 @@ module.exports = {
   }
   ```
 
+## 5. react.memo()
+**Purpose**: Prevent a child component from re-rendering
+- A parent component has a child component. As per default React behavior, whenever the parent component renders, the child component will also render
+- Suppose you want to prevent child component from re-rendering whenever the parent component renders
+- Solution is you wrap the child component in `react.memo`. But the child component will still re-render when its properties passed from parent component changes. You cannot prevent that. Following code explains the use of _react.memo_ 
+At first the parent component
+
+```react
+function CompMemo() {
+  const [, setRefresh] = useState({});
+  return (
+    <Box>
+      <Text>This is Parent component</Text>
+      <Button onClick={setRefresh}>Refresh</Button>
+      <MemoisedChild />
+    </Box>
+  );
+}
+export { CompMemo };
+```
+
+Now the child component
+
+```react
+function CompMemoChild() {
+  console.log("memo child rendered");
+  return (
+    <Box>
+      <Text>This is memo child component</Text>
+    </Box>
+  );
+}
+const MemoisedChild = memo(CompMemoChild);
+export { MemoisedChild };
+```
+In the above code, clicking the button makes the parent component to re-render. But due to child component having been wrapped in memo function, the child component does not re-render.
+
+- The _memo_ function uses the shallow object comparison for comparison of properties of child component. For that if you pass an object as property then the child component will always re-render because every instance of object is different object and at every render of parent a new instance of the object is created and passed on as new property to the child component. To prevent that you can use the next parameter of _memo_ function which is the comparison function to be used for comparing the properties. If that comparison function returns true then the _memo_ will assume that properties have not changed and vice-versa.
+
+- There may be situation when parent passes a function as property to child component. Since every instance of function is a new object, the child will always re-render when the parent renders. To avoid this you can make use of _useCallback_ hook at the parent which wraps the function property. Now pass this wrapped function as property to child component. Since _useCallback_ hook memoises the function, it will pass only one instance (and not a new instance) to child component whenever the parent refreshes. So _useCallback_ will resolve the issue when function is passed as property to child component. Following code explains that.
+
+```react
+function CompMemo() {
+  const [, setRefresh] = useState({});
+  const myFunc =  () => console.log("Func passed from parent");
+  const wrapMyFunc = useCallback(myFunc, [])
+  return (
+    <Box>
+      <Text>This is Parent component</Text>
+      <Spacer />
+      <Button onClick={setRefresh}>Refresh</Button>
+      <MemoisedChild fn={wrapMyFunc} />
+    </Box>
+  );
+}
+export { CompMemo };
+
+function CompMemoChild({ fn }: any) {
+  console.log("memo child rendered");
+  fn()
+  return (
+    <Box>
+      <Text>This is memo child component</Text>
+    </Box>
+  );
+}
+
+const MemoisedChild = memo(CompMemoChild);
+export { MemoisedChild };
+```
+
+Here click of Refresh button re-renders the parent, but child is rendered only once. See how the function property is wrapped in _useCallback_ hook to transfer one single instance of function to the child component, hence preventing the re-render of child component.
