@@ -7,8 +7,10 @@ const AppConstants: AppConstantsType = {
     HEADER_HEIGHT: '38px',
     SIDEBAR_BACKGROUND_COLOR: '#f4f0ec',
     SIDEBAR_WIDTH: '200px',
-    SUPER_ADMIN_USER: 'Super admin user'
+    SUPER_ADMIN_USER: 'Super admin user',
     // USER_TYPE: undefined
+    IBUKI_MESSAGE_APP_MODAL_A_OPEN: 'IBUKI_MESSAGE_APP_MODAL_A_OPEN',
+    IBUKI_MESSAGE_APP_MODAL_A_CLOSE: 'IBUKI_MESSAGE_APP_MODAL_A_CLOSE'
 }
 export { AppConstants }
 
@@ -23,4 +25,7 @@ interface AppConstantsType {
     SIDEBAR_WIDTH: string
     SUPER_ADMIN_USER: string
     // USER_TYPE: 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | undefined
+
+    IBUKI_MESSAGE_APP_MODAL_A_OPEN: string
+    IBUKI_MESSAGE_APP_MODAL_A_CLOSE: string
 }

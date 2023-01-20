@@ -8,8 +8,9 @@ export { appValidators } from "./app-validators";
 export {
   Box, Button, Center, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
-  Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem,
-  Slide, Text, theme, useMediaQuery, VStack,
+  Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
+  ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
+  Slide, Text, theme, useDisclosure, useMediaQuery, VStack,
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
@@ -22,7 +23,8 @@ export {
   SideMenuTypesEnum,
   UserTypesEnum,
 } from "./app-types";
-
+export { AppModalA, useAppModalA } from './components/app-modal-a'
+export { emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
 //icons
 
 // chakra-ui icons
@@ -36,7 +38,7 @@ export {
 
 // Material design icons
 export {
-  MdContacts as ClientsIcon,  MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,
+  MdContacts as ClientsIcon, MdOutlineFactCheck as AccountsIcon, MdAdminPanelSettings as AdminMenuIcon, MdPassword as ChangePasswordIcon,
   MdOutlineChangeCircle as ChangeUidIcon, MdLogout as LogoutIcon, MdMenu as MenuIcon,
 } from "react-icons/md";
 

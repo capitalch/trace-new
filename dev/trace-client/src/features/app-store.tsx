@@ -2,6 +2,7 @@ import { deepSignal } from "@deepsignal/react"
 import { _, } from '@src/features'
 
 const store: any = {
+    // appModalIsOpen:true,
     layouts: {
         isDrawerOpen: false,
         isSidebarOpen: true,

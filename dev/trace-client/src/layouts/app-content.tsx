@@ -19,6 +19,7 @@ function AppContent() {
             </HStack>
             {selectedComponent ? <appStore.layouts.selectedComponent.value /> : <></>}
         </Flex>
+        {/* <AppModal /> */}
     </Box>)
 }
 export { AppContent }
