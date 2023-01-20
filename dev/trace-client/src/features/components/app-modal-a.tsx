@@ -1,5 +1,4 @@
 import {
-  appStore,
   Box,
   Button,
   emit,
@@ -12,7 +11,6 @@ import {
   ModalBody,
   ModalCloseButton,
   useDeepSignal,
-  useDisclosure,
   useEffect,
   AppConstants,
   React,
@@ -31,14 +29,17 @@ function AppModalA() {
     const subs1 = filterOn(AppConstants.IBUKI_MESSAGE_APP_MODAL_A_OPEN).subscribe((d: any) => {
       meta.title.value = d.data.title
       meta.isOpen.value = true
-
+      meta.toShowCloseButton.value = d.data.toShowCloseButton
+      meta.body.value = d.data.body || (() => <></>)
     })
-    const subs2 = filterOn(AppConstants.IBUKI_MESSAGE_APP_MODAL_A_CLOSE).subscribe(onClose)
+    const subs2 = filterOn(AppConstants.IBUKI_MESSAGE_APP_MODAL_A_CLOSE).subscribe(() => {
+      meta.isOpen.value = false
+    })
     return (() => {
       subs1.unsubscribe()
       subs2.unsubscribe()
     })
-  }, [])
+  }, [meta.isOpen, meta.title, meta.toShowCloseButton, meta.body])
 
   return (
     <>
@@ -49,10 +50,7 @@ function AppModalA() {
           <ModalCloseButton />
           <ModalBody>
             <meta.body.value />
-            <Box>Test</Box>
-            {/* <Lorem count={2} /> */}
           </ModalBody>
-
           {meta.toShowCloseButton.value && <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
@@ -71,8 +69,8 @@ function AppModalA() {
 export { AppModalA }
 
 function useAppModalA() {
-  function showAppModalA(title: string, body?: React.FC) {
-    emit('IBUKI_MESSAGE_APP_MODAL_A_OPEN', { title: title, body: body })
+  function showAppModalA(title: string, toShowCloseButton: boolean, body?: React.FC,) {
+    emit('IBUKI_MESSAGE_APP_MODAL_A_OPEN', { title: title, body: body, toShowCloseButton: toShowCloseButton })
   }
   function onCloseAppModalA() {
     emit('IBUKI_MESSAGE_APP_MODAL_A_CLOSE', null)

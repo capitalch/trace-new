@@ -8,12 +8,14 @@ import { Comp2Memo } from "./components/comp2-memo";
 import { Comp3Memo } from "./components/comp3-memo";
 import { Comp4UseCallback } from "./components/comp4-use-callback";
 import { CompMemo } from "./components/comp5-memo";
+import { CompReactHookForm } from "./components/comp-react-hook-form";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Comp1 />
+    {/* <Comp1 /> */}
     {/* <Comp3Memo /> */}
     {/* <Comp4UseCallback /> */}
     {/* <CompMemo /> */}
+    <CompReactHookForm />
   </ChakraProvider>
 )

@@ -1,7 +1,8 @@
-import { AppConstants, Box, Button, Flex, HStack, useAppModalA } from "@src/features"
+import { AppConstants, appStore, Box, Button, Flex, HStack, useAppModalA } from "@src/features"
+import { SuperAdminNewClient } from "./super-admin-new-client";
 function SuperAdminClientsToolbar() {
   const ctrlArray = [];
-  const {onCloseAppModalA, showAppModalA} = useAppModalA()
+  const { onCloseAppModalA, showAppModalA } = useAppModalA()
   return (
     <HStack
       bgColor="beige"
@@ -19,8 +20,9 @@ function SuperAdminClientsToolbar() {
     </HStack>
   )
 
-  function handleNewClient(){
-    showAppModalA('New client')
+  function handleNewClient() {
+    // showAppModalA('New client', false, SuperAdminNewClient)
+    appStore.layouts.selectedComponent.value = SuperAdminNewClient
   }
 }
 export { SuperAdminClientsToolbar }

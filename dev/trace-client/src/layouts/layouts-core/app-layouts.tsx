@@ -16,11 +16,11 @@ function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
 
   useEffect(() => {
-    // appStore.layouts.selectedComponent.value = isLoggedIn
-    //   ? DummyComponent
-    //   : AppLogin;
+    appStore.layouts.selectedComponent.value = isLoggedIn
+      ? DummyComponent
+      : AppLogin;
 
-    showClients()
+    // showClients()
   }, [isLoggedIn])
 
   return (

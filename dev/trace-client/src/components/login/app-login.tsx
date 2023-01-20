@@ -29,17 +29,17 @@ function AppLogin() {
                     <Input value='test@test.com' id='uidEmail' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' {...registerUidEmail} />
                     {(!!errors.uidEmail)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.uidEmail.message}</FormErrorMessage>
-                        : <FormHelperText fontSize='xs' color='gray.400'> 4 chars+ | no space | no special char</FormHelperText>
+                        : <FormHelperText fontSize='xs' color='gray.400'> {Messages.messNoSpecialSpace4Plus}</FormHelperText>
                     }
                 </FormControl>
 
                 {/* Password */}
                 <FormControl mt={4} isInvalid={!!errors.pwd}>
                     <FormLabel color='blue.500'>Password</FormLabel>
-                    <Input value = 'ssss@2222' id='pwd' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPwd} />
+                    <Input value='ssss@2222' id='pwd' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPwd} />
                     {(!!errors.pwd)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.pwd.message}</FormErrorMessage>
-                        : <FormHelperText color='gray.400' fontSize='xs'>8 chars+ | 1 digit | 1 special char</FormHelperText>
+                        : <FormHelperText color='gray.400' fontSize='xs'>{Messages.messMin8Char1Digit1Special}</FormHelperText>
                     }
                 </FormControl>
 
@@ -49,15 +49,15 @@ function AppLogin() {
                 </HStack>
 
                 {/* Submit */}
-                <Button type='submit' variant='solid' colorScheme='blue' width="full" mt={4} onWheel={()=>alert('abcd')}>
+                <Button type='submit' variant='solid' colorScheme='blue' width="full" mt={4} onWheel={() => alert('abcd')}>
                     Sign In
                 </Button>
 
                 {/* Dummy for test */}
                 <HStack>
-                    <Button size='xs' variant='ghost' colorScheme='green' onClick={()=>handleTestSubmit('superAdmin')} >Sign in S admin</Button>
-                    <Button size='xs' variant='ghost' colorScheme='red' onClick={()=>handleTestSubmit('admin')}>Sign in admin</Button>
-                    <Button size='xs' variant='ghost' colorScheme='blue' onClick={()=>handleTestSubmit('businessUser')} >Sign in business user</Button>
+                    <Button size='xs' variant='ghost' colorScheme='green' onClick={() => handleTestSubmit('superAdmin')} >Sign in S admin</Button>
+                    <Button size='xs' variant='ghost' colorScheme='red' onClick={() => handleTestSubmit('admin')}>Sign in admin</Button>
+                    <Button size='xs' variant='ghost' colorScheme='blue' onClick={() => handleTestSubmit('businessUser')} >Sign in business user</Button>
                 </HStack>
                 <Text as='b' fontSize='small' color='red.400'>{meta.serverError.value}</Text>
             </form>
