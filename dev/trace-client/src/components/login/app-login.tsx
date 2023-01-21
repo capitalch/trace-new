@@ -3,7 +3,7 @@ import { useAppLogin } from './app-login-hook'
 
 function AppLogin() {
     const { handleOnSubmit, handleTestSubmit, meta, } = useAppLogin()
-    const { handleSubmit, register, formState: { errors } }: any = useForm()
+    const { handleSubmit, register, formState: { errors } }: any = useForm({mode:'onTouched'})
     const { checkPwd, checkUidEmail } = appValidators()
 
     const registerUidEmail = register('uidEmail', {
@@ -26,7 +26,7 @@ function AppLogin() {
                 {/* uid email */}
                 <FormControl isInvalid={!!errors.uidEmail}>
                     <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
-                    <Input value='test@test.com' id='uidEmail' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' {...registerUidEmail} />
+                    <Input id='uidEmail' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' {...registerUidEmail} />
                     {(!!errors.uidEmail)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.uidEmail.message}</FormErrorMessage>
                         : <FormHelperText fontSize='xs' color='gray.400'> {Messages.messNoSpecialSpace4Plus}</FormHelperText>
@@ -36,7 +36,7 @@ function AppLogin() {
                 {/* Password */}
                 <FormControl mt={4} isInvalid={!!errors.pwd}>
                     <FormLabel color='blue.500'>Password</FormLabel>
-                    <Input value='ssss@2222' id='pwd' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPwd} />
+                    <Input id='pwd' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPwd} />
                     {(!!errors.pwd)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.pwd.message}</FormErrorMessage>
                         : <FormHelperText color='gray.400' fontSize='xs'>{Messages.messMin8Char1Digit1Special}</FormHelperText>

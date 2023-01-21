@@ -8,9 +8,9 @@ function SuperAdminClientsToolbar() {
       bgColor="beige"
       rowGap={1}
       wrap={"wrap"}
-      direction="row"
+      // direction="row"
       h={AppConstants.COMPONENT_TOOLBAR_HEIGHT}
-      w="100%"
+      // w="100%"
       spacing="24px"
       justifyContent="flex-end">
       <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
@@ -21,8 +21,8 @@ function SuperAdminClientsToolbar() {
   )
 
   function handleNewClient() {
-    // showAppModalA('New client', false, SuperAdminNewClient)
-    appStore.layouts.selectedComponent.value = SuperAdminNewClient
+    showAppModalA('New client', false, SuperAdminNewClient)
+    // appStore.layouts.selectedComponent.value = SuperAdminNewClient
   }
 }
 export { SuperAdminClientsToolbar }
