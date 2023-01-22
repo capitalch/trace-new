@@ -1,5 +1,5 @@
 from app import  Config
-from app.vendors import AsyncConnectionPool,  make_conninfo
+from app.vendors import AsyncConnection, AsyncConnectionPool,  make_conninfo
 from psycopg.rows import dict_row
 
 poolStore = {}
@@ -18,6 +18,14 @@ async def get_connection_pool_async(connInfo: str, dbName: str) -> AsyncConnecti
         poolStore[dbName] = pool
     return (pool)
 
+# async def get_connection_pool_async(connInfo: str, dbName: str) -> AsyncConnectionPool:
+    # pool = AsyncConnectionPool(connInfo)
+    # pool = poolStore.get(dbName)
+    # if (pool is None):
+    #     pool = AsyncConnectionPool(connInfo)
+    #     poolStore[dbName] = pool
+    # return (pool)
+
 
 async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
@@ -34,5 +42,11 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,st
             await acur.execute(sql, sqlArgs)
             if (acur.rowcount > 0):
                 records = await acur.fetchall()
+    # async with await AsyncConnection.connect(connInfo) as aconn:
+    #     async with aconn.cursor(row_factory=dict_row) as acur:
+    #         await acur.execute(f'set search_path to {schema}')
+    #         await acur.execute(sql, sqlArgs)
+    #         if (acur.rowcount > 0):
+    #             records = await acur.fetchall()
     return (records)
     

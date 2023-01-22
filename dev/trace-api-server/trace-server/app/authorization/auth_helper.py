@@ -1,6 +1,6 @@
 from app import AppHttpException, Messages, Config
 from app.vendors import status
-from .utils_auth import create_access_token, create_refresh_token, verify_password
+from .auth_utils import create_access_token, create_refresh_token, verify_password
 from app.db import generic_query, UserClass, SqlAuth
 
 

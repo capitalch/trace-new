@@ -13,16 +13,22 @@ function SuperAdminClientsToolbar() {
       // w="100%"
       spacing="24px"
       justifyContent="flex-end">
+      <Button size="sm" colorScheme="blue" onClick={handleNewClientExDatabase}>
+        New client with external database
+      </Button>
       <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
         New client
       </Button>
-      ,
     </HStack>
   )
 
   function handleNewClient() {
     showAppModalA('New client', false, SuperAdminNewClient)
     // appStore.layouts.selectedComponent.value = SuperAdminNewClient
+  }
+
+  function handleNewClientExDatabase(){
+
   }
 }
 export { SuperAdminClientsToolbar }

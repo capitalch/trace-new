@@ -1,13 +1,13 @@
-from app.vendors import FastAPI, JSONResponse, Request, set_event_loop_policy, WindowsSelectorEventLoopPolicy
-from app.auth import routes_auth
+from app.vendors import Depends, FastAPI, JSONResponse, Request
+from app.authorization import auth_routes, auth_main
 from app import AppHttpException, Messages
-from app.db.routes_db import GraphQLApp
-
-# set_event_loop_policy(WindowsSelectorEventLoopPolicy())
+from app.db.db_routes import GraphQLApp
+from app.utils import get_reusable_oauth
+from app.authorization.auth_main import get_current_user_from_req
 app = FastAPI()
 
 # Routers
-app.include_router(routes_auth.router,)
+app.include_router(auth_routes.router,)
 
 # Exception handling
 
@@ -34,11 +34,28 @@ async def home():
 @app.middleware("http")
 async def exception_handling(request: Request, call_next):
     try:
+        path = request.url.path
+        if(path.find('graphql')):
+            auth_main.get_current_user_from_req(request)
         return await call_next(request)
     except (Exception, AppHttpException) as e:
         return JSONResponse(status_code=500, content={
             'detail': str(e)
         }, headers={"X-error": Messages.err_unknown_server_error})
+
+# @app.middleware("http")
+# async def exception_handling(request, call ):
+#     try:
+#         return request
+        # path = request.url.path
+        # if(path.find('graphql')):
+        #     auth_main.get_current_user_from_req(request)
+        # return await call_next(request)
+    # except (Exception) as e:
+    #     print(e)
+        # return JSONResponse(status_code=500, content={
+        #     'detail': str(e)
+        # }, headers={"X-error": Messages.err_unknown_server_error})
 
 # Load graphQL as separate app
 app.mount('/graphql', GraphQLApp)

@@ -43,9 +43,9 @@ function AppModalA() {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent pb={2}>
           <ModalHeader>{meta.title.value}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

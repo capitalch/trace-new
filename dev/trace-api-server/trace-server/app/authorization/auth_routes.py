@@ -1,5 +1,5 @@
 from app.vendors import APIRouter, Depends, HTTPException, status
-from .entry_auth import app_login, get_current_user, renew_access_token_from_refresh_token
+from .auth_main import app_login, get_current_user, renew_access_token_from_refresh_token
 router = APIRouter()
 
 
@@ -13,6 +13,6 @@ async def resolve_check(payload: get_current_user = Depends()):
     return payload
 
 
-@router.post('/renew-token', summary='Create new access_token from refresh_token')
+@router.post('/renew-token', summary='Creates new access_token from refresh_token')
 async def renew_access_token(payload: renew_access_token_from_refresh_token = Depends()):
     return payload

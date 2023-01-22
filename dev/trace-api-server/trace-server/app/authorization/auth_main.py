@@ -1,15 +1,13 @@
-from app.vendors import Depends, jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, status, ValidationError
+from app.vendors import Depends, jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status, ValidationError
 from app import AppHttpException, Messages, Config
-from .helper_auth import get_super_admin_bundle, get_other_user_bundle
-from .utils_auth import create_access_token
-# from app.db import get_user_details, UserClass
-# from app.db import get_user_details
+from .auth_helper import get_super_admin_bundle, get_other_user_bundle
+from .auth_utils import create_access_token
+from app.utils import get_reusable_oauth
 
-
-reuseable_oauth = OAuth2PasswordBearer(
-    tokenUrl="/login",
-    scheme_name="JWT"
-)
+# reuseable_oauth = OAuth2PasswordBearer(
+#     tokenUrl="/login",
+#     scheme_name="JWT"
+# )
 
 
 async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
@@ -34,7 +32,8 @@ async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     return (bundle)
 
 
-async def get_current_user(token: str = Depends(reuseable_oauth)):
+# async def get_current_user(token: str = Depends(reuseable_oauth)):
+async def get_current_user(token: str = Depends(get_reusable_oauth())):
     try:
         if (not token.strip()):
             raise Exception
@@ -48,7 +47,10 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
         )
 
 
-async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_oauth)):
+async def renew_access_token_from_refresh_token(token: str = Depends(get_reusable_oauth())):
+    '''
+    A new access token is returned as payload against the refresh token
+    '''
     try:
         if (not token.strip()):
             raise Exception
@@ -64,3 +66,10 @@ async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_o
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=Messages.err_renew_access_token
         )
+
+
+def get_current_user_from_req(token:str = Depends(get_reusable_oauth())):
+    # auth = req.headers['Authorization']
+    # token = get_reusable_oauth()
+    oauth2 = OAuth2PasswordBearer(tokenUrl='login')
+    # print(token)

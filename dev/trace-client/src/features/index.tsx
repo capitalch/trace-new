@@ -6,7 +6,7 @@ export * from "./app-constants";
 export * from "./app-store";
 export { appValidators } from "./app-validators";
 export {
-  Box, Button, Center, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
+  Box, Button, Center, Checkbox, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
   Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
   ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,

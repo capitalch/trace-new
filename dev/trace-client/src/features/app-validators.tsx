@@ -76,7 +76,7 @@ function appValidators() {
         return ret
     }
 
-    return ({ checkPwd, checkUidEmail })
+    return ({ checkPwd, checkNoSpaceOrSpecialChar, checkUidEmail })
 }
 
 export { appValidators }

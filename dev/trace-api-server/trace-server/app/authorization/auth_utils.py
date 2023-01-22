@@ -35,3 +35,5 @@ def create_refresh_token(subject: Any) -> str:
     }
     encodedJwt = jwt.encode(toEncode, REFRESH_TOKEN_SECRET_KEY, ALGORITHM)
     return (encodedJwt)
+
+
