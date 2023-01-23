@@ -1,5 +1,5 @@
-from app import  Config
-from app.vendors import AsyncConnection, AsyncConnectionPool,  make_conninfo
+from app import AppHttpException,  Config , Messages
+from app.vendors import  AsyncConnection, AsyncConnectionPool,  make_conninfo
 from psycopg.rows import dict_row
 
 poolStore = {}
@@ -36,12 +36,18 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,st
     connInfo = make_conninfo('', **dbParams)
     apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, dbName)
     records = None
-    async with apool.connection() as aconn:
-        async with aconn.cursor(row_factory=dict_row) as acur:
-            await acur.execute(f'set search_path to {schema}')
-            await acur.execute(sql, sqlArgs)
-            if (acur.rowcount > 0):
-                records = await acur.fetchall()
+    # raise AppHttpException
+    try:
+        async with apool.connection() as aconn:
+            async with aconn.cursor(row_factory=dict_row) as acur:
+                await acur.execute(f'set search_path to {schema}')
+                await acur.execute(sql, sqlArgs)
+                if (acur.rowcount > 0):
+                    records = await acur.fetchall()
+    except Exception as e:
+        raise AppHttpException(
+            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
+        )
     # async with await AsyncConnection.connect(connInfo) as aconn:
     #     async with aconn.cursor(row_factory=dict_row) as acur:
     #         await acur.execute(f'set search_path to {schema}')

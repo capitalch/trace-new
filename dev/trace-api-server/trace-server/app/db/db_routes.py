@@ -1,6 +1,6 @@
 from app.vendors import Depends, GraphQL,load_schema_from_path, make_executable_schema, MutationType, QueryType,jsonable_encoder
 from app.db.db_psycopg import exec_sql
-from app.utils import get_reusable_oauth
+# from app.utils import get_reusable_oauth
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()

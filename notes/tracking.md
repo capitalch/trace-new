@@ -1,3 +1,6 @@
+## To do
+Global modal, alert, snap-box message
+
 ## comparison different grids
 1. react-data-grid: dynamic row height missing
 2. ag grid community: Aggregation missing
@@ -55,6 +58,17 @@
 5. SecuredControlM: id, controlName, weight
 
 6. RoleSecuredControlX: id, securedControlId, roleId
+
+## Bug fix
+### Server side
+1. Sometimes database server not working. Error connection
+2. AppHttpException of type custome exception not working
+3. Server side graphql authentication
+4. get_other_user_bundle error
+
+## 20-01-2023 - 23-01-2023
+1. Add client screen
+2. Server side authentication rework
 
 ## 15-01-2023 - 19-01-2023
 1. Research on React useMemo, useCallback and memo, ag-grid

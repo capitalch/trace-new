@@ -9,7 +9,7 @@ async def resolve_login(bundle: app_login = Depends()):
 
 
 @router.post('/check', summary='checks secured endpoint')
-async def resolve_check(payload: get_current_user = Depends()):
+async def resolve_check(payload = Depends(get_current_user)):
     return payload
 
 

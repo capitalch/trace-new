@@ -11,8 +11,8 @@ class AppHttpException(Exception):
     errorCode: str
 
 
-def get_reusable_oauth():
-    return (OAuth2PasswordBearer(
-        tokenUrl="/login",
-        scheme_name="JWT"
-    ))
+# def get_reusable_oauth():
+#     return (OAuth2PasswordBearer(
+#         tokenUrl="/login",
+#         scheme_name="JWT"
+#     ))
