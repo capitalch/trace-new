@@ -1,0 +1,8 @@
+type Query {
+    user: String
+    accounts: Generic
+    allTransactions: Generic
+    apsycopg: Generic
+    testexcep:Generic
+}
+scalar Generic
