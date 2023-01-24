@@ -14,6 +14,7 @@ dbParams: dict = {
 
 
 async def get_connection_pool(db_name: str, connInfo):
+    # pool = await create_pool(**connInfo)
     pool = poolStore.get(db_name)
     if (pool is None):
         pool = await create_pool(**connInfo)
@@ -37,10 +38,23 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, s
     async with pool.acquire() as conn:
         async with conn.transaction():
             await conn.execute(f'set search_path to {schema}')
-            # await conn.execute(sql)
-            # records = await conn.fetch('select * from "TranD"')
-            # records = await conn.fetch('select * from "TranD" where (id < $1) and (id > $2)', 40000, 30000)
-            params = (3,5) # {'a':1, 'b':2}
-            sql1 = 'select 1; select 2;' # select * from "UserM"  # where id=$1 or id = $2
-            records = await conn.fetch(sql1)
+            sql1, paramsTuple = get_native_sql(sql, sqlArgs)
+            records = await conn.fetch(sql1, *paramsTuple)
     return records
+
+
+def get_native_sql(sql:str, params:dict):
+    cnt = 0
+    paramsTuple = ()
+
+    def getNewParamName():
+        nonlocal cnt
+        cnt = cnt + 1
+        return(f'${cnt}')
+        
+    for prop in params:
+        sprop = f'%({prop})s'
+        sql = sql.replace(sprop,getNewParamName())
+        paramsTuple = paramsTuple + (params[prop],)
+    
+    return(sql, paramsTuple)

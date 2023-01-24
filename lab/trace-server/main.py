@@ -1,5 +1,5 @@
 from app.vendors import Depends, FastAPI, JSONResponse, Request
-from app.authorization import auth_routes, auth_main
+from app.auth import auth_routes, auth_main
 from app import AppHttpException, Messages
 from app.db.db_routes import GraphQLApp
 

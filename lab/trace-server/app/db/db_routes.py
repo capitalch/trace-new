@@ -21,7 +21,7 @@ async def resolve_user(*_):
 @query.field('apsycopg')
 async def resolve_psycopg(_, info):
     # data = await exec_sql(sql='select * from "UserM"')
-    data = await exec_sql(sql='select * from "UserM"')
+    data = await exec_sql(sql='select * from "UserM" where uid = %(arg1)s or uid = %(arg2)s', sqlArgs= {'arg1': 'sales', 'arg2':'capitalch'})
     data1 = jsonable_encoder(data)
     return (data1)
 
