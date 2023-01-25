@@ -10,39 +10,41 @@ dbParams: dict = {
     'host': Config.DB_HOST,
 }
 
-
 async def get_connection_pool_async(connInfo: str, dbName: str) -> AsyncConnectionPool:
-    pool = AsyncConnectionPool(connInfo, open=True)
-    # pool = poolStore.get(dbName)
-    # if (pool is None):
-    #     pool = AsyncConnectionPool(connInfo)
-    #     poolStore[dbName] = pool
+    global poolStore
+    pool = poolStore.get(dbName)
+    if (pool is None):
+        pool = AsyncConnectionPool(connInfo)
+        poolStore[dbName] = pool
     return (pool)
 
 
-# async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
-#     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
-#     db_params = dbParams if db_params is None else db_params
-#     schema = 'public' if schema is None else schema
-#     db_params.update({'dbname': dbName})
-#     # creates connInfo from dict object
-#     connInfo = make_conninfo('', **dbParams)
-#     apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, dbName)
-#     records = None
-#     try:
-#         async with apool.connection() as aconn:
-#             async with aconn.cursor(row_factory=dict_row) as acur:
-#                 await acur.execute(f'set search_path to {schema}')
-#                 await acur.execute(sql, sqlArgs)
-#                 if (acur.rowcount > 0):
-#                     records = await acur.fetchall()
-#     except Exception as e:
-#         raise AppHttpException(
-#             detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
-#         )
-#     return (records)
+async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
+    dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
+    db_params = dbParams if db_params is None else db_params
+    schema = 'public' if schema is None else schema
+    db_params.update({'dbname': dbName})
+    # creates connInfo from dict object
+    connInfo = make_conninfo('', **dbParams)
+    apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, dbName)
+    records = None
+    try:
+        # async with AsyncConnectionPool(connInfo, open=True) as apool:
+            async with apool.connection() as aconn:
+                async with aconn.cursor(row_factory=dict_row) as acur:
+                    await acur.execute(f'set search_path to {schema}')
+                    await acur.execute(sql, sqlArgs)
+                    # sql = f'set search_path to {schema}; {sql}'
+                    # await acur.execute(sql,sqlArgs)
+                    if (acur.rowcount > 0):
+                        records = await acur.fetchall()
+    except Exception as e:
+        raise AppHttpException(
+            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
+        )
+    return (records)
 
-def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
+def exec_sql1(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
     schema = 'public' if schema is None else schema

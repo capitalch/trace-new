@@ -1,5 +1,5 @@
 from app.vendors import Depends, GraphQL, graphql, HttpError, JSONResponse, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
-from app.db.db_asyncpg import exec_sql
+from app.db.db_psycopg import exec_sql
 from app import AppHttpException
 # from app.utils import get_reusable_oauth
 
@@ -20,8 +20,9 @@ async def resolve_user(*_):
 
 @query.field('apsycopg')
 async def resolve_psycopg(_, info):
-    # data = await exec_sql(sql='select * from "UserM"')
-    data = await exec_sql(sql='select * from "UserM" where uid = %(arg1)s or uid = %(arg2)s', sqlArgs= {'arg1': 'sales', 'arg2':'capitalch'})
+    # data = exec_sql(sql='select * from "UserM"')
+    data = await exec_sql(sql='select * from "UserM"')
+        # data = await exec_sql(sql='select * from "UserM" where uid = %(arg1)s or uid = %(arg2)s', sqlArgs= {'arg1': 'sales', 'arg2':'capitalch'})
     data1 = jsonable_encoder(data)
     return (data1)
 

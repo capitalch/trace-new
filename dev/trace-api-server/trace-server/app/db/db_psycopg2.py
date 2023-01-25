@@ -2,7 +2,7 @@ import psycopg2
 import psycopg2.extras
 from psycopg2 import pool
 from app import AppHttpException,  Config , Messages
-from app.vendors import make_conninfo
+from app.vendors import make_conninfo, status
 poolStore = {}
 dbParams: dict = {
     'user': Config.DB_USER,
