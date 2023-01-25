@@ -1,5 +1,5 @@
 from app import AppHttpException,  Config , Messages
-from app.vendors import  AsyncConnection, AsyncConnectionPool,  make_conninfo, status
+from app.vendors import Any, AsyncConnection, AsyncConnectionPool,  make_conninfo, status
 from psycopg.rows import dict_row
 
 poolStore = {}
@@ -17,7 +17,8 @@ async def get_connection_pool_async(connInfo: str, dbName: str) -> AsyncConnecti
         poolStore[dbName] = pool
     return (pool)
 
-async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
+
+async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}, execSqlObject:Any = None, sqlObject: Any = None):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
     schema = 'public' if schema is None else schema
@@ -26,14 +27,16 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,st
     connInfo = make_conninfo('', **dbParams)
     apool: AsyncConnectionPool = await get_connection_pool_async(connInfo, dbName)
     records = None
-    # raise AppHttpException
     try:
         async with apool.connection() as aconn:
             async with aconn.cursor(row_factory=dict_row) as acur:
-                await acur.execute(f'set search_path to {schema}')
-                await acur.execute(sql, sqlArgs)
-                if (acur.rowcount > 0):
-                    records = await acur.fetchall()
+                if(execSqlObject is not None):
+                    records = await execSqlObject( sqlObject, acur)
+                else:
+                    await acur.execute(f'set search_path to {schema}')
+                    await acur.execute(sql, sqlArgs)
+                    if (acur.rowcount > 0):
+                        records = await acur.fetchall()
     except Exception as e:
         raise AppHttpException(
             detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED

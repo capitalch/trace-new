@@ -1,5 +1,6 @@
 from app.vendors import Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, jsonable_encoder
 from app.db.db_psycopg import exec_sql
+from .db_main import exec_command
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()
@@ -12,10 +13,13 @@ async def resolve_user(*_):
 
 @query.field('apsycopg')
 async def resolve_psycopg(_, info):
+    data1 = await exec_command(sqlObject={})
     # data = exec_sql(sql='select * from "UserM"')
-    data = await exec_sql(sql='select * from "UserM"')
+    # sql = '''insert into "Test"("name") values('my test value') returning "id" '''
+    # data = await exec_sql(sql='select * from "UserM"')
+    # data = await exec_sql(sql=sql)
     # data = await exec_sql(sql='select * from "UserM" where uid = %(arg1)s or uid = %(arg2)s', sqlArgs= {'arg1': 'sales', 'arg2':'capitalch'})
-    data1 = jsonable_encoder(data)
+    # data1 = jsonable_encoder(data)
     return (data1)
 
 
