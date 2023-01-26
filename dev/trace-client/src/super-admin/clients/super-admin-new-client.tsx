@@ -1,7 +1,12 @@
-import { _, appValidators, Box, Button, Center, Checkbox, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Messages, Text, useDeepSignal, VStack, } from '@src/features'
+import {
+    _, appGraphqlStrings, appValidators, Box, Button, Center, Checkbox, FormControl,
+    FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
+    Messages, Text, useDeepSignal, useAppGraphql, VStack,
+} from '@src/features'
 import { useForm } from 'react-hook-form'
 
 function SuperAdminNewClient() {
+    const { mutateGraphql } = useAppGraphql()
     // const meta = useDeepSignal({
     //     clientCode: ''
     // })
@@ -55,6 +60,8 @@ function SuperAdminNewClient() {
         </form>
     )
     function onSubmit(values: any) {
+        const q: any = appGraphqlStrings['genericUpdate'](values, 'traceAuth')
+        mutateGraphql(q)
         // const x = meta.clientCode.value
         // setValue('dbName', 'abcd')
         // setValue('dbName', `${getValues().clientCode}_accounts`)

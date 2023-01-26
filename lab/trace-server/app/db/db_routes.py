@@ -5,7 +5,7 @@ from app import AppHttpException
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()
-
+mutation = MutationType()
 
 @query.field('user')
 async def resolve_user(*_):

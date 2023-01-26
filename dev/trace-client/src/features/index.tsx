@@ -1,6 +1,7 @@
 import _ from "lodash";
 import produce from "immer";
 import React from "react";
+import urlJoin from 'url-join'
 export { Menu as MenuAnt, type MenuProps as MenuPropsAnt } from "antd";
 export * from "./app-constants";
 export * from "./app-store";
@@ -14,7 +15,7 @@ export {
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
-export { _, produce, React };
+export { _, produce, React, urlJoin };
 export { useEffect, useLayoutEffect, useState } from "react";
 
 export { useForm } from "react-hook-form";
@@ -25,6 +26,8 @@ export {
 } from "./app-types";
 export { AppModalA, useAppModalA } from './components/app-modal-a'
 export { emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
+export { useAppGraphql } from './graphql/app-graphql-hook'
+export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 //icons
 
 // chakra-ui icons

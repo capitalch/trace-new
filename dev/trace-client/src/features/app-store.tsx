@@ -14,6 +14,7 @@ const store: any = {
     },
     login: {
         isLoggedIn: false,
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzQ3OTU0MDAsInN1YiI6eyJ1c2VySWQiOjMsImNsaWVudElkIjoxfX0.s82lrR7SgCoXT3-Dx786X1bo3M0-lQqvK72JtQl6Byw',
         uidEmail: 'capitalch',
         userType: undefined,
     },
