@@ -71,8 +71,6 @@ async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_o
 async def validate_token(request: Request):
     try:
         err = None
-        host = request.headers['host']
-        print(request.headers)
         auth: str = request.headers['Authorization']
         if (auth):
             token = auth.split()[1].strip()

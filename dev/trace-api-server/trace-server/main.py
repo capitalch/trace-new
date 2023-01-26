@@ -2,8 +2,19 @@ from app.vendors import Depends, FastAPI, JSONResponse, Request
 from app.authorization import auth_routes, auth_main
 from app import AppHttpException, Messages
 from app.db.db_routes import GraphQLApp
+from fastapi.middleware.cors import CORSMiddleware
+# from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 # Routers
 app.include_router(auth_routes.router,)
@@ -42,7 +53,7 @@ async def handle_middleware(request: Request, call_next):
     except (Exception) as e:
         return JSONResponse(status_code=getattr(e, 'status_code', None) or 500, content={
             'detail': getattr(e, 'detail', None) or str(e)
-        }, headers={"X-error":                 Messages.err_unknown_server_error})
+        }, headers={"X-error": Messages.err_unknown_server_error})
 
 # Load graphQL as separate app
 app.mount('/graphql', GraphQLApp)

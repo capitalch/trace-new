@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { _ } from '@src/features'
 
 const appGraphqlStrings: any = {
+   
     genericUpdate: (val: any, dbName: string) => {
         const value = encodeObj(val)
         return gql`

@@ -14,7 +14,7 @@ const store: any = {
     },
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzQ3OTU0MDAsInN1YiI6eyJ1c2VySWQiOjMsImNsaWVudElkIjoxfX0.s82lrR7SgCoXT3-Dx786X1bo3M0-lQqvK72JtQl6Byw',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzQ4MzEyNTEsInN1YiI6eyJ1c2VySWQiOjMsImNsaWVudElkIjoxfX0.y15X8IIFcO7pMWmwLSrUdXP0rTrsGv0vf1RqS5X8Zig',
         uidEmail: 'capitalch',
         userType: undefined,
     },

@@ -6,7 +6,7 @@ import {
 import { useForm } from 'react-hook-form'
 
 function SuperAdminNewClient() {
-    const { mutateGraphql } = useAppGraphql()
+    const { mutateGraphql, } = useAppGraphql()
     // const meta = useDeepSignal({
     //     clientCode: ''
     // })
@@ -59,14 +59,16 @@ function SuperAdminNewClient() {
             </VStack>
         </form>
     )
-    function onSubmit(values: any) {
-        const q: any = appGraphqlStrings['genericUpdate'](values, 'traceAuth')
-        mutateGraphql(q)
-        // const x = meta.clientCode.value
-        // setValue('dbName', 'abcd')
-        // setValue('dbName', `${getValues().clientCode}_accounts`)
-        // const val = getValues()
-        console.log(values)
+    async function onSubmit(values: any) {
+        const q = appGraphqlStrings['genericUpdate'](values,'traceAuth')
+        const ret = await mutateGraphql(q)
+            console.log(ret)
+        // for(let i = 0;i<1000;i++){
+        //     const ret = await mutateGraphql(q)
+        //     console.log(ret)
+        // }
+       
+        
     }
 }
 export { SuperAdminNewClient }

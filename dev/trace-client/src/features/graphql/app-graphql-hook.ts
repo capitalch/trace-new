@@ -3,11 +3,11 @@ import {
     ApolloLink,
     InMemoryCache,
     HttpLink,
-    // Operation,
-    // NextLink,
+    Operation,
+    NextLink,
 } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-import { appStore, Messages, urlJoin } from '@src/features'
+// import { setContext } from '@apollo/client/link/context'
+import { appStore, urlJoin } from '@src/features'
 
 function useAppGraphql() {
     function getClient() {
@@ -20,7 +20,7 @@ function useAppGraphql() {
             uri: urlJoin(url, 'graphql/')
         })
 
-        const authLink = new ApolloLink((operation: any, forward: any) => {
+        const authLink = new ApolloLink((operation: Operation, forward: NextLink) => {
             operation.setContext({
                 headers: {
                     authorization: token ? `Bearer ${token}` : ''
@@ -29,30 +29,8 @@ function useAppGraphql() {
             return (forward(operation))
         })
 
-        // const authLink = new ApolloLink((operation, forward) => {
-        //     operation.setContext(({ headers = {} }) => ({
-        //         headers: {
-        //             ...headers,
-        //             authorization: 'Bearer ' + token
-        //         },
-        //     }));
-
-        //     return forward(operation);
-        // });
-
-        // const authLink = setContext((_,{headers}:any)=>{
-        //     return(
-        //         {
-        //             ...headers,
-        //             Authorization: token ? `Bearer ${token}` : ''
-        //         }
-        //     )
-        // })
-
-        // const newLink = ApolloLink.from([authLink, link])
         const client = new ApolloClient({
             cache: new InMemoryCache(),
-            // link: newLink
             link: authLink.concat(link),
             defaultOptions: {
                 query: {
