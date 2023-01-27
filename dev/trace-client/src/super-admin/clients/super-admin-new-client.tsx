@@ -3,6 +3,7 @@ import {
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
     Messages, Text, useDeepSignal, useAppGraphql, VStack,
 } from '@src/features'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
 function SuperAdminNewClient() {
@@ -60,15 +61,26 @@ function SuperAdminNewClient() {
         </form>
     )
     async function onSubmit(values: any) {
-        const q = appGraphqlStrings['genericUpdate'](values,'traceAuth')
-        const ret = await mutateGraphql(q)
-            console.log(ret)
+        const ret = await axios.post('http://localhost:8000/api', {
+            headers: {
+                'x-access-token': 'abcd',
+                'authorization':'bearer gghggggggggggjggggggggggggg gjjjjjj'
+            }
+        })
+        console.log(ret)
+        
+        // const q = appGraphqlStrings['genericUpdate'](values,'traceAuth')
+        // const ret = await mutateGraphql(q)
+        //     console.log(ret)
+
+
+
         // for(let i = 0;i<1000;i++){
         //     const ret = await mutateGraphql(q)
         //     console.log(ret)
         // }
-       
-        
+
+
     }
 }
 export { SuperAdminNewClient }

@@ -1,52 +1,62 @@
 from app.vendors import Depends, FastAPI, JSONResponse, Request
-from app.auth import auth_routes, auth_main
-from app import AppHttpException, Messages
 from app.db.db_routes import GraphQLApp
+from fastapi.middleware.cors import CORSMiddleware
+                                                                                                
+app=FastAPI()
+origins = ["http://localhost:3000"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    # expose_headers=["*"]
+)
+# app = GraphQLApp
+app.add_route('/graphql', GraphQLApp)
 
-app = FastAPI()
+@app.post("/api")
+async def home(request: Request):
+    print(request.headers)
+    return {"message": 'abcd'}
 
-# Routers
-app.include_router(auth_routes.router,)
+@app.middleware('http')
+async def handle_middleware(request:Request, call_next):
+    return await call_next(request)
 
-# Exception handling
+# from app.vendors import Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
+# from app.db.db_main import generic_update, generic_query
+# from app.authorization import auth_main
+# from fastapi.middleware.cors import CORSMiddleware
 
-# app.add_route('/graphql', GraphQLApp)
-
-@app.exception_handler(AppHttpException)
-async def app_custom_exception_handler(request: Request, exc: AppHttpException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={
-            'detail': exc.detail,
-            'error_code': exc.error_code,
-        },
-        headers={"X-error": exc.detail}
-    )
-    
-def my_dep(req:Request):
-    raise AppHttpException('Test1 exception', status_code=500)
-    return('test depend')
-
-@app.get("/api")
-async def home(ret:str = Depends(my_dep)):
-    return {"message": ret}
-
-
-# @app.middleware("http")
-# async def exception_handling(request:Request, call_next ):
-#     try:
-#         path = request.url.path
-#         if(path.find('graphql') != -1):
-#             await auth_main.validate_token(request)
-#         return await call_next(request)
-#     except (Exception) as e:
-#         return JSONResponse(status_code=getattr(e,'status_code', None) or 500, content={
-#             'detail': getattr(e,'detail',None) or str(e)
-#         }, headers={"X-error": Messages.err_unknown_server_error})
-
-# Load graphQL as separate app
-app.mount('/graphql', GraphQLApp)
+# type_defs = load_schema_from_path('app/db')
+# query = QueryType()
+# mutation = MutationType()
 
 
+# @query.field('user')
+# async def resolve_user(*_):
+#     return ('Sushant')
 
 
+# @query.field('genericQuery')
+# async def resolve_generic_query(_, info):
+#     sql = 'select * from "UserM"'
+#     ret = await generic_query(sql=sql, sqlArgs={})
+#     data1 = jsonable_encoder(ret)
+#     return (data1)
+
+
+# @mutation.field('genericUpdate')
+# async def resolve_generic_update(_, info, value):
+#     # await auth_main.validate_token(request)
+#     ret = await generic_update(sqlObject={})
+#     return (ret)
+
+
+# schema = make_executable_schema(type_defs, query, mutation)
+
+# app: GraphQL = CORSMiddleware(    
+#     GraphQL(schema), allow_origins=['http://localhost:3000'], allow_methods=['*'], allow_headers=['*'],allow_credentials=True
+# )
+# # app:GraphQL = GraphQL(schema)

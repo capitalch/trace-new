@@ -1,23 +1,25 @@
 from app import AppHttpException, Messages
-from app.vendors import status
-from .db_psycopg import exec_sql
+from app.vendors import Any, status
 from .sql_auth import SqlAuth
 from .db_models import UserClass
+from .db_psycopg import exec_generic_query, exec_generic_update
 
 
 async def generic_query(sql: str, sqlArgs: dict[str, str], dbName: str = None, dbParams: dict = None, schema: str = None, ):
-    try:
-        records = await exec_sql(sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
-    except Exception as e:
-        raise AppHttpException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    records = await exec_generic_query(sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
     return records
 
 
-# async def get_user_details(uidOrEmail: str):
-#     try:
-#         record = await exec_sql(sql=SqlAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
-#     except Exception as e:
-#         raise AppHttpException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-#     return (record)
+async def exec_sql_object(sqlObject: Any, acur: Any):
+    ret = None
+    try:
+        tableName = sqlObject.get('tableName', None)
+        ret = 'abcd'
+        return (ret)
+    except Exception as e:
+        raise Exception()
+
+
+async def generic_update(sqlObject: Any = {}):
+    ret = await exec_generic_update(execSqlObject=exec_sql_object, sqlObject=sqlObject)
+    return (ret)
