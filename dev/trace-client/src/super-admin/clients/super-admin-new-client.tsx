@@ -4,6 +4,7 @@ import {
     Messages, Text, useDeepSignal, useAppGraphql, VStack,
 } from '@src/features'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
 function SuperAdminNewClient() {
     const { mutateGraphql, } = useAppGraphql()
@@ -60,15 +61,17 @@ function SuperAdminNewClient() {
         </form>
     )
     async function onSubmit(values: any) {
-        const q = appGraphqlStrings['genericUpdate'](values,'traceAuth')
+        // const ret1 = await axios.get('http://localhost:8000/api/')
+        // console.log(ret1)
+        const q = appGraphqlStrings['genericUpdate'](values, 'traceAuth')
         const ret = await mutateGraphql(q)
-            console.log(ret)
+        console.log(ret)
         // for(let i = 0;i<1000;i++){
         //     const ret = await mutateGraphql(q)
         //     console.log(ret)
         // }
-       
-        
+
+
     }
 }
 export { SuperAdminNewClient }

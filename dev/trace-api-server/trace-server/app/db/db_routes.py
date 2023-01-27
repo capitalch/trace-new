@@ -1,7 +1,8 @@
 from app.vendors import Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
 from .db_main import generic_update, generic_query
 from app.authorization import auth_main
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+# from starlette.middleware.cors import CORSMiddleware
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()
@@ -34,5 +35,6 @@ async def resolve_generic_update(_, info, value):
 schema = make_executable_schema(type_defs, query, mutation)
 
 # GraphQLApp: GraphQL = CORSMiddleware(GraphQL(schema, debug=True), allow_origins=['*'], allow_methods=("GET", "POST", "OPTIONS"), allow_headers=['access-control-allow-origin', 'authorization', 'content-type'])
+GraphQLApp: GraphQL = CORSMiddleware(GraphQL(schema), allow_origins=['*'], allow_methods=["*"], allow_headers=["*"])
 #
-GraphQLApp: GraphQL = GraphQL(schema)
+# GraphQLApp: GraphQL = GraphQL(schema)
