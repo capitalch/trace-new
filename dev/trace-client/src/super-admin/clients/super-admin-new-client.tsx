@@ -5,7 +5,6 @@ import {
 } from '@src/features'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 
 function SuperAdminNewClient() {
     const { mutateGraphql, } = useAppGraphql()
@@ -62,28 +61,12 @@ function SuperAdminNewClient() {
         </form>
     )
     async function onSubmit(values: any) {
-<<<<<<< HEAD
-        const ret = await axios.post('http://localhost:8000/api', {
-            headers: {
-                'x-access-token': 'abcd',
-                'authorization':'bearer gghggggggggggjggggggggggggg gjjjjjj'
-            }
-        })
-        console.log(ret)
-        
-        // const q = appGraphqlStrings['genericUpdate'](values,'traceAuth')
-        // const ret = await mutateGraphql(q)
-        //     console.log(ret)
-
-
-
-=======
-        // const ret1 = await axios.get('http://localhost:8000/api/')
+        // const ret1 = await axios.post('http://localhost:8000/api/')
         // console.log(ret1)
-        const q = appGraphqlStrings['genericUpdate'](values, 'traceAuth')
+        
+        const q = appGraphqlStrings['genericQuery'](values, 'traceAuth')
         const ret = await mutateGraphql(q)
         console.log(ret)
->>>>>>> a6bb2f56f3dcfd39cd8b007a7925f91576d7d7d3
         // for(let i = 0;i<1000;i++){
         //     const ret = await mutateGraphql(q)
         //     console.log(ret)

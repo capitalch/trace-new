@@ -14,7 +14,7 @@ async def resolve_user(*_):
 
 
 @query.field('genericQuery')
-async def resolve_generic_query(_, info):
+async def resolve_generic_query(_, info, value):
     sql = 'select * from "UserM"'
     ret = await generic_query(sql=sql, sqlArgs={})
     # data = exec_sql(sql='select * from "UserM"')

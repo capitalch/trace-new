@@ -23,8 +23,8 @@ function useAppGraphql() {
         const authLink = new ApolloLink((operation: Operation, forward: NextLink) => {
             operation.setContext({
                 headers: {
-                    // authorization: token ? `Bearer ${token}` : ''
-                    'x-access-token': token ? `Bearer ${token}` : ''
+                    authorization: token ? `Bearer ${token}` : ''
+                    // 'x-access-token': token ? `Bearer ${token}` : ''
                 }
             })
             return (forward(operation))

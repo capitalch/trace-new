@@ -11,11 +11,11 @@ const appGraphqlStrings: any = {
         }`
     },
 
-    genericView: (val:any, dbName: string) => {
+    genericQuery: (val:any, dbName: string) => {
         const value = encodeObj(val)
         return gql`
         query ${dbName}{
-            genericView(value:"${value}")
+            genericQuery(value:"${value}")
         }`
     }
 }

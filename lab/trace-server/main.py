@@ -13,7 +13,7 @@ app.add_middleware(
     # expose_headers=["*"]
 )
 # app = GraphQLApp
-app.add_route('/graphql', GraphQLApp)
+app.add_route('/graphql/', GraphQLApp)
 
 @app.post("/api")
 async def home(request: Request):
@@ -22,6 +22,7 @@ async def home(request: Request):
 
 @app.middleware('http')
 async def handle_middleware(request:Request, call_next):
+    print(request.headers)
     return await call_next(request)
 
 # from app.vendors import Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
