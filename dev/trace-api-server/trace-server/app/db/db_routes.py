@@ -14,7 +14,7 @@ async def resolve_user(*_):
 
 
 @query.field('genericQuery')
-async def resolve_generic_query(_, info):
+async def resolve_generic_query(_, info, value = None):
     sql = 'select * from "UserM"'
     ret = await generic_query(sql=sql, sqlArgs={})
     # data = exec_sql(sql='select * from "UserM"')
@@ -35,9 +35,8 @@ async def resolve_generic_update(_, info, value):
 
 schema = make_executable_schema(type_defs, query, mutation)
 
-GraphQLApp: GraphQL = CORSMiddleware(
-    # GraphQL(schema, debug=True), allow_origins=['*'], allow_methods=("GET", "POST", "OPTIONS"), allow_headers=['access-control-allow-origin', 'authorization', 'content-type','x-access-token'], expose_headers=['*']
-    GraphQL(schema), allow_origins=['http://localhost:3000'], allow_methods=['*'], allow_headers=['*'],allow_credentials=True,expose_headers=['*']
+GraphQLApp: GraphQL = CORSMiddleware(    
+    GraphQL(schema), allow_origins=['http://localhost:3000'], allow_methods=['*'], allow_headers=['*'],allow_credentials=True
 )
 #
 # GraphQLApp: GraphQL = GraphQL(schema)

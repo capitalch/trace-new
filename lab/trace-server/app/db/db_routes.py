@@ -1,4 +1,4 @@
-from app.vendors import Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
+from app.vendors import Any, Depends, GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType, Request, jsonable_encoder
 from .db_main import generic_update, generic_query
 from app.authorization import auth_main
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,7 +14,7 @@ async def resolve_user(*_):
 
 
 @query.field('genericQuery')
-async def resolve_generic_query(_, info, value):
+async def resolve_generic_query(parent, info, value = 1):
     sql = 'select * from "UserM"'
     ret = await generic_query(sql=sql, sqlArgs={})
     # data = exec_sql(sql='select * from "UserM"')
@@ -27,7 +27,7 @@ async def resolve_generic_query(_, info, value):
 
 
 @mutation.field('genericUpdate')
-async def resolve_generic_update(_, info, value):
+async def resolve_generic_update(_, info, value: Any = 1):
     # await auth_main.validate_token(request)
     ret = await generic_update(sqlObject={})
     return (ret)
@@ -35,8 +35,8 @@ async def resolve_generic_update(_, info, value):
 
 schema = make_executable_schema(type_defs, query, mutation)
 
-GraphQLApp: GraphQL = CORSMiddleware(   
-    GraphQL(schema), allow_origins=['http://localhost:3000'], allow_methods=['*'], allow_headers=['*'],allow_credentials=True,expose_headers=['*']
+GraphQLApp: GraphQL = CORSMiddleware(
+    GraphQL(schema), allow_origins=['http://localhost:3000'], allow_methods=['*'], allow_headers=['*'], allow_credentials=True
 )
 #
 # GraphQLApp: GraphQL = GraphQL(schema)

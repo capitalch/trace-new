@@ -7,7 +7,7 @@ import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
 function SuperAdminNewClient() {
-    const { mutateGraphql, } = useAppGraphql()
+    const { mutateGraphql, queryGraphql } = useAppGraphql()
     // const meta = useDeepSignal({
     //     clientCode: ''
     // })
@@ -65,7 +65,7 @@ function SuperAdminNewClient() {
         // console.log(ret1)
         
         const q = appGraphqlStrings['genericQuery'](values, 'traceAuth')
-        const ret = await mutateGraphql(q)
+        const ret = await queryGraphql(q)
         console.log(ret)
         // for(let i = 0;i<1000;i++){
         //     const ret = await mutateGraphql(q)
