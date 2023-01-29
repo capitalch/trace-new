@@ -56,6 +56,7 @@ async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: 
     try:
         async with apool.connection() as aconn:
             async with aconn.cursor(row_factory=dict_row) as acur:
+                await acur.execute(f'set search_path to {schema}')
                 records = await execSqlObject(sqlObject, acur)
     except Exception as e:
         raise AppHttpException(

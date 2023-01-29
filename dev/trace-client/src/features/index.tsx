@@ -7,6 +7,7 @@ export * from "./app-constants";
 export * from "./app-store";
 export { appValidators } from "./app-validators";
 export {
+  AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay,
   Box, Button, Center, Checkbox, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
   Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
@@ -16,7 +17,7 @@ export {
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
 export { _, produce, React, urlJoin };
-export { useEffect, useLayoutEffect, useState } from "react";
+export { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export { useForm } from "react-hook-form";
 export { Else, Fallback, If, Then } from "react-if";

@@ -6,12 +6,10 @@ from app.db import generic_query, UserClass, SqlAuth
 
 def get_bundle(user: UserClass):
     accessToken = create_access_token({
-        'userId': user.userId,
-        'clientId': user.clientId
+        'userId': user.userId
     })
     refreshToken = create_refresh_token({
-        'userId': user.userId,
-        'clientId': user.clientId
+        'userId': user.userId
     })
     return ({
         'accessToken': accessToken,

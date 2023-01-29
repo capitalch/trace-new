@@ -10,6 +10,7 @@ import {
 import { AppLogin, DummyComponent } from "@src/components"
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
 import { SuperAdminClients } from "@src/super-admin"
+import { AppAlertOk } from "@src/features/components/app-alert-ok";
 // import { useAppLayouts } from './app-layouts-hook'
 
 function AppLayouts() {
@@ -31,6 +32,7 @@ function AppLayouts() {
         <AppDrawer />
         <AppContent />
         <AppModalA />
+        <AppAlertOk />
       </Box>
     </Box>
   )

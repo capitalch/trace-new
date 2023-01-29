@@ -4,13 +4,13 @@ const Messages = {
     errInvalidInput: 'Invalid input',
     errMustHaveOneDigit: "Should have a digit",
     errMustHaveOneLetter: "Should have one letter",
-    errMustHaveOneSpecialChar: "Should have a special character",
+    errMustHaveOneSpecialChar: "Must have a special character",
     errNoSpceOrSpecialChar: 'Cannot have space or special character',
     errRequired: 'This value is required',
 
-    messMin8Char1Digit1Special: '8 chars+ | 1 digit | 1 special char',
-    messNoSpecialSpace4Plus: '4 chars+ | no space | no special char',
-    messNoSpecial4Plus: '4 chars+ | no special char'
+    messMin8Char1Digit1Special: 'At lest 8 characters long | 1 digit | 1 special char',
+    messNoSpecialSpace4Plus: 'At lest 4 characters long | no space | no special char',
+    messNoSpecial4Plus: 'At lest 4 characters long | no special char'
     
 }
 export { Messages }

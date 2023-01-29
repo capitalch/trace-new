@@ -8,11 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", 'http://127.0.0.1:3000'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    # expose_headers=["*"]
 )
 
 
@@ -34,10 +33,6 @@ async def app_custom_exception_handler(request: Request, exc: AppHttpException):
     )
 
 
-# def my_dep(req: Request):
-#     return ('test depend')
-
-
 @app.post("/api")
 async def home(request: Request):
     print(request.headers)
@@ -48,15 +43,11 @@ async def home(request: Request):
 async def handle_middleware(request: Request, call_next):
     try:
         path = request.url.path
-        print(request.headers)
-        auth = request.headers.get('authorization', None)
-        if(path.find('graphql') != -1):
-            if(auth is None):
-                pass
-            else:
+        accessControl = request.headers.get('access-control-request-headers')
+        # operationName = await request.json()
+        if (path.find('graphql') != -1):
+            if(accessControl is None):
                 await auth_main.validate_token(request)
-        # if (path.find('graphql') != -1):
-        #     await auth_main.validate_token(request)
         return await call_next(request)
     except (Exception) as e:
         return JSONResponse(status_code=getattr(e, 'status_code', None) or 500, content={
@@ -65,5 +56,12 @@ async def handle_middleware(request: Request, call_next):
 
 # Load graphQL as separate app
 # app.mount('/graphql', GraphQLApp)
-
 # uvicorn.run('main:app')
+
+# print(request.headers)     
+# auth = request.headers.get('authorization', None)
+# if(path.find('graphql') != -1):
+            # if(auth is None):
+            #     pass
+            # else:
+            # await auth_main.validate_token(request)

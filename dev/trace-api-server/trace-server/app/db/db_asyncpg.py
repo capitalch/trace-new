@@ -1,10 +1,12 @@
 # At present not using
 from app import AppHttpException,  Config, Messages
-from app.vendors import make_conninfo
+from app.vendors import Any, make_conninfo
 from asyncpg import connect, Connection, create_pool, Record, Pool
 from asyncpg.prepared_stmt import PreparedStatement
 
 poolStore = {}
+poolBuffer = None
+
 dbParams: dict = {
     'user': Config.DB_USER,
     'password': Config.DB_PASSWORD,
@@ -12,13 +14,16 @@ dbParams: dict = {
     'host': Config.DB_HOST,
 }
 
-poolBuffer = None
 
-async def get_connection_pool(db_name: str, connInfo):
-    global poolBuffer
-    if(poolBuffer is None):
-        poolBuffer = await create_pool(**connInfo)
-    return(poolBuffer)
+async def get_connection_pool(connInfo: Any, dbName: str):
+    # global poolBuffer
+    pool = poolStore.get(dbName)
+    if(pool is None):
+        pool = await create_pool(**connInfo)
+        poolStore[dbName] = pool
+    # if(poolBuffer is None):
+    #     poolBuffer = await create_pool(**connInfo)
+    return(pool)
     # pool = poolStore.get(db_name)
     # if (pool is None):
     #     pool = await create_pool(**connInfo)
@@ -26,7 +31,7 @@ async def get_connection_pool(db_name: str, connInfo):
     # return (pool)
 
 
-async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}):
+async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', execSqlObject: Any = None, sqlObject:Any = None):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
     schema = 'public' if schema is None else schema
@@ -34,14 +39,14 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, s
     records = None
     # creates connInfo from dict object
     # connInfo = make_conninfo('', **dbParams)
-    # db_name = 'capital_accounts'
 
-    pool: Pool = await get_connection_pool(dbName, db_params)
+    pool: Pool = await get_connection_pool(db_params, dbName)
     async with pool.acquire() as conn:
         async with conn.transaction():
             await conn.execute(f'set search_path to {schema}')
-            sql1, paramsTuple = to_native_sql(sql, sqlArgs)
-            records = await conn.fetch(sql1, *paramsTuple)
+            records = await execSqlObject(sqlObject, conn)
+            # sql1, paramsTuple = to_native_sql(sql, sqlArgs)
+            # records = await conn.fetch(sql1, *paramsTuple)
     return records
 
 

@@ -55,18 +55,7 @@ function AppHeader() {
                         : <IconButton ml={2} variant='unstyled' size='sm' aria-label='Side bar' icon={<MenuIcon fontSize='1.2rem' />} onClick={handleMenuClick}
                         />
                 }
-
-                {/* <Button variant='ghost' ml='auto' mr={2}
-                _hover={{
-                    background: "blue.500",
-                    color: "gray.800",
-                }}
-                // bg='blue.600' color='white'
-                leftIcon={<PersonIcon fontSize='1.2rem' />}
-                size='sm' >{appStore.login.uidEmail.value}</Button> */}
-
                 <LogoutMenuButton />
-
             </Flex>
         </Box>
     )

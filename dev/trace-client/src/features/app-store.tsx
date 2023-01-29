@@ -3,6 +3,17 @@ import { _, } from '@src/features'
 
 const store: any = {
     // appModalIsOpen:true,
+    alertOk: {
+        isOpen: false,
+        header: '',
+        body: ()=><></>,
+    },
+    alertYesNo: {
+        isOpen: false,
+        header: '',
+        body: undefined,
+        result: false
+    },
     layouts: {
         isDrawerOpen: false,
         isSidebarOpen: true,
@@ -14,7 +25,7 @@ const store: any = {
     },
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzQ5ODAyODQsInN1YiI6eyJ1c2VySWQiOjMsImNsaWVudElkIjoxfX0.yEbZwPI5QILS6MAEHNQx6tlYtwrY0OXG7e758WeDCKc',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzUwNjcyMzIsInN1YiI6eyJ1c2VySWQiOjN9fQ._-y7cIfURxk5PrR5_s4HEW9sJFQK14MtZnpDet8Ibp4',
         uidEmail: 'capitalch',
         userType: undefined,
     },
