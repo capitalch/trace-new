@@ -7,12 +7,13 @@ export * from "./app-constants";
 export * from "./app-store";
 export { appValidators } from "./app-validators";
 export {
+  Alert, AlertIcon, AlertTitle, AlertDescription,
   AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay,
   Box, Button, Center, Checkbox, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
   Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
   ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
-  Slide, Text, theme, useDisclosure, useMediaQuery, VStack,
+  Slide, Spinner, Text, useToast, theme, useDisclosure, useMediaQuery, VStack,
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
@@ -25,10 +26,12 @@ export {
   SideMenuTypesEnum,
   UserTypesEnum,
 } from "./app-types";
-export { AppModalA, useAppModalA } from './components/app-modal-a'
+// export { AppModalA, useAppModalA } from './components/app-modal-a'
 export { emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
 export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
+export { useFeedback } from './utils'
+export { AppLoader } from './components/app-loader'
 //icons
 
 // chakra-ui icons

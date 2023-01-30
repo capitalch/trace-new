@@ -1,30 +1,30 @@
 xData = {
     "clientCode": "capital",
-    "clientName":"Capital Chowringhee",
-    "dbName":"capital_accounts"
+    "clientName": "Capital Chowringhee",
+    "dbName": "capital_accounts"
 }
 fkeyName = 'parentId'
 fkeyValue = 10
 tableName = 'ClientM'
 fieldNamesList = list(xData.keys())
+valuesList = list(xData.values())
 
 if (fkeyName and fkeyValue):
     fieldNamesList.append(fkeyName)
+    valuesList.append(fkeyValue)
 fieldsCount = len(fieldNamesList)
+valuesTuple = tuple(valuesList)
 
 for idx, name in enumerate(fieldNamesList):
-    fieldNamesList[idx] = f''' "{name}" ''' 
-fieldsString =  ','.join(fieldNamesList)
+    fieldNamesList[idx] = f''' "{name}" '''
+fieldsString = ', '.join(fieldNamesList)
 
-valuesList = list(xData.values())
+placeholdersList = [''] * fieldsCount
+for idx, name in enumerate(placeholdersList):
+    placeholdersList[idx] = f'${idx + 1}'
+placeholdersString = ', '.join(placeholdersList)
 
-if fkeyName and fkeyValue:
-    valuesList.append(str(fkeyValue))
-for idx, name in enumerate(valuesList):
-    valuesList[idx] = f''' "{name}" '''
-valuesString = ','.join(valuesList)
-    
 sql = f'''insert into "{tableName}"
-    ({fieldsString}) values({valuesString}) returning id
+    ({fieldsString}) values( {placeholdersString} ) returning id
     '''
-print(sql)
+print(sql, valuesTuple)

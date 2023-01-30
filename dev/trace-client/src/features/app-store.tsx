@@ -3,17 +3,28 @@ import { _, } from '@src/features'
 
 const store: any = {
     // appModalIsOpen:true,
-    alertOk: {
+
+    alertDialogOk: {
         isOpen: false,
         header: '',
-        body: ()=><></>,
+        body: () => <></>,
     },
-    alertYesNo: {
+
+    alertDialogYesNo: {
         isOpen: false,
         header: '',
-        body: undefined,
+        body: () => <></>,
         result: false
     },
+
+    appLoader: {
+        toShow: false
+    },
+
+    content: {
+        breadcrumb: ''
+    },
+
     layouts: {
         isDrawerOpen: false,
         isSidebarOpen: true,
@@ -23,15 +34,21 @@ const store: any = {
         sideMenuType: '',
         sideMenuHeading: ''
     },
+
     login: {
         isLoggedIn: false,
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzUwNjcyMzIsInN1YiI6eyJ1c2VySWQiOjN9fQ._-y7cIfURxk5PrR5_s4HEW9sJFQK14MtZnpDet8Ibp4',
         uidEmail: 'capitalch',
         userType: undefined,
     },
-    content: {
-        breadcrumb: ''
+
+    modalDialogA: {
+        body: () => <></>,
+        isOpen: false,
+        title: '',
+        toShowCloseButton: false,
     },
+
     reload: false,
 }
 

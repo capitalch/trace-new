@@ -10,7 +10,8 @@ const Messages = {
 
     messMin8Char1Digit1Special: 'At lest 8 characters long | 1 digit | 1 special char',
     messNoSpecialSpace4Plus: 'At lest 4 characters long | no space | no special char',
-    messNoSpecial4Plus: 'At lest 4 characters long | no special char'
-    
+    messNoSpecial4Plus: 'At lest 4 characters long | no special char',
+    messSuccess: 'Operation was successful'
+
 }
 export { Messages }

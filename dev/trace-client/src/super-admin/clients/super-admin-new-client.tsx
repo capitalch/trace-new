@@ -1,17 +1,14 @@
 import {
     _, appGraphqlStrings, appValidators, Box, Button, Center, Checkbox, FormControl,
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages, Text, useDeepSignal, useAppGraphql, VStack, appStore,
+    Messages,Spinner, Text, useDeepSignal, useAppGraphql, useFeedback, VStack, appStore,
 } from '@src/features'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
 function SuperAdminNewClient() {
     const { mutateGraphql, queryGraphql } = useAppGraphql()
-    // const meta = useDeepSignal({
-    //     clientCode: ''
-    // })
-    // const sleep = (ms:number) => new Promise(resolve => setTimeout(resolve, ms))
+    const { showError, showSuccess } = useFeedback()
     const { checkNoSpaceOrSpecialChar } = appValidators()
     const { getValues, handleSubmit, register, formState: { errors }, setValue, watch }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const registerClientCode = register('clientCode', {
@@ -62,21 +59,24 @@ function SuperAdminNewClient() {
                     <Button w='100%' colorScheme='blue' type='submit' disabled={!_.isEmpty(errors)} >
                         Submit
                     </Button>
+                    {/* <Button w='50%' colorScheme='blue' type='submit' disabled={!_.isEmpty(errors)}  >
+                        Submit async
+                    </Button> */}
                 </HStack>
-            </VStack>
+            </VStack>            
         </form>
     )
 
     function handleClientCodeInfo() {
-        appStore.alertOk.header.value = 'Information'
-        appStore.alertOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box>
-        appStore.alertOk.isOpen.value = true
+        appStore.alertDialogOk.header.value = 'Client code information'
+        appStore.alertDialogOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box>
+        appStore.alertDialogOk.isOpen.value = true
     }
 
     function handleClientNameInfo() {
-        appStore.alertOk.header.value = 'Information'
-        appStore.alertOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box>
-        appStore.alertOk.isOpen.value = true
+        appStore.alertDialogOk.header.value = 'Client name information'
+        appStore.alertDialogOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box>
+        appStore.alertDialogOk.isOpen.value = true
     }
 
     async function onSubmit(values: any) {
@@ -87,7 +87,40 @@ function SuperAdminNewClient() {
             xData: {
                 ...values,
                 dbName: `${values.clientCode}_accounts`,
-                // xDetails: [
+            }
+        }
+
+        const q = appGraphqlStrings['genericUpdateAsyncPg'](sqlObj, 'traceAuth')
+        const st = new Date().getTime()
+        const ret = await mutateGraphql(q)
+        const en = (new Date()).getTime()
+        console.log(en - st, ret)
+        // showError('This is a runtime error')
+        appStore.modalDialogA.isOpen.value = false
+        showSuccess()        
+        appStore.appLoader.toShow.value = true
+        // appStore.errorAlert.isOpen.value = true
+        // console.log(ret)
+        // for(let i = 0;i<1000;i++){
+        //     const ret = await mutateGraphql(q)
+        //     console.log(ret)
+        // }
+    }
+}
+export { SuperAdminNewClient }
+
+type SuperAdminClientType = {
+    clientCode: string
+    clientName: string
+    isActive: boolean
+}
+
+// const meta = useDeepSignal({
+    //     clientCode: ''
+    // })
+    // const sleep = (ms:number) => new Promise(resolve => setTimeout(resolve, ms))
+
+// xDetails: [
                 //     {
                 //         tableName: 'TestD',
                 //         fkeyName: 'clientId',
@@ -117,27 +150,3 @@ function SuperAdminNewClient() {
                 //     }
 
                 // ]
-            }
-        }
-
-        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-        const st = new Date().getTime()
-        const ret = await mutateGraphql(q)
-        const en = (new Date()).getTime()
-        console.log(en - st, ret)
-        // console.log(ret)
-        // for(let i = 0;i<1000;i++){
-        //     const ret = await mutateGraphql(q)
-        //     console.log(ret)
-        // }
-
-
-    }
-}
-export { SuperAdminNewClient }
-
-type SuperAdminClientType = {
-    clientCode: string
-    clientName: string
-    isActive: boolean
-}

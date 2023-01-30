@@ -1,23 +1,22 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, appStore, Button, Center, useDisclosure, useRef } from '@src/features'
 
 
-function AppAlertOk() {
+function AppAlertDialogOk() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef: any = useRef()
     return (
-        // <Center>
             <AlertDialog
-                isOpen={appStore.alertOk.isOpen.value}
+                isOpen={appStore.alertDialogOk.isOpen.value}
                 leastDestructiveRef={cancelRef}
                 onClose={handleClose}>
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            {appStore.alertOk.header.value}
+                            {appStore.alertDialogOk.header.value}
                         </AlertDialogHeader>
                         <AlertDialogBody>
-                            {appStore.alertOk.body.value}
-                            {/* {appStore.alertOk.body.value ? appStore.alertOk.body.value : <></>} */}
+                            {appStore.alertDialogOk.body.value}
+                            {/* {appStore.alertDialogOk.body.value ? appStore.alertDialogOk.body.value : <></>} */}
                         </AlertDialogBody>
                         <AlertDialogFooter>
                             <Button ref={cancelRef} onClick={handleClose}>
@@ -28,12 +27,11 @@ function AppAlertOk() {
                 </AlertDialogOverlay>
 
             </AlertDialog>
-            // </Center>
             )
 
     function handleClose() {
-        appStore.alertOk.isOpen.value = false
+        appStore.alertDialogOk.isOpen.value = false
     }
 
 }
-export { AppAlertOk }
+export { AppAlertDialogOk }

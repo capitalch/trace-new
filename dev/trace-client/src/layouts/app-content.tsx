@@ -11,7 +11,7 @@ function AppContent() {
         h={`calc(100vh - ${HEADER_HEIGHT})`}
         bg='white'
         w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
-        ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={1.5} pl={2.5}>
+        ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={1.0} pt={0}>
 
         <Flex h='100%' direction='column'>
             <HStack w='100%' mb='1'>

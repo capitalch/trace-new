@@ -3,6 +3,7 @@ import {
   appStaticStore,
   appStore,
   ArrowLeftIconChakra,
+  Flex,
   Heading,
   HStack,
   IconButton,
@@ -28,22 +29,22 @@ function AppSidebar() {
         backgroundColor: `${AppConstants.SIDEBAR_BACKGROUND_COLOR}`,
       }}
     >
-      <VStack w={SIDEBARWIDTH} shadow="xs" overflowY="auto">
+      <Flex w={SIDEBARWIDTH} shadow="xs" direction='column' overflowY="auto" justifyContent='space-between' h='100%'>
         {/* Logo and close button */}
-        <HStack justifyContent="space-evenly" w="100%" h={HEIGHT} bg="white">
-          <Image src="/trace-logo.png" />
-          <IconButton
-            aria-label="Slide left"
-            icon={<ArrowLeftIconChakra />}
-            size="xs"
-            onClick={handleClickSidebarClose}
-          />
-        </HStack>
-        <HStack justifyItems='flex-start' w='100%' >
-          <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{appStore.layouts.sideMenuHeading.value}</Heading>
-        </HStack>
-        <AppSideMenu />
-      </VStack>
+        <VStack>
+          <HStack justifyContent="space-evenly" w="100%" h={HEIGHT} bg="white">
+            <Image src="/trace-logo.png" />
+            <IconButton
+              aria-label="Slide left"
+              icon={<ArrowLeftIconChakra />}
+              size="xs"
+              onClick={handleClickSidebarClose}
+            />
+          </HStack>
+          <AppSideMenu />
+        </VStack>
+        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{appStore.layouts.sideMenuHeading.value}</Heading>
+      </Flex>
     </Slide>
   );
 

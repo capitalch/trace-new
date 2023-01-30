@@ -35,9 +35,9 @@ async def process_data(xData, acur, tableName, fkeyName, fkeyValue):
     records = None
     if ('xDetails' in xData):
         xDetails = xData.pop('xDetails')
-    sql = get_sql(xData, tableName, fkeyName, fkeyValue)
+    sql, valuesTuple = get_sql(xData, tableName, fkeyName, fkeyValue)
     if (sql):
-        ret = await acur.fetch(sql)
+        ret = await acur.fetch(sql, *valuesTuple)
         if(len(ret) > 0):
             id = ret[0].get('id', None)
         # if (acur.rowcount > 0):
@@ -55,34 +55,34 @@ def get_sql(xData, tableName, fkeyName, fkeyValue):
     if (xData.get('id', None)):  # update
         pass
     else:  # insert
-        sql= get_insert_sql(
+        sql, valuesTuple = get_insert_sql(
             xData, tableName, fkeyName, fkeyValue)
-    return (sql)
+    return (sql, valuesTuple)
 
 
 def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     fieldNamesList = list(xData.keys())
+    valuesList = list(xData.values())
+    
     if (fkeyName and fkeyValue):
         fieldNamesList.append(fkeyName)
+        valuesList.append(fkeyValue)
     fieldsCount = len(fieldNamesList)
-
+    valuesTuple = tuple(valuesList)
+    
     for idx, name in enumerate(fieldNamesList):
         fieldNamesList[idx] = f''' "{name}" '''
-    fieldsString = ','.join(fieldNamesList)
+    fieldsString = ', '.join(fieldNamesList)
 
-    valuesList = list(xData.values())
-
-    if fkeyName and fkeyValue:
-        valuesList.append(str(fkeyValue))
-    for idx, name in enumerate(valuesList):
-        valuesList[idx] = f''' '{name}' '''
-    valuesString = ','.join(valuesList)
+    placeholdersList = [''] * fieldsCount
+    for idx, name in enumerate(placeholdersList):
+        placeholdersList[idx] = f'${idx + 1}'
+    placeholdersString = ', '.join(placeholdersList)
 
     sql = f'''insert into "{tableName}"
-        ({fieldsString}) values({valuesString}) returning id
+        ({fieldsString}) values( {placeholdersString} ) returning id
         '''
-    return (sql)
-
+    return(sql, valuesTuple)
 
 async def generic_update(sqlObject: Any = {}):
     ret = await exec_generic_update(execSqlObject=process_details, sqlObject=sqlObject)
@@ -99,3 +99,27 @@ async def processDeletedIds(sqlObject, acur: Any):
     ret = ret.rstrip(',') + ')'
     sql = f'''delete from "{tableName}" where id in{ret}'''
     await acur.execute(sql)
+    
+    
+# def get_insert_sql1(xData, tableName, fkeyName, fkeyValue):
+#     fieldNamesList = list(xData.keys())
+#     if (fkeyName and fkeyValue):
+#         fieldNamesList.append(fkeyName)
+#     fieldsCount = len(fieldNamesList)
+
+#     for idx, name in enumerate(fieldNamesList):
+#         fieldNamesList[idx] = f''' "{name}" '''
+#     fieldsString = ','.join(fieldNamesList)
+    
+#     valuesList = list(xData.values())
+
+#     if fkeyName and fkeyValue:
+#         valuesList.append(str(fkeyValue))
+#     for idx, name in enumerate(valuesList):
+#         valuesList[idx] = f''' '{name}' '''
+#     valuesString = ','.join(valuesList)
+
+#     sql = f'''insert into "{tableName}"
+#         ({fieldsString}) values({valuesString}) returning id
+#         '''
+#     return (sql)

@@ -11,6 +11,14 @@ const appGraphqlStrings: any = {
         }`
     },
 
+    genericUpdateAsyncPg: (val: any, dbName: string) => {
+        const value = encodeObj(val)
+        return gql`
+        mutation ${dbName} {
+            genericUpdateAsyncPg(value:"${value}")
+        }`
+    },
+
     genericQuery: (val:any, dbName: string) => {
         const value = encodeObj(val)
         return gql`
