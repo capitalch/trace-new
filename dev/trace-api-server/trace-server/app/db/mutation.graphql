@@ -1,4 +1,3 @@
 type Mutation {
-    genericUpdate(value:Generic): Generic
-    genericUpdateAsyncPg(value:Generic): Generic
+    genericUpdate(value:Generic): Generic  
 }
