@@ -8,6 +8,7 @@ import {
 } from '@apollo/client'
 // import { setContext } from '@apollo/client/link/context'
 import { appStore, urlJoin } from '@src/features'
+import { appGraphqlStrings } from './app-graphql-strings'
 
 function useAppGraphql() {
     function getClient() {
@@ -82,7 +83,7 @@ function useAppGraphql() {
         return ret
     }
 
-    return ({ mutateGraphql, queryGraphql })
+    return ({ appGraphqlStrings, mutateGraphql, queryGraphql })
 
 }
 

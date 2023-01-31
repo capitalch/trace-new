@@ -4,6 +4,7 @@ from .db_main_sync import generic_update as generic_udate_sync
 from .db_main_asyncpg import generic_update as generic_update_asyncpg
 from .db_asyncpg import exec_generic_query as generic_query_asyncpg
 from app.authorization import auth_main
+from .sql_auth import SqlAuth
 from fastapi.middleware.cors import CORSMiddleware
 import json
 
@@ -19,9 +20,14 @@ async def resolve_user(*_):
 
 @query.field('genericQuery')
 async def resolve_generic_query(_, info, value=None):
-    sql = 'select * from "TestM" where id > %(id)s'
-    value= {"id":232}
-    ret = await generic_query_asyncpg(sql=sql, sqlArgs=value)
+    valueString = unquote(value)
+    valueDict = json.loads(valueString)
+    sqlId = valueDict.get('sqlId', None)
+    sql = getattr(SqlAuth,sqlId)
+    sqlArgs = valueDict.get('sqlArgs', None)
+    # sql = 'select * from "TestM" where id > %(id)s'
+    # value= {"id":232}
+    ret = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
     # ret = await generic_query(sql=sql, sqlArgs={})
     data1 = jsonable_encoder(ret)
     # data1 = 'abcd'

@@ -1,13 +1,13 @@
 import {
-    _, appGraphqlStrings, appValidators, Box, Button, Center, Checkbox, FormControl,
+    _, appStore, appValidators, Box, Button, Center, Checkbox, FormControl,
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages,Spinner, Text, useDeepSignal, useAppGraphql, useFeedback, VStack, appStore,
+    Messages, Spinner, Text, useDeepSignal, useAppGraphql, useFeedback, useForm, VStack,
 } from '@src/features'
 import axios from 'axios'
-import { useForm } from 'react-hook-form'
+
 
 function SuperAdminNewClient() {
-    const { mutateGraphql, queryGraphql } = useAppGraphql()
+    const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showError, showSuccess } = useFeedback()
     const { checkNoSpaceOrSpecialChar } = appValidators()
     const { getValues, handleSubmit, register, formState: { errors }, setValue, watch }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
@@ -63,7 +63,7 @@ function SuperAdminNewClient() {
                         Submit async
                     </Button> */}
                 </HStack>
-            </VStack>            
+            </VStack>
         </form>
     )
 
@@ -97,8 +97,7 @@ function SuperAdminNewClient() {
         console.log(en - st, ret)
         // showError('This is a runtime error')
         appStore.modalDialogA.isOpen.value = false
-        showSuccess()        
-        appStore.appLoader.toShow.value = true
+        showSuccess()
         // appStore.errorAlert.isOpen.value = true
         // console.log(ret)
         // for(let i = 0;i<1000;i++){

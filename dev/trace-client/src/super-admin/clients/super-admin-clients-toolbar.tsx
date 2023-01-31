@@ -31,7 +31,7 @@ function SuperAdminClientsToolbar() {
     // appStore.layouts.selectedComponent.value = SuperAdminNewClient
   }
 
-  function handleNewClientExternalDatabase(){
+  function handleNewClientExternalDatabase() {
 
   }
 }

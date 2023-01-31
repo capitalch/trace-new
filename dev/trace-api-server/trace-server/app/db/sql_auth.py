@@ -1,4 +1,8 @@
 class SqlAuth:
+    get_all_clients = '''
+        select * from "TestM"
+    
+    '''
     get_user_details = '''
         with "uidOrEmail" as (values(%(uidOrEmail)s))
         --with "uidOrEmail" as (values('capitalch'))

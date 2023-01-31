@@ -18,7 +18,7 @@ const store: any = {
     },
 
     appLoader: {
-        toShow: false
+        isOpen: false
     },
 
     content: {
@@ -37,7 +37,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzUwNjcyMzIsInN1YiI6eyJ1c2VySWQiOjN9fQ._-y7cIfURxk5PrR5_s4HEW9sJFQK14MtZnpDet8Ibp4',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzUxODcyMDEsInN1YiI6eyJ1c2VySWQiOjN9fQ.CGClkKTji8w79D6gNynaxOW9Vkh5qjCqpaZxEjeGoT8',
         uidEmail: 'capitalch',
         userType: undefined,
     },
