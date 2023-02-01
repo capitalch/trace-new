@@ -1,4 +1,4 @@
-class SqlAuth:
+class SqlQueriesAuth:
     get_all_clients = '''
         select * from "TestM"
     

@@ -1,7 +1,8 @@
-from app import AppHttpException, Messages, Config
-from app.vendors import status
+from app import AppHttpException, Config, CustomErrorCodes, Messages
+from app.vendors import json, status
 from .auth_utils import create_access_token, create_refresh_token, verify_password
-from app.db import generic_query, UserClass, SqlAuth
+from app.db import UserClass, SqlQueriesAuth
+from app.db.helpers.db_helper_asyncpg import exec_generic_query
 
 
 def get_bundle(user: UserClass):
@@ -36,13 +37,13 @@ async def get_other_user_bundle(uidOrEmail, password):
     user = None
     bundle = None
     userType = None
-    # details: list = await get_user_details(uidOrEmail)
-    details: list = await generic_query(sql=SqlAuth.get_user_details, sqlArgs={'uidOrEmail':uidOrEmail})
+    details: list = await exec_generic_query(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
     if (details):
         jsonResult = details[0]['jsonResult']
-        userDetails = jsonResult.get('userDetails')
-        businessUnits = jsonResult.get('businessUnits')
-        role = jsonResult.get('role')
+        jsonResultDict = json.loads(jsonResult)
+        userDetails = jsonResultDict.get('userDetails')
+        businessUnits = jsonResultDict.get('businessUnits')
+        role = jsonResultDict.get('role')
 
         userType = userDetails['userType']
         isActive = userDetails['isActive']
@@ -78,4 +79,4 @@ def get_super_admin_details_from_config():
         return superAdminUid, superAdminEmail, superAdminHash, superAdminMobileNo
     except Exception:
         raise AppHttpException(
-            detail=Messages.err_config_file, status_code=status.HTTP_401_UNAUTHORIZED)
+            detail=Messages.err_config_file, status_code=status.HTTP_401_UNAUTHORIZED, error_code=CustomErrorCodes.e1006)

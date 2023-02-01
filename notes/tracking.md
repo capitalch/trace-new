@@ -62,9 +62,17 @@ Global modal, alert, snap-box message
 ## Bug fix
 ### Server side
 1. Sometimes database server not working. Error connection
-2. AppHttpException of type custome exception not working
-3. Server side graphql authentication
-4. get_other_user_bundle error
+																											2. AppHttpException of type custome exception not working
+																											3. Server side graphql authentication
+																											4. get_other_user_bundle error
+
+## 24-01-2023 - 31-01-2023
+1. Organized code at client and server
+2. Error management at server
+3. GraphQL genericQuery and genericUpdate completed
+4. Did detailed comparison and implementation of asyncpg and psycopg in async mode
+5. GraphQL error management
+6. Renamed several files at server
 
 ## 20-01-2023 - 23-01-2023
 1. Add client screen

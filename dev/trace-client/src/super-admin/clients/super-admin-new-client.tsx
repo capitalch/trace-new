@@ -90,7 +90,7 @@ function SuperAdminNewClient() {
             }
         }
 
-        const q = appGraphqlStrings['genericUpdateAsyncPg'](sqlObj, 'traceAuth')
+        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         const st = new Date().getTime()
         const ret = await mutateGraphql(q)
         const en = (new Date()).getTime()
