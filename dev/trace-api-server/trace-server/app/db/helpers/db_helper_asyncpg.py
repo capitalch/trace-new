@@ -1,5 +1,5 @@
 from app.vendors import jsonable_encoder
-from asyncpg import  Connection, create_pool, Pool
+from asyncpg import Connection, create_pool, Pool
 from asyncpg.transaction import Transaction
 from app.vendors import Any
 from app import Config
@@ -13,14 +13,16 @@ dbParams: dict = {
     'host': Config.DB_HOST,
 }
 
+
 async def get_connection_pool(connInfo: Any, dbName: str):
     pool = poolStore.get(dbName)
     if (pool is None):
-        pool = await create_pool(**connInfo)
+        pool = await create_pool(**connInfo, )
         poolStore[dbName] = pool
     return (pool)
 
-async def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams,schema: str = 'public', sql:str = None, sqlArgs:dict[str,str]= {}):
+
+async def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
     schema = 'public' if schema is None else schema
@@ -28,29 +30,44 @@ async def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: d
     records = None
     sql1, valuesTuple = to_native_sql(sql, sqlArgs)
     pool: Pool = await get_connection_pool(db_params, dbName)
-    conn:Connection = await pool.acquire()
-    status = await conn.is_closed()
-    async with  conn.transaction():
-        await conn.execute(f'set search_path to {schema}')
-        records = await conn.fetch(sql1,*valuesTuple)
-    # async with pool.acquire() as conn:
-    #     async with conn.transaction():
-    #         await conn.execute(f'set search_path to {schema}')
-    #         records = await conn.fetch(sql1,*valuesTuple)
+
+    async with create_pool(**db_params) as pool:
+        async with pool.acquire() as conn:
+            async with conn.transaction():
+                await conn.execute(f'set search_path to {schema}')
+                records = await conn.fetch(sql1, *valuesTuple)
     return jsonable_encoder(records)
 
-async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', execSqlObject: Any = None, sqlObject: Any = None):
+
+async def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
+    ret = None
+    if ('deletedIds' in sqlObject):
+        await process_deleted_ids(sqlObject, acur)
+    xData = sqlObject.get('xData', None)
+    tableName = sqlObject.get('tableName', None)
+    fkeyName = sqlObject.get('fkeyName', None)
+    if (xData):
+        if (type(xData) is list):
+            for item in xData:
+                ret = await process_data(item, acur, tableName, fkeyName, fkeyValue)
+        else:
+            ret = await process_data(xData, acur, tableName, fkeyName, fkeyValue)
+    return (ret)
+
+
+async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', execSqlObject: Any = process_details, sqlObject: Any = None):
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
     schema = 'public' if schema is None else schema
     db_params.update({'database': dbName})
     records = None
-   
+
     pool: Pool = await get_connection_pool(db_params, dbName)
     async with pool.acquire() as conn:
         async with conn.transaction():
             await conn.execute(f'set search_path to {schema}')
             records = await execSqlObject(sqlObject, conn)
+
     return records
 
 
@@ -69,24 +86,6 @@ def to_native_sql(sql: str, params: dict):
         paramsTuple = paramsTuple + (params[prop],)
 
     return (sql, paramsTuple)
-
-async def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
-    ret = None
-    try:
-        if ('deletedIds' in sqlObject):
-            await process_deleted_ids(sqlObject, acur)
-        xData = sqlObject.get('xData', None)
-        tableName = sqlObject.get('tableName', None)
-        fkeyName = sqlObject.get('fkeyName', None)
-        if (xData):
-            if (type(xData) is list):
-                for item in xData:
-                    ret = await process_data(item, acur, tableName, fkeyName, fkeyValue)
-            else:
-                ret = await process_data(xData, acur, tableName, fkeyName, fkeyValue)
-        return (ret)
-    except Exception as e:
-        raise Exception()
 
 
 async def process_data(xData, acur, tableName, fkeyName, fkeyValue):
@@ -145,9 +144,9 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     return (sql, valuesTuple)
 
 
-async def generic_update(sqlObject: Any = {}):
-    ret = await exec_generic_update(execSqlObject=process_details, sqlObject=sqlObject)
-    return (ret)
+# async def generic_update(sqlObject: Any = {}):
+#     ret = await exec_generic_update(execSqlObject=process_details, sqlObject=sqlObject)
+#     return (ret)
 
 
 async def process_deleted_ids(sqlObject, acur: Any):

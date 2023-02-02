@@ -1,8 +1,12 @@
+from app import Config, Messages
+from app.vendors import Any, status
 import psycopg2
 import psycopg2.extras
 from psycopg2 import pool
-from app import AppHttpException,  Config , Messages
-from app.vendors import make_conninfo, status
+from psycopg2.pool import ThreadedConnectionPool
+from psycopg2.extras import RealDictCursor
+from app import AppHttpException,  Config, Messages
+# from app.vendors import make_conninfo, status
 poolStore = {}
 dbParams: dict = {
     'user': Config.DB_USER,
@@ -11,44 +15,168 @@ dbParams: dict = {
     'host': Config.DB_HOST,
 }
 
-def get_connection_pool(connInfo: str, dbName: str):
-    
-    connPool = poolStore.get(dbName)
-    if (connPool is None):
-        connPool = pool.ThreadedConnectionPool(1, 500,connInfo)
-    #     poolStore[dbName] = pool
-    return (connPool)
 
-def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str,str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str,str] = {}):
+def get_connection_pool(connInfo: str, dbName: str) -> ThreadedConnectionPool:
+    pool1 = poolStore.get(dbName)
+    if ((pool1 is None) or pool1.closed):
+        # poolStore[dbName] = pool.ThreadedConnectionPool(
+        #     1, 500, user=ref['user'], password=ref['password'], host=ref['host'], port=ref['port'], database=dbName)
+        pool1 = ThreadedConnectionPool(5,500,**connInfo)
+        poolStore[dbName] = pool1
+    return (pool1)
+
+
+def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
     db_params = dbParams if db_params is None else db_params
-    schema = 'public' if schema is None else schema
-    db_params.update({'dbname': dbName})
+    db_params.update({'database': dbName})
     # creates connInfo from dict object
-    connInfo = make_conninfo('', **dbParams)
-    
+    connInfo = db_params
+    return (connInfo)
+
+
+def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, execSqlObject: Any = None, sqlObject: Any = None):
+    connInfo = get_conn_info(dbName, db_params)
+    schema = 'public' if schema is None else schema
+    apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
     try:
-        connPool = get_connection_pool(connInfo,dbName)
-        conn  = connPool.getconn()
-        # conn = psycopg2.connect(connInfo)
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(f'set search_path to {schema}')
-        cur.execute(sql, sqlArgs)
-        if (cur.rowcount > 0):
-                    records = cur.fetchall()
-        
-        cur.close()
-        conn.close()
-        # async with await psycopg.AsyncConnection.connect(connInfo) as aconn:
-        #     async with aconn.cursor() as cur:
-        #         await cur.execute(f'set search_path to {schema}')
-        #         await cur.execute(sql, sqlArgs)
-        #         if (cur.rowcount > 0):
-        #             records = await cur.fetchall()
-        
+        with apool.getconn() as aconn:
+            with aconn.cursor(cursor_factory=RealDictCursor) as acur:
+                acur.execute(f'set search_path to {schema}')
+                acur.execute(sql, sqlArgs)
+                if (acur.rowcount > 0):
+                    records = acur.fetchall()
     except Exception as e:
         raise AppHttpException(
             detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
         )
+
     return (records)
+
+
+def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
+    ret = None
+    try:
+        if ('deletedIds' in sqlObject):
+            process_deleted_ids(sqlObject, acur)
+        xData = sqlObject.get('xData', None)
+        tableName = sqlObject.get('tableName', None)
+        fkeyName = sqlObject.get('fkeyName', None)
+        if (xData):
+            if (type(xData) is list):
+                for item in xData:
+                    ret = process_data(item, acur, tableName,
+                                       fkeyName, fkeyValue)
+            else:
+                ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
+        return (ret)
+    except Exception as e:
+        raise Exception()
+    
+
+def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
+    connInfo = get_conn_info(dbName, db_params)
+    schema = 'public' if schema is None else schema
+    apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
+    records = None
+    try:
+        with apool.getconn() as aconn:
+            with aconn.cursor(cursor_factory=RealDictCursor) as acur:
+                acur.execute(f'set search_path to {schema}')
+                records = execSqlObject(sqlObject, acur)
+    except Exception as e:
+        raise AppHttpException(
+            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
+        )
+
+    return (records)
+
+def process_data(xData, acur, tableName, fkeyName, fkeyValue):
+    xDetails = None
+    id = None
+    records = None
+    if ('xDetails' in xData):
+        xDetails = xData.pop('xDetails')
+    sql, tup = get_sql(xData, tableName, fkeyName, fkeyValue)
+    if (sql):
+        acur.execute(sql, tup)
+        if (acur.rowcount > 0):
+            records = acur.fetchone()
+            id = records.get('id')
+    if (xDetails):
+        for item in xDetails:
+            process_details(item, acur, id)
+    return (id)
+
+def get_sql(xData, tableName, fkeyName, fkeyValue):
+    sql = None
+    valuesTuple = None
+    if (xData.get('id', None)):  # update
+        pass
+    else:  # insert
+        sql, valuesTuple = get_insert_sql(
+            xData, tableName, fkeyName, fkeyValue)
+    return (sql, valuesTuple)
+
+def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
+    fieldNamesList = list(xData.keys())
+    if (fkeyName and fkeyValue):
+        fieldNamesList.append(fkeyName)
+    fieldsCount = len(fieldNamesList)
+
+    for idx, name in enumerate(fieldNamesList):
+        fieldNamesList[idx] = f''' "{name}" '''  # surround fields with ""
+    fieldsString = ','.join(
+        fieldNamesList)  # f'''({','.join( fieldNamesList   )})'''
+
+    placeholderList = ['%s'] * fieldsCount
+    placeholdersForValues = ', '.join(placeholderList)
+
+    valuesList = list(xData.values())
+    if fkeyName and fkeyValue:
+        valuesList.append(fkeyValue)
+    valuesTuple = tuple(valuesList)
+    sql = f'''insert into "{tableName}"
+        ({fieldsString}) values({placeholdersForValues}) returning id
+        '''
+    return (sql, valuesTuple)
+
+def process_deleted_ids(sqlObject, acur: Any):
+    deletedIdList = sqlObject.get('deletedIds')
+    tableName = sqlObject.get('tableName')
+
+    ret = '('
+    for x in deletedIdList:
+        ret = ret + str(x) + ','
+    ret = ret.rstrip(',') + ')'
+    sql = f'''delete from "{tableName}" where id in{ret}'''
+    acur.execute(sql)
+
+# def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}):
+#     dbName = Config.DB_AUTH_DATABASE if dbName is None else dbName
+#     db_params = dbParams if db_params is None else db_params
+#     schema = 'public' if schema is None else schema
+#     db_params.update({'dbname': dbName})
+#     # creates connInfo from dict object
+#     connInfo = make_conninfo('', **dbParams)
+
+#     records = None
+#     try:
+#         connPool = get_connection_pool(connInfo, dbName)
+#         conn = connPool.getconn()
+#         # conn = psycopg2.connect(connInfo)
+#         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+#         cur.execute(f'set search_path to {schema}')
+#         cur.execute(sql, sqlArgs)
+#         if (cur.rowcount > 0):
+#             records = cur.fetchall()
+
+#         cur.close()
+#         conn.close()
+       
+#     except Exception as e:
+#         raise AppHttpException(
+#             detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
+#         )
+#     return (records)

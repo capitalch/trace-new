@@ -4,9 +4,6 @@ from psycopg_pool import ConnectionPool
 from psycopg.conninfo import make_conninfo
 from psycopg.rows import dict_row
 
-from ..db_psycopg_sync import exec_generic_query, exec_generic_update
-
-
 poolStore = {}
 dbParams: dict = {
     'user': Config.DB_USER,
@@ -14,6 +11,7 @@ dbParams: dict = {
     'port': Config.DB_PORT,
     'host': Config.DB_HOST,
 }
+
 
 def get_connection_pool(connInfo: str, dbName: str) -> ConnectionPool:
     global poolStore
@@ -53,7 +51,27 @@ def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[st
     return (records)
 
 
-def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = None, sqlObject: Any = None):
+def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
+    ret = None
+    try:
+        if ('deletedIds' in sqlObject):
+            process_deleted_ids(sqlObject, acur)
+        xData = sqlObject.get('xData', None)
+        tableName = sqlObject.get('tableName', None)
+        fkeyName = sqlObject.get('fkeyName', None)
+        if (xData):
+            if (type(xData) is list):
+                for item in xData:
+                    ret = process_data(item, acur, tableName,
+                                       fkeyName, fkeyValue)
+            else:
+                ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
+        return (ret)
+    except Exception as e:
+        raise Exception()
+
+
+def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
     apool: ConnectionPool = get_connection_pool(connInfo, dbName)
@@ -69,29 +87,6 @@ def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[s
         )
 
     return (records)
-
-def generic_query(sql: str, sqlArgs: dict[str, str], dbName: str = None, dbParams: dict = None, schema: str = None, ):
-    records = exec_generic_query(sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
-    return records
-
-
-def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
-    ret = None
-    try:
-        if ('deletedIds' in sqlObject):
-            processDeletedIds(sqlObject, acur)
-        xData = sqlObject.get('xData', None)
-        tableName = sqlObject.get('tableName', None)
-        fkeyName = sqlObject.get('fkeyName', None)
-        if (xData):
-            if (type(xData) is list):
-                for item in xData:
-                    ret = process_data(item, acur, tableName, fkeyName, fkeyValue)
-            else:
-                ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
-        return (ret)
-    except Exception as e:
-        raise Exception()
 
 
 def process_data(xData, acur, tableName, fkeyName, fkeyValue):
@@ -109,16 +104,17 @@ def process_data(xData, acur, tableName, fkeyName, fkeyValue):
     if (xDetails):
         for item in xDetails:
             process_details(item, acur, id)
-    return(id)
+    return (id)
 
 
 def get_sql(xData, tableName, fkeyName, fkeyValue):
     sql = None
     valuesTuple = None
-    if(xData.get('id', None)): # update
+    if (xData.get('id', None)):  # update
         pass
-    else: # insert
-        sql, valuesTuple = get_insert_sql(xData, tableName, fkeyName, fkeyValue)
+    else:  # insert
+        sql, valuesTuple = get_insert_sql(
+            xData, tableName, fkeyName, fkeyValue)
     return (sql, valuesTuple)
 
 
@@ -129,8 +125,9 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     fieldsCount = len(fieldNamesList)
 
     for idx, name in enumerate(fieldNamesList):
-        fieldNamesList[idx] = f''' "{name}" ''' # surround fields with ""
-    fieldsString =  ','.join(fieldNamesList) #    f'''({','.join( fieldNamesList   )})'''
+        fieldNamesList[idx] = f''' "{name}" '''  # surround fields with ""
+    fieldsString = ','.join(
+        fieldNamesList)  # f'''({','.join( fieldNamesList   )})'''
 
     placeholderList = ['%s'] * fieldsCount
     placeholdersForValues = ', '.join(placeholderList)
@@ -145,12 +142,19 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     return (sql, valuesTuple)
 
 
+def generic_query(sql: str, sqlArgs: dict[str, str], dbName: str = None, dbParams: dict = None, schema: str = None, ):
+    records = exec_generic_query(
+        sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
+    return records
+
+
 def generic_update(sqlObject: Any = {}):
-    ret = exec_generic_update(execSqlObject=process_details, sqlObject=sqlObject)
+    ret = exec_generic_update(
+        execSqlObject=process_details, sqlObject=sqlObject)
     return (ret)
 
 
-def processDeletedIds(sqlObject, acur: Any):
+def process_deleted_ids(sqlObject, acur: Any):
     deletedIdList = sqlObject.get('deletedIds')
     tableName = sqlObject.get('tableName')
 
