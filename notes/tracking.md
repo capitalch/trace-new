@@ -66,6 +66,11 @@ Global modal, alert, snap-box message
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
 
+## 01-02-2023 - 02-02-2023
+1. Server error management finalized
+2. Server logging finalized
+3. Compared database drivers asyncpg, psycopg and psycopg2 and finalized on asyncpg
+
 ## 24-01-2023 - 31-01-2023
 1. Organized code at client and server
 2. Error management at server
