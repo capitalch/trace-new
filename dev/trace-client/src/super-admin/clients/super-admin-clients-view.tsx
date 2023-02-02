@@ -13,7 +13,7 @@ function SuperAdminClientsView() {
     async function loadData() {
         const val = {
             sqlId: 'get_all_clients',
-            sqlArgs: {}
+            // sqlArgs: {}
         }
         const q = appGraphqlStrings['genericQuery'](val, 'traceAuth')
         const ret = await queryGraphql(q)

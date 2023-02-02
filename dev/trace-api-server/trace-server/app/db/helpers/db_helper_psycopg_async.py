@@ -71,7 +71,7 @@ async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: 
     schema = 'public' if schema is None else schema
     apool: AsyncConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
-    
+    # chk = await apool.check()
     async with apool.connection() as aconn:
         async with aconn.cursor(row_factory=dict_row) as acur:
             await acur.execute(f'set search_path to {schema}')

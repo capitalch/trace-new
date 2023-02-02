@@ -18,7 +18,7 @@ app.add_middleware(
 # Routers
 app.include_router(auth_routes.router,)
 app.add_route('/graphql/', GraphQLApp)
-logger.info('inside main.py')
+# logger.info('inside main.py')
 
 # Exception handling
 @app.exception_handler(AppHttpException)

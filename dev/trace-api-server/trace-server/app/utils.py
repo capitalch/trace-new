@@ -18,5 +18,5 @@ def get_logger():
     logFormatStr = '%(asctime)s  %(levelname)s - %(message)s'
     logging.basicConfig(filename=f'logs/{currentMonth}-{currentYear}.log', force=True, level=logging.INFO,format=logFormatStr,)
     logger = logging
-    logger.warning('logger initiated')
+    # logger.warning('logger initiated')
     return(logger)
