@@ -5,8 +5,10 @@ import { AgGridReact,  } from "ag-grid-react";
 import {ColDef,} from 'ag-grid-community'
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
+// import "ag-grid-community/styles/ag-theme-alpine-dark.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
+import "@astrouxds/ag-grid-theme/dist/main.css"
 function Comp1() {
   const [rowData, setRowData]: any = useState([]);
 

@@ -12,10 +12,10 @@ import { CompReactHookForm } from "./components/comp-react-hook-form";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    {/* <Comp1 /> */}
+    <Comp1 />
     {/* <Comp3Memo /> */}
     {/* <Comp4UseCallback /> */}
     {/* <CompMemo /> */}
-    <CompReactHookForm />
+    {/* <CompReactHookForm /> */}
   </ChakraProvider>
 )

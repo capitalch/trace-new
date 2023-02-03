@@ -1,5 +1,5 @@
 from app import Config, Messages
-from app.vendors import Any, status
+from app.vendors import Any, jsonable_encoder, status
 import psycopg2
 import psycopg2.extras
 from psycopg2 import pool
@@ -52,7 +52,7 @@ def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[st
             detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
         )
 
-    return (records)
+    return (jsonable_encoder(records))
 
 
 def process_details(sqlObject: Any, acur: Any, fkeyValue=None):

@@ -25,10 +25,10 @@ async def resolve_generic_query(value):
             raise AppHttpException('Bad sqlId', error_code='1001')
         sql = getattr(SqlQueriesAuth, sqlId)
         sqlArgs = valueDict.get('sqlArgs', {})
-        data = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
+        # data = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
         # data = await generic_query_psycopg_async(sql=sql, sqlArgs=sqlArgs)
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
-        # data = generic_query_psycopg2(sql=sql, sqlArgs=sqlArgs)
+        data = generic_query_psycopg2(sql=sql, sqlArgs=sqlArgs)
     except Exception as e:
         error['detail'] = Messages.err_query_execution
         error['errorCode'] = CustomErrorCodes.e1007
@@ -46,10 +46,10 @@ async def resolve_generic_update(info, value):
         requestJson = await request.json()
         operationName = requestJson.get('operationName', None)
         sqlObj = json.loads(valueString)
-        data = await generic_update_asyncpg(sqlObject=sqlObj)
+        # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)        
-        # data = generic_update_psycopg2(sqlObject=sqlObj)
+        data = generic_update_psycopg2(sqlObject=sqlObj)
         # print('success')
     except Exception as e:
         error['detail'] = Messages.err_query_update

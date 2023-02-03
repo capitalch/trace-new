@@ -32,8 +32,9 @@ export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 export { useFeedback } from './utils'
 export { AppLoader } from './components/app-loader'
-export { AgGridReact, type AgGridReactProps } from 'ag-grid-react'
-export { type ColDef } from 'ag-grid-community'
+export { AgGridReact, type AgGridReactProps, } from 'ag-grid-react'
+export { type ColDef, GridApi } from 'ag-grid-community'
+export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
 //icons
 
 // chakra-ui icons
