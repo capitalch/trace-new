@@ -18,7 +18,7 @@ export {
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
 export { _, produce, React, urlJoin };
-export { useEffect, useLayoutEffect, useRef, useState } from "react";
+export { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 export { useForm } from "react-hook-form";
 export { Else, Fallback, If, Then } from "react-if";
@@ -32,7 +32,8 @@ export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 export { useFeedback } from './utils'
 export { AppLoader } from './components/app-loader'
-
+export { AgGridReact, type AgGridReactProps } from 'ag-grid-react'
+export { type ColDef } from 'ag-grid-community'
 //icons
 
 // chakra-ui icons

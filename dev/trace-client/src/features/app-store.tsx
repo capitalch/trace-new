@@ -2,8 +2,6 @@ import { deepSignal } from "@deepsignal/react"
 import { _, } from '@src/features'
 
 const store: any = {
-    // appModalIsOpen:true,
-
     alertDialogOk: {
         isOpen: false,
         header: '',
@@ -37,7 +35,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzUzNjM1ODUsInN1YiI6eyJ1c2VySWQiOjN9fQ.sK7JlPI6uq4Sjp1rLIjThaD6p56ZWTAKeslyFgO6CZg',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU0NTAxMTMsInN1YiI6eyJ1c2VySWQiOjN9fQ.JbLT_yNGQhPT3z9WKlKWoGpK-IcxPsbjC_M5jIkw-sc',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -50,6 +48,10 @@ const store: any = {
     },
 
     reload: false,
+
+    superAdmin:{
+        rowData:[]
+    }
 }
 
 let appStore: any = deepSignal(_.cloneDeep(store))
