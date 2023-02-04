@@ -1,4 +1,4 @@
-import { AgGridReact, AgGridReactType, AgGridReactProps, ColDef, useEffect, useFeedback, useAppGraphql, useMemo, useRef, Box, appStore, Flex, HStack, GridApi } from '@src/features'
+import { AgGridReact, AgGridReactType, AgGridReactProps, ColDef, useEffect, useFeedback, useAppGraphql, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore } from '@src/features'
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
@@ -11,14 +11,24 @@ function SuperAdminClientsView() {
     const gridApiRef: any = useRef(null)
 
     useEffect(() => {
+        appStaticStore.superAdmin.refresh = loadData
         // loadData()
     }, [])
 
     const onGridReady = useCallback((params: any) => {
-        loadData()
+        // loadData()
     }, [])
 
-    // useMemo(loadData, [])
+    // const onGridReady = useCallback(() => {
+    //     loadData()
+    // }, [])
+    //  ()=>{
+    //     console.log('onGridReady')
+    // }
+
+    useMemo(() => {
+        console.log('useMemo')
+    }, [])
     const columnDefs: ColDef[] = [
         {
             field: 'id',
@@ -43,12 +53,12 @@ function SuperAdminClientsView() {
         }
     ]
     return (
-        <Box h = 'calc( 100% - 42px )'  w='100%' className="ag-theme-balham" mt={1}>
+        <Box h='calc( 100% - 42px )' w='100%' className="ag-theme-balham" mt={1}>
             <AgGridReact
                 animateRows={true}
                 ref={gridApiRef}
                 columnDefs={columnDefs}
-                onGridReady={onGridReady}
+                // onGridReady={onGridReady}
                 rowData={appStore.superAdmin.rowData.value}
 
             />
@@ -59,6 +69,9 @@ function SuperAdminClientsView() {
     //     gridApiRef.current.api = params.api
     // }
 
+    function filterRows() {
+
+    }
     async function loadData() {
         const val = {
             sqlId: 'get_all_clients',

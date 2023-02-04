@@ -1,24 +1,41 @@
-import { AppConstants, appStore, Box, Button, Flex, HStack, } from "@src/features"
+import { AppConstants, appStaticStore, appStore, Box, Button, DashboardIcon, Flex, Heading, HStack, IconButton, RefreshIcon, Text, Tooltip, } from "@src/features"
+import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminNewClient } from "./super-admin-new-client";
 function SuperAdminClientsToolbar() {
   const ctrlArray = [];
   // const { onCloseAppModalA, showAppModalA } = useAppModalA()
   return (
     <HStack
-      // bgColor="beige"
       rowGap={1}
       wrap={"wrap"}
-      // direction="row"
       h={AppConstants.COMPONENT_TOOLBAR_HEIGHT}
+      // bgColor="beige"
+      // direction="row"
       // w="100%"
-      spacing="24px"
-      justifyContent="flex-end">
-      <Button size="sm" colorScheme="blue" onClick={handleNewClientExternalDatabase}>
-        New client with external database
-      </Button>
-      <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
-        New client
-      </Button>
+      // spacing="24px"
+      // columnGap={10}
+      justifyContent="space-between">
+      <Box>
+        <Heading size='sm'>All clients view</Heading>
+      </Box>
+      <HStack>
+        <Tooltip label='Create a new client with external database details'>
+          <Button size="sm" colorScheme="blue" onClick={handleNewClientExternalDatabase}>
+            New client with external database
+          </Button>
+        </Tooltip>
+        <Tooltip label='Create a new client'>
+          <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
+            New client
+          </Button>
+        </Tooltip>
+        <Tooltip label='Refresh data'>
+          <IconButton size='sm' aria-label="Refresh"
+            onClick={appStaticStore.superAdmin.refresh}
+            icon={<RefreshIcon fontSize={26} color='teal.400' />} />
+        </Tooltip>
+        <GlobalSearchBox />
+      </HStack>
     </HStack>
   )
 

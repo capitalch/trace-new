@@ -35,7 +35,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU0NTAxMTMsInN1YiI6eyJ1c2VySWQiOjN9fQ.JbLT_yNGQhPT3z9WKlKWoGpK-IcxPsbjC_M5jIkw-sc',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU1NDAwNTQsInN1YiI6eyJ1c2VySWQiOjN9fQ.hO0SqhpjDPDZxoBxRte9jrmvn00BzFhVDhYTxsqxK3U',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -49,8 +49,9 @@ const store: any = {
 
     reload: false,
 
-    superAdmin:{
-        rowData:[]
+    superAdmin: {
+        rowData: [],
+        filteredRowData: []
     }
 }
 
@@ -62,9 +63,12 @@ function resetAppStore() {
 }
 
 const appStaticStore: AppStaticStoreType = {
+    doReload: () => appStore.reload.value = !appStore.reload.value,
     isCloseClicked: false,
     isOpenClicked: false,
-    doReload: () => appStore.reload.value = !appStore.reload.value
+    superAdmin: {
+        refresh: () => { }
+    }
 }
 export { appStore, appStaticStore, resetAppStore }
 
@@ -72,4 +76,7 @@ interface AppStaticStoreType {
     doReload: () => void,
     isCloseClicked: boolean,
     isOpenClicked: boolean,
+    superAdmin: {
+        refresh: () => void
+    }
 }

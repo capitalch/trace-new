@@ -13,7 +13,7 @@ export {
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
   Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
   ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
-  Slide, Spinner, Text, useToast, theme, useDisclosure, useMediaQuery, VStack,
+  Slide, Spinner, Text,Tooltip, useToast, theme, useDisclosure, useMediaQuery, VStack,
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
@@ -41,6 +41,8 @@ export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
 export {
   ArrowLeftIcon as ArrowLeftIconChakra,
   ChevronDownIcon,
+  RepeatIcon as RefreshIcon,
+  Search2Icon as SearchIcon
 } from "@chakra-ui/icons";
 
 //typicons
