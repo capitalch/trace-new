@@ -6,7 +6,7 @@
 																											4. grid lines
 																											5. Grid alternate color
 																											6. Grid filters
-7. Grid summary
+																											7. Grid summary
 																											8. Grid title
 9. Grid edit button
 10. Grid delete row
@@ -78,11 +78,13 @@
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
+## 03-02-2023 - 05-02-2023
+1. Implemented ag-grid for Super admin Clients with filter, global search, summary, alternate color, header color, state management etc.
 
 ## 01-02-2023 - 02-02-2023
 1. Server error management finalized
 2. Server logging finalized
-3. Compared database drivers asyncpg, psycopg and psycopg2 and finalized on asyncpg
+3. Compared database drivers asyncpg, psycopg and psycopg2 and finalized on asyncpg and then psycopg2
 
 ## 24-01-2023 - 31-01-2023
 1. Organized code at client and server

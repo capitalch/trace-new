@@ -1,6 +1,6 @@
 import { _, AgGridReact, ColDef, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button } from '@src/features'
 import { useGranularEffect } from 'granular-hooks'
-import { ColumnApi, GridReadyEvent } from 'ag-grid-community';
+import { ColumnApi, FirstDataRenderedEvent, GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
 
 // import { useCallback } from 'react';
 
@@ -22,8 +22,9 @@ function SuperAdminClientsView() {
         }
         const api: GridApi = params.api
         const columnApi: ColumnApi = params.columnApi
-        api.setPinnedBottomRowData(getPinnedBottomRowData(api, columnApi))
+        // api.setPinnedBottomRowData(getPinnedBottomRowData(api, columnApi))
     }
+
 
     const columnDefs: ColDef[] = [
         {
@@ -60,15 +61,32 @@ function SuperAdminClientsView() {
         columnDefs: columnDefs,
         getRowStyle: getRowStyle, // getAgGridAlternateColor,
         onGridReady: onGridReady,
+
         // rowData: appStore.superAdmin.filteredRows.value,
         rowSelection: 'single'
     }
 
     return (
         <Box h='100%' w='100%' className="ag-theme-balham" mt={5}>
-            <Button onClick={handleTestOnClick}>Test api</Button>
+            {/* <Button onClick={handleTestOnClick}>Test api</Button> */}
             <AgGridReact
                 gridOptions={gridOptions}
+                onFirstDataRendered={(ev: FirstDataRenderedEvent<any>) => {
+                    console.log(ev)
+                }}
+                onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {
+                    const api = ev.api
+                    const model: any = api.getModel()
+                    const visibleRows:any[] = model.rowsToDisplay
+                    api.setPinnedBottomRowData([{'clientCode':'Rows:', clientName:visibleRows.length}])
+                    // console.log(visibleRows)
+                }}
+                onFilterChanged = {(ev:any)=>{
+                    const api = ev.api
+                    const model: any = api.getModel()
+                    const visibleRows:any[] = model.rowsToDisplay
+                    api.setPinnedBottomRowData([{'clientCode':'Rows:', clientName:visibleRows.length}])
+                }}
                 // animateRows={true}
                 // rowSelection='multiple'
                 // columnDefs={columnDefs}
@@ -83,8 +101,6 @@ function SuperAdminClientsView() {
 
     function getPinnedBottomRowData(api: GridApi, columnApi: ColumnApi) {
         const model: any = api.getModel()
-        const visibleRows = model.rowsToDisplay
-        console.log(visibleRows)
         // const x = model.rowsToDisplay
         return ([{ id: 'Total:', clientCode: 1222, }])
     }
@@ -112,12 +128,17 @@ function SuperAdminClientsView() {
             appStore.superAdmin.rows.value = rows
             appStore.superAdmin.filteredRows.value = rows
         }
+        appStaticStore.superAdmin.doFilter()
         gridApiRef.current.api.hideOverlay()
 
-        
+
     }
 
-    function handleTestOnClick(){
+    function handleRowDataUpdated(params: any) {
+        console.log('fired')
+    }
+
+    function handleTestOnClick() {
         const api = gridApiRef.current.api
         const model: any = api.getModel()
         const visibleRows = model.rowsToDisplay

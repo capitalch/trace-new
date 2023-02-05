@@ -1,10 +1,11 @@
-import { CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect, } from '@src/features'
+import { appStaticStore, appStore, CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect, } from '@src/features'
 
 function GlobalSearchBox({ appStoreChildObject }: any) {
 
     useEffect(() => {
+        appStaticStore.superAdmin.doFilter = doFilter
         const subs1 = debounceFilterOn(ebukiMessages.searchStringChangeDebounce.toString(), 1200).subscribe((d: any) => {
-            doFilter(d.data)
+            doFilter()
         })
         return (() => {
             subs1.unsubscribe()
@@ -24,12 +25,12 @@ function GlobalSearchBox({ appStoreChildObject }: any) {
         </InputGroup>
     )
 
-    function doFilter(s: string) {
-        // console.log('filtering rows')
+    function doFilter() {
+        const s = appStore.superAdmin.searchString.value
         const arr = s.toLowerCase().split(/\W/).filter((x: any) => x) // filter used to remove emty elements
         const filteredRows = appStoreChildObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
         appStoreChildObject.filteredRows.value = filteredRows
-        console.log(s)
+        // console.log(s)
     }
 
     function handleClearSearch(){

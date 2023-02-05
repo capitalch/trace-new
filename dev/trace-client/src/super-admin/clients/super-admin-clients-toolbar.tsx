@@ -26,7 +26,7 @@ function SuperAdminClientsToolbar() {
         </Tooltip>
         <Tooltip label='Refresh data'>
           <IconButton size='sm' aria-label="Refresh"
-            onClick={appStaticStore.superAdmin.doRefresh}
+            onClick={handleOnClickRefresh}
             icon={<RefreshIcon fontSize={26} color='blue.500' />} />
         </Tooltip>
         <GlobalSearchBox appStoreChildObject={appStore.superAdmin} />
@@ -45,6 +45,11 @@ function SuperAdminClientsToolbar() {
 
   function handleNewClientExternalDatabase() {
 
+  }
+
+  async function handleOnClickRefresh() {
+    appStaticStore.superAdmin.doRefresh()
+    // appStaticStore.superAdmin.doFilter()
   }
 }
 export { SuperAdminClientsToolbar }
