@@ -1,16 +1,18 @@
 ## To do
 																											Global modal, alert, snap-box message
-1. Search box
-2. Refresh
+																											1. Search box
+																											2. Refresh
 3. Client error handling
-4. grid lines
+																											4. grid lines
 5. Grid alternate color
 6. Grid filters
 7. Grid summary
 8. Grid title
 9. Grid edit button
 10. Grid delete row
-11. Loading indicator
+																											11. Loading indicator
+!!. Responsive hide some controls
+12. In utils ShowModalA
 
 ## comparison different grids
 1. react-data-grid: dynamic row height missing

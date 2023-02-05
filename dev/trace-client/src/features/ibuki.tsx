@@ -30,4 +30,8 @@ function debounceFilterOn(id: string, debouncePeriod: number = 1000) {
         .pipe(debounceTime(debouncePeriod))
 }
 
-export { emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn }
+enum ebukiMessages {
+    searchStringChangeDebounce
+}
+
+export { ebukiMessages, emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn }

@@ -1,4 +1,4 @@
-import { AppConstants, appStore, Box, Flex, HStack, Text, VStack } from '@src/features'
+import { AppConstants, appStore, Box, Flex, HStack, Text, } from '@src/features'
 
 function AppContent() {
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
@@ -10,7 +10,7 @@ function AppContent() {
     return (<Box
         h={`calc(100vh - ${HEADER_HEIGHT})`}
         w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
-        ml={isSidebarOpen ? SIDEBARWIDTH : 0} p={8.0} pt={0}>
+        ml={isSidebarOpen ? SIDEBARWIDTH : 0} pl={8} pr={8} pb={5} pt={0}>
         <Flex h='100%' direction='column'>
             <HStack w='100%' mb={1} mt={1}>
                 <Text color='GrayText' fontWeight='bold' fontSize='md'>{appStore.content.breadcrumb.value}</Text>

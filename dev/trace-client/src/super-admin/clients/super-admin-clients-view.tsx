@@ -1,47 +1,49 @@
-import { AgGridReact, AgGridReactType, AgGridReactProps, ColDef, useEffect, useFeedback, useAppGraphql, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore } from '@src/features'
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
-import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
-import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
-import { useCallback } from 'react';
+import { _, AgGridReact, ColDef, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button } from '@src/features'
+import { useGranularEffect } from 'granular-hooks'
+import { ColumnApi, GridReadyEvent } from 'ag-grid-community';
+
+// import { useCallback } from 'react';
 
 function SuperAdminClientsView() {
+    const { getAlternateColorStyle, getPinnedRowStyle } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql } = useAppGraphql()
-    const { showAppLoader } = useFeedback()
+    const { componentNames, isNotInComponentHistory } = useComponentHistory()
+    const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
 
-    useEffect(() => {
-        appStaticStore.superAdmin.refresh = loadData
-        // loadData()
-    }, [])
+    useGranularEffect(() => {
+        appStaticStore.superAdmin.doRefresh = loadData
+    }, [], [])
 
-    const onGridReady = useCallback((params: any) => {
-        // loadData()
-    }, [])
+    const onGridReady = (params: GridReadyEvent) => {
+        if (isNotInComponentHistory(componentNames.superAdminClientsView)) {
+            loadData()
+            addToComponentHistory(componentNames.superAdminClientsView)
+        }
+        const api: GridApi = params.api
+        const columnApi: ColumnApi = params.columnApi
+        api.setPinnedBottomRowData(getPinnedBottomRowData(api, columnApi))
+    }
 
-    // const onGridReady = useCallback(() => {
-    //     loadData()
-    // }, [])
-    //  ()=>{
-    //     console.log('onGridReady')
-    // }
-
-    useMemo(() => {
-        console.log('useMemo')
-    }, [])
     const columnDefs: ColDef[] = [
         {
+            // checkboxSelection: true,
             field: 'id',
-            width: 20
+            // headerCheckboxSelection: true,
+
+            width: 80
         },
         {
             field: 'clientCode',
+            filter: true,
+            headerClass: 'header',
             width: 100
         },
         {
             field: 'clientName',
             width: 200,
             resizable: true,
+            flex: 1
         },
         {
             field: 'dbName',
@@ -52,36 +54,53 @@ function SuperAdminClientsView() {
             width: 50
         }
     ]
-    return (
-        <Box h='calc( 100% - 42px )' w='100%' className="ag-theme-balham" mt={1}>
-            <AgGridReact
-                animateRows={true}
-                ref={gridApiRef}
-                columnDefs={columnDefs}
-                // onGridReady={onGridReady}
-                rowData={appStore.superAdmin.rowData.value}
 
+    const gridOptions: GridOptions = {
+        animateRows: true,
+        columnDefs: columnDefs,
+        getRowStyle: getRowStyle, // getAgGridAlternateColor,
+        onGridReady: onGridReady,
+        // rowData: appStore.superAdmin.filteredRows.value,
+        rowSelection: 'single'
+    }
+
+    return (
+        <Box h='100%' w='100%' className="ag-theme-balham" mt={5}>
+            <Button onClick={handleTestOnClick}>Test api</Button>
+            <AgGridReact
+                gridOptions={gridOptions}
+                // animateRows={true}
+                // rowSelection='multiple'
+                // columnDefs={columnDefs}
+
+                // getRowStyle={getAgGridAlternateColor}
+                // onGridReady={onGridReady}
+                ref={gridApiRef}
+                rowData={appStore.superAdmin.filteredRows.value}
             />
         </Box>
     )
 
-    // async function onGridReady(params: any) {
-    //     gridApiRef.current.api = params.api
-    // }
-
-    function filterRows() {
-
+    function getPinnedBottomRowData(api: GridApi, columnApi: ColumnApi) {
+        const model: any = api.getModel()
+        const visibleRows = model.rowsToDisplay
+        console.log(visibleRows)
+        // const x = model.rowsToDisplay
+        return ([{ id: 'Total:', clientCode: 1222, }])
     }
+
+    function getRowStyle(params: any) {
+        const style1 = getAlternateColorStyle(params)
+        const style2 = getPinnedRowStyle(params)
+        const ret = { ...style1, ...style2 }
+        return (ret)
+    }
+
     async function loadData() {
         const val = {
             sqlId: 'get_all_clients',
-            // sqlArgs: {}
         }
         const q = appGraphqlStrings['genericQuery'](val, 'traceAuth')
-
-        // gridApiRef.current.api.hideOverlay()
-        // showAppLoader(true)
-        // appStore.appLoader.isOpen.value = true
 
         gridApiRef.current.api.showLoadingOverlay()
         const st = new Date().getTime()
@@ -90,14 +109,19 @@ function SuperAdminClientsView() {
         console.log(en - st, ret)
         const rows: [] = ret?.data?.genericQuery
         if (rows && (rows.length > 0)) {
-            appStore.superAdmin.rowData.value = rows
+            appStore.superAdmin.rows.value = rows
+            appStore.superAdmin.filteredRows.value = rows
         }
-
         gridApiRef.current.api.hideOverlay()
-        showAppLoader(false)
-        // gridApiRef.current.api.showLoadingOverLay()
-        // appStore.appLoader.isOpen.value = false
-        // console.log(ret)
+
+        
+    }
+
+    function handleTestOnClick(){
+        const api = gridApiRef.current.api
+        const model: any = api.getModel()
+        const visibleRows = model.rowsToDisplay
+        console.log(visibleRows)
     }
 }
 

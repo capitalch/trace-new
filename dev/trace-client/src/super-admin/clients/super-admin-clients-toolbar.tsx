@@ -2,24 +2,19 @@ import { AppConstants, appStaticStore, appStore, Box, Button, DashboardIcon, Fle
 import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminNewClient } from "./super-admin-new-client";
 function SuperAdminClientsToolbar() {
-  const ctrlArray = [];
+  // const ctrlArray = [];
   // const { onCloseAppModalA, showAppModalA } = useAppModalA()
   return (
     <HStack
       rowGap={1}
-      wrap={"wrap"}
+      wrap='wrap'
       h={AppConstants.COMPONENT_TOOLBAR_HEIGHT}
-      // bgColor="beige"
-      // direction="row"
-      // w="100%"
-      // spacing="24px"
-      // columnGap={10}
       justifyContent="space-between">
       <Box>
         <Heading size='sm'>All clients view</Heading>
       </Box>
-      <HStack>
-        <Tooltip label='Create a new client with external database details'>
+      <HStack wrap='wrap'>
+        <Tooltip label='Create a new client with external database'>
           <Button size="sm" colorScheme="blue" onClick={handleNewClientExternalDatabase}>
             New client with external database
           </Button>
@@ -31,10 +26,10 @@ function SuperAdminClientsToolbar() {
         </Tooltip>
         <Tooltip label='Refresh data'>
           <IconButton size='sm' aria-label="Refresh"
-            onClick={appStaticStore.superAdmin.refresh}
-            icon={<RefreshIcon fontSize={26} color='teal.400' />} />
+            onClick={appStaticStore.superAdmin.doRefresh}
+            icon={<RefreshIcon fontSize={26} color='blue.500' />} />
         </Tooltip>
-        <GlobalSearchBox />
+        <GlobalSearchBox appStoreChildObject={appStore.superAdmin} />
       </HStack>
     </HStack>
   )

@@ -35,7 +35,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU1NDAwNTQsInN1YiI6eyJ1c2VySWQiOjN9fQ.hO0SqhpjDPDZxoBxRte9jrmvn00BzFhVDhYTxsqxK3U',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU2ODg3MjQsInN1YiI6eyJ1c2VySWQiOjN9fQ.yU60FzGOhzXV907_IarQ39Zbyhy3qL-m-8riRgfw9xg',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -50,8 +50,9 @@ const store: any = {
     reload: false,
 
     superAdmin: {
-        rowData: [],
-        filteredRowData: []
+        filteredRows: [],
+        rows: [],
+        searchString: ''
     }
 }
 
@@ -63,20 +64,22 @@ function resetAppStore() {
 }
 
 const appStaticStore: AppStaticStoreType = {
+    componentHistorySet: new Set(), // A set for history of component names which have been loaded so far
     doReload: () => appStore.reload.value = !appStore.reload.value,
     isCloseClicked: false,
     isOpenClicked: false,
     superAdmin: {
-        refresh: () => { }
+        doRefresh: () => { },
     }
 }
 export { appStore, appStaticStore, resetAppStore }
 
 interface AppStaticStoreType {
+    componentHistorySet: Set<string>
     doReload: () => void,
     isCloseClicked: boolean,
     isOpenClicked: boolean,
     superAdmin: {
-        refresh: () => void
+        doRefresh: () => void
     }
 }

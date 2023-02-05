@@ -11,9 +11,9 @@ export {
   AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay,
   Box, Button, Center, Checkbox, ChakraProvider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent,
   DrawerFooter, DrawerHeader, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel,
-  Heading, HStack, Icon, IconButton, Image, Input, Menu, MenuButton, MenuList, MenuItem, Modal,
-  ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
-  Slide, Spinner, Text,Tooltip, useToast, theme, useDisclosure, useMediaQuery, VStack,
+  Heading, HStack, Icon, IconButton, Image, Input, InputGroup, InputLeftAddon, InputRightAddon, InputLeftElement, InputRightElement,
+  Menu, MenuButton, MenuList, MenuItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
+  Slide, Spinner, Text, Tooltip, useToast, theme, useDisclosure, useMediaQuery, VStack,
 } from "@chakra-ui/react";
 export { deepSignal, useDeepSignal } from "@deepsignal/react";
 export { Messages } from "./messages";
@@ -27,13 +27,13 @@ export {
   UserTypesEnum,
 } from "./app-types";
 // export { AppModalA, useAppModalA } from './components/app-modal-a'
-export { emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
+export { emit, ebukiMessages, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
 export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
-export { useFeedback } from './utils'
+export { useAgGridUtils, useComponentHistory, useFeedback, } from './utils'
 export { AppLoader } from './components/app-loader'
 export { AgGridReact, type AgGridReactProps, } from 'ag-grid-react'
-export { type ColDef, GridApi } from 'ag-grid-community'
+export { type ColDef, GridApi, type GridOptions } from 'ag-grid-community'
 export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
 //icons
 
@@ -41,6 +41,7 @@ export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
 export {
   ArrowLeftIcon as ArrowLeftIconChakra,
   ChevronDownIcon,
+  CloseIcon,
   RepeatIcon as RefreshIcon,
   Search2Icon as SearchIcon
 } from "@chakra-ui/icons";
