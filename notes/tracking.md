@@ -8,8 +8,10 @@
 																											6. Grid filters
 																											7. Grid summary
 																											8. Grid title
+8. Id swap, show index
 9. Grid edit button
 10. Grid delete row
+11. Grid remove row
 																											11. Loading indicator
 !!. Responsive hide some controls
 12. In utils ShowModalA
