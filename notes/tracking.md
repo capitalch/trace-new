@@ -4,10 +4,10 @@
 																											2. Refresh
 3. Client error handling
 																											4. grid lines
-5. Grid alternate color
-6. Grid filters
+																											5. Grid alternate color
+																											6. Grid filters
 7. Grid summary
-8. Grid title
+																											8. Grid title
 9. Grid edit button
 10. Grid delete row
 																											11. Loading indicator
