@@ -30,7 +30,6 @@ function GlobalSearchBox({ appStoreChildObject }: any) {
         const arr = s.toLowerCase().split(/\W/).filter((x: any) => x) // filter used to remove emty elements
         const filteredRows = appStoreChildObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
         appStoreChildObject.filteredRows.value = filteredRows
-        // console.log(s)
     }
 
     function handleClearSearch(){

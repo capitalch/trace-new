@@ -1,12 +1,13 @@
 import {
     _, appStore, appValidators, Box, Button, Center, Checkbox, FormControl,
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages, Spinner, Text, useDeepSignal, useAppGraphql, useFeedback, useForm, VStack,
+    Messages, Spinner, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, useForm, VStack, appStaticStore,
 } from '@src/features'
 import axios from 'axios'
 
 
 function SuperAdminNewClient() {
+    const {closeModalDialogA} = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showError, showSuccess } = useFeedback()
     const { checkNoSpaceOrSpecialChar } = appValidators()
@@ -96,14 +97,10 @@ function SuperAdminNewClient() {
         const en = (new Date()).getTime()
         console.log(en - st, ret)
         // showError('This is a runtime error')
-        appStore.modalDialogA.isOpen.value = false
+        closeModalDialogA()
+        appStaticStore.superAdmin.doRefresh()
         showSuccess()
-        // appStore.errorAlert.isOpen.value = true
-        // console.log(ret)
-        // for(let i = 0;i<1000;i++){
-        //     const ret = await mutateGraphql(q)
-        //     console.log(ret)
-        // }
+       
     }
 }
 export { SuperAdminNewClient }
@@ -113,39 +110,3 @@ type SuperAdminClientType = {
     clientName: string
     isActive: boolean
 }
-
-// const meta = useDeepSignal({
-    //     clientCode: ''
-    // })
-    // const sleep = (ms:number) => new Promise(resolve => setTimeout(resolve, ms))
-
-// xDetails: [
-                //     {
-                //         tableName: 'TestD',
-                //         fkeyName: 'clientId',
-                //         xData: {
-                //             userName: 'Test details user name',
-                //             descr: 'Test details user descr',
-                //             // wrong: 'wrong'
-                //         }
-                //     },
-                //     {
-                //         tableName: 'TestD',
-                //         fkeyName: 'clientId',
-                //         xData: {
-                //             userName: 'Test details user name1',
-                //             descr: 'Test details user descr1',
-                //             // wrong: 'wrong'
-                //         }
-                //     },
-                //     {
-                //         tableName: 'TestD',
-                //         fkeyName: 'clientId',
-                //         xData: {
-                //             userName: 'Test details user name2',
-                //             descr: 'Test details user descr2',
-                //             // wrong: 'wrong'
-                //         }
-                //     }
-
-                // ]

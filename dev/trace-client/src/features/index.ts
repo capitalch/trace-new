@@ -30,11 +30,12 @@ export {
 export { emit, ebukiMessages, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn } from './ibuki'
 export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
-export { useAgGridUtils, useComponentHistory, useFeedback, } from './utils'
+export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback, } from './utils'
 export { AppLoader } from './components/app-loader'
 export { AgGridReact, type AgGridReactProps, } from 'ag-grid-react'
 export { type ColDef, GridApi, type GridOptions } from 'ag-grid-community'
 export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
+export { useGranularEffect } from 'granular-hooks'
 //icons
 
 // chakra-ui icons

@@ -1,7 +1,8 @@
-import { AppConstants, appStaticStore, appStore, Box, Button, DashboardIcon, Flex, Heading, HStack, IconButton, RefreshIcon, Text, Tooltip, } from "@src/features"
+import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Tooltip, useDialogs } from "@src/features"
 import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminNewClient } from "./super-admin-new-client";
 function SuperAdminClientsToolbar() {
+  const { showModalDialogA } = useDialogs()
   // const ctrlArray = [];
   // const { onCloseAppModalA, showAppModalA } = useAppModalA()
   return (
@@ -35,10 +36,14 @@ function SuperAdminClientsToolbar() {
   )
 
   function handleNewClient() {
-    appStore.modalDialogA.title.value = 'New client'
-    appStore.modalDialogA.toShowCloseButton.value = false
-    appStore.modalDialogA.body.value = SuperAdminNewClient
-    appStore.modalDialogA.isOpen.value = true
+    showModalDialogA({
+      title:'New client',
+      body: SuperAdminNewClient,
+    })
+    // appStore.modalDialogA.title.value = 'New client'
+    // appStore.modalDialogA.toShowCloseButton.value = false
+    // appStore.modalDialogA.body.value = SuperAdminNewClient
+    // appStore.modalDialogA.isOpen.value = true
     // showAppModalA('New client', false, SuperAdminNewClient)
     // appStore.layouts.selectedComponent.value = SuperAdminNewClient
   }
