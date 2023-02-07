@@ -98,7 +98,7 @@ function SuperAdminNewClient() {
         console.log(en - st, ret)
         // showError('This is a runtime error')
         closeModalDialogA()
-        appStaticStore.superAdmin.doRefresh()
+        appStaticStore.superAdmin.doReload()
         showSuccess()
        
     }

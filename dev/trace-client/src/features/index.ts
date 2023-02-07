@@ -43,6 +43,8 @@ export {
   ArrowLeftIcon as ArrowLeftIconChakra,
   ChevronDownIcon,
   CloseIcon,
+  DeleteIcon,
+  EditIcon,
   RepeatIcon as RefreshIcon,
   Search2Icon as SearchIcon
 } from "@chakra-ui/icons";

@@ -17,13 +17,21 @@ function useAgGridUtils() {
     if (params.node.rowPinned) {
       return {
         fontWeight: 'bold',
-        backgroundColor: '#ADD8E6'
+        backgroundColor: '#dbd3d1'
       }
     }
   }
 
-  
-  return { getAlternateColorStyle, getPinnedRowStyle, }
+  function swapId(rows: any[]) {
+    const ret: any[] = rows.map((row: any, i: number) => {
+      const r = { ...row }
+      r.id1 = r.id
+      r.id = i + 1
+      return (r)
+    })
+    return (ret)
+  }
+  return { getAlternateColorStyle, getPinnedRowStyle, swapId }
 }
 
 function useComponentHistory() {

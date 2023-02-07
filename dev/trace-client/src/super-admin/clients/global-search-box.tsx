@@ -1,7 +1,7 @@
-import { appStaticStore, appStore, CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect, } from '@src/features'
+import { appStaticStore, appStore, CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useAgGridUtils, useEffect, } from '@src/features'
 
 function GlobalSearchBox({ appStoreChildObject }: any) {
-
+    const { swapId } = useAgGridUtils()
     useEffect(() => {
         appStaticStore.superAdmin.doFilter = doFilter
         const subs1 = debounceFilterOn(ebukiMessages.searchStringChangeDebounce.toString(), 1200).subscribe((d: any) => {
@@ -21,7 +21,7 @@ function GlobalSearchBox({ appStoreChildObject }: any) {
                 value={appStoreChildObject.searchString.value}
             />
             {/* <CloseIcon color='gray.400' /> */}
-            <InputRightElement  children={<IconButton onClick={handleClearSearch} size='xs' aria-label='close' icon={<CloseIcon color='gray.600' />} />} />
+            <InputRightElement children={<IconButton onClick={handleClearSearch} size='xs' aria-label='close' icon={<CloseIcon color='gray.600' />} />} />
         </InputGroup>
     )
 
@@ -29,11 +29,12 @@ function GlobalSearchBox({ appStoreChildObject }: any) {
         const s = appStore.superAdmin.searchString.value
         const arr = s.toLowerCase().split(/\W/).filter((x: any) => x) // filter used to remove emty elements
         const filteredRows = appStoreChildObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
-        appStoreChildObject.filteredRows.value = filteredRows
+        
+        appStoreChildObject.filteredRows.value = swapId(filteredRows)
     }
 
-    function handleClearSearch(){
-        appStoreChildObject.searchString.value =''
+    function handleClearSearch() {
+        appStoreChildObject.searchString.value = ''
         appStoreChildObject.filteredRows.value = appStoreChildObject.rows.value
     }
 

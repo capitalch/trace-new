@@ -2,20 +2,29 @@
 																											Global modal, alert, snap-box message
 																											1. Search box
 																											2. Refresh
-3. Client error handling
 																											4. grid lines
 																											5. Grid alternate color
 																											6. Grid filters
 																											7. Grid summary
 																											8. Grid title
-8. Id swap, show index
-9. Grid edit button
-10. Grid delete row
-11. Grid remove row
+																											8. Id swap, show index
 																											11. Loading indicator
+																											12. In utils ShowModalA
+																											11. Remove row
+																											17. Remove  eddit delete and remove icons from bottom row
+																											18. No of rows
+9. Edit
+10. Delete
+																											
+12. Edit external database
+13. Client error handling
+14. Server error handling
+15. Server update script
+16. Server delete functionality
+																											
+																											
 !!. Responsive hide some controls
-12. In utils ShowModalA
-
+																											
 ## comparison different grids
 1. react-data-grid: dynamic row height missing
 2. ag grid community: Aggregation missing
