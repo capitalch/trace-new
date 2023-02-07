@@ -3,14 +3,16 @@ import { _, } from '@src/features'
 
 const store: any = {
     alertDialogOk: {
-        isOpen: false,
-        header: '',
         body: () => <></>,
+        header: '',
+        isOpen: false,
     },
 
     alertDialogYesNo: {
-        isOpen: false,
+        action: () => { },
         body: () => <></>,
+        header: '',
+        isOpen: false,
         result: false
     },
 
@@ -34,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU3OTQwMjcsInN1YiI6eyJ1c2VySWQiOjN9fQ.cKtnDzaACq7PGaOof6xQmagKr0WrT0VMjZLlvnzVeIg',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU4ODA1NDAsInN1YiI6eyJ1c2VySWQiOjN9fQ.n345UMRxu2Q4LiBAM98C17OTBGSIBNEFIpwA_6MDy8A',
         uidEmail: 'capitalch',
         userType: undefined,
     },

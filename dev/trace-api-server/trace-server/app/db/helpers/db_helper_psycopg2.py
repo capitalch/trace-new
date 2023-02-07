@@ -148,7 +148,8 @@ def process_deleted_ids(sqlObject, acur: Any):
 
     ret = '('
     for x in deletedIdList:
-        ret = ret + str(x) + ','
+        if(x is not None):
+            ret = ret + str(x) + ','
     ret = ret.rstrip(',') + ')'
     sql = f'''delete from "{tableName}" where id in{ret}'''
     acur.execute(sql)

@@ -14,7 +14,7 @@
 																											17. Remove  eddit delete and remove icons from bottom row
 																											18. No of rows
 9. Edit
-10. Delete
+				10. Delete
 																											
 12. Edit external database
 13. Client error handling

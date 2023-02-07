@@ -11,7 +11,7 @@ function AppAlertDialogYesNo() {
         <AlertDialogContent>
             <AlertDialogHeader>
                 <HStack justifyContent='space-between'>
-                    <Heading size='md'>Are you sure</Heading>
+                    <Heading size='md'>{appStore.alertDialogYesNo.header.value}</Heading>
                     <CloseButton onClick={handleOnClose} />
                 </HStack>
             </AlertDialogHeader>
@@ -36,6 +36,7 @@ function AppAlertDialogYesNo() {
 
     function handleYes() {
         appStore.alertDialogYesNo.result.value = true
+        appStore.alertDialogYesNo.action.value()
         appStore.alertDialogYesNo.isOpen.value = false
     }
 }
