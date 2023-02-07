@@ -1,4 +1,4 @@
-import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState } from '@src/features'
+import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs } from '@src/features'
 import { FirstDataRenderedEvent, GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
 import { filter } from 'lodash';
 
@@ -71,15 +71,13 @@ function SuperAdminClientsView() {
     const gridOptions: GridOptions = {
         animateRows: true,
         columnDefs: columnDefs,
-        // debounceVerticalScrollbar:true,
         getRowStyle: getRowStyle,
         onGridReady: onGridReady,
-        rowBuffer: 20,
+        // rowBuffer: 20,
         // rowData: appStore.superAdmin.filteredRows.value,
         rowSelection: 'single'
     }
-    // const refresh = appStore.superAdmin.refresh.value
-    // const count = appStore.superAdmin.filteredRows.value.length
+
     return (
         <Box h='100%' w='100%' className="ag-theme-balham" mt={5}>
 
@@ -151,11 +149,17 @@ function EditCellRenderer(props: any) {
 export { EditCellRenderer }
 
 function DeleteCellRenderer(props: any) {
+    const { showAlertDialogYesNo } = useDialogs()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
         props.data.id && <Tooltip label='Delete'>
-            <IconButton size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={16} color='red.400' />} />
+            <IconButton onClick={handleDeleteRow} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={16} color='red.400' />} />
         </Tooltip>)
+
+    function handleDeleteRow(data: any) {
+        showAlertDialogYesNo({})
+        const deleteId = data.id1
+    }
 }
 export { DeleteCellRenderer }
 
@@ -165,33 +169,13 @@ function RemoveCellRenderer(props: any) {
             <IconButton onClick={() => handleRemoveRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<CloseIcon color='gray.700' />} />
         </Tooltip>
     )
-    function handleRemoveRow(params: any) {
+    function handleRemoveRow(data: any) {
         const filteredRows: any[] = appStore.superAdmin.filteredRows.value
         const clone = filteredRows.map((x: any) => ({ ...x }))
-        // const id = params.id - 1
-        const indexOfRow = clone.findIndex((x: any) => (x.id === params.id))
+        const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
         clone.splice(indexOfRow, 1)
 
         appStore.superAdmin.filteredRows.value = clone
-        // appStaticStore.superAdmin.doRefresh()
-        // const cnt = filteredRows.length
-        // filteredRows.splice(id, 1)
-        // const cnt1 = filteredRows.length
-        // appStore.superAdmin.filteredRows.value = filteredRows
     }
 }
 export { RemoveCellRenderer }
-
-// const api: GridApi = params.api
-// const columnApi: ColumnApi = params.columnApi
-// api.setPinnedBottomRowData(getPinnedBottomRowData(api, columnApi))
-
-// animateRows={true}
-// rowSelection='multiple'
-// columnDefs={columnDefs}
-
-// getRowStyle={getAgGridAlternateColor}
-// onGridReady={onGridReady}
-
-// onFirstDataRendered={(ev: FirstDataRenderedEvent<any>) => {
-// }}

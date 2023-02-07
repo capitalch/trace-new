@@ -10,7 +10,6 @@ const store: any = {
 
     alertDialogYesNo: {
         isOpen: false,
-        header: '',
         body: () => <></>,
         result: false
     },

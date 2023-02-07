@@ -1,13 +1,12 @@
 import {
     _, appStore, appValidators, Box, Button, Center, Checkbox, FormControl,
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages, Spinner, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, useForm, VStack, appStaticStore,
+    Messages, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, useForm, VStack, appStaticStore,
 } from '@src/features'
-import axios from 'axios'
 
 
 function SuperAdminNewClient() {
-    const {closeModalDialogA} = useDialogs()
+    const { closeModalDialogA, showAlertDialogOk, showModalDialogA, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showError, showSuccess } = useFeedback()
     const { checkNoSpaceOrSpecialChar } = appValidators()
@@ -69,15 +68,11 @@ function SuperAdminNewClient() {
     )
 
     function handleClientCodeInfo() {
-        appStore.alertDialogOk.header.value = 'Client code information'
-        appStore.alertDialogOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box>
-        appStore.alertDialogOk.isOpen.value = true
+        showAlertDialogOk({ title: 'Client code information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box> })
     }
 
     function handleClientNameInfo() {
-        appStore.alertDialogOk.header.value = 'Client name information'
-        appStore.alertDialogOk.body.value = <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box>
-        appStore.alertDialogOk.isOpen.value = true
+        showAlertDialogOk({ title: 'Client name information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box> })
     }
 
     async function onSubmit(values: any) {
@@ -100,7 +95,7 @@ function SuperAdminNewClient() {
         closeModalDialogA()
         appStaticStore.superAdmin.doReload()
         showSuccess()
-       
+
     }
 }
 export { SuperAdminNewClient }

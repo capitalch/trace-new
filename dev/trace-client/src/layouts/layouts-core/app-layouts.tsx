@@ -5,18 +5,14 @@ import {
   useEffect,
   SideMenuTypesEnum,
   UserTypesEnum,
-  Spinner,
-  // AppModalA,
+  AppAlertDialogOk,
+  AppAlertDialogYesNo,
+  AppLoader,
+  AppModalDialogA,
 } from "@src/features"
-// import { AppLogin, DummyComponent } from "@src/components"
+
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
 import { SuperAdminClients } from "@src/super-admin"
-import { AppAlertDialogOk } from "@src/features/components/app-alert-dialog-ok";
-import { AppModalDialogA } from "@src/features/components/app-modal-dialog-a";
-import { AppLoader } from "@src/features/components/app-loader";
-// import { AppErrorAlert } from "@src/features/components/app-error-alert";
-// import { useAppLayouts } from './app-layouts-hook'
-
 function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
 
@@ -36,11 +32,10 @@ function AppLayouts() {
         <AppDrawer />
         <AppContent />
         <AppModalDialogA />
-        {/* <AppModalA /> */}
         <AppAlertDialogOk />
         <AppLoader />
-        {/* <Spinner size='md' /> */}
-      </Box>      
+        <AppAlertDialogYesNo />
+      </Box>
     </Box>
   )
 

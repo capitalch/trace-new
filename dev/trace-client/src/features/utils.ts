@@ -1,8 +1,8 @@
 import { appStaticStore, appStore, Messages, useToast } from '@src/features'
 import { FC } from 'react'
 
-function useAgGridUtils() {
-  function getAlternateColorStyle(params: any) {
+function useAgGridUtils () {
+  function getAlternateColorStyle (params: any) {
     const id = params?.data?.id
     let ret = undefined
     if (id % 2) {
@@ -13,7 +13,7 @@ function useAgGridUtils() {
     return ret
   }
 
-  function getPinnedRowStyle(params: any) {
+  function getPinnedRowStyle (params: any) {
     if (params.node.rowPinned) {
       return {
         fontWeight: 'bold',
@@ -22,32 +22,32 @@ function useAgGridUtils() {
     }
   }
 
-  function swapId(rows: any[]) {
+  function swapId (rows: any[]) {
     const ret: any[] = rows.map((row: any, i: number) => {
       const r = { ...row }
       r.id1 = r.id
       r.id = i + 1
-      return (r)
+      return r
     })
-    return (ret)
+    return ret
   }
   return { getAlternateColorStyle, getPinnedRowStyle, swapId }
 }
 
-function useComponentHistory() {
-  function addToComponentHistory(componentName: componentNames) {
+function useComponentHistory () {
+  function addToComponentHistory (componentName: componentNames) {
     appStaticStore.componentHistorySet.add(componentName.toString())
   }
 
-  function removeFromComponentHistory(componentName: componentNames) {
+  function removeFromComponentHistory (componentName: componentNames) {
     appStaticStore.componentHistorySet.delete(componentName.toString())
   }
 
-  function isInComponentHistory(componentName: componentNames): boolean {
+  function isInComponentHistory (componentName: componentNames): boolean {
     return appStaticStore.componentHistorySet.has(componentName.toString())
   }
 
-  function isNotInComponentHistory(componentName: componentNames): boolean {
+  function isNotInComponentHistory (componentName: componentNames): boolean {
     return !appStaticStore.componentHistorySet.has(componentName.toString())
   }
 
@@ -64,28 +64,59 @@ function useComponentHistory() {
   }
 }
 
-function useDialogs() {
-  function showModalDialogA({ title, body, toShowCloseButton = false }: { title: string; body: FC; toShowCloseButton?: boolean; }) {
+function useDialogs () {
+  function showAlertDialogOk ({ title, body }: { title: string; body: any }) {
+    appStore.alertDialogOk.isOpen.value = true
+    appStore.alertDialogOk.header.value = title
+    appStore.alertDialogOk.body.value = body
+  }
+
+  function showAlertDialogYesNo ({
+    title,
+    body
+  }: {
+    title?: string
+    body?: any 
+  }) {
+      appStore.alertDialogYesNo.isOpen.value = true
+    // appStore.alertDialogYesNo.header.value = title || 'Are you sure'
+    appStore.alertDialogYesNo.body.value = body || null
+  }
+
+  function showModalDialogA ({
+    title,
+    body,
+    toShowCloseButton = false
+  }: {
+    title: string
+    body: FC
+    toShowCloseButton?: boolean
+  }) {
     appStore.modalDialogA.title.value = title
     appStore.modalDialogA.toShowCloseButton.value = toShowCloseButton
     appStore.modalDialogA.body.value = body
     appStore.modalDialogA.isOpen.value = true
   }
-  function closeModalDialogA() {
+  function closeModalDialogA () {
     appStore.modalDialogA.isOpen.value = false
   }
 
-  return ({ closeModalDialogA, showModalDialogA })
+  return {
+    closeModalDialogA,
+    showAlertDialogOk,
+    showAlertDialogYesNo,
+    showModalDialogA
+  }
 }
 
-function useFeedback() {
+function useFeedback () {
   const toast = useToast()
 
-  function showAppLoader(toShow: boolean) {
+  function showAppLoader (toShow: boolean) {
     appStore.appLoader.isOpen.value = toShow
   }
 
-  function showError(message: string) {
+  function showError (message: string) {
     toast({
       title: 'Error',
       description: message,
@@ -96,7 +127,7 @@ function useFeedback() {
     })
   }
 
-  function showSuccess() {
+  function showSuccess () {
     toast({
       title: 'Success',
       description: Messages.messSuccess,
@@ -108,7 +139,5 @@ function useFeedback() {
   }
   return { showAppLoader, showError, showSuccess }
 }
-
-
 
 export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback }

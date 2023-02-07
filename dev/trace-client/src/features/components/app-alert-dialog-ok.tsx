@@ -1,35 +1,31 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, appStore, Button, useRef } from '@src/features'
 
-
 function AppAlertDialogOk() {
     const cancelRef: any = useRef()
     return (
-        <AlertDialog
+        <AlertDialog closeOnOverlayClick={false} isCentered
             isOpen={appStore.alertDialogOk.isOpen.value}
             leastDestructiveRef={cancelRef}
-            onClose={handleClose}>
-            <AlertDialogOverlay>
-                <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                        {appStore.alertDialogOk.header.value}
-                    </AlertDialogHeader>
-                    <AlertDialogBody>
-                        {appStore.alertDialogOk.body.value}
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                        <Button ref={cancelRef} onClick={handleClose}>
-                            OK
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialogOverlay>
-
+            onClose={handleOnClose}>
+            <AlertDialogOverlay />
+            <AlertDialogContent>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                    {appStore.alertDialogOk.header.value}
+                </AlertDialogHeader>
+                <AlertDialogBody>
+                    {appStore.alertDialogOk.body.value}
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={handleOnClose}>
+                        OK
+                    </Button>
+                </AlertDialogFooter>
+            </AlertDialogContent>
         </AlertDialog>
     )
 
-    function handleClose() {
+    function handleOnClose() {
         appStore.alertDialogOk.isOpen.value = false
     }
-
 }
 export { AppAlertDialogOk }
