@@ -1,6 +1,6 @@
 from app import Config, Messages
 from app.vendors import Any, jsonable_encoder, status
-import psycopg2
+# import psycopg2
 import psycopg2.extras
 from psycopg2 import pool
 from psycopg2.pool import ThreadedConnectionPool
@@ -72,7 +72,7 @@ def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
                 ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
         return (ret)
     except Exception as e:
-        raise Exception()
+        raise Exception(e)
     
 
 def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
@@ -80,15 +80,15 @@ def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[s
     schema = 'public' if schema is None else schema
     apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
-    try:
-        with apool.getconn() as aconn:
-            with aconn.cursor(cursor_factory=RealDictCursor) as acur:
-                acur.execute(f'set search_path to {schema}')
-                records = execSqlObject(sqlObject, acur)
-    except Exception as e:
-        raise AppHttpException(
-            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
-        )
+    # try:
+    with apool.getconn() as aconn:
+        with aconn.cursor(cursor_factory=RealDictCursor) as acur:
+            acur.execute(f'set search_path to {schema}')
+            records = execSqlObject(sqlObject, acur)
+    # except Exception as e:
+    #     raise AppHttpException(
+    #         detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
+    #     )
 
     return (records)
 
@@ -143,13 +143,25 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     return (sql, valuesTuple)
 
 def process_deleted_ids(sqlObject, acur: Any):
-    deletedIdList = sqlObject.get('deletedIds')
+    deletedIdList:list = sqlObject.get('deletedIds', None)
     tableName = sqlObject.get('tableName')
-
-    ret = '('
-    for x in deletedIdList:
-        if(x is not None):
-            ret = ret + str(x) + ','
-    ret = ret.rstrip(',') + ')'
+    if((deletedIdList is None) or (deletedIdList.count == 0)):
+        return
+    if(None in deletedIdList):
+        raise AppHttpException(detail='My details', error_code='1234', status_code='501')
+    
+    ret1 = ','.join(str(i) for i in deletedIdList)
+    ret = f'''({ret1})'''
     sql = f'''delete from "{tableName}" where id in{ret}'''
-    acur.execute(sql)
+    # acur.execute(sql)
+    
+    # deletedIdList = sqlObject.get('deletedIds')
+    # tableName = sqlObject.get('tableName')
+
+    # ret = '('
+    # for x in deletedIdList:
+    #     if(x is not None):
+    #         ret = ret + str(x) + ','
+    # ret = ret.rstrip(',') + ')'
+    # sql = f'''delete from "{tableName}" where id in{ret}'''
+    # acur.execute(sql)

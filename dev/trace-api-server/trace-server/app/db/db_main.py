@@ -31,7 +31,8 @@ async def resolve_generic_query(value):
         data = generic_query_psycopg2(sql=sql, sqlArgs=sqlArgs)
     except Exception as e:
         error['detail'] = Messages.err_query_execution
-        error['errorCode'] = CustomErrorCodes.e1007
+        error['descr'] = e.message
+        error['errorCode'] = 'e1007'
         data['error'] = error
         logger.error(e)
     return (data)
@@ -53,7 +54,8 @@ async def resolve_generic_update(info, value):
         # print('success')
     except Exception as e:
         error['detail'] = Messages.err_query_update
-        error['errorCode'] = CustomErrorCodes.e1008
+        # error['descr'] = e.message
+        error['errorCode'] = 'e1008'
         data['error'] = error
         logger.error(e)
     return (data)
