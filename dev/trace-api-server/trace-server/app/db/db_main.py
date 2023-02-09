@@ -30,9 +30,11 @@ async def resolve_generic_query(value):
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
         data = generic_query_psycopg2(sql=sql, sqlArgs=sqlArgs)
     except Exception as e:
-        error['detail'] = Messages.err_query_execution
-        error['descr'] = e.message
-        error['errorCode'] = 'e1007'
+        errorCode = getattr(e, 'errorCode', None)
+        detail = getattr(e, 'detail', None)
+        error['detail'] = Messages.err_query_execution if detail is None else detail
+        error['exception'] = str(e)
+        error['errorCode'] = 'e1007' if errorCode is None else errorCode
         data['error'] = error
         logger.error(e)
     return (data)
@@ -53,9 +55,11 @@ async def resolve_generic_update(info, value):
         data = generic_update_psycopg2(sqlObject=sqlObj)
         # print('success')
     except Exception as e:
-        error['detail'] = Messages.err_query_update
-        # error['descr'] = e.message
-        error['errorCode'] = 'e1008'
+        errorCode = getattr(e, 'errorCode', None)
+        detail = getattr(e, 'detail', None)
+        error['detail'] = Messages.err_query_update if detail is None else detail
+        error['exception'] = str(e)
+        error['errorCode'] = 'e1008' if errorCode is None else errorCode
         data['error'] = error
-        logger.error(e)
+        logger.error(error)
     return (data)

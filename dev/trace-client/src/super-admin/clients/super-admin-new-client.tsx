@@ -1,16 +1,24 @@
 import {
     _, appStore, appValidators, Box, Button, Center, Checkbox, FormControl,
     FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, useForm, VStack, appStaticStore,
+    Messages, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, 
+    useForm, VStack, appStaticStore, useEffect, useState,
 } from '@src/features'
 
 
 function SuperAdminNewClient() {
-    const { closeModalDialogA, showAlertDialogOk, showModalDialogA, } = useDialogs()
-    const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
+    const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
+    const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
     const { showError, showSuccess } = useFeedback()
-    const { checkNoSpaceOrSpecialChar } = appValidators()
+    const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
     const { getValues, handleSubmit, register, formState: { errors }, setValue, watch }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const defaultData = appStore.modalDialogA.defaultData.value
+
+    useEffect(() => {
+        setFormValues()
+    }, [])
+
     const registerClientCode = register('clientCode', {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
@@ -24,6 +32,9 @@ function SuperAdminNewClient() {
     })
     const registerClientName = register('clientName', {
         required: Messages.errRequired
+        , validate: {
+            noSpecialChar: checkNoSpecialChar
+        }
     })
 
     return (
@@ -36,7 +47,7 @@ function SuperAdminNewClient() {
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
                             : <>&nbsp;</> // <FormHelperText fontSize='xs' color='gray.400'>{Messages.messNoSpecialSpace4Plus}</FormHelperText>
                         }
-                        <Button size='xs' variant='ghost' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
+                        <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
                     </HStack>
                 </FormControl>
 
@@ -47,7 +58,7 @@ function SuperAdminNewClient() {
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
                             : <>&nbsp;</> //<FormHelperText fontSize='xs' color='gray.400'>{Messages.messNoSpecial4Plus}</FormHelperText>
                         }
-                        <Button size='xs' variant='ghost' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
+                        <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
                     </HStack>
                 </FormControl>
 
@@ -56,7 +67,7 @@ function SuperAdminNewClient() {
                 </FormControl>
 
                 <HStack justifyContent='flex-end' w='100%'>
-                    <Button w='100%' colorScheme='blue' type='submit' disabled={!_.isEmpty(errors)} >
+                    <Button  w='100%' colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
                         Submit
                     </Button>
                     {/* <Button w='50%' colorScheme='blue' type='submit' disabled={!_.isEmpty(errors)}  >
@@ -88,7 +99,9 @@ function SuperAdminNewClient() {
 
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         const st = new Date().getTime()
+        setIsSubmitDisabled(true)
         const ret = await mutateGraphql(q)
+        setIsSubmitDisabled(false)
         const en = (new Date()).getTime()
         console.log(en - st, ret)
         // showError('This is a runtime error')
@@ -96,6 +109,15 @@ function SuperAdminNewClient() {
         appStaticStore.superAdmin.doReload()
         showSuccess()
 
+    }
+
+    function setFormValues() {
+        if (_.isEmpty(defaultData)) {
+            return
+        }
+        for (const key in defaultData) {
+            setValue(key, defaultData[key])
+        }
     }
 }
 export { SuperAdminNewClient }

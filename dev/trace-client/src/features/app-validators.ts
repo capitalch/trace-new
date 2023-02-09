@@ -63,6 +63,14 @@ function appValidators() {
         return error
     }
 
+    function checkNoSpecialChar(input: string) {
+        let error = null
+        if (input.search(/[^\w\s]/) > 0) {
+            error = Messages.errNoSpecialChar
+        }
+        return (error)
+    }
+
     function checkRequired(input: string) {
         let error = null
         if (input.length === 0) {
@@ -76,7 +84,7 @@ function appValidators() {
         return ret
     }
 
-    return ({ checkPwd, checkNoSpaceOrSpecialChar, checkUidEmail })
+    return ({ checkPwd, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail })
 }
 
 export { appValidators }

@@ -1,11 +1,12 @@
-import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings } from '@src/features'
+import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages } from '@src/features'
 import { FirstDataRenderedEvent, GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
 import { filter } from 'lodash';
+import { SuperAdminNewClient } from './super-admin-new-client';
 
 function SuperAdminClientsView() {
     // const [, doRefresh] = useState({})
     const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
-    const { appGraphqlStrings, queryGraphql,  } = useAppGraphql()
+    const { appGraphqlStrings, queryGraphql, } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
@@ -139,42 +140,56 @@ function SuperAdminClientsView() {
 export { SuperAdminClientsView }
 
 function EditCellRenderer(props: any) {
+    const { showModalDialogA } = useDialogs()
     return (
         props.data.id && <Tooltip label='Edit'>
             <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon fontSize={18} color='teal.500' />} />
         </Tooltip>)
     function handleEditRow(params: any) {
-        console.log(params)
+        params.id = params.id1
+        params.id1 = undefined
+        const obj = {...params}
+        delete obj['id1']
+        showModalDialogA({
+            title: 'Edit client',
+            body: SuperAdminNewClient,
+            defaultData:{
+                ...obj
+            }
+        })
     }
 }
 export { EditCellRenderer }
 
 function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
-    const {showSuccess} = useFeedback()
-    const {mutateGraphql} = useAppGraphql()
+    const { showError, showSuccess } = useFeedback()
+    const { mutateGraphql } = useAppGraphql()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
         props.data.id && <Tooltip label='Delete'>
-            <IconButton onClick={handleDeleteRow} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={18} color='red.500' />} />
+            <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={18} color='red.500' />} />
         </Tooltip>)
 
     function handleDeleteRow(data: any) {
-        const deleteId = data.id1
+        const deleteId = data?.id1
         showAlertDialogYesNo({ action: () => doDelete(deleteId), title: 'Are you sure to delete this row?' })
-
     }
 
     async function doDelete(id: number) {
         const sqlObj = {
-            tableName:'TestM',
-            deletedIds:[id]
+            tableName: 'TestM',
+            deletedIds: [id]
         }
-        const q = appGraphqlStrings['genericUpdate'](sqlObj,'traceAuth')
+        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         const ret = await mutateGraphql(q)
-        appStaticStore.superAdmin.doReload()
-        showSuccess()
-        // console.log(id)
+        const err = ret?.data?.genericUpdate?.error
+        if (err) {
+            showError(`${err.errorCode}, ${Messages.errGenericServerError}`)
+        } else {
+            appStaticStore.superAdmin.doReload()
+            showSuccess()
+        }
     }
 }
 export { DeleteCellRenderer }

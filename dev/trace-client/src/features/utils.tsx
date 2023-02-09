@@ -90,17 +90,21 @@ function useDialogs() {
   function showModalDialogA({
     title,
     body,
-    toShowCloseButton = false
+    toShowCloseButton = false,
+    defaultData = undefined
   }: {
     title: string
     body: FC
     toShowCloseButton?: boolean
+    defaultData?: { [key: string]: any }
   }) {
     appStore.modalDialogA.title.value = title
     appStore.modalDialogA.toShowCloseButton.value = toShowCloseButton
     appStore.modalDialogA.body.value = body
+    appStore.modalDialogA.defaultData.value = defaultData
     appStore.modalDialogA.isOpen.value = true
   }
+
   function closeModalDialogA() {
     appStore.modalDialogA.isOpen.value = false
   }
@@ -138,7 +142,7 @@ function useFeedback() {
       status: 'success',
       isClosable: true,
       position: 'bottom-right',
-      duration: 5000
+      duration: 3000
     })
   }
   return { showAppLoader, showError, showSuccess }

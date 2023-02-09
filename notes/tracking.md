@@ -14,14 +14,14 @@
 																											17. Remove  eddit delete and remove icons from bottom row
 																											18. No of rows
 9. Edit
-				10. Delete
+																											10. Delete
 																											
 12. Edit external database
-13. Client error handling
-14. Server error handling
+																											13. Client error handling
+																											14. Server error handling
 15. Server update script
-16. Server delete functionality
-																											
+																											16. Server delete functionality
+16. No of rows for grid																		
 																											
 !!. Responsive hide some controls
 																											

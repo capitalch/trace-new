@@ -36,13 +36,14 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU4ODA1NDAsInN1YiI6eyJ1c2VySWQiOjN9fQ.n345UMRxu2Q4LiBAM98C17OTBGSIBNEFIpwA_6MDy8A',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzU5NjgwNTcsInN1YiI6eyJ1c2VySWQiOjN9fQ.O_3hbytI4ZAEKWjGgEUwJpTOdlIaafzFQQjW__fgj9Y',
         uidEmail: 'capitalch',
         userType: undefined,
     },
 
     modalDialogA: {
         body: () => <></>,
+        defaultData: undefined,
         isOpen: false,
         title: '',
         toShowCloseButton: false,

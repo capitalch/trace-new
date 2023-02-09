@@ -6,7 +6,7 @@ from psycopg2 import pool
 from psycopg2.pool import ThreadedConnectionPool
 from psycopg2.extras import RealDictCursor
 from app import AppHttpException,  Config, Messages
-# from app.vendors import make_conninfo, status
+
 poolStore = {}
 dbParams: dict = {
     'user': Config.DB_USER,
@@ -19,8 +19,6 @@ dbParams: dict = {
 def get_connection_pool(connInfo: str, dbName: str) -> ThreadedConnectionPool:
     pool1 = poolStore.get(dbName)
     if ((pool1 is None) or pool1.closed):
-        # poolStore[dbName] = pool.ThreadedConnectionPool(
-        #     1, 500, user=ref['user'], password=ref['password'], host=ref['host'], port=ref['port'], database=dbName)
         pool1 = ThreadedConnectionPool(5,500,**connInfo)
         poolStore[dbName] = pool1
     return (pool1)
@@ -35,44 +33,35 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
     return (connInfo)
 
 
-def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, execSqlObject: Any = None, sqlObject: Any = None):
+def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}): #, execSqlObject: Any = None, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
     apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
-    try:
-        with apool.getconn() as aconn:
-            with aconn.cursor(cursor_factory=RealDictCursor) as acur:
-                acur.execute(f'set search_path to {schema}')
-                acur.execute(sql, sqlArgs)
-                if (acur.rowcount > 0):
-                    records = acur.fetchall()
-    except Exception as e:
-        raise AppHttpException(
-            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
-        )
-
+    with apool.getconn() as aconn:
+        with aconn.cursor(cursor_factory=RealDictCursor) as acur:
+            acur.execute(f'set search_path to {schema}')
+            acur.execute(sql, sqlArgs)
+            if (acur.rowcount > 0):
+                records = acur.fetchall()
     return (jsonable_encoder(records))
 
 
 def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
     ret = None
-    try:
-        if ('deletedIds' in sqlObject):
-            process_deleted_ids(sqlObject, acur)
-        xData = sqlObject.get('xData', None)
-        tableName = sqlObject.get('tableName', None)
-        fkeyName = sqlObject.get('fkeyName', None)
-        if (xData):
-            if (type(xData) is list):
-                for item in xData:
-                    ret = process_data(item, acur, tableName,
-                                       fkeyName, fkeyValue)
-            else:
-                ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
+    if ('deletedIds' in sqlObject):
+        process_deleted_ids(sqlObject, acur)
+    xData = sqlObject.get('xData', None)
+    tableName = sqlObject.get('tableName', None)
+    fkeyName = sqlObject.get('fkeyName', None)
+    if (xData):
+        if (type(xData) is list):
+            for item in xData:
+                ret = process_data(item, acur, tableName,
+                                    fkeyName, fkeyValue)
+        else:
+            ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
         return (ret)
-    except Exception as e:
-        raise Exception(e)
     
 
 def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
@@ -80,16 +69,10 @@ def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[s
     schema = 'public' if schema is None else schema
     apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
-    # try:
     with apool.getconn() as aconn:
         with aconn.cursor(cursor_factory=RealDictCursor) as acur:
             acur.execute(f'set search_path to {schema}')
             records = execSqlObject(sqlObject, acur)
-    # except Exception as e:
-    #     raise AppHttpException(
-    #         detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED
-    #     )
-
     return (records)
 
 def process_data(xData, acur, tableName, fkeyName, fkeyValue):
@@ -126,9 +109,9 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     fieldsCount = len(fieldNamesList)
 
     for idx, name in enumerate(fieldNamesList):
-        fieldNamesList[idx] = f''' "{name}" '''  # surround fields with ""
+        fieldNamesList[idx] = f''' "{name}" '''
     fieldsString = ','.join(
-        fieldNamesList)  # f'''({','.join( fieldNamesList   )})'''
+        fieldNamesList)
 
     placeholderList = ['%s'] * fieldsCount
     placeholdersForValues = ', '.join(placeholderList)
@@ -148,20 +131,9 @@ def process_deleted_ids(sqlObject, acur: Any):
     if((deletedIdList is None) or (deletedIdList.count == 0)):
         return
     if(None in deletedIdList):
-        raise AppHttpException(detail='My details', error_code='1234', status_code='501')
+        raise AppHttpException(detail=Messages.err_none_in_deletedids, error_code='e1009', status_code='501')
     
     ret1 = ','.join(str(i) for i in deletedIdList)
     ret = f'''({ret1})'''
     sql = f'''delete from "{tableName}" where id in{ret}'''
-    # acur.execute(sql)
-    
-    # deletedIdList = sqlObject.get('deletedIds')
-    # tableName = sqlObject.get('tableName')
-
-    # ret = '('
-    # for x in deletedIdList:
-    #     if(x is not None):
-    #         ret = ret + str(x) + ','
-    # ret = ret.rstrip(',') + ')'
-    # sql = f'''delete from "{tableName}" where id in{ret}'''
-    # acur.execute(sql)
+    acur.execute(sql)
