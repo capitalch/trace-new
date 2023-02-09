@@ -87,28 +87,22 @@ function SuperAdminNewClient() {
     }
 
     async function onSubmit(values: any) {
-        // const ret1 = await axios.post('http://localhost:8000/api/')
-        // console.log(ret1)
+        const id = values?.id
         const sqlObj = {
             tableName: 'TestM',
             xData: {
                 ...values,
-                dbName: `${values.clientCode}_accounts`,
             }
         }
-
+        if(!id){ //insert
+            sqlObj.xData.dbName =  `${values.clientCode}_accounts`
+        }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-        const st = new Date().getTime()
         setIsSubmitDisabled(true)
-        const ret = await mutateGraphql(q)
         setIsSubmitDisabled(false)
-        const en = (new Date()).getTime()
-        console.log(en - st, ret)
-        // showError('This is a runtime error')
         closeModalDialogA()
         appStaticStore.superAdmin.doReload()
         showSuccess()
-
     }
 
     function setFormValues() {
@@ -127,3 +121,8 @@ type SuperAdminClientType = {
     clientName: string
     isActive: boolean
 }
+
+// const st = new Date().getTime()
+// const ret = await mutateGraphql(q)
+// const en = (new Date()).getTime()
+// console.log(en - st, ret)

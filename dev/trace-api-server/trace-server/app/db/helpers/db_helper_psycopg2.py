@@ -96,7 +96,7 @@ def get_sql(xData, tableName, fkeyName, fkeyValue):
     sql = None
     valuesTuple = None
     if (xData.get('id', None)):  # update
-        pass
+        sql, valuesTuple = get_update_sql(xData, tableName)
     else:  # insert
         sql, valuesTuple = get_insert_sql(
             xData, tableName, fkeyName, fkeyValue)
@@ -124,6 +124,24 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
         ({fieldsString}) values({placeholdersForValues}) returning id
         '''
     return (sql, valuesTuple)
+
+def get_update_sql(xData, tableName):
+    def getUpdateKeyValues(dataCopy):
+        dataCopy.pop('id')  # remove id property
+        str = ''
+        for it in dataCopy:
+            str = str + f''' "{it}" = %s, '''
+        str = (str.strip())[:-1]  # strip last comma
+        valuesList = list(dataCopy.values())
+        valuesTuple = tuple(valuesList)
+        return (str, valuesTuple)
+
+    str, valuesTuple = getUpdateKeyValues(xData.copy())
+    sql = f'''update "{tableName}" set {str}
+        where id = {xData['id']} returning {"id"}
+    '''
+    return (sql, valuesTuple)
+    
 
 def process_deleted_ids(sqlObject, acur: Any):
     deletedIdList:list = sqlObject.get('deletedIds', None)

@@ -1,6 +1,7 @@
 class SqlQueriesAuth:
     get_all_clients = '''
         select * from "TestM"
+            order by "id"
     
     '''
     get_user_details = '''
