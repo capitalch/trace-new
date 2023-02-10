@@ -1,18 +1,18 @@
 import {
-    _, appStore, appValidators, Box, Button, Center, Checkbox, FormControl,
-    FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,
-    Messages, Text, useDeepSignal, useDialogs, useAppGraphql, useFeedback, 
+    _, appStore, appValidators, Box, Button, Checkbox, FormControl,
+    FormErrorMessage, FormLabel, HStack, Input,
+    Messages, useDialogs, useAppGraphql, useFeedback,
     useForm, VStack, appStaticStore, useEffect, useState,
 } from '@src/features'
 
 
-function SuperAdminNewClient() {
+function SuperAdminEditNewClient() {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
-    const { showError, showSuccess } = useFeedback()
+    const { showSuccess } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
-    const { getValues, handleSubmit, register, formState: { errors }, setValue, watch }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const {  handleSubmit, register, formState: { errors }, setValue,}: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useEffect(() => {
@@ -45,7 +45,7 @@ function SuperAdminNewClient() {
                     <Input id='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
-                            : <>&nbsp;</> // <FormHelperText fontSize='xs' color='gray.400'>{Messages.messNoSpecialSpace4Plus}</FormHelperText>
+                            : <>&nbsp;</>
                         }
                         <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
                     </HStack>
@@ -56,7 +56,7 @@ function SuperAdminNewClient() {
                     <Input id='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
-                            : <>&nbsp;</> //<FormHelperText fontSize='xs' color='gray.400'>{Messages.messNoSpecial4Plus}</FormHelperText>
+                            : <>&nbsp;</>
                         }
                         <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
                     </HStack>
@@ -67,12 +67,9 @@ function SuperAdminNewClient() {
                 </FormControl>
 
                 <HStack justifyContent='flex-end' w='100%'>
-                    <Button  w='100%' colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
+                    <Button w='100%' colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
                         Submit
                     </Button>
-                    {/* <Button w='50%' colorScheme='blue' type='submit' disabled={!_.isEmpty(errors)}  >
-                        Submit async
-                    </Button> */}
                 </HStack>
             </VStack>
         </form>
@@ -94,8 +91,8 @@ function SuperAdminNewClient() {
                 ...values,
             }
         }
-        if(!id){ //insert
-            sqlObj.xData.dbName =  `${values.clientCode}_accounts`
+        if (!id) { //insert
+            sqlObj.xData.dbName = `${values.clientCode}_accounts`
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         setIsSubmitDisabled(true)
@@ -114,7 +111,8 @@ function SuperAdminNewClient() {
         }
     }
 }
-export { SuperAdminNewClient }
+
+export { SuperAdminEditNewClient }
 
 type SuperAdminClientType = {
     clientCode: string

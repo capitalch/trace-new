@@ -1,10 +1,10 @@
 import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Tooltip, useDialogs } from "@src/features"
 import { GlobalSearchBox } from "./global-search-box";
-import { SuperAdminNewClient } from "./super-admin-new-client";
+import { SuperAdminEditNewClient } from "./super-admin-edit-new-client";
+import { SuperAdminEditNewClientExtDatabase } from "./super-admin-edit-new-client-ext-database";
 function SuperAdminClientsToolbar() {
   const { showModalDialogA } = useDialogs()
-  // const ctrlArray = [];
-  // const { onCloseAppModalA, showAppModalA } = useAppModalA()
+ 
   return (
     <HStack
       rowGap={1}
@@ -38,18 +38,15 @@ function SuperAdminClientsToolbar() {
   function handleNewClient() {
     showModalDialogA({
       title:'New client',
-      body: SuperAdminNewClient,
+      body: SuperAdminEditNewClient,
     })
-    // appStore.modalDialogA.title.value = 'New client'
-    // appStore.modalDialogA.toShowCloseButton.value = false
-    // appStore.modalDialogA.body.value = SuperAdminNewClient
-    // appStore.modalDialogA.isOpen.value = true
-    // showAppModalA('New client', false, SuperAdminNewClient)
-    // appStore.layouts.selectedComponent.value = SuperAdminNewClient
   }
 
   function handleNewClientExternalDatabase() {
-
+    showModalDialogA({
+      title:'New client with external database',
+      body: SuperAdminEditNewClientExtDatabase,
+    })
   }
 
   async function handleOnClickReload() {

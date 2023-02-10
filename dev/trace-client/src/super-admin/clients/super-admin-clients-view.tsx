@@ -1,7 +1,7 @@
 import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages } from '@src/features'
 import { FirstDataRenderedEvent, GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
 import { filter } from 'lodash';
-import { SuperAdminNewClient } from './super-admin-new-client';
+import { SuperAdminEditNewClient } from './super-admin-edit-new-client';
 
 function SuperAdminClientsView() {
     // const [, doRefresh] = useState({})
@@ -152,7 +152,7 @@ function EditCellRenderer(props: any) {
         delete obj['id1']
         showModalDialogA({
             title: 'Edit client',
-            body: SuperAdminNewClient,
+            body: SuperAdminEditNewClient,
             defaultData:{
                 ...obj
             }

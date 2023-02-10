@@ -17,6 +17,9 @@
 																											10. Delete
 																											
 12. Edit external database
+13. New form for external database
+14. Server script for database create
+15. React form
 																											13. Client error handling
 																											14. Server error handling
 																											15. Server update script
@@ -89,6 +92,9 @@
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
+## 06-02-2023 - 09-02-2023
+1. Implemented Insert, Update, Delete, Remove in Ag-grid
+
 ## 03-02-2023 - 05-02-2023
 1. Implemented ag-grid for Super admin Clients with filter, global search, summary, alternate color, header color, state management etc.
 
