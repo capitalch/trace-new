@@ -161,11 +161,11 @@ function SuperAdminEditNewClientExtDatabase() {
                             {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                         </HStack>
                     </FormControl>
-                    <HStack justifyContent='flex-end' w='100%'>
+                    {/* <HStack justifyContent='flex-end' w='100%'> */}
                         <Button w='100%' mt={2} colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
                             Submit
                         </Button>
-                    </HStack>
+                    {/* </HStack> */}
                 </VStack>
             </VStack>
         </form>
