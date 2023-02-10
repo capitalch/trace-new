@@ -2,7 +2,7 @@ import {
     _, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
-    useForm, VStack, appStaticStore, useEffect, useState, Text, Flex,
+    useForm, VStack, appStaticStore, useEffect, useState, Text,
 } from '@src/features'
 
 
@@ -67,11 +67,10 @@ function SuperAdminEditNewClientExtDatabase() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
-
                 {/* client code */}
                 <FormControl isInvalid={!!errors.clientCode}>
-                    <FormLabel>Client code</FormLabel>
-                    <Input id='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
+                    <FormLabel htmlFor='clientCode'>Client code</FormLabel>
+                    <Input placeholder='Client code' name='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
                             : <>&nbsp;</>
@@ -82,8 +81,8 @@ function SuperAdminEditNewClientExtDatabase() {
 
                 {/* client name  */}
                 <FormControl isInvalid={!!errors.clientName}>
-                    <FormLabel>Client name</FormLabel>
-                    <Input id='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
+                    <FormLabel htmlFor='clientName'>Client name</FormLabel>
+                    <Input placeholder='Client name' name='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
                             : <>&nbsp;</>
@@ -97,13 +96,13 @@ function SuperAdminEditNewClientExtDatabase() {
                     <Checkbox id='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
                 </FormControl>
 
-                <VStack  pt={10}>
-                    <HStack w='100%'> <Text fontSize='md' fontWeight='bold'>Database connection details</Text></HStack>
+                <VStack  pt={3}>
+                    <HStack w='100%'> <Text fontSize='md' fontWeight='bold'>External database connection details</Text></HStack>
                     <HStack>
                         {/* host */}
                         <FormControl isInvalid={!!errors.host}>
-                            <FormLabel fontSize='sm'>DB host</FormLabel>
-                            <Input id='host' size='sm' type='text' {...registerHost} autoComplete='off' />
+                            {/* <FormLabel htmlFor='host' fontSize='sm'>DB host</FormLabel> */}
+                            <Input placeholder='DB host' name='host' size='sm' type='text' {...registerHost} autoComplete='off' />
                             <HStack justifyContent='space-between' >
                                 {(!!errors.host) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
                                     : <>&nbsp;</>
@@ -114,8 +113,8 @@ function SuperAdminEditNewClientExtDatabase() {
 
                         {/* user name */}
                         <FormControl isInvalid={!!errors.userName}>
-                            <FormLabel fontSize='sm'>DB user name</FormLabel>
-                            <Input id='userName' size='sm' type='text' {...registerUserName} autoComplete='off' />
+                            {/* <FormLabel htmlFor='userName' fontSize='sm'>DB user name</FormLabel> */}
+                            <Input placeholder='DB user name' name='userName' size='sm' type='text' {...registerUserName} autoComplete='off' />
                             <HStack justifyContent='space-between' >
                                 {(!!errors.userName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.userName.message}</FormErrorMessage>
                                     : <>&nbsp;</>
@@ -127,8 +126,8 @@ function SuperAdminEditNewClientExtDatabase() {
                     <HStack p={0} m={0}>
                         {/* password */}
                         <FormControl isInvalid={!!errors.password}>
-                            <FormLabel fontSize='sm'>DB password</FormLabel>
-                            <Input id='password' size='sm' type='text' {...registerPassword} autoComplete='off' />
+                            {/* <FormLabel htmlFor='password' fontSize='sm'>DB password</FormLabel> */}
+                            <Input placeholder='DB password' name='password' size='sm' type='text' {...registerPassword} autoComplete='off' />
                             <HStack justifyContent='space-between' >
                                 {(!!errors.password) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                                     : <>&nbsp;</>
@@ -139,8 +138,8 @@ function SuperAdminEditNewClientExtDatabase() {
 
                         {/* port */}
                         <FormControl isInvalid={!!errors.port}>
-                            <FormLabel fontSize='sm'>DB port</FormLabel>
-                            <Input id='port' size='sm' type='text' {...registerPort} autoComplete='off' />
+                            {/* <FormLabel htmlFor='port' fontSize='sm'>DB port</FormLabel> */}
+                            <Input placeholder='DB port' name = 'port' size='sm' type='text' {...registerPort} autoComplete='off' />
                             <HStack justifyContent='space-between' >
                                 {(!!errors.port) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
                                     : <>&nbsp;</>
@@ -152,8 +151,8 @@ function SuperAdminEditNewClientExtDatabase() {
 
                     {/* url */}
                     <FormControl isInvalid={!!errors.url}>
-                        <FormLabel fontSize='sm'>DB url (optional)</FormLabel>
-                        <Input id='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
+                        {/* <FormLabel fontSize='sm'>DB url (optional)</FormLabel> */}
+                        <Input placeholder='DB url (optional)' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
                         <HStack justifyContent='space-between' >
                             {(!!errors.url) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
                                 : <>&nbsp;</>
@@ -162,7 +161,7 @@ function SuperAdminEditNewClientExtDatabase() {
                         </HStack>
                     </FormControl>
                     {/* <HStack justifyContent='flex-end' w='100%'> */}
-                        <Button w='100%' mt={2} colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
+                        <Button w='100%' mt={2} colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) } >
                             Submit
                         </Button>
                     {/* </HStack> */}
