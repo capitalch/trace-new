@@ -7,7 +7,7 @@ import {
 
 
 function SuperAdminEditNewClientExtDatabase() {
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql } = useAppGraphql()
     const { showSuccess } = useFeedback()
@@ -124,7 +124,8 @@ function SuperAdminEditNewClientExtDatabase() {
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             </HStack>
                         </FormControl>
-
+                    </HStack>
+                    <HStack>
                         {/* user name */}
                         <FormControl isInvalid={!!errors.userName}>
                             {/* <FormLabel htmlFor='userName' fontSize='sm'>DB user name</FormLabel> */}
@@ -136,8 +137,7 @@ function SuperAdminEditNewClientExtDatabase() {
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             </HStack>
                         </FormControl>
-                    </HStack>
-                    <HStack >
+
                         {/* password */}
                         <FormControl isInvalid={!!errors.password}>
                             {/* <FormLabel htmlFor='password' fontSize='sm'>DB password</FormLabel> */}
@@ -149,9 +149,10 @@ function SuperAdminEditNewClientExtDatabase() {
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             </HStack>
                         </FormControl>
-
+                    </HStack>
+                    <HStack >
                         {/* port */}
-                        <FormControl isInvalid={!!errors.port}>
+                        <FormControl flex={1} isInvalid={!!errors.port}>
                             {/* <FormLabel htmlFor='port' fontSize='sm'>DB port</FormLabel> */}
                             <Input placeholder='DB port' name='port' size='sm' type='text' {...registerPort} autoComplete='off' />
                             {/* <NumberInput placeholder='DB port' size='sm'>
@@ -164,19 +165,19 @@ function SuperAdminEditNewClientExtDatabase() {
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             </HStack>
                         </FormControl>
-                    </HStack>
 
-                    {/* url */}
-                    <FormControl isInvalid={!!errors.url}>
-                        {/* <FormLabel fontSize='sm'>DB url (optional)</FormLabel> */}
-                        <Input placeholder='DB url (optional)' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
-                        <HStack justifyContent='space-between' >
-                            {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
-                                : <>&nbsp;</>
-                            }
-                            {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
-                        </HStack>
-                    </FormControl>
+                        {/* url */}
+                        <FormControl flex={2} isInvalid={!!errors.url}>
+                            {/* <FormLabel fontSize='sm'>DB url (optional)</FormLabel> */}
+                            <Input placeholder='DB url (optional)' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
+                            <HStack justifyContent='space-between' >
+                                {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
+                                    : <>&nbsp;</>
+                                }
+                                {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
+                            </HStack>
+                        </FormControl>
+                    </HStack>
                     {/* <HStack justifyContent='flex-end' w='100%'> */}
                     <Button w='100%' mt={2} colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
@@ -214,7 +215,7 @@ function SuperAdminEditNewClientExtDatabase() {
                 dbName: values?.dbName,
                 isActive: values?.isActive,
                 isExternalDb: true,
-                dbParams: dbParams
+                dbParams: JSON.stringify(dbParams)
             }
         }
         // if (!id) { //insert
@@ -222,7 +223,7 @@ function SuperAdminEditNewClientExtDatabase() {
         // }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         setIsSubmitDisabled(true)
-        const ret = mutateGraphql(q)
+        const ret = await mutateGraphql(q)
         setIsSubmitDisabled(false)
         closeModalDialogA()
         appStaticStore.superAdmin.doReload()
