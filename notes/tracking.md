@@ -1,3 +1,9 @@
+																											1. Validations
+2. Save data
+3. Delete and update data
+3. Save data encrypted at server
+																											4. Submit button disabled
+																											5. Astrix for required field
 ## To do
 																											Global modal, alert, snap-box message
 																											1. Search box
@@ -15,17 +21,16 @@
 																											18. No of rows
 																											9. Edit
 																											10. Delete
-																											
-12. Edit external database
-13. New form for external database
-14. Server script for database create
-15. React form
 																											13. Client error handling
 																											14. Server error handling
 																											15. Server update script
 																											16. Server delete functionality
-16. No of rows for grid																		
 																											
+12. Edit external database
+13. New form for external database
+14. Server script for database create
+15. React form																				
+16. No of rows for grid																																						
 !!. Responsive hide some controls
 																											
 ## comparison different grids
@@ -92,6 +97,9 @@
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
+## 10-02-2023
+1. New client and new client with ext database
+
 ## 06-02-2023 - 09-02-2023
 1. Implemented Insert, Update, Delete, Remove in Ag-grid
 

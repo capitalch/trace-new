@@ -1,7 +1,9 @@
 const Messages = {
     errAtLeast4Chars: 'Should be at least 4 chars long',
     errAtLeast8Chars: 'Should be at least 8 chars long',
+    errInputMustBeUrl: 'Input value should be url',
     errInvalidInput: 'Invalid input',
+    errMustBeNumeric: 'Must be numeric',
     errMustHaveOneDigit: "Should have a digit",
     errMustHaveOneLetter: "Should have one letter",
     errMustHaveOneSpecialChar: "Must have a special character",

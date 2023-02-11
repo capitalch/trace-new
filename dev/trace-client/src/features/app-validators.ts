@@ -55,6 +55,14 @@ function appValidators() {
         return error
     }
 
+    function checkNumeric(input: string) {
+        let error = null
+        if (input.search(/^[0-9]+$/) < 0) {
+            error = Messages.errMustBeNumeric
+        }
+        return (error)
+    }
+
     function checkNoSpaceOrSpecialChar(input: string) {
         let error = null
         if (input.search(/^[\w-_]*$/) < 0) {
@@ -79,12 +87,23 @@ function appValidators() {
         return error
     }
 
+    function checkUrl(input: string) {
+        let error = null
+        if(!input){
+            return(error)
+        }
+        if (input.search(/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})$/) < 0) {
+            error = Messages.errInputMustBeUrl
+        }
+        return (error)
+    }
+
     function isValidEmail(input: string) {
         const ret = input.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
         return ret
     }
 
-    return ({ checkPwd, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail })
+    return ({ checkNumeric, checkPwd, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail , checkUrl})
 }
 
 export { appValidators }

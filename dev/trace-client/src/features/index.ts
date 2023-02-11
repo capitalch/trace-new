@@ -45,6 +45,7 @@ export {
   InputRightAddon,
   InputLeftElement,
   InputRightElement,
+
   Menu,
   MenuButton,
   MenuList,
@@ -56,6 +57,7 @@ export {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  NumberInput, NumberInputField,
   Slide,
   Spinner,
   Text,
@@ -100,6 +102,7 @@ export { useGranularEffect } from 'granular-hooks'
 export { AppAlertDialogOk } from './components/app-alert-dialog-ok'
 export { AppAlertDialogYesNo } from './components/app-alert-dialog-yes-no'
 export { AppModalDialogA } from './components/app-modal-dialog-a'
+export { AppAstrisk } from './components/app-astrisk'
 //icons
 
 // chakra-ui icons

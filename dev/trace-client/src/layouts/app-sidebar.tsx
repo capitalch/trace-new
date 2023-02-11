@@ -29,7 +29,7 @@ function AppSidebar() {
         backgroundColor: `${AppConstants.SIDEBAR_BACKGROUND_COLOR}`,
       }}
     >
-      <Flex w={SIDEBARWIDTH} shadow="xs" direction='column' overflowY="auto" justifyContent='space-between' h='100%'>
+      <Flex w={SIDEBARWIDTH} pb='1rem' shadow="xs" direction='column' overflowY="auto" justifyContent='space-between' h='100%'>
         {/* Logo and close button */}
         <VStack>
           <HStack justifyContent="space-evenly" w="100%" h={HEIGHT} bg="white">

@@ -5,7 +5,7 @@ const AppConstants: AppConstantsType = {
     HEADER_BACKGROUND_COLOR: 'blue.600',
     HEADER_COLOR: 'white',
     HEADER_HEIGHT: '38px',
-    SIDEBAR_BACKGROUND_COLOR: '#f4f0ec',
+    SIDEBAR_BACKGROUND_COLOR: '#FCFCFC', //#f4f0ec
     SIDEBAR_WIDTH: '200px',
     SUPER_ADMIN_USER: 'Super admin user',
     // USER_TYPE: undefined

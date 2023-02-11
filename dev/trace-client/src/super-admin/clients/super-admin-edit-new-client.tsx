@@ -1,5 +1,5 @@
 import {
-    _, appStore, appValidators, Box, Button, Checkbox, FormControl,
+    _,AppAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
     useForm, VStack, appStaticStore, useEffect, useState,
@@ -41,7 +41,7 @@ function SuperAdminEditNewClient() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing={4}>
                 <FormControl isInvalid={!!errors.clientCode}>
-                    <FormLabel>Client code</FormLabel>
+                    <FormLabel>Client code <AppAstrisk /></FormLabel>
                     <Input id='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
@@ -52,7 +52,7 @@ function SuperAdminEditNewClient() {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.clientName}>
-                    <FormLabel>Client name</FormLabel>
+                    <FormLabel>Client name <AppAstrisk /></FormLabel>
                     <Input id='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
@@ -67,7 +67,7 @@ function SuperAdminEditNewClient() {
                 </FormControl>
 
                 <HStack justifyContent='flex-end' w='100%'>
-                    <Button w='100%' colorScheme='blue' type='submit' disabled={(!_.isEmpty(errors)) || isSubmitDisabled} >
+                    <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
                     </Button>
                 </HStack>
@@ -96,6 +96,7 @@ function SuperAdminEditNewClient() {
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         setIsSubmitDisabled(true)
+        const ret = await mutateGraphql(q)
         setIsSubmitDisabled(false)
         closeModalDialogA()
         appStaticStore.superAdmin.doReload()
