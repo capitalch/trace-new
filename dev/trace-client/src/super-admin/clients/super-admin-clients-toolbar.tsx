@@ -1,4 +1,4 @@
-import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Tooltip, useDialogs } from "@src/features"
+import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs } from "@src/features"
 import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminEditNewClient } from "./super-admin-edit-new-client";
 import { SuperAdminEditNewClientExtDatabase } from "./super-admin-edit-new-client-ext-database";
@@ -25,6 +25,11 @@ function SuperAdminClientsToolbar() {
             New client
           </Button>
         </Tooltip>
+          <Select size='sm' w={150} variant='filled'>
+            <option value='100'>Last 100 rows</option>
+            <option value='1000'>Last 1000 rows</option>
+            <option value='0'>All rows</option>
+          </Select>
         <Tooltip label='Reload data'>
           <IconButton size='sm' aria-label="Reload"
             onClick={handleOnClickReload}

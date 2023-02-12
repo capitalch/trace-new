@@ -1,4 +1,4 @@
-import { appStaticStore, appStore, Box, Messages, useToast } from '@src/features'
+import { appStaticStore, appStore,GraphQlQueryResultType, Messages, useToast } from '@src/features'
 import { FC } from 'react'
 
 function useAgGridUtils() {
@@ -145,7 +145,51 @@ function useFeedback() {
       duration: 3000
     })
   }
+
   return { showAppLoader, showError, showSuccess }
 }
 
-export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback }
+function useQueryResult() {
+  const { showError, showSuccess } = useFeedback()
+
+  function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void): boolean {
+    const res: any = result?.data?.genericUpdate
+    let ret = false
+    if (res) {
+      if (res?.error) {
+        const detail = res.error.detail
+        const errorCode = res.error.errorCode
+        const exception = res.error.exception
+        const message = `${errorCode}, ${detail}`
+        ret = true
+        showError(message)
+        console.log(exception)
+      } else {
+        showSuccess()
+        if (actionWhenSuccess) {
+          actionWhenSuccess()
+        }
+      }
+    }
+    return (ret)
+  }
+
+  function handleAndGetQueryResult(result: GraphQlQueryResultType): any {
+    const res: any = result?.data?.genericQuery
+    if (res) {
+      if (res?.error) {
+        const detail = res.error.detail
+        const errorCode = res.error.errorCode
+        const exception = res.error.exception
+        const message = `${errorCode}, ${detail}`
+        showError(message)
+        console.log(exception)
+      }
+    }
+    return (res)
+  }
+
+  return ({ handleUpdateResult, handleAndGetQueryResult })
+}
+
+export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback, useQueryResult }

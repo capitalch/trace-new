@@ -1,5 +1,19 @@
 // type UserType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | undefined
 // export { type UserType }
+
+type GraphQlQueryResultType = {
+  data: {
+    genericUpdate?: {
+      error?: {
+        errorCode: string,
+        detail: string,
+        exception: string
+      } | any
+    },
+    genericQuery?: any
+  }
+}
+
 enum UserTypesEnum {
   "SUPER_ADMIN",
   "ADMIN",
@@ -17,4 +31,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export { SideMenuTypesEnum, UserTypesEnum };
+export {type GraphQlQueryResultType, SideMenuTypesEnum, UserTypesEnum };

@@ -21,17 +21,27 @@
 																											18. No of rows
 																											9. Edit
 																											10. Delete
+																											
 																											13. Client error handling
 																											14. Server error handling
 																											15. Server update script
 																											16. Server delete functionality
 																											
-12. Edit external database
-13. New form for external database
+																											12. Edit external database
+																											13. Password treatement for ext database
+																											13. New form for external database
 14. Server script for database create
-15. React form																				
+																			
 16. No of rows for grid																																						
 !!. Responsive hide some controls
+16. Transfer table names to ClientM
+17. schema name accomodation maybe through operation name
+18. Generalize CRUD
+19. Show proper fields in Clients grid
+																											20. In the modal window show 'Test database connection' button
+21. Implement test database connection functionality
+15. React form
+15. Column filters implement
 																											
 ## comparison different grids
 1. react-data-grid: dynamic row height missing

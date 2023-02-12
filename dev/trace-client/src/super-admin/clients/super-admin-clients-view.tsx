@@ -1,10 +1,11 @@
-import { _, AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useEffect, useFeedback, useAppGraphql, useGranularEffect, useMemo, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages } from '@src/features'
+import { AgGridReact, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useQueryResult, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
 import { FirstDataRenderedEvent, GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
 import { filter } from 'lodash';
 import { SuperAdminEditNewClient } from './super-admin-edit-new-client';
+import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database';
 
 function SuperAdminClientsView() {
-    // const [, doRefresh] = useState({})
+    const { handleAndGetQueryResult } = useQueryResult()
     const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql, } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
@@ -115,24 +116,13 @@ function SuperAdminClientsView() {
             sqlId: 'get_all_clients',
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
-
         gridApiRef.current.api.showLoadingOverlay()
-        const st = new Date().getTime()
-        const ret = await queryGraphql(q)
-        const en = (new Date()).getTime()
-        console.log(en - st, ret)
-        const rows: [] = ret?.data?.genericQuery
-
+        const result: GraphQlQueryResultType = await queryGraphql(q)
+        const rows: [] = handleAndGetQueryResult(result)
         if (rows && (rows.length > 0)) {
             appStore.superAdmin.rows.value = rows
             appStaticStore.superAdmin.doFilter()
-            // const filteredRows = rows.map((x: any) => ({ ...x }))
-            // swapId(filteredRows)
-            // appStore.superAdmin.filteredRows.value = filteredRows
-            // swapId(appStore.superAdmin.filteredRows.value)
-            // console.log(appStore.superAdmin.filteredRows.value)
         }
-
         gridApiRef.current.api.hideOverlay()
     }
 }
@@ -145,15 +135,19 @@ function EditCellRenderer(props: any) {
         props.data.id && <Tooltip label='Edit'>
             <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon fontSize={18} color='teal.500' />} />
         </Tooltip>)
+
     function handleEditRow(params: any) {
         params.id = params.id1
         params.id1 = undefined
-        const obj = {...params}
+
+        const dbParams = params?.dbParams || {}
+
+        const obj = { ...params, host: dbParams.host, userName: dbParams.userName, password: dbParams.password, port: dbParams.port, url: dbParams.url }
         delete obj['id1']
         showModalDialogA({
             title: 'Edit client',
-            body: SuperAdminEditNewClient,
-            defaultData:{
+            body: params?.isExternalDb ? SuperAdminEditNewClientExtDatabase : SuperAdminEditNewClient,
+            defaultData: {
                 ...obj
             }
         })
@@ -211,3 +205,8 @@ function RemoveCellRenderer(props: any) {
     }
 }
 export { RemoveCellRenderer }
+
+// const st = new Date().getTime()
+// const ret = await queryGraphql(q)
+// const en = (new Date()).getTime()
+// console.log(en - st, ret)

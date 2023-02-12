@@ -12,7 +12,7 @@ class Messages():
     err_none_in_deletedids = 'None keyword appears in the deletedIds of sqlObject'
     err_renew_access_token = 'Error in renewing access_token from refresh_token'
     err_query_execution = 'Error executing generic query at server'
-    err_query_update = 'Error executing query update at server'
+    err_query_update = 'Error executing update query at server'
     err_sql_execution_failed = 'Execution of SQL command failed at server'
     err_uid_password_empty = 'User name or password cannot be empty'
     err_unknown_server_error = 'Unknown server error. Contact administrator'

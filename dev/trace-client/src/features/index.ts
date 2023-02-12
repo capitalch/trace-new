@@ -45,7 +45,6 @@ export {
   InputRightAddon,
   InputLeftElement,
   InputRightElement,
-
   Menu,
   MenuButton,
   MenuList,
@@ -57,7 +56,9 @@ export {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberInput, NumberInputField,
+  NumberInput,
+  NumberInputField,
+  Select,
   Slide,
   Spinner,
   Text,
@@ -75,7 +76,11 @@ export { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export { useForm } from 'react-hook-form'
 export { Else, Fallback, If, Then } from 'react-if'
-export { SideMenuTypesEnum, UserTypesEnum } from './app-types'
+export {
+  type GraphQlQueryResultType,
+  SideMenuTypesEnum,
+  UserTypesEnum
+} from './app-types'
 // export { AppModalA, useAppModalA } from './components/app-modal-a'
 export {
   emit,
@@ -92,7 +97,8 @@ export {
   useAgGridUtils,
   useComponentHistory,
   useDialogs,
-  useFeedback
+  useFeedback,
+  useQueryResult
 } from './utils'
 export { AppLoader } from './components/app-loader'
 export { AgGridReact, type AgGridReactProps } from 'ag-grid-react'
@@ -102,7 +108,7 @@ export { useGranularEffect } from 'granular-hooks'
 export { AppAlertDialogOk } from './components/app-alert-dialog-ok'
 export { AppAlertDialogYesNo } from './components/app-alert-dialog-yes-no'
 export { AppModalDialogA } from './components/app-modal-dialog-a'
-export { AppAstrisk } from './components/app-astrisk'
+export { AppRequiredAstrisk } from './components/app-required-astrisk'
 //icons
 
 // chakra-ui icons

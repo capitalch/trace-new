@@ -1,18 +1,19 @@
 import {
-    _,AppAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
-    FormErrorMessage, FormLabel, HStack, Input,
+    _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
+    FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
-    useForm, VStack, appStaticStore, useEffect, useState,
+    useForm, useQueryResult, VStack, appStaticStore, useEffect, useState,
 } from '@src/features'
 
 
 function SuperAdminEditNewClient() {
+    const { handleUpdateResult } = useQueryResult()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
-    const { showSuccess } = useFeedback()
+    const { showAppLoader } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
-    const {  handleSubmit, register, formState: { errors }, setValue,}: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const { handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useEffect(() => {
@@ -41,24 +42,24 @@ function SuperAdminEditNewClient() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing={4}>
                 <FormControl isInvalid={!!errors.clientCode}>
-                    <FormLabel>Client code <AppAstrisk /></FormLabel>
+                    <FormLabel>Client code <AppRequiredAstrisk /></FormLabel>
                     <Input id='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
                             : <>&nbsp;</>
                         }
-                        <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
+                        <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
                     </HStack>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.clientName}>
-                    <FormLabel>Client name <AppAstrisk /></FormLabel>
+                    <FormLabel>Client name <AppRequiredAstrisk /></FormLabel>
                     <Input id='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
                             : <>&nbsp;</>
                         }
-                        <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
+                        <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
                     </HStack>
                 </FormControl>
 
@@ -96,11 +97,14 @@ function SuperAdminEditNewClient() {
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         setIsSubmitDisabled(true)
-        const ret = await mutateGraphql(q)
+        showAppLoader(true)
+        const result: GraphQlQueryResultType = await mutateGraphql(q)
+        handleUpdateResult(result, () => {
+            closeModalDialogA()
+            appStaticStore.superAdmin.doReload()
+        })
+        showAppLoader(false)
         setIsSubmitDisabled(false)
-        closeModalDialogA()
-        appStaticStore.superAdmin.doReload()
-        showSuccess()
     }
 
     function setFormValues() {
