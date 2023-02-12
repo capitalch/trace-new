@@ -1,7 +1,7 @@
 class SqlQueriesAuth:
     get_all_clients = '''
-        select * from "TestM"
-            order by "id" DESC
+        select * from "TestM" 
+            order by "id" DESC limit %(noOfRows)s
     
     '''
     get_user_details = '''

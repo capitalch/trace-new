@@ -32,7 +32,7 @@
 																											13. New form for external database
 14. Server script for database create
 																			
-16. No of rows for grid																																						
+																											16. No of rows for grid																																						
 !!. Responsive hide some controls
 16. Transfer table names to ClientM
 17. schema name accomodation maybe through operation name

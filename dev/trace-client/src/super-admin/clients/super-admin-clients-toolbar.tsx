@@ -1,10 +1,10 @@
-import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs } from "@src/features"
+import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs, useState } from "@src/features"
 import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminEditNewClient } from "./super-admin-edit-new-client";
 import { SuperAdminEditNewClientExtDatabase } from "./super-admin-edit-new-client-ext-database";
 function SuperAdminClientsToolbar() {
   const { showModalDialogA } = useDialogs()
- 
+
   return (
     <HStack
       rowGap={1}
@@ -25,11 +25,11 @@ function SuperAdminClientsToolbar() {
             New client
           </Button>
         </Tooltip>
-          <Select size='sm' w={150} variant='filled'>
-            <option value='100'>Last 100 rows</option>
-            <option value='1000'>Last 1000 rows</option>
-            <option value='0'>All rows</option>
-          </Select>
+        <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStore.superAdmin.noOfRows.value} onChange={handleOnSelectRows}>
+          <option value='100'>Last 100 rows</option>
+          <option value='1000'>Last 1000 rows</option>
+          <option value='0'>All rows</option>
+        </Select>
         <Tooltip label='Reload data'>
           <IconButton size='sm' aria-label="Reload"
             onClick={handleOnClickReload}
@@ -42,14 +42,14 @@ function SuperAdminClientsToolbar() {
 
   function handleNewClient() {
     showModalDialogA({
-      title:'New client',
+      title: 'New client',
       body: SuperAdminEditNewClient,
     })
   }
 
   function handleNewClientExternalDatabase() {
     showModalDialogA({
-      title:'New client with external database',
+      title: 'New client with external database',
       body: SuperAdminEditNewClientExtDatabase,
     })
   }
@@ -57,6 +57,12 @@ function SuperAdminClientsToolbar() {
   async function handleOnClickReload() {
     appStaticStore.superAdmin.doReload()
     // appStaticStore.superAdmin.doFilter()
+  }
+
+  function handleOnSelectRows(e: any) {
+    appStore.superAdmin.noOfRows.value = (e.target.value === '0') ? null : e.target.value
+    appStaticStore.superAdmin.doReload()
+    // console.log(e.target.value)
   }
 }
 export { SuperAdminClientsToolbar }

@@ -114,6 +114,9 @@ function SuperAdminClientsView() {
     async function loadData() {
         const args = {
             sqlId: 'get_all_clients',
+            sqlArgs:{
+                noOfRows:appStore.superAdmin.noOfRows.value
+            }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
         gridApiRef.current.api.showLoadingOverlay()

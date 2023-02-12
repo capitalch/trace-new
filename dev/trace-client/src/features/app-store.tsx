@@ -53,6 +53,7 @@ const store: any = {
 
     superAdmin: {
         filteredRows: [],
+        noOfRows: '100',
         rows: [],
         refresh: true,
         searchString: ''
