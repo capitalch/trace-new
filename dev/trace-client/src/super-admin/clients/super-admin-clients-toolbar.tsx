@@ -60,7 +60,7 @@ function SuperAdminClientsToolbar() {
   }
 
   function handleOnSelectRows(e: any) {
-    appStore.superAdmin.noOfRows.value = (e.target.value === '0') ? null : e.target.value
+    appStore.superAdmin.noOfRows.value = e.target.value //(e.target.value === '0') ? null : 
     appStaticStore.superAdmin.doReload()
     // console.log(e.target.value)
   }
