@@ -9,7 +9,7 @@ mutation = MutationType()
 
 @query.field('genericQuery')
 async def generic_query(_, info, value=''):
-    return (resolve_generic_query(value))
+    return (resolve_generic_query(info, value))
 
 
 @mutation.field('genericUpdate')

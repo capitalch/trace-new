@@ -1,40 +1,43 @@
-import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs, useState } from "@src/features"
+import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs, useMediaQuery, useState } from "@src/features"
 import { GlobalSearchBox } from "./global-search-box";
 import { SuperAdminEditNewClient } from "./super-admin-edit-new-client";
 import { SuperAdminEditNewClientExtDatabase } from "./super-admin-edit-new-client-ext-database";
 function SuperAdminClientsToolbar() {
   const { showModalDialogA } = useDialogs()
-
+  const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
+  const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
   return (
     <HStack
       rowGap={1}
       wrap='wrap'
       h={AppConstants.COMPONENT_TOOLBAR_HEIGHT}
       justifyContent="space-between">
-      <Box>
+      {isLargerThan992 && <Box>
         <Heading size='sm'>All clients view</Heading>
-      </Box>
+      </Box>}
       <HStack wrap='wrap'>
-        <Tooltip label='Create a new client with external database'>
-          <Button size="sm" colorScheme="blue" onClick={handleNewClientExternalDatabase}>
-            New client with external database
-          </Button>
-        </Tooltip>
-        <Tooltip label='Create a new client'>
-          <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
-            New client
-          </Button>
-        </Tooltip>
+        {isLargerThan992 && <HStack>
+          <Tooltip label='Create a new client with external database'>
+            <Button size="sm" colorScheme="blue" onClick={handleNewClientExternalDatabase}>
+              New client with external database
+            </Button>
+          </Tooltip>
+          <Tooltip label='Create a new client'>
+            <Button size="sm" colorScheme="blue" onClick={handleNewClient}>
+              New client
+            </Button>
+          </Tooltip>
+        </HStack>}
         <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStore.superAdmin.noOfRows.value} onChange={handleOnSelectRows}>
           <option value='100'>Last 100 rows</option>
           <option value='1000'>Last 1000 rows</option>
-          <option value='0'>All rows</option>
+          <option value=''>All rows</option>
         </Select>
-        <Tooltip label='Reload data'>
+        {isLargerThan480 && <Tooltip label='Reload data'>
           <IconButton size='sm' aria-label="Reload"
             onClick={handleOnClickReload}
             icon={<RefreshIcon fontSize={26} color='blue.500' />} />
-        </Tooltip>
+        </Tooltip>}
         <GlobalSearchBox appStoreChildObject={appStore.superAdmin} />
       </HStack>
     </HStack>
@@ -56,13 +59,11 @@ function SuperAdminClientsToolbar() {
 
   async function handleOnClickReload() {
     appStaticStore.superAdmin.doReload()
-    // appStaticStore.superAdmin.doFilter()
   }
 
   function handleOnSelectRows(e: any) {
-    appStore.superAdmin.noOfRows.value = e.target.value //(e.target.value === '0') ? null : 
+    appStore.superAdmin.noOfRows.value = e.target.value
     appStaticStore.superAdmin.doReload()
-    // console.log(e.target.value)
   }
 }
 export { SuperAdminClientsToolbar }

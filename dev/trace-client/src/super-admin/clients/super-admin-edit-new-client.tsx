@@ -42,8 +42,8 @@ function SuperAdminEditNewClient() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing={4}>
                 <FormControl isInvalid={!!errors.clientCode}>
-                    <FormLabel>Client code <AppRequiredAstrisk /></FormLabel>
-                    <Input id='clientCode' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
+                    <FormLabel fontWeight='bold'>Client code <AppRequiredAstrisk /></FormLabel>
+                    <Input name='clientCode' placeholder='e.g battleGround' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
                         {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
                             : <>&nbsp;</>
@@ -53,8 +53,8 @@ function SuperAdminEditNewClient() {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.clientName}>
-                    <FormLabel>Client name <AppRequiredAstrisk /></FormLabel>
-                    <Input id='clientName' size='sm' type='text' {...registerClientName} autoComplete='off' />
+                    <FormLabel fontWeight='bold'>Client name <AppRequiredAstrisk /></FormLabel>
+                    <Input name='clientName' placeholder='e.g Battle Ground' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
                             : <>&nbsp;</>
@@ -64,7 +64,7 @@ function SuperAdminEditNewClient() {
                 </FormControl>
 
                 <FormControl>
-                    <Checkbox id='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
+                    <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
                 </FormControl>
 
                 <HStack justifyContent='flex-end' w='100%'>

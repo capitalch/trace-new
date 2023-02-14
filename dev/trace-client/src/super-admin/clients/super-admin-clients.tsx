@@ -1,5 +1,4 @@
-import { SystemStyleObject } from '@chakra-ui/react';
-import { Box, Flex, useComponentHistory, VStack } from '@src/features'
+import { Flex,} from '@src/features'
 import { SuperAdminClientsToolbar } from './super-admin-clients-toolbar'
 import { SuperAdminClientsView } from './super-admin-clients-view';
 
@@ -12,10 +11,3 @@ function SuperAdminClients() {
 }
 
 export { SuperAdminClients };
-
-const clientsStyle: SystemStyleObject = {
-  '.header': {
-    color: 'gray',
-    backgroundColor: 'dodgerBlue'
-  }
-}

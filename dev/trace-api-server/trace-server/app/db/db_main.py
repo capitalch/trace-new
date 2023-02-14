@@ -14,13 +14,16 @@ from .helpers.db_helper_psycopg2 import exec_generic_update as generic_update_ps
 from .helpers.db_helper_psycopg2 import exec_generic_query as generic_query_psycopg2
 
 
-async def resolve_generic_query(value):
+async def resolve_generic_query(info, value):
     error = {}
     data = {}
     try:
         valueString = unquote(value)
         valueDict = json.loads(valueString) if valueString else {}
         sqlId = valueDict.get('sqlId', None)
+        request = info.context.get('request', None)
+        requestJson = await request.json()
+        operationName = requestJson.get('operationName', None)
         if (not sqlId):
             raise AppHttpException('Bad sqlId', error_code='1001')
         sql = getattr(SqlQueriesAuth, sqlId)
@@ -28,7 +31,8 @@ async def resolve_generic_query(value):
         # data = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
         # data = await generic_query_psycopg_async(sql=sql, sqlArgs=sqlArgs)
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
-        data = generic_query_psycopg2(sql=sql, sqlArgs=sqlArgs)
+        data = generic_query_psycopg2(
+            dbName=operationName, sql=sql, sqlArgs=sqlArgs)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)
@@ -51,8 +55,8 @@ async def resolve_generic_update(info, value):
         sqlObj = json.loads(valueString)
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
-        # data = generic_update_psycopg_sync(sqlObject=sqlObj)        
-        data = generic_update_psycopg2(sqlObject=sqlObj)
+        # data = generic_update_psycopg_sync(sqlObject=sqlObj)
+        data = generic_update_psycopg2(dbName=operationName, sqlObject=sqlObj)
         # print('success')
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)

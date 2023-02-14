@@ -15,7 +15,6 @@ function SuperAdminClientsView() {
     // Alternative of useEffect. Dependency array can be blank with no warning
     useGranularEffect(() => {
         appStaticStore.superAdmin.doReload = loadData
-        // appStaticStore.superAdmin.doRefresh = () => doRefresh({})
     }, [], [])
 
     const onGridReady = (params: GridReadyEvent) => {
@@ -28,35 +27,36 @@ function SuperAdminClientsView() {
     const columnDefs: ColDef[] = [
         {
             // checkboxSelection: true,
-            headerName: 'Index',
+            headerName: '#',
             field: 'id',
             // headerCheckboxSelection: true,
             width: 80
         },
         {
-            field: 'clientCode',
-            filter: true,
+            field: 'id1',
+            headerName:'Client id',
             headerClass: 'header',
+            filter:'agNumberColumnFilter',
             width: 100
         },
         {
+            field: 'clientCode',
+            headerClass: 'header',
+            width: 200
+        },
+        {
             field: 'clientName',
-            width: 200,
-            resizable: true,
+            width: 300,
             flex: 1
         },
         {
             field: 'dbName',
-            width: 150
+            width: 250
         },
         {
+            headerName:'Active',
             field: 'isActive',
-            width: 40
-        },
-        {
-            cellRenderer: EditCellRenderer,
-            cellStyle: { padding: 0, margin: 0 },
-            width: 20
+            width: 80
         },
         {
             cellRenderer: DeleteCellRenderer,
@@ -64,19 +64,30 @@ function SuperAdminClientsView() {
             width: 20
         },
         {
-            cellRenderer: RemoveCellRenderer,
+            cellRenderer: HideCellRenderer,
             cellStyle: { padding: 0, margin: 0 },
             width: 20
-        }
+        },
+        {
+            cellRenderer: EditCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },        
+        
     ]
+
+    const defaultColDef: ColDef = {
+        resizable: true,
+        width: 100,
+        filter: true,
+    }
 
     const gridOptions: GridOptions = {
         animateRows: true,
         columnDefs: columnDefs,
+        defaultColDef: defaultColDef,
         getRowStyle: getRowStyle,
         onGridReady: onGridReady,
-        // rowBuffer: 20,
-        // rowData: appStore.superAdmin.filteredRows.value,
         rowSelection: 'single'
     }
 
@@ -86,16 +97,16 @@ function SuperAdminClientsView() {
             <AgGridReact
                 gridOptions={gridOptions}
                 onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {
-                    const api = gridApiRef.current.api // ev.api
+                    const api = gridApiRef.current.api
                     const model: any = api.getModel()
                     const visibleRows: any[] = model.rowsToDisplay
-                    api.setPinnedBottomRowData([{ 'clientCode': 'Rows:', clientName: visibleRows.length }])
+                    api.setPinnedBottomRowData([{ clientCode: 'Rows:', clientName: visibleRows.length }])
                 }}
                 onFilterChanged={(ev: any) => {
-                    const api = gridApiRef.current.api //ev.api
+                    const api = gridApiRef.current.api
                     const model: any = api.getModel()
                     const visibleRows: any[] = model.rowsToDisplay
-                    api.setPinnedBottomRowData([{ 'clientCode': 'Rows:', clientName: visibleRows.length }])
+                    api.setPinnedBottomRowData([{ clientCode: 'Rows:', clientName: visibleRows.length }])
                 }}
                 ref={gridApiRef}
                 rowData={appStore.superAdmin.filteredRows.value}
@@ -114,8 +125,8 @@ function SuperAdminClientsView() {
     async function loadData() {
         const args = {
             sqlId: 'get_all_clients',
-            sqlArgs:{
-                noOfRows:appStore.superAdmin.noOfRows.value
+            sqlArgs: {
+                noOfRows: appStore.superAdmin.noOfRows.value || null
             }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
@@ -191,14 +202,14 @@ function DeleteCellRenderer(props: any) {
 }
 export { DeleteCellRenderer }
 
-function RemoveCellRenderer(props: any) {
+function HideCellRenderer(props: any) {
 
     return (
-        props.data.id && <Tooltip label='Remove'>
-            <IconButton onClick={() => handleRemoveRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<CloseIcon color='gray.500' />} />
+        props.data.id && <Tooltip label='Hide'>
+            <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<CloseIcon color='gray.500' />} />
         </Tooltip>
     )
-    function handleRemoveRow(data: any) {
+    function handleHideRow(data: any) {
         const filteredRows: any[] = appStore.superAdmin.filteredRows.value
         const clone = filteredRows.map((x: any) => ({ ...x }))
         const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
@@ -207,7 +218,7 @@ function RemoveCellRenderer(props: any) {
         appStore.superAdmin.filteredRows.value = clone
     }
 }
-export { RemoveCellRenderer }
+export { HideCellRenderer }
 
 // const st = new Date().getTime()
 // const ret = await queryGraphql(q)
