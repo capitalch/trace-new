@@ -1,9 +1,11 @@
-import { appStaticStore, appStore, CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useAgGridUtils, useEffect, } from '@src/features'
+import { appStaticStore,  appStore,  CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useAgGridUtils, useEffect, } from '@src/features'
 
-function GlobalSearchBox({ appStoreChildObject }: any) {
+// appStore[storeObjectName] and appStaticStore[storeObjectName] gives the required object
+function GlobalSearchBox({ storeObjectName }: any) {
     const { swapId } = useAgGridUtils()
+    const appStoreObject:any = appStore[storeObjectName]
     useEffect(() => {
-        appStaticStore.superAdmin.doFilter = doFilter
+        appStaticStore[storeObjectName].doFilter = doFilter
         const subs1 = debounceFilterOn(ebukiMessages.searchStringChangeDebounce.toString(), 1200).subscribe((d: any) => {
             doFilter()
         })
@@ -18,30 +20,28 @@ function GlobalSearchBox({ appStoreChildObject }: any) {
             <Input variant='flushed'
                 onChange={handleOnChange}
                 placeholder='Global search'
-                value={appStoreChildObject.searchString.value}
+                value={appStoreObject.searchString.value}
             />
-            {/* <CloseIcon color='gray.400' /> */}
             <InputRightElement children={<IconButton onClick={handleClearSearch} size='xs' aria-label='close' icon={<CloseIcon color='gray.600' />} />} />
         </InputGroup>
     )
 
     function doFilter() {
-        const s = appStore.superAdmin.searchString.value
+        const s = appStoreObject.searchString.value
         const arr = s.toLowerCase().split(/\W/).filter((x: any) => x) // filter used to remove emty elements
-        const filteredRows = appStoreChildObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
+        const filteredRows = appStoreObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
         
-        appStoreChildObject.filteredRows.value = swapId(filteredRows)
+        appStoreObject.filteredRows.value = swapId(filteredRows)
     }
 
     function handleClearSearch() {
-        appStoreChildObject.searchString.value = ''
-        appStoreChildObject.filteredRows.value = appStoreChildObject.rows.value
+        appStoreObject.searchString.value = ''
+        appStoreObject.filteredRows.value = appStoreObject.rows.value
     }
 
     function handleOnChange(e: any) {
-        appStoreChildObject.searchString.value = e.target.value
+        appStoreObject.searchString.value = e.target.value
         debounceEmit(ebukiMessages.searchStringChangeDebounce.toString(), e.target.value)
-        // doFilter(e.target.value)
     }
 }
 export { GlobalSearchBox }

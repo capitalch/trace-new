@@ -38,7 +38,7 @@ function SuperAdminClientsToolbar() {
             onClick={handleOnClickReload}
             icon={<RefreshIcon fontSize={26} color='blue.500' />} />
         </Tooltip>}
-        <GlobalSearchBox appStoreChildObject={appStore.superAdmin} />
+        <GlobalSearchBox storeObjectName='superAdmin' />
       </HStack>
     </HStack>
   )

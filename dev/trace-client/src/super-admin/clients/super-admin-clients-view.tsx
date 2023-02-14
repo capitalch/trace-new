@@ -100,13 +100,13 @@ function SuperAdminClientsView() {
                     const api = gridApiRef.current.api
                     const model: any = api.getModel()
                     const visibleRows: any[] = model.rowsToDisplay
-                    api.setPinnedBottomRowData([{ clientCode: 'Rows:', clientName: visibleRows.length }])
+                    api.setPinnedBottomRowData([{ id1: 'Rows:', clientCode: visibleRows.length }])
                 }}
                 onFilterChanged={(ev: any) => {
                     const api = gridApiRef.current.api
                     const model: any = api.getModel()
                     const visibleRows: any[] = model.rowsToDisplay
-                    api.setPinnedBottomRowData([{ clientCode: 'Rows:', clientName: visibleRows.length }])
+                    api.setPinnedBottomRowData([{ id1: 'Rows:', clientCode: visibleRows.length }])
                 }}
                 ref={gridApiRef}
                 rowData={appStore.superAdmin.filteredRows.value}

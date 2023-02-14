@@ -36,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzYzOTg0NzcsInN1YiI6eyJ1c2VySWQiOjN9fQ.B0W-_q-6u5lTc9AYqjgVG_TegeLo0sTY2kq3WlEZv64',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzY0NjcwNTMsInN1YiI6eyJ1c2VySWQiOjN9fQ.cfxUaNSIJNrt9uib6xPdIm91EVbufAwdf4y70GNstP0',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -74,7 +74,6 @@ const appStaticStore: AppStaticStoreType = {
     isOpenClicked: false,
     superAdmin: {
         doFilter: () => { },
-        // doRefresh: () => {appStore.superAdmin.refresh.value = !appStore.superAdmin.refresh.value },
         doReload: () => { },
     }
 }
@@ -89,5 +88,6 @@ interface AppStaticStoreType {
         doFilter: () => void,
         // doRefresh: () => void,
         doReload: () => void
-    }
+    },
+    [key:string]: any
 }
