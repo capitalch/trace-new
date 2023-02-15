@@ -1,13 +1,13 @@
-import { AppConstants, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs, useMediaQuery, useState } from "@src/features"
-import { GlobalSearchBox } from "./global-search-box";
+import { AppConstants, AppGridSearchBox, appStaticStore, appStore, Box, Button, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useDialogs, useMediaQuery, useState } from "@src/features"
 import { SuperAdminEditNewClient } from "./super-admin-edit-new-client";
 import { SuperAdminEditNewClientExtDatabase } from "./super-admin-edit-new-client-ext-database";
+
 function SuperAdminClientsToolbar() {
   const { showModalDialogA } = useDialogs()
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
   const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
   return (
-    <HStack
+    <HStack mb={2}
       rowGap={1}
       wrap='wrap'
       h={AppConstants.COMPONENT_TOOLBAR_HEIGHT}
@@ -38,7 +38,7 @@ function SuperAdminClientsToolbar() {
             onClick={handleOnClickReload}
             icon={<RefreshIcon fontSize={26} color='blue.500' />} />
         </Tooltip>}
-        <GlobalSearchBox storeObjectName='superAdmin' />
+        <AppGridSearchBox storeObjectName='superAdmin' />
       </HStack>
     </HStack>
   )

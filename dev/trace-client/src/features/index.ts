@@ -72,7 +72,7 @@ export {
 export { deepSignal, useDeepSignal } from '@deepsignal/react'
 export { Messages } from './messages'
 export { _, produce, React, urlJoin }
-export { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+export { type FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export { useForm } from 'react-hook-form'
 export { Else, Fallback, If, Then } from 'react-if'
@@ -109,6 +109,8 @@ export { AppAlertDialogOk } from './components/app-alert-dialog-ok'
 export { AppAlertDialogYesNo } from './components/app-alert-dialog-yes-no'
 export { AppModalDialogA } from './components/app-modal-dialog-a'
 export { AppRequiredAstrisk } from './components/app-required-astrisk'
+export { AppGridSearchBox } from './components/app-grid-search-box'
+export { AppGridToolbar } from './components/app-grid-toolbar'
 //icons
 
 // chakra-ui icons

@@ -1,6 +1,7 @@
 const Messages = {
     errAtLeast4Chars: 'Should be at least 4 chars long',
     errAtLeast8Chars: 'Should be at least 8 chars long',
+    errFetchingData: 'Error in fetching data',
     errInputMustBeUrl: 'Input value should be url',
     errInvalidInput: 'Invalid input',
     errMustBeNumeric: 'Must be numeric',
@@ -8,7 +9,7 @@ const Messages = {
     errMustHaveOneLetter: "Should have one letter",
     errMustHaveOneSpecialChar: "Must have a special character",
     errNoSpceOrSpecialChar: 'Cannot have space or special character',
-    errNoSpecialChar:'Cannot have special character',
+    errNoSpecialChar: 'Cannot have special character',
     errRequired: 'This value is required',
     errGenericServerError: 'Server side error',
 

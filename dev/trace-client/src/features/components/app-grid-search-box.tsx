@@ -1,7 +1,7 @@
 import { appStaticStore,  appStore,  CloseIcon, debounceEmit, debounceFilterOn, ebukiMessages, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useAgGridUtils, useEffect, } from '@src/features'
 
 // appStore[storeObjectName] and appStaticStore[storeObjectName] gives the required object
-function GlobalSearchBox({ storeObjectName }: any) {
+function AppGridSearchBox({ storeObjectName }: any) {
     const { swapId } = useAgGridUtils()
     const appStoreObject:any = appStore[storeObjectName]
     useEffect(() => {
@@ -44,4 +44,4 @@ function GlobalSearchBox({ storeObjectName }: any) {
         debounceEmit(ebukiMessages.searchStringChangeDebounce.toString(), e.target.value)
     }
 }
-export { GlobalSearchBox }
+export { AppGridSearchBox }
