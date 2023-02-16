@@ -55,6 +55,14 @@ function appValidators() {
         return error
     }
 
+    function checkNoSpace(input: string) {
+        let error = null
+        if (input.search(/\s/g) > 0) {
+            error = Messages.errNoSpaceAllowed
+        }
+        return (error)
+    }
+
     function checkNumeric(input: string) {
         let error = null
         if (input.search(/^[0-9]+$/) < 0) {
@@ -89,8 +97,8 @@ function appValidators() {
 
     function checkUrl(input: string) {
         let error = null
-        if(!input){
-            return(error)
+        if (!input) {
+            return (error)
         }
         if (input.search(/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})$/) < 0) {
             error = Messages.errInputMustBeUrl
@@ -103,7 +111,7 @@ function appValidators() {
         return ret
     }
 
-    return ({ checkNumeric, checkPwd, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail , checkUrl})
+    return ({ checkNumeric, checkPwd, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail, checkUrl })
 }
 
 export { appValidators }

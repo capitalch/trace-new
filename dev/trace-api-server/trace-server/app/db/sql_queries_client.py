@@ -1,4 +1,4 @@
-class Sqls:
-    get_xxx = '''
-    sql
+class SqlQueriesClient:
+    test_connection = '''
+        select 1
     '''

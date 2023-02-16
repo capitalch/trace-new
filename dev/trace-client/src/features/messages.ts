@@ -8,6 +8,7 @@ const Messages = {
     errMustHaveOneDigit: "Should have a digit",
     errMustHaveOneLetter: "Should have one letter",
     errMustHaveOneSpecialChar: "Must have a special character",
+    errNoSpaceAllowed:'Space is not allowed',
     errNoSpceOrSpecialChar: 'Cannot have space or special character',
     errNoSpecialChar: 'Cannot have special character',
     errRequired: 'This value is required',

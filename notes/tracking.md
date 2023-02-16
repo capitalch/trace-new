@@ -42,7 +42,7 @@
 21. Implement test database connection functionality
 15. React form
 14. Server script for database create
-18. Generalize CRUD
+																											18. Generalize toolbar
 																											
 ## comparison different grids
 1. react-data-grid: dynamic row height missing

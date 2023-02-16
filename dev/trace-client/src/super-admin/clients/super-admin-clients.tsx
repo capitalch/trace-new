@@ -1,8 +1,8 @@
 import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useQueryResult, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
-import { GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community';
-import { SuperAdminClientsToolbar } from './super-admin-clients-toolbar';
-import { SuperAdminEditNewClient } from './super-admin-edit-new-client';
-import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database';
+import { GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community'
+import { SuperAdminEditNewClient } from './super-admin-edit-new-client'
+import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database'
+import { SuperAdminNewClientButtons } from './super-admin-new-client-buttons'
 
 function SuperAdminClients() {
     const { handleAndGetQueryResult } = useQueryResult()
@@ -95,7 +95,8 @@ function SuperAdminClients() {
     return (
         <Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
             {/* <SuperAdminClientsToolbar /> */}
-            <AppGridToolbar storeObjectName='superAdmin' />
+            <AppGridToolbar storeObjectName='superAdmin' title='All clients view' CustomControl={SuperAdminNewClientButtons} />
+            {/* customControl={()=><SuperAdminNewClientButtons storeObjectName='superAdmin' /> */}
             <AgGridReact
                 gridOptions={gridOptions}
                 onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {

@@ -11,10 +11,10 @@ function SuperAdminEditNewClientExtDatabase() {
     const { handleUpdateResult } = useQueryResult()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
-    const { appGraphqlStrings, mutateGraphql } = useAppGraphql()
-    const { showAppLoader } = useFeedback()
-    const { checkNumeric, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUrl } = appValidators()
-    const { handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
+    const { showAppLoader, showError } = useFeedback()
+    const { checkNumeric, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUrl } = appValidators()
+    const { getValues, handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useEffect(() => {
@@ -37,7 +37,7 @@ function SuperAdminEditNewClientExtDatabase() {
     const registerHost = register('host', {
         required: Messages.errRequired
         , validate: {
-            noSpaceOrSpecialChar: checkNoSpaceOrSpecialChar
+            noSpace: checkNoSpace
         }
     })
     const registerUserName = register('userName', {
@@ -154,34 +154,35 @@ function SuperAdminEditNewClientExtDatabase() {
                         </FormControl>
                     </HStack>
 
-                    <HStack pl={3}  pr={3}>
+                    <HStack pl={3} pr={3}>
                         {/* port */}
                         <FormControl flex='1' isInvalid={!!errors.port}>
                             <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>DB port <AppRequiredAstrisk /></FormLabel>
-                            <NumberInput placeholder='e.g 2134' size='sm' name='port' {...registerPort}>
+                            <Input placeholder='e.g 1234' name='port' size='sm' type='text' {...registerPort} autoComplete='off' />
+                            {/* <NumberInput size='sm' name='port' {...registerPort}>
                                 <NumberInputField />
-                            </NumberInput>
+                            </NumberInput> */}
                             <HStack justifyContent='space-between' >
                                 {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }                                
+                                }
                             </HStack>
                         </FormControl>
 
                         {/* url */}
-                        <FormControl flex='2'  isInvalid={!!errors.url}>
+                        <FormControl flex='2' isInvalid={!!errors.url}>
                             <FormLabel fontWeight='bold' fontSize='sm'>DB url</FormLabel>
                             <Input placeholder='e.g http://battledb.com' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
                             <HStack justifyContent='space-between' >
                                 {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }                                
+                                }
                             </HStack>
                         </FormControl>
                     </HStack>
                     <HStack w='100%' justify='flex-end'>
                         {/* Test database connection */}
-                        <Button mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal'>Test database connection</Button>
+                        <Button mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal' onClick={handleTestDb}>Test database connection</Button>
                     </HStack>
                     <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
@@ -241,6 +242,22 @@ function SuperAdminEditNewClientExtDatabase() {
         for (const key in defaultData) {
             setValue(key, defaultData[key])
         }
+    }
+
+    async function handleTestDb() {
+        const tempData = getValues()
+        const args = {
+            sqlId: 'test_connection'
+        }
+        const q = appGraphqlStrings['genericQuery'](args, tempData['dbName'])
+        try {
+            const result: GraphQlQueryResultType = await queryGraphql(q)
+            console.log(result)
+        } catch (e: any) {
+            showError(e.message || Messages.errFetchingData)
+            console.log(e.message)
+        }
+        console.log(defaultData)
     }
 }
 
