@@ -20,6 +20,10 @@ async def resolve_generic_query(info, value):
     try:
         valueString = unquote(value)
         valueDict = json.loads(valueString) if valueString else {}
+        dbParams = valueDict.get('dbParams', None)
+        if(dbParams):            
+            dbParams['url'] = None
+            dbParams['dbName'] = None
         sqlId = valueDict.get('sqlId', None)
         request = info.context.get('request', None)
         requestJson = await request.json()
@@ -32,7 +36,7 @@ async def resolve_generic_query(info, value):
         # data = await generic_query_psycopg_async(sql=sql, sqlArgs=sqlArgs)
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
         data = generic_query_psycopg2(
-            dbName=operationName, sql=sql, sqlArgs=sqlArgs)
+            dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)

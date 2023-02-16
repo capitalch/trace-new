@@ -43,4 +43,8 @@ class SqlQueriesAuth:
             , 'businessUnits', (select json_agg(row_to_json(b)) from cte2 b)
             , 'role', (select row_to_json(c) from cte3 c)
         ) as "jsonResult"
+    ''',
+
+    test_connection = '''
+        select 1
     '''

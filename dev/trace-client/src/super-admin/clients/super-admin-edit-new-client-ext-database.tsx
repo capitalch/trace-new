@@ -40,7 +40,7 @@ function SuperAdminEditNewClientExtDatabase() {
             noSpace: checkNoSpace
         }
     })
-    const registerUserName = register('userName', {
+    const registerUser = register('user', {
         minLength: { value: 4, message: Messages.errAtLeast4Chars },
         required: Messages.errRequired
         , validate: {
@@ -129,12 +129,12 @@ function SuperAdminEditNewClientExtDatabase() {
                     </HStack>
 
                     <HStack>
-                        {/* user name */}
-                        <FormControl isInvalid={!!errors.userName}>
-                            <FormLabel fontWeight='bold' htmlFor='userName' fontSize='sm'>DB user name <AppRequiredAstrisk /></FormLabel>
-                            <Input placeholder='john123' name='userName' size='sm' type='text' {...registerUserName} autoComplete='off' />
+                        {/* user*/}
+                        <FormControl isInvalid={!!errors.user}>
+                            <FormLabel fontWeight='bold' htmlFor='user' fontSize='sm'>DB user name <AppRequiredAstrisk /></FormLabel>
+                            <Input placeholder='john123' name='user' size='sm' type='text' {...registerUser} autoComplete='off' />
                             <HStack justifyContent='space-between' >
-                                {(!!errors.userName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.userName.message}</FormErrorMessage>
+                                {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
@@ -201,12 +201,16 @@ function SuperAdminEditNewClientExtDatabase() {
         showAlertDialogOk({ title: 'Client name information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box> })
     }
 
+    // function onSubmit(values:any){
+    //     console.log('abcd')
+    // }
+
     async function onSubmit(values: any) {
         const id = values?.id
         const dbParams: any = {
             dbName: values?.dbName,
             host: values?.host,
-            userName: values?.userName,
+            user: values?.user,
             password: values?.password,
             port: values?.port,
             url: values?.url
@@ -247,7 +251,8 @@ function SuperAdminEditNewClientExtDatabase() {
     async function handleTestDb() {
         const tempData = getValues()
         const args = {
-            sqlId: 'test_connection'
+            sqlId: 'test_connection',
+            dbParams: tempData.dbParams
         }
         const q = appGraphqlStrings['genericQuery'](args, tempData['dbName'])
         try {

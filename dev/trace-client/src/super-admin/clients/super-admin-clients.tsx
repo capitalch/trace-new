@@ -165,7 +165,7 @@ function EditCellRenderer(props: any) {
 
         const dbParams = params?.dbParams || {}
 
-        const obj = { ...params, host: dbParams.host, userName: dbParams.userName, password: dbParams.password, port: dbParams.port, url: dbParams.url }
+        const obj = { ...params, host: dbParams.host, user: dbParams.user, password: dbParams.password, port: dbParams.port, url: dbParams.url }
         delete obj['id1']
         showModalDialogA({
             title: 'Edit client',
