@@ -3,14 +3,9 @@
 
 type GraphQlQueryResultType = {
   data: {
-    genericUpdate?: {
-      error?: {
-        errorCode: string,
-        detail: string,
-        exception: string
-      } | any
-    },
-    genericQuery?: any
+    genericUpdate?: any
+    genericQuery?: any,
+    [key: string]: any
   }
 }
 
@@ -31,4 +26,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export {type GraphQlQueryResultType, SideMenuTypesEnum, UserTypesEnum };
+export { type GraphQlQueryResultType, SideMenuTypesEnum, UserTypesEnum };

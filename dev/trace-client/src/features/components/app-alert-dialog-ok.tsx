@@ -3,12 +3,12 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 function AppAlertDialogOk() {
     const cancelRef: any = useRef()
     return (
-        <AlertDialog closeOnOverlayClick={false} isCentered
+        <AlertDialog closeOnOverlayClick={false} isCentered size='xs'
             isOpen={appStore.alertDialogOk.isOpen.value}
             leastDestructiveRef={cancelRef}
             onClose={handleOnClose}>
             <AlertDialogOverlay />
-            <AlertDialogContent>
+            <AlertDialogContent >
                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                     {appStore.alertDialogOk.header.value}
                 </AlertDialogHeader>

@@ -3,6 +3,14 @@ import { _ } from '@src/features'
 
 const appGraphqlStrings: any = {
 
+    genericQuery: (val: any, dbName: string) => {
+        const value = encodeObj(val)
+        return gql`
+        query ${dbName}{
+            genericQuery(value:"${value}")
+        }`
+    },
+
     genericUpdate: (val: any, dbName: string) => {
         const value = encodeObj(val)
         return gql`
@@ -11,11 +19,11 @@ const appGraphqlStrings: any = {
         }`
     },
 
-    genericQuery: (val: any, dbName: string) => {
+    updateClient:(val: any, dbName: string)=>{
         const value = encodeObj(val)
         return gql`
-        query ${dbName}{
-            genericQuery(value:"${value}")
+        mutation ${dbName} {
+            updateClient(value:"${value}")
         }`
     }
 }

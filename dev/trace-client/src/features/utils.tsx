@@ -1,4 +1,4 @@
-import { appStaticStore, appStore,GraphQlQueryResultType, Messages, useToast } from '@src/features'
+import { appStaticStore, appStore, GraphQlQueryResultType, Messages, useToast } from '@src/features'
 import { FC } from 'react'
 
 function useAgGridUtils() {
@@ -152,9 +152,15 @@ function useFeedback() {
 function useQueryResult() {
   const { showError, showSuccess } = useFeedback()
 
-  function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void): boolean {
-    const res: any = result?.data?.genericUpdate
+  function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void, queryName: string ='genericUpdate'): boolean {
+    const res: any = result?.data?.[queryName]  //result.data[queryName]
     let ret = false
+    const handleSuccess = () => {
+      showSuccess()
+      if (actionWhenSuccess) {
+        actionWhenSuccess()
+      }
+    }
     if (res) {
       if (res?.error) {
         const detail = res.error.detail
@@ -165,11 +171,10 @@ function useQueryResult() {
         showError(message)
         console.log(exception)
       } else {
-        showSuccess()
-        if (actionWhenSuccess) {
-          actionWhenSuccess()
-        }
+        handleSuccess()
       }
+    } else { // successful delete returns null
+      handleSuccess()
     }
     return (ret)
   }

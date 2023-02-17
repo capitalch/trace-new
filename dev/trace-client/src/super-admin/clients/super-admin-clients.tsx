@@ -180,7 +180,8 @@ export { EditCellRenderer }
 
 function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
-    const { showError, showSuccess } = useFeedback()
+    const { handleUpdateResult } = useQueryResult()
+    const { showAppLoader, showError, showSuccess } = useFeedback()
     const { mutateGraphql } = useAppGraphql()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
@@ -199,14 +200,21 @@ function DeleteCellRenderer(props: any) {
             deletedIds: [id]
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-        const ret = await mutateGraphql(q)
-        const err = ret?.data?.genericUpdate?.error
-        if (err) {
-            showError(`${err.errorCode}, ${Messages.errGenericServerError}`)
-        } else {
+
+        showAppLoader(true)
+        const result: GraphQlQueryResultType = await mutateGraphql(q)
+        handleUpdateResult(result,  () => {
             appStaticStore.superAdmin.doReload()
-            showSuccess()
-        }
+        })
+        showAppLoader(false)
+
+        // const err = result?.data?.genericUpdate?.error
+        // if (err) {
+        //     showError(`${err.errorCode}, ${Messages.errGenericServerError}`)
+        // } else {
+        //     appStaticStore.superAdmin.doReload()
+        //     showSuccess()
+        // }
     }
 }
 export { DeleteCellRenderer }

@@ -39,9 +39,11 @@
 																											19. Show proper fields in Clients grid
 																											20. In the modal window show 'Test database connection' button
 																											15. Column filters implement
-21. Implement test database connection functionality
+																											21. Implement test database connection functionality
 15. React form
 14. Server script for database create
+15. dbParams entry in DB encrypted
+16. Server separate route
 																											18. Generalize toolbar
 																											
 ## comparison different grids

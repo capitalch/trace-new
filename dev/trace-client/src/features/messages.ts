@@ -13,6 +13,7 @@ const Messages = {
     errNoSpecialChar: 'Cannot have special character',
     errRequired: 'This value is required',
     errGenericServerError: 'Server side error',
+    errUpdatingData: 'Error in updating data at server',
 
     messMin8Char1Digit1Special: 'At lest 8 characters long | 1 digit | 1 special char',
     messNoSpecialSpace4Plus: 'At lest 4 characters long | no space | no special char',

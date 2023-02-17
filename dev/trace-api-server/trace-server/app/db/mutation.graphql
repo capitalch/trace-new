@@ -1,3 +1,4 @@
 type Mutation {
-    genericUpdate(value:Generic): Generic  
+    genericUpdate(value:Generic): Generic 
+    updateClient(value: Generic) : Generic
 }

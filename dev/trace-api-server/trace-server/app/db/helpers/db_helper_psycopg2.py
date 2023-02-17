@@ -9,18 +9,24 @@ from app import AppHttpException,  Config, Messages
 
 poolStore = {}
 dbParams: dict = {
-    'user': Config.DB_USER,
+    'host': Config.DB_HOST,
     'password': Config.DB_PASSWORD,
     'port': Config.DB_PORT,
-    'host': Config.DB_HOST,
+    'user': Config.DB_USER,
 }
 
 
-def get_connection_pool(connInfo: str, dbName: str) -> ThreadedConnectionPool:
+def get_connection_pool(connInfo: str, dbName: str, toReconnect = False) -> ThreadedConnectionPool:
     pool1 = poolStore.get(dbName)
-    if ((pool1 is None) or pool1.closed):
+    def doReconnect():
+        nonlocal pool1
         pool1 = ThreadedConnectionPool(5,500,**connInfo)
         poolStore[dbName] = pool1
+    if(toReconnect):
+        doReconnect()
+    else:
+        if((pool1 is None) or pool1.closed):
+            doReconnect()
     return (pool1)
 
 
@@ -33,10 +39,10 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
     return (connInfo)
 
 
-def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}): #, execSqlObject: Any = None, sqlObject: Any = None):
+def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect = False): #, execSqlObject: Any = None, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
-    apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
+    apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName, toReconnect)
     records = None
     with apool.getconn() as aconn:
         with aconn.cursor(cursor_factory=RealDictCursor) as acur:
@@ -46,6 +52,22 @@ def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[st
                 records = acur.fetchall()
     return (jsonable_encoder(records))
 
+def get_cursor(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):
+    connInfo = get_conn_info(dbName, db_params)
+    pool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
+    cur = None
+    conn = pool.getconn()
+    conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    return(conn, cur)
+
+def get_connection(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):
+    connInfo = get_conn_info(dbName, db_params)
+    pool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
+    conn = pool.getconn()
+    conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+    return(conn)
+        
 
 def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
     ret = None

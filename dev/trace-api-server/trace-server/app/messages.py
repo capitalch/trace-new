@@ -28,4 +28,5 @@ class CustomErrorCodes():
     e1007 = 'Error occured while executing generic query at server. Error method resolve_generic_query. Check server logs for more specific exception details'
     e1008 = 'Error occured while executing generic update at server. Error method was resolve_generic_update. Check server logs for more specific details of exception'
     e1009 = 'The deletedIds list in sqlObject contained None. The delete sql query with id as None fails. Check the client code which sends no value for deletedIds'
+    e1010 = 'Error updating client in resolve_update_client method'
 # messages = Messages()

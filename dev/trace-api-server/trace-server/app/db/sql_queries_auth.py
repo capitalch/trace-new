@@ -1,9 +1,19 @@
 class SqlQueriesAuth:
+    
     get_all_clients = '''
         select * from "TestM" 
             order by "id" DESC limit %(noOfRows)s
     
     '''
+    
+    get_database = '''
+        SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
+    '''
+    
+    create_database = '''
+        create database "%(dbName)s"
+    '''
+    
     get_user_details = '''
         with "uidOrEmail" as (values(%(uidOrEmail)s))
         --with "uidOrEmail" as (values('capitalch'))
@@ -43,8 +53,9 @@ class SqlQueriesAuth:
             , 'businessUnits', (select json_agg(row_to_json(b)) from cte2 b)
             , 'role', (select row_to_json(c) from cte3 c)
         ) as "jsonResult"
-    ''',
+    '''
 
     test_connection = '''
         select 1
     '''
+    

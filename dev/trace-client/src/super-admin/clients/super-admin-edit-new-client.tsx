@@ -11,7 +11,7 @@ function SuperAdminEditNewClient() {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
-    const { showAppLoader } = useFeedback()
+    const { showAppLoader, showError } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
     const { handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
@@ -95,16 +95,23 @@ function SuperAdminEditNewClient() {
         if (!id) { //insert
             sqlObj.xData.dbName = `${values.clientCode}_accounts`
         }
-        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-        setIsSubmitDisabled(true)
-        showAppLoader(true)
-        const result: GraphQlQueryResultType = await mutateGraphql(q)
-        handleUpdateResult(result, () => {
-            closeModalDialogA()
-            appStaticStore.superAdmin.doReload()
-        })
-        showAppLoader(false)
-        setIsSubmitDisabled(false)
+
+        const q = appGraphqlStrings['updateClient'](sqlObj, 'traceAuth')
+        try {
+            setIsSubmitDisabled(true)
+            showAppLoader(true)
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStaticStore.superAdmin.doReload()
+            }, 'updateClient')
+        } catch (e: any) {
+            showError(Messages.errUpdatingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+            setIsSubmitDisabled(false)
+        }
     }
 
     function setFormValues() {

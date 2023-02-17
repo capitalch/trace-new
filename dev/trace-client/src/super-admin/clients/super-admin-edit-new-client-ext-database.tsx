@@ -8,7 +8,7 @@ import {
 
 
 function SuperAdminEditNewClientExtDatabase() {
-    const { handleUpdateResult } = useQueryResult()
+    const { handleUpdateResult, handleAndGetQueryResult } = useQueryResult()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
@@ -228,15 +228,23 @@ function SuperAdminEditNewClientExtDatabase() {
             }
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-        setIsSubmitDisabled(true)
-        showAppLoader(true)
-        const result: GraphQlQueryResultType = await mutateGraphql(q)
-        handleUpdateResult(result, () => {
-            closeModalDialogA()
-            appStaticStore.superAdmin.doReload()
-        })
-        setIsSubmitDisabled(false)
-        showAppLoader(false)
+        try {
+            setIsSubmitDisabled(true)
+            showAppLoader(true)
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStaticStore.superAdmin.doReload()
+            })
+        } catch (e: any) {
+            showError(Messages.errUpdatingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+            setIsSubmitDisabled(false)
+        }
+
+
     }
 
     function setFormValues() {
@@ -249,20 +257,43 @@ function SuperAdminEditNewClientExtDatabase() {
     }
 
     async function handleTestDb() {
-        const tempData = getValues()
+        const values = getValues()
+        const dbParams: any = {
+            // dbName: values?.dbName,
+            host: values?.host,
+            user: values?.user,
+            password: values?.password,
+            port: values?.port,
+            // url: values?.url
+        }
         const args = {
             sqlId: 'test_connection',
-            dbParams: tempData.dbParams
+            dbParams: dbParams,
+            toReconnect: true
         }
-        const q = appGraphqlStrings['genericQuery'](args, tempData['dbName'])
+        const q = appGraphqlStrings['genericQuery'](args, values['dbName'])
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
-            console.log(result)
+            const res: any = result?.data?.genericQuery
+            const showFailed: any = () => showAlertDialogOk({ title: 'Information', body: <Box color='red.400'>Connection failed</Box> })
+            if (res) {
+                if (res?.error) {
+                    showFailed()
+                } else {
+                    if ((res.length > 0)) {
+                        showAlertDialogOk({ title: 'Information', body: <Box color='green.400'>Connection successful</Box> })
+                    } else {
+                        showFailed()
+                    }
+                }
+            } else {
+                showFailed()
+            }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
             console.log(e.message)
         }
-        console.log(defaultData)
+        // console.log(defaultData)
     }
 }
 
