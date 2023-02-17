@@ -227,7 +227,7 @@ function SuperAdminEditNewClientExtDatabase() {
                 dbParams: JSON.stringify(dbParams)
             }
         }
-        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
+        const q = appGraphqlStrings['updateClient'](sqlObj, 'traceAuth')
         try {
             setIsSubmitDisabled(true)
             showAppLoader(true)
@@ -235,7 +235,7 @@ function SuperAdminEditNewClientExtDatabase() {
             handleUpdateResult(result, () => {
                 closeModalDialogA()
                 appStaticStore.superAdmin.doReload()
-            })
+            },'updateClient')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
             console.log(e.message)
@@ -243,8 +243,6 @@ function SuperAdminEditNewClientExtDatabase() {
             showAppLoader(false)
             setIsSubmitDisabled(false)
         }
-
-
     }
 
     function setFormValues() {

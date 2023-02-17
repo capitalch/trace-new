@@ -1,4 +1,5 @@
 type Query {
     genericQuery(value:Generic): Generic
+    queryClients(value:Generic): Generic
 }
 scalar Generic

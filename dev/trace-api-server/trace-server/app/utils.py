@@ -1,4 +1,5 @@
-from app.vendors import HTTPException, JSONResponse, OAuth2PasswordBearer, status
+from app.vendors import Fernet, HTTPException, JSONResponse, OAuth2PasswordBearer, status
+from app import Config
 import logging
 from datetime import datetime
 
@@ -10,6 +11,20 @@ class AppHttpException(Exception):
     detail: str
     statusCode: str
     errorCode: str
+
+
+def decrypt(input: str):
+    key = Config.CRYPTO_KEY
+    cipher_suite = Fernet(key)
+    decoded_text = cipher_suite.decrypt(input.encode())
+    return(decoded_text)
+
+def encrypt(input: str):
+    key = Config.CRYPTO_KEY
+    cipher_suite = Fernet(key)
+    encoded_text = cipher_suite.encrypt(input.encode()) # encode converts string to bytes, decode does opposite
+    return(encoded_text.decode())
+
 
 def get_logger():
     # Logging levels are Debug:10, Info: 20, Warning: 30, Error: 40, Critical: 50

@@ -19,6 +19,14 @@ const appGraphqlStrings: any = {
         }`
     },
 
+    queryClients:(val: any, dbName: string)=>{
+        const value = encodeObj(val)
+        return gql`
+        query ${dbName} {
+            queryClients(value:"${value}")
+        }`
+    },
+
     updateClient:(val: any, dbName: string)=>{
         const value = encodeObj(val)
         return gql`

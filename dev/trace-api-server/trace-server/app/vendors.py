@@ -6,6 +6,7 @@ from ariadne import load_schema_from_path, make_executable_schema, QueryType, Mu
 from ariadne.asgi import graphql, GraphQL
 # from asyncpg import connect, Connection, create_pool, Record
 # from asyncpg.prepared_stmt import PreparedStatement
+from cryptography.fernet import Fernet
 from pydantic import BaseModel, ValidationError
 # from jose import jwt
 import jwt

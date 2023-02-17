@@ -132,7 +132,7 @@ function SuperAdminClients() {
                 noOfRows: appStore.superAdmin.noOfRows.value || null
             }
         }
-        const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
+        const q = appGraphqlStrings['queryClients'](args, 'traceAuth')
         gridApiRef.current.api.showLoadingOverlay()
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)

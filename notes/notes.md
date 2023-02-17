@@ -1,4 +1,4 @@
-pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool]
+pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool] pycryptodome
 
 ### React data grids
 1. react-data-grid: https://www.npmjs.com/package/react-data-grid
