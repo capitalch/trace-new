@@ -46,7 +46,14 @@
 																											16. Server separate route
 																											18. Generalize toolbar
 10. Unique client validation from server
-																											
+																											11. Optimized no of connections
+																											12. Organized different function of GraphQL under useAppGraphQL()
+13. In created database remove schema public
+## Dashboard functionality
+1. No of connections
+2. No of clients ( Active / Inactive)
+3. Clients with databases
+
 ## comparison different grids
 1. react-data-grid: dynamic row height missing
 2. ag grid community: Aggregation missing

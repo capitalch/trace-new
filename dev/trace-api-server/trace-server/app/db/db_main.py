@@ -14,7 +14,7 @@ from .helpers.db_helper_psycopg_async import exec_generic_query as generic_query
 
 from .helpers.db_helper_psycopg2 import exec_generic_update as generic_update_psycopg2
 from .helpers.db_helper_psycopg2 import exec_generic_query as generic_query_psycopg2
-from .helpers.db_helper_psycopg2 import get_cursor, get_connection
+from .helpers.db_helper_psycopg2 import get_cursor, execute_sql
 
 
 async def resolve_generic_query(info, value):
@@ -94,11 +94,11 @@ async def resolve_query_clients(info, value):
             dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
         for item in data:
             dbParamsEncrypted = item.get('dbParams', None)
-            if(dbParamsEncrypted):
+            if (dbParamsEncrypted):
                 dbParamsJson = utils.decrypt(dbParamsEncrypted)
                 dbParamsObj = json.loads(dbParamsJson)
                 item['dbParams'] = dbParamsObj
-            
+
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)
@@ -135,11 +135,9 @@ async def resolve_update_client(info, value):
                         dbName=operationName, sql=SqlQueriesAuth.get_database, sqlArgs={'datname': dbToCreate})
                     # if db not exists ceate it
                     if (not dbNameInCatalog):
-                        sql = f'CREATE DATABASE "{dbToCreate}"'
-                        conn, cursor = get_cursor(dbName=operationName)
-                        cursor.execute(sql)
-                        cursor.close()
-                        conn.close()
+                        execute_sql(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
+                        execute_sql(dbName=dbToCreate,
+                                    sql=SqlQueriesAuth.drop_public_schema)
 
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)

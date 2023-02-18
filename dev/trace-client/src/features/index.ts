@@ -98,7 +98,6 @@ export {
   useComponentHistory,
   useDialogs,
   useFeedback,
-  useQueryResult
 } from './utils'
 export { AppLoader } from './components/app-loader'
 export { AgGridReact, type AgGridReactProps } from 'ag-grid-react'

@@ -16,16 +16,17 @@ dbParams: dict = {
 }
 
 
-def get_connection_pool(connInfo: str, dbName: str, toReconnect = False) -> ThreadedConnectionPool:
+def get_connection_pool(connInfo: str, dbName: str, toReconnect=False) -> ThreadedConnectionPool:
     pool1 = poolStore.get(dbName)
+
     def doReconnect():
         nonlocal pool1
-        pool1 = ThreadedConnectionPool(5,500,**connInfo)
+        pool1 = ThreadedConnectionPool(5, 500, **connInfo)
         poolStore[dbName] = pool1
-    if(toReconnect):
+    if (toReconnect):
         doReconnect()
     else:
-        if((pool1 is None) or pool1.closed):
+        if ((pool1 is None) or pool1.closed):
             doReconnect()
     return (pool1)
 
@@ -39,10 +40,12 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
     return (connInfo)
 
 
-def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect = False): #, execSqlObject: Any = None, sqlObject: Any = None):
+# , execSqlObject: Any = None, sqlObject: Any = None):
+def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
-    apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName, toReconnect)
+    apool: ThreadedConnectionPool = get_connection_pool(
+        connInfo, dbName, toReconnect)
     records = None
     with apool.getconn() as aconn:
         with aconn.cursor(cursor_factory=RealDictCursor) as acur:
@@ -50,7 +53,10 @@ def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[st
             acur.execute(sql, sqlArgs)
             if (acur.rowcount > 0):
                 records = acur.fetchall()
+            # acur.close()
+    aconn.close()
     return (jsonable_encoder(records))
+
 
 def get_cursor(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):
     connInfo = get_conn_info(dbName, db_params)
@@ -59,15 +65,27 @@ def get_cursor(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] 
     conn = pool.getconn()
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cur = conn.cursor(cursor_factory=RealDictCursor)
-    return(conn, cur)
+    return (pool, conn, cur)
 
-def get_connection(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):
+
+def execute_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = ''):
     connInfo = get_conn_info(dbName, db_params)
     pool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     conn = pool.getconn()
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
-    return(conn)
-        
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute(sql)
+    cursor.close()
+    # conn.close()
+    pool.closeall()
+
+# def get_connection(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):
+#     connInfo = get_conn_info(dbName, db_params)
+#     pool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
+#     conn = pool.getconn()
+#     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+#     return(conn)
+
 
 def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
     ret = None
@@ -80,11 +98,11 @@ def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
         if (type(xData) is list):
             for item in xData:
                 ret = process_data(item, acur, tableName,
-                                    fkeyName, fkeyValue)
+                                   fkeyName, fkeyValue)
         else:
             ret = process_data(xData, acur, tableName, fkeyName, fkeyValue)
         return (ret)
-    
+
 
 def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
@@ -95,7 +113,9 @@ def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[s
         with aconn.cursor(cursor_factory=RealDictCursor) as acur:
             acur.execute(f'set search_path to {schema}')
             records = execSqlObject(sqlObject, acur)
+    aconn.close()
     return (records)
+
 
 def process_data(xData, acur, tableName, fkeyName, fkeyValue):
     xDetails = None
@@ -114,6 +134,7 @@ def process_data(xData, acur, tableName, fkeyName, fkeyValue):
             process_details(item, acur, id)
     return (id)
 
+
 def get_sql(xData, tableName, fkeyName, fkeyValue):
     sql = None
     valuesTuple = None
@@ -123,6 +144,7 @@ def get_sql(xData, tableName, fkeyName, fkeyValue):
         sql, valuesTuple = get_insert_sql(
             xData, tableName, fkeyName, fkeyValue)
     return (sql, valuesTuple)
+
 
 def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     fieldNamesList = list(xData.keys())
@@ -147,6 +169,7 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
         '''
     return (sql, valuesTuple)
 
+
 def get_update_sql(xData, tableName):
     def getUpdateKeyValues(dataCopy):
         dataCopy.pop('id')  # remove id property
@@ -163,16 +186,17 @@ def get_update_sql(xData, tableName):
         where id = {xData['id']} returning {"id"}
     '''
     return (sql, valuesTuple)
-    
+
 
 def process_deleted_ids(sqlObject, acur: Any):
-    deletedIdList:list = sqlObject.get('deletedIds', None)
+    deletedIdList: list = sqlObject.get('deletedIds', None)
     tableName = sqlObject.get('tableName')
-    if((deletedIdList is None) or (deletedIdList.count == 0)):
+    if ((deletedIdList is None) or (deletedIdList.count == 0)):
         return
-    if(None in deletedIdList):
-        raise AppHttpException(detail=Messages.err_none_in_deletedids, error_code='e1009', status_code='501')
-    
+    if (None in deletedIdList):
+        raise AppHttpException(
+            detail=Messages.err_none_in_deletedids, error_code='e1009', status_code='501')
+
     ret1 = ','.join(str(i) for i in deletedIdList)
     ret = f'''({ret1})'''
     sql = f'''delete from "{tableName}" where id in{ret}'''

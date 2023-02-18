@@ -149,52 +149,52 @@ function useFeedback() {
   return { showAppLoader, showError, showSuccess }
 }
 
-function useQueryResult() {
-  const { showError, showSuccess } = useFeedback()
+// function useQueryResult() {
+//   const { showError, showSuccess } = useFeedback()
 
-  function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void, queryName: string ='genericUpdate'): boolean {
-    const res: any = result?.data?.[queryName]  //result.data[queryName]
-    let ret = false
-    const handleSuccess = () => {
-      showSuccess()
-      if (actionWhenSuccess) {
-        actionWhenSuccess()
-      }
-    }
-    if (res) {
-      if (res?.error) {
-        const detail = res.error.detail
-        const errorCode = res.error.errorCode
-        const exception = res.error.exception
-        const message = `${errorCode}, ${detail}`
-        ret = true
-        showError(message)
-        console.log(exception)
-      } else {
-        handleSuccess()
-      }
-    } else { // successful delete returns null
-      handleSuccess()
-    }
-    return (ret)
-  }
+//   function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void, queryName: string ='genericUpdate'): boolean {
+//     const res: any = result?.data?.[queryName]  //result.data[queryName]
+//     let ret = false
+//     const handleSuccess = () => {
+//       showSuccess()
+//       if (actionWhenSuccess) {
+//         actionWhenSuccess()
+//       }
+//     }
+//     if (res) {
+//       if (res?.error) {
+//         const detail = res.error.detail
+//         const errorCode = res.error.errorCode
+//         const exception = res.error.exception
+//         const message = `${errorCode}, ${detail}`
+//         ret = true
+//         showError(message)
+//         console.log(exception)
+//       } else {
+//         handleSuccess()
+//       }
+//     } else { // successful delete returns null
+//       handleSuccess()
+//     }
+//     return (ret)
+//   }
 
-  function handleAndGetQueryResult(result: GraphQlQueryResultType, queryName: string = 'genericQuery'): any {
-    const res: any = result?.data?.[queryName]
-    if (res) {
-      if (res?.error) {
-        const detail = res.error.detail
-        const errorCode = res.error.errorCode
-        const exception = res.error.exception
-        const message = `${errorCode}, ${detail}`
-        showError(message)
-        console.log(exception)
-      }
-    }
-    return (res)
-  }
+//   function handleAndGetQueryResult(result: GraphQlQueryResultType, queryName: string = 'genericQuery'): any {
+//     const res: any = result?.data?.[queryName]
+//     if (res) {
+//       if (res?.error) {
+//         const detail = res.error.detail
+//         const errorCode = res.error.errorCode
+//         const exception = res.error.exception
+//         const message = `${errorCode}, ${detail}`
+//         showError(message)
+//         console.log(exception)
+//       }
+//     }
+//     return (res)
+//   }
 
-  return ({ handleUpdateResult, handleAndGetQueryResult })
-}
+//   return ({ handleUpdateResult, handleAndGetQueryResult })
+// }
 
-export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback, useQueryResult }
+export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback, }

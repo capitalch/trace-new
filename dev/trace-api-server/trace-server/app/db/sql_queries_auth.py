@@ -1,5 +1,9 @@
 class SqlQueriesAuth:
     
+    drop_public_schema = '''
+        DROP SCHEMA IF EXISTS public RESTRICT
+    '''
+
     get_all_clients = '''
         select * from "TestM" 
             order by "id" DESC limit %(noOfRows)s

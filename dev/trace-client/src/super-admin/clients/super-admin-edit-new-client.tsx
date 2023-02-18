@@ -2,31 +2,31 @@ import {
     _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
-    useForm, useQueryResult, VStack, appStaticStore, useEffect, useState, debounceFilterOn, ebukiMessages, debounceEmit,
+    useForm, VStack, appStaticStore, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect,
 } from '@src/features'
-import { debounce } from 'lodash'
-
+import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClient() {
-    const { handleUpdateResult, handleAndGetQueryResult } = useQueryResult()
+    const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
-    const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
+    const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
-    const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
-    useEffect(() => {
+    useGranularEffect(() => {
         setFormValues()
         const subs1 = debounceFilterOn(ebukiMessages.clientCodeChangeDebounce.toString(), 1200).subscribe(
             (d: any) => {
-                getClient(d.data)
+                validateClientCode(d.data, setError)
             })
         return (() => {
             subs1.unsubscribe()
         })
-    }, [])
+    }, [], [validateClientCode, setFormValues])
 
 
 
@@ -35,8 +35,10 @@ function SuperAdminEditNewClient() {
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
             noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
-            asyncValid: (val: string) => {
-                debounceEmit(ebukiMessages.clientCodeChangeDebounce.toString(), val)
+            validate: (val: string) => {
+                if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+                    debounceEmit(ebukiMessages.clientCodeChangeDebounce.toString(), val)
+                }
             }
         }
     })
@@ -85,30 +87,6 @@ function SuperAdminEditNewClient() {
         </form>
     )
 
-    async function getClient(clientCode: string) {
-        const args = {
-            sqlId: 'get_client',
-            sqlArgs: {
-                clientCode: clientCode
-            }
-        }
-        const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
-        let ret = undefined
-        try {
-            const result: GraphQlQueryResultType = await queryGraphql(q)
-            const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
-            if (rows && (rows.length > 0)) {
-                setError('clientCode', {
-                    type: '400',
-                    message: Messages.errClientExists
-                })
-            }
-        } catch (e: any) {
-            console.log(e)
-        }
-        return (ret)
-    }
-
     function handleClientCodeInfo() {
         showAlertDialogOk({ title: 'Client code information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box> })
     }
@@ -118,6 +96,12 @@ function SuperAdminEditNewClient() {
     }
 
     async function onSubmit(values: any) {
+        if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+            const error = await validateClientCode(values.clientCode, setError)
+            if (error) {
+                return
+            }
+        }
         const id = values?.id
         const sqlObj = {
             tableName: 'TestM',
@@ -159,11 +143,11 @@ function SuperAdminEditNewClient() {
 
 export { SuperAdminEditNewClient }
 
-type SuperAdminClientType = {
-    clientCode: string
-    clientName: string
-    isActive: boolean
-}
+// type SuperAdminClientType = {
+//     clientCode: string
+//     clientName: string
+//     isActive: boolean
+// }
 
 // const st = new Date().getTime()
 // const ret = await mutateGraphql(q)

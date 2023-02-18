@@ -1,31 +1,43 @@
 import {
     _, appStore, appValidators, Box, Button, Checkbox, FormControl,
-    FormErrorMessage, FormLabel, Flex, GraphQlQueryResultType, HStack, Input,
+    FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDialogs, useAppGraphql,
-    useForm, useQueryResult, VStack, appStaticStore, useEffect, useState, Text, AppRequiredAstrisk, useFeedback, Center, NumberInput, NumberInputField,
+    useForm, VStack, appStaticStore, useEffect, useState, Text, AppRequiredAstrisk, useFeedback, useGranularEffect, debounceFilterOn, ebukiMessages, debounceEmit,
 } from '@src/features'
-// import { getGraphQlError } from '@src/features/utils'
-
+import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClientExtDatabase() {
-    const { handleUpdateResult, handleAndGetQueryResult } = useQueryResult()
+    const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
     const { checkNumeric, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUrl } = appValidators()
-    const { getValues, handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const { getValues, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
-    useEffect(() => {
+    useGranularEffect(() => {
         setFormValues()
-    }, [])
+        const subs1 = debounceFilterOn(ebukiMessages.clientCodeChangeDebounce.toString(), 1200).subscribe(
+            (d: any) => {
+                validateClientCode(d.data, setError)
+            })
+        return (() => {
+            subs1.unsubscribe()
+        })
+    }, [], [validateClientCode, setFormValues])
 
     const registerClientCode = register('clientCode', {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
             noSpaceOrSpecialChar: checkNoSpaceOrSpecialChar,
+            validate: (val: string) => {
+                if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+                    debounceEmit(ebukiMessages.clientCodeChangeDebounce.toString(), val)
+                }
+            }
         }
     })
     const registerClientName = register('clientName', {
@@ -201,11 +213,13 @@ function SuperAdminEditNewClientExtDatabase() {
         showAlertDialogOk({ title: 'Client name information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecial4Plus}</Box> })
     }
 
-    // function onSubmit(values:any){
-    //     console.log('abcd')
-    // }
-
     async function onSubmit(values: any) {
+        if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+            const error = await validateClientCode(values.clientCode, setError)
+            if (error) {
+                return
+            }
+        }
         const id = values?.id
         const dbParams: any = {
             dbName: values?.dbName,
@@ -235,7 +249,7 @@ function SuperAdminEditNewClientExtDatabase() {
             handleUpdateResult(result, () => {
                 closeModalDialogA()
                 appStaticStore.superAdmin.doReload()
-            },'updateClient')
+            }, 'updateClient')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
             console.log(e.message)
@@ -291,14 +305,13 @@ function SuperAdminEditNewClientExtDatabase() {
             showError(e.message || Messages.errFetchingData)
             console.log(e.message)
         }
-        // console.log(defaultData)
     }
 }
 
 export { SuperAdminEditNewClientExtDatabase }
 
-type SuperAdminClientType = {
-    clientCode: string
-    clientName: string
-    isActive: boolean
-}
+// type SuperAdminClientType = {
+//     clientCode: string
+//     clientName: string
+//     isActive: boolean
+// }

@@ -1,11 +1,11 @@
-import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useQueryResult, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
 import { GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community'
 import { SuperAdminEditNewClient } from './super-admin-edit-new-client'
 import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database'
 import { SuperAdminNewClientButtons } from './super-admin-new-client-buttons'
 
 function SuperAdminClients() {
-    const { handleAndGetQueryResult } = useQueryResult()
+    const { handleAndGetQueryResult } = useAppGraphql()
     const { showError } = useFeedback()
     const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql, } = useAppGraphql()
@@ -42,16 +42,19 @@ function SuperAdminClients() {
         },
         {
             field: 'clientCode',
+            headerName:'Client code',
             headerClass: 'header',
             width: 200
         },
         {
             field: 'clientName',
+            headerName:'Client name',
             width: 300,
             flex: 1
         },
         {
             field: 'dbName',
+            headerName:'Db name',
             width: 250
         },
         {
@@ -185,7 +188,7 @@ export { EditCellRenderer }
 
 function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
-    const { handleUpdateResult } = useQueryResult()
+    const { handleUpdateResult } = useAppGraphql()
     const { showAppLoader, showError, showSuccess } = useFeedback()
     const { mutateGraphql } = useAppGraphql()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
