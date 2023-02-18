@@ -1,6 +1,7 @@
 const Messages = {
     errAtLeast4Chars: 'Should be at least 4 chars long',
     errAtLeast8Chars: 'Should be at least 8 chars long',
+    errClientExists: 'Client already exists',
     errFetchingData: 'Error in fetching data',
     errInputMustBeUrl: 'Input value should be url',
     errInvalidInput: 'Invalid input',

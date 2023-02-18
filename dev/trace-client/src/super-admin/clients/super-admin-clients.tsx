@@ -55,6 +55,11 @@ function SuperAdminClients() {
             width: 250
         },
         {
+            field:'isExternalDb',
+            headerName:'Ext. db',
+            width: 100
+        },
+        {
             headerName: 'Active',
             field: 'isActive',
             width: 80
@@ -136,7 +141,7 @@ function SuperAdminClients() {
         gridApiRef.current.api.showLoadingOverlay()
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
-            const rows: [] = handleAndGetQueryResult(result)
+            const rows: [] = handleAndGetQueryResult(result, 'queryClients')
             if (rows && (rows.length > 0)) {
                 appStore.superAdmin.rows.value = rows
                 appStaticStore.superAdmin.doFilter()

@@ -179,8 +179,8 @@ function useQueryResult() {
     return (ret)
   }
 
-  function handleAndGetQueryResult(result: GraphQlQueryResultType): any {
-    const res: any = result?.data?.genericQuery
+  function handleAndGetQueryResult(result: GraphQlQueryResultType, queryName: string = 'genericQuery'): any {
+    const res: any = result?.data?.[queryName]
     if (res) {
       if (res?.error) {
         const detail = res.error.detail

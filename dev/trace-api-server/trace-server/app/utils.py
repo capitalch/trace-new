@@ -17,7 +17,7 @@ def decrypt(input: str):
     key = Config.CRYPTO_KEY
     cipher_suite = Fernet(key)
     decoded_text = cipher_suite.decrypt(input.encode())
-    return(decoded_text)
+    return(decoded_text.decode())
 
 def encrypt(input: str):
     key = Config.CRYPTO_KEY

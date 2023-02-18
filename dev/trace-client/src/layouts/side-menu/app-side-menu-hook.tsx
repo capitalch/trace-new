@@ -139,6 +139,24 @@ const superAdminMenu: MenuItemType[] = [
     icon: <ClientsIcon color="dodgerBlue" />,
     component: SuperAdminClients,
   },
+  {
+    breadcrumb: "Super admin roles",
+    label: "Global roles",
+    icon: <ClientsIcon color="dodgerBlue" />,
+    component: SuperAdminClients,
+  },
+  {
+    breadcrumb: "Protected controls",
+    label: "Protected controls",
+    icon: <ClientsIcon color="dodgerBlue" />,
+    component: SuperAdminClients,
+  },
+  {
+    breadcrumb: "Admin users",
+    label: "Admin users",
+    icon: <ClientsIcon color="dodgerBlue" />,
+    component: SuperAdminClients,
+  },
 ];
 
 const adminMenu: MenuItemType[] = [

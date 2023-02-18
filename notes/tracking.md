@@ -41,10 +41,11 @@
 																											15. Column filters implement
 																											21. Implement test database connection functionality
 15. React form
-14. Server script for database create
-15. dbParams entry in DB encrypted
-16. Server separate route
+																											14. Server script for database create
+																											15. dbParams entry in DB encrypted
+																											16. Server separate route
 																											18. Generalize toolbar
+10. Unique client validation from server
 																											
 ## comparison different grids
 1. react-data-grid: dynamic row height missing

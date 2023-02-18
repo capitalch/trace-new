@@ -2,33 +2,42 @@ import {
     _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
-    useForm, useQueryResult, VStack, appStaticStore, useEffect, useState,
+    useForm, useQueryResult, VStack, appStaticStore, useEffect, useState, debounceFilterOn, ebukiMessages, debounceEmit,
 } from '@src/features'
+import { debounce } from 'lodash'
 
 
 function SuperAdminEditNewClient() {
-    const { handleUpdateResult } = useQueryResult()
+    const { handleUpdateResult, handleAndGetQueryResult } = useQueryResult()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
-    const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
+    const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
-    const { handleSubmit, register, formState: { errors }, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
+    const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm<SuperAdminClientType>({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useEffect(() => {
         setFormValues()
+        const subs1 = debounceFilterOn(ebukiMessages.clientCodeChangeDebounce.toString(), 1200).subscribe(
+            (d: any) => {
+                getClient(d.data)
+            })
+        return (() => {
+            subs1.unsubscribe()
+        })
     }, [])
+
+
 
     const registerClientCode = register('clientCode', {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
             noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
-            // asyncValid: async (val:string)=> {
-            //     await sleep(1000)
-            //     return 'async validation'
-            // }
+            asyncValid: (val: string) => {
+                debounceEmit(ebukiMessages.clientCodeChangeDebounce.toString(), val)
+            }
         }
     })
     const registerClientName = register('clientName', {
@@ -75,6 +84,30 @@ function SuperAdminEditNewClient() {
             </VStack>
         </form>
     )
+
+    async function getClient(clientCode: string) {
+        const args = {
+            sqlId: 'get_client',
+            sqlArgs: {
+                clientCode: clientCode
+            }
+        }
+        const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
+        let ret = undefined
+        try {
+            const result: GraphQlQueryResultType = await queryGraphql(q)
+            const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
+            if (rows && (rows.length > 0)) {
+                setError('clientCode', {
+                    type: '400',
+                    message: Messages.errClientExists
+                })
+            }
+        } catch (e: any) {
+            console.log(e)
+        }
+        return (ret)
+    }
 
     function handleClientCodeInfo() {
         showAlertDialogOk({ title: 'Client code information', body: <Box fontSize='lg' color='gray.900'>{Messages.messNoSpecialSpace4Plus}</Box> })
