@@ -45,10 +45,12 @@
 																											15. dbParams entry in DB encrypted
 																											16. Server separate route
 																											18. Generalize toolbar
-10. Unique client validation from server
+																											10. Unique client validation from server
 																											11. Optimized no of connections
 																											12. Organized different function of GraphQL under useAppGraphQL()
-13. In created database remove schema public
+																											13. In created database remove schema public
+14. ag-grid filter for boolean
+																											15. Test database connection disable button and show waiting
 ## Dashboard functionality
 1. No of connections
 2. No of clients ( Active / Inactive)

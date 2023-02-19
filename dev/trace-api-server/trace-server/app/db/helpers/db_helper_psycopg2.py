@@ -41,20 +41,44 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
 
 
 # , execSqlObject: Any = None, sqlObject: Any = None):
-def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
+def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: Any = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
-    apool: ThreadedConnectionPool = get_connection_pool(
+    pool: ThreadedConnectionPool = get_connection_pool(
         connInfo, dbName, toReconnect)
     records = None
-    with apool.getconn() as aconn:
-        with aconn.cursor(cursor_factory=RealDictCursor) as acur:
-            acur.execute(f'set search_path to {schema}')
-            acur.execute(sql, sqlArgs)
-            if (acur.rowcount > 0):
-                records = acur.fetchall()
-            # acur.close()
-    aconn.close()
+    with pool.getconn() as conn:
+        # conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+        # conn.autocommit = True
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:            
+            cursor.execute(f'set search_path to {schema}')
+            
+            cursor.execute(sql, sqlArgs)
+            if (cursor.rowcount > 0):
+                records = cursor.fetchall()
+            cursor.close()
+    conn.close()
+    # pool.putconn(conn)
+    # pool.closeall()
+    return (jsonable_encoder(records))
+
+def exec_generic_queries(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sqls: list = [], sqlArgs: list[dict[str, str]] = [{}], toReconnect=False):
+    connInfo = get_conn_info(dbName, db_params)
+    schema = 'public' if schema is None else schema
+    pool: ThreadedConnectionPool = get_connection_pool(
+        connInfo, dbName, toReconnect)
+    records =[]
+    with pool.getconn() as conn:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:            
+            cursor.execute(f'set search_path to {schema}')
+            for idx, sql in sqls:
+                cursor.execute(sql, sqlArgs[idx])
+                if (cursor.rowcount > 0):
+                    records.append(cursor.fetchall())
+            cursor.close()
+    conn.close()
+    # pool.putconn(conn)
+    # pool.closeall()
     return (jsonable_encoder(records))
 
 
@@ -68,15 +92,17 @@ def get_cursor(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] 
     return (pool, conn, cur)
 
 
-def execute_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = ''):
+def execute_sql_no_transaction(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = ''):
     connInfo = get_conn_info(dbName, db_params)
     pool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
     conn = pool.getconn()
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor.execute(f'set search_path to {schema}')
     cursor.execute(sql)
     cursor.close()
-    # conn.close()
+    conn.close()
+    # pool.putconn(conn)
     pool.closeall()
 
 # def get_connection(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public'):

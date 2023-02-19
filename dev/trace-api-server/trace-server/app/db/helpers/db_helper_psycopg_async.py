@@ -1,8 +1,9 @@
 from app import AppHttpException, Config, Messages
-from app.vendors import Any, status
+from app.vendors import Any, jsonable_encoder, status
 from psycopg_pool import AsyncConnectionPool
 from psycopg.conninfo import make_conninfo
 from psycopg.rows import dict_row
+from psycopg import AsyncConnection, AsyncCursor
 
 poolStore = {}
 dbParams: dict = {
@@ -13,13 +14,19 @@ dbParams: dict = {
 }
 
 
-def get_connection_pool(connInfo: str, dbName: str) -> AsyncConnectionPool:
+def get_connection_pool(connInfo: str, dbName: str, toReconnect=False) -> AsyncConnectionPool:
     global poolStore
     pool: AsyncConnectionPool = poolStore.get(dbName)
-    if ((pool is None) or pool.closed):
-        pool = AsyncConnectionPool(connInfo)
-        poolStore[dbName] = pool
-    return (pool)
+    
+    def doReconnect():
+        poolStore[dbName] = AsyncConnectionPool(connInfo) #pool
+
+    if(toReconnect):
+        doReconnect()
+    else:
+        if ((pool is None) or pool.closed):
+            doReconnect()
+    return (poolStore[dbName])
 
 
 def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
@@ -27,29 +34,44 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
     db_params = dbParams if db_params is None else db_params
     db_params.update({'dbname': dbName})
     # creates connInfo from dict object
-    connInfo = make_conninfo('', **dbParams)
+    connInfo = make_conninfo('', **db_params)
     return (connInfo)
 
 
-async def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, execSqlObject: Any = None, sqlObject: Any = None):
+async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
-    apool: AsyncConnectionPool = get_connection_pool(connInfo, dbName)
+    apool: AsyncConnectionPool = get_connection_pool(
+        connInfo, dbName, toReconnect)
     records = None
-    
     async with apool.connection() as aconn:
         async with aconn.cursor(row_factory=dict_row) as acur:
             await acur.execute(f'set search_path to {schema}')
             await acur.execute(sql, sqlArgs)
             if (acur.rowcount > 0):
                 records = await acur.fetchall()
-   
-    return (records)
+        await acur.close()
+        await aconn.commit()
+        await aconn.close()
+        # await apool.close()
+    return (jsonable_encoder(records))
+
+# Data manipulation language sql. No return value. Not inside a transaction
+async def execute_sql_dml(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = '', sqlArgs: dict[str, str] = {}):
+    connInfo = get_conn_info(dbName, db_params)
+    aconn = await AsyncConnection.connect(connInfo, autocommit=True)
+    await aconn.execute(f'set search_path to {schema}')
+    await aconn.execute(sql, sqlArgs)
+    # records = []
+    # if(acur.rowcount > 0):
+    #     records = await acur.fetchall()
+    # await acur.close()
+    await aconn.close()
+    # return(jsonable_encoder(records))
 
 
 async def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
     ret = None
-    
     if ('deletedIds' in sqlObject):
         await process_deleted_ids(sqlObject, acur)
     xData = sqlObject.get('xData', None)
@@ -59,24 +81,25 @@ async def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
         if (type(xData) is list):
             for item in xData:
                 ret = await process_data(item, acur, tableName,
-                                    fkeyName, fkeyValue)
+                                         fkeyName, fkeyValue)
         else:
             ret = await process_data(xData, acur, tableName, fkeyName, fkeyValue)
     return (ret)
-   
 
 
-async def exec_generic_update(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
+async def exec_sql_object(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
     apool: AsyncConnectionPool = get_connection_pool(connInfo, dbName)
     records = None
-    # chk = await apool.check()
     async with apool.connection() as aconn:
         async with aconn.cursor(row_factory=dict_row) as acur:
             await acur.execute(f'set search_path to {schema}')
             records = await execSqlObject(sqlObject, acur)
-    
+        await acur.close()
+        await aconn.commit()
+        await aconn.close()
+    # await apool.close()
     return (records)
 
 
@@ -133,19 +156,7 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     return (sql, valuesTuple)
 
 
-# def generic_query(sql: str, sqlArgs: dict[str, str], dbName: str = None, dbParams: dict = None, schema: str = None, ):
-#     records = exec_generic_query(
-#         sql=sql, sqlArgs=sqlArgs, dbName=dbName, db_params=dbParams, schema=schema)
-#     return records
-
-
-# def generic_update(sqlObject: Any = {}):
-#     ret = exec_generic_update(
-#         execSqlObject=process_details, sqlObject=sqlObject)
-#     return (ret)
-
-
-def process_deleted_ids(sqlObject, acur: Any):
+async def process_deleted_ids(sqlObject, acur: Any):
     deletedIdList = sqlObject.get('deletedIds')
     tableName = sqlObject.get('tableName')
 
@@ -154,4 +165,4 @@ def process_deleted_ids(sqlObject, acur: Any):
         ret = ret + str(x) + ','
     ret = ret.rstrip(',') + ')'
     sql = f'''delete from "{tableName}" where id in{ret}'''
-    acur.execute(sql)
+    await acur.execute(sql)

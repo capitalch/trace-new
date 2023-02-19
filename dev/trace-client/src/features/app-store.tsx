@@ -36,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzY3OTc4NzYsInN1YiI6eyJ1c2VySWQiOjN9fQ.vVj4cViTdGacMah6DESDNn1A9cvLU3TbWp_7OD--w0Q',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzY4NzA1NzYsInN1YiI6eyJ1c2VySWQiOjN9fQ.QT_-tvJ76xg1wF9InItoDnWaOxeEZpKxZUgFDNsMGTI',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -53,7 +53,7 @@ const store: any = {
 
     superAdmin: {
         filteredRows: [],
-        noOfRows: '100',
+        noOfRows: 100,
         rows: [],
         refresh: true,
         searchString: ''

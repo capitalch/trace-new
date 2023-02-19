@@ -9,12 +9,13 @@ from .helpers.db_helper_asyncpg import exec_generic_query as generic_query_async
 from .helpers.db_helper_psycopg_sync import exec_generic_update as generic_update_psycopg_sync
 from .helpers.db_helper_psycopg_sync import exec_generic_query as generic_query_psycopg_sync
 
-from .helpers.db_helper_psycopg_async import exec_generic_update as generic_update_psycopg_async
-from .helpers.db_helper_psycopg_async import exec_generic_query as generic_query_psycopg_async
+from .helpers.db_helper_psycopg_async import exec_sql_object as exec_sql_object_psycopg_async
+from .helpers.db_helper_psycopg_async import exec_sql as exec_sql_psycopg_async
+from .helpers.db_helper_psycopg_async import execute_sql_dml as execute_sql_dml_psycopg_async
 
 from .helpers.db_helper_psycopg2 import exec_generic_update as generic_update_psycopg2
 from .helpers.db_helper_psycopg2 import exec_generic_query as generic_query_psycopg2
-from .helpers.db_helper_psycopg2 import get_cursor, execute_sql
+from .helpers.db_helper_psycopg2 import get_cursor, execute_sql_no_transaction
 
 
 async def resolve_generic_query(info, value):
@@ -36,7 +37,7 @@ async def resolve_generic_query(info, value):
         # data = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
         # data = await generic_query_psycopg_async(sql=sql, sqlArgs=sqlArgs)
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
-        data = generic_query_psycopg2(
+        data = await exec_sql_psycopg_async(
             dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
@@ -61,8 +62,7 @@ async def resolve_generic_update(info, value):
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
-        data = generic_update_psycopg2(dbName=operationName, sqlObject=sqlObj)
-        # print('success')
+        data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)
@@ -90,8 +90,12 @@ async def resolve_query_clients(info, value):
             raise AppHttpException('Bad sqlId', error_code='1001')
         sql = getattr(SqlQueriesAuth, sqlId)
         sqlArgs = valueDict.get('sqlArgs', {})
-        data: dict[str, Any] = generic_query_psycopg2(
+        # data: dict[str, Any] = generic_query_psycopg2(
+        #     dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
+
+        data: dict[str, Any] = await exec_sql_psycopg_async(
             dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
+        # data: dict[str, Any] = await execute_sql_no_transaction_psycopg_async(dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams)
         for item in data:
             dbParamsEncrypted = item.get('dbParams', None)
             if (dbParamsEncrypted):
@@ -124,26 +128,25 @@ async def resolve_update_client(info, value):
             isExternalDb: bool = xData.get('isExternalDb', None)
             dbParams = xData.get('dbParams', None)
             if (dbParams):
-                # dbParamsJson = json.dumps(dbParams)
                 dbParamsEncrypted = utils.encrypt(dbParams)
                 xData['dbParams'] = dbParamsEncrypted
                 # Encrypt dbParams and set in xData
             dbToCreate = xData.get('dbName')
             if (not isExternalDb):
                 if (dbToCreate):
-                    dbNameInCatalog: str = generic_query_psycopg2(  # Names of all databases in format [{'datname':'database1'}, {'datname':'database2'} ...]
+                    dbNameInCatalog: str = await exec_sql_psycopg_async(  # Names of all databases in format [{'datname':'database1'}, {'datname':'database2'} ...]
                         dbName=operationName, sql=SqlQueriesAuth.get_database, sqlArgs={'datname': dbToCreate})
                     # if db not exists ceate it
                     if (not dbNameInCatalog):
-                        execute_sql(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
-                        execute_sql(dbName=dbToCreate,
-                                    sql=SqlQueriesAuth.drop_public_schema)
-
-        # data = await generic_update_asyncpg(sqlObject=sqlObj)
-        # data = await generic_update_psycopg_async(sqlObject=sqlObj)
-        # data = generic_update_psycopg_sync(sqlObject=sqlObj)
-        data = generic_update_psycopg2(dbName=operationName, sqlObject=sqlObj)
-        # print('success')
+                        await execute_sql_dml_psycopg_async(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
+                        await execute_sql_dml_psycopg_async(dbName=dbToCreate,
+                                                                       sql=SqlQueriesAuth.drop_public_schema)
+                        # generic_query_psycopg2(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
+                        # generic_query_psycopg2(dbName=dbToCreate, sql=SqlQueriesAuth.drop_public_schema)
+                        # data = await generic_update_asyncpg(sqlObject=sqlObj)
+                        # data = await generic_update_psycopg_async(sqlObject=sqlObj)
+                        # data = generic_update_psycopg_sync(sqlObject=sqlObj)
+        data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)

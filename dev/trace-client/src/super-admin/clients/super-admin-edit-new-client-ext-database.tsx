@@ -7,8 +7,9 @@ import {
 import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClientExtDatabase() {
-    const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
+    const [isTestDbDisabled, setTestDbDisabled] = useState(false)
+    const { handleUpdateResult, } = useAppGraphql()
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
@@ -194,7 +195,7 @@ function SuperAdminEditNewClientExtDatabase() {
                     </HStack>
                     <HStack w='100%' justify='flex-end'>
                         {/* Test database connection */}
-                        <Button mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal' onClick={handleTestDb}>Test database connection</Button>
+                        <Button isDisabled={isTestDbDisabled} mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal' onClick={handleTestDb}>Test database connection</Button>
                     </HStack>
                     <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
@@ -284,7 +285,9 @@ function SuperAdminEditNewClientExtDatabase() {
             toReconnect: true
         }
         const q = appGraphqlStrings['genericQuery'](args, values['dbName'])
+        setTestDbDisabled(true)
         try {
+            showAppLoader(true)
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const res: any = result?.data?.genericQuery
             const showFailed: any = () => showAlertDialogOk({ title: 'Information', body: <Box color='red.400'>Connection failed</Box> })
@@ -304,6 +307,10 @@ function SuperAdminEditNewClientExtDatabase() {
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
             console.log(e.message)
+        }
+        finally {
+            setTestDbDisabled(false)
+            showAppLoader(false)
         }
     }
 }

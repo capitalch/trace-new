@@ -36,6 +36,8 @@ async def exec_generic_query(dbName: str = Config.DB_AUTH_DATABASE, db_params: d
             async with conn.transaction():
                 await conn.execute(f'set search_path to {schema}')
                 records = await conn.fetch(sql1, *valuesTuple)
+            await conn.close()
+        # await pool.close()
     return jsonable_encoder(records)
 
 
