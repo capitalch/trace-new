@@ -50,7 +50,20 @@
 																											12. Organized different function of GraphQL under useAppGraphQL()
 																											13. In created database remove schema public
 14. ag-grid filter for boolean
+15. Exec_sql update implementation
 																											15. Test database connection disable button and show waiting
+## Logic for Super admin
+1. Global roles: Reader(0), Manager(1), Accountant(2). Grid entry with add roles. These three roles cannot be deleted. others can be deleted
+2. Client change names: Protected controls -> Secured controls, Global roles -> special roles
+3. Screen for secured control: ControlNo, Name, type(menu / button). Remove weight
+4. Admin users screen: roleId, branchIds, lastUsedBranchId and lastUsdBuId is null. isAdmin is true
+	Random password created and its hash stored in db
+	Password mail is sent use when updated or inserted user
+	User can login with password and als can change passord from login screen
+	Clicking on link in email will validate the user and activate it
+	validateUser url create at server outside of graphql
+5. Select icons at client end
+
 ## Dashboard functionality
 1. No of connections
 2. No of clients ( Active / Inactive)
