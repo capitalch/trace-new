@@ -67,7 +67,8 @@
 ## Dashboard functionality
 1. No of connections
 2. No of clients ( Active / Inactive)
-3. Clients with databases
+3. Clients with databases grid. Shows unused databases etc.
+4. Help for Different steps guiding the user for entire Super Admin
 
 ## comparison different grids
 1. react-data-grid: dynamic row height missing
