@@ -17,11 +17,11 @@ dbParams: dict = {
 def get_connection_pool(connInfo: str, dbName: str, toReconnect=False) -> AsyncConnectionPool:
     global poolStore
     pool: AsyncConnectionPool = poolStore.get(dbName)
-    
-    def doReconnect():
-        poolStore[dbName] = AsyncConnectionPool(connInfo) #pool
 
-    if(toReconnect):
+    def doReconnect():
+        poolStore[dbName] = AsyncConnectionPool(connInfo)  # pool
+
+    if (toReconnect):
         doReconnect()
     else:
         if ((pool is None) or pool.closed):
@@ -57,6 +57,8 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, s
     return (jsonable_encoder(records))
 
 # Data manipulation language sql. No return value. Not inside a transaction
+
+
 async def execute_sql_dml(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = '', sqlArgs: dict[str, str] = {}):
     connInfo = get_conn_info(dbName, db_params)
     aconn = await AsyncConnection.connect(connInfo, autocommit=True)
@@ -125,7 +127,7 @@ def get_sql(xData, tableName, fkeyName, fkeyValue):
     sql = None
     valuesTuple = None
     if (xData.get('id', None)):  # update
-        pass
+        sql, valuesTuple = get_update_sql(xData, tableName)
     else:  # insert
         sql, valuesTuple = get_insert_sql(
             xData, tableName, fkeyName, fkeyValue)
@@ -156,10 +158,27 @@ def get_insert_sql(xData, tableName, fkeyName, fkeyValue):
     return (sql, valuesTuple)
 
 
+def get_update_sql(xData, tableName):
+    def getUpdateKeyValuesString(dataCopy):
+        dataCopy.pop('id')
+        lst = []
+        for item in dataCopy:
+            lst.append(f''' "{item}" = %s''')
+        keyValueStr = ', '.join(lst)
+        valuesTuple = tuple(dataCopy.values())
+        return (keyValueStr, valuesTuple)
+
+    keyValueStr, valuesTuple = getUpdateKeyValuesString(xData.copy())
+    sql = f'''
+        update "{tableName}" set {keyValueStr}
+            where id = {xData['id']} returning "{"id"}"
+    '''
+    return (sql, valuesTuple)
+
+
 async def process_deleted_ids(sqlObject, acur: Any):
     deletedIdList = sqlObject.get('deletedIds')
     tableName = sqlObject.get('tableName')
-
     ret = '('
     for x in deletedIdList:
         ret = ret + str(x) + ','

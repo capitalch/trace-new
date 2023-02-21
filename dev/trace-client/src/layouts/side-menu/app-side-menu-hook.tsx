@@ -4,8 +4,11 @@ import {
   DashboardIcon,
   HomeIcon,
   React,
+  RolesIcon,
   SalesPurchaseIcon,
+  SecuredControlsIcon,
   SideMenuTypesEnum,
+  UsersIcon,
   VouchersIcon,
 } from "@src/features";
 import {
@@ -14,7 +17,7 @@ import {
   AppPayments,
   AppSales,
 } from "@src/components";
-import { SuperAdminClients, SuperAdminDashboard } from "@src/super-admin";
+import {SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminGlobalRoles, SuperAdminSecuredControls } from "@src/super-admin";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -140,22 +143,22 @@ const superAdminMenu: MenuItemType[] = [
     component: SuperAdminClients,
   },
   {
-    breadcrumb: "Super admin roles",
+    breadcrumb: "Super admin global roles",
     label: "Global roles",
-    icon: <ClientsIcon color="dodgerBlue" />,
-    component: SuperAdminClients,
+    icon: <RolesIcon color="red" />,
+    component: SuperAdminGlobalRoles,
   },
   {
-    breadcrumb: "Protected controls",
-    label: "Protected controls",
-    icon: <ClientsIcon color="dodgerBlue" />,
-    component: SuperAdminClients,
+    breadcrumb: "Super admin secured controls",
+    label: "Secured controls",
+    icon: <SecuredControlsIcon color="teal" />,
+    component: SuperAdminSecuredControls,
   },
   {
     breadcrumb: "Admin users",
     label: "Admin users",
-    icon: <ClientsIcon color="dodgerBlue" />,
-    component: SuperAdminClients,
+    icon: <UsersIcon color="dodgerBlue" />,
+    component: SuperAdminAdminUsers,
   },
 ];
 

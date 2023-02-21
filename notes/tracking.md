@@ -50,7 +50,7 @@
 																											12. Organized different function of GraphQL under useAppGraphQL()
 																											13. In created database remove schema public
 14. ag-grid filter for boolean
-15. Exec_sql update implementation
+																											15. Exec_sql update implementation
 																											15. Test database connection disable button and show waiting
 ## Logic for Super admin
 1. Global roles: Reader(0), Manager(1), Accountant(2). Grid entry with add roles. These three roles cannot be deleted. others can be deleted
@@ -134,6 +134,12 @@
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
+## 11-02-2023 - 21-02-2023
+1. Clients completed
+2. server sql helper with CRUD completed
+3. Research on db drivers and finalized on psycopg async
+4. Left menu for Super admin and its icons finalized
+
 ## 10-02-2023
 1. New client and new client with ext database
 

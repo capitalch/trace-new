@@ -134,14 +134,16 @@ export {
   MdPassword as ChangePasswordIcon,
   MdOutlineChangeCircle as ChangeUidIcon,
   MdLogout as LogoutIcon,
-  MdMenu as MenuIcon
+  MdMenu as MenuIcon,
+  MdOutlinePersonPin as UsersIcon
 } from 'react-icons/md'
 
 // Bootstrap icons
 export {
   BsFillMenuButtonWideFill as SalesPurchaseIcon,
   BsPersonFill as PersonIcon,
-  BsReceipt as VouchersIcon
+  BsReceipt as VouchersIcon,
+  BsReverseLayoutTextWindowReverse as RolesIcon
 } from 'react-icons/bs'
 
 // Box icons
@@ -150,3 +152,8 @@ export {
   BiCamera as ActionsIcon,
   BiHome as HomeIcon
 } from 'react-icons/bi'
+
+//Vs code
+export {
+  VscSettingsGear as SecuredControlsIcon
+} from 'react-icons/vsc'
