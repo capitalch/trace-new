@@ -1,5 +1,4 @@
-import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
-import { GridReadyEvent, RowDataUpdatedEvent } from 'ag-grid-community'
+import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
 import { SuperAdminEditNewClient } from './super-admin-edit-new-client'
 import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database'
 import { SuperAdminNewClientButtons } from './super-admin-new-client-buttons'
@@ -15,13 +14,13 @@ function SuperAdminClients() {
 
     // Alternative of useEffect. Dependency array can be blank with no warning
     useGranularEffect(() => {
-        appStaticStore.superAdmin.doReload = loadData
+        appStaticStore.superAdmin.clients.doReload = loadData
     }, [], [])
 
     const onGridReady = (params: GridReadyEvent) => {
-        if (isNotInComponentHistory(componentNames.superAdminClientsView)) {
+        if (isNotInComponentHistory(componentNames.superAdminClients)) {
             loadData()
-            addToComponentHistory(componentNames.superAdminClientsView)
+            addToComponentHistory(componentNames.superAdminClients)
         }
     }
 
@@ -42,24 +41,24 @@ function SuperAdminClients() {
         },
         {
             field: 'clientCode',
-            headerName:'Client code',
+            headerName: 'Client code',
             headerClass: 'header',
             width: 200
         },
         {
             field: 'clientName',
-            headerName:'Client name',
+            headerName: 'Client name',
             width: 300,
             flex: 1
         },
         {
             field: 'dbName',
-            headerName:'Db name',
+            headerName: 'Db name',
             width: 250
         },
         {
-            field:'isExternalDb',
-            headerName:'Ext. db',
+            field: 'isExternalDb',
+            headerName: 'Ext. db',
             width: 100
         },
         {
@@ -102,9 +101,7 @@ function SuperAdminClients() {
 
     return (
         <Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
-            {/* <SuperAdminClientsToolbar /> */}
-            <AppGridToolbar storeObjectName='superAdmin' title='All clients view' CustomControl={SuperAdminNewClientButtons} />
-            {/* customControl={()=><SuperAdminNewClientButtons storeObjectName='superAdmin' /> */}
+            <AppGridToolbar appStoreObject={appStore.superAdmin.clients} appStaticStoreObject={appStaticStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} />
             <AgGridReact
                 gridOptions={gridOptions}
                 onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {
@@ -120,7 +117,7 @@ function SuperAdminClients() {
                     api.setPinnedBottomRowData([{ id1: 'Rows:', clientCode: visibleRows.length }])
                 }}
                 ref={gridApiRef}
-                rowData={appStore.superAdmin.filteredRows.value}
+                rowData={appStore.superAdmin.clients.filteredRows.value}
                 suppressScrollOnNewData={true}
             />
         </Flex>
@@ -137,7 +134,7 @@ function SuperAdminClients() {
         const args = {
             sqlId: 'get_all_clients',
             sqlArgs: {
-                noOfRows: appStore.superAdmin.noOfRows.value || null
+                noOfRows: appStore.superAdmin.clients.noOfRows.value || null
             }
         }
         const q = appGraphqlStrings['queryClients'](args, 'traceAuth')
@@ -146,8 +143,8 @@ function SuperAdminClients() {
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const rows: [] = handleAndGetQueryResult(result, 'queryClients')
             if (rows && (rows.length > 0)) {
-                appStore.superAdmin.rows.value = rows
-                appStaticStore.superAdmin.doFilter()
+                appStore.superAdmin.clients.rows.value = rows
+                appStaticStore.superAdmin.clients.doFilter()
             }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
@@ -189,7 +186,7 @@ export { EditCellRenderer }
 function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
     const { handleUpdateResult } = useAppGraphql()
-    const { showAppLoader, showError, showSuccess } = useFeedback()
+    const { showAppLoader, } = useFeedback()
     const { mutateGraphql } = useAppGraphql()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
@@ -211,18 +208,10 @@ function DeleteCellRenderer(props: any) {
 
         showAppLoader(true)
         const result: GraphQlQueryResultType = await mutateGraphql(q)
-        handleUpdateResult(result,  () => {
-            appStaticStore.superAdmin.doReload()
+        handleUpdateResult(result, () => {
+            appStaticStore.superAdmin.clients.doReload()
         })
         showAppLoader(false)
-
-        // const err = result?.data?.genericUpdate?.error
-        // if (err) {
-        //     showError(`${err.errorCode}, ${Messages.errGenericServerError}`)
-        // } else {
-        //     appStaticStore.superAdmin.doReload()
-        //     showSuccess()
-        // }
     }
 }
 export { DeleteCellRenderer }
@@ -235,12 +224,12 @@ function HideCellRenderer(props: any) {
         </Tooltip>
     )
     function handleHideRow(data: any) {
-        const filteredRows: any[] = appStore.superAdmin.filteredRows.value
+        const filteredRows: any[] = appStore.superAdmin.clients.filteredRows.value
         const clone = filteredRows.map((x: any) => ({ ...x }))
         const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
         clone.splice(indexOfRow, 1)
 
-        appStore.superAdmin.filteredRows.value = clone
+        appStore.superAdmin.clients.filteredRows.value = clone
     }
 }
 export { HideCellRenderer }

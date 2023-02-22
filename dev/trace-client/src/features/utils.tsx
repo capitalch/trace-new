@@ -1,4 +1,4 @@
-import { appStaticStore, appStore, GraphQlQueryResultType, Messages, useToast } from '@src/features'
+import { appStaticStore, appStore, Messages, useToast } from '@src/features'
 import { FC } from 'react'
 
 function useAgGridUtils() {
@@ -52,7 +52,8 @@ function useComponentHistory() {
   }
 
   enum componentNames {
-    'superAdminClientsView'
+    'superAdminClients',
+    'superAdminRoles'
   }
 
   return {

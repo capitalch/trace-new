@@ -121,7 +121,7 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground_accounts' name='dbName' size='sm' type='text' {...registerDbName} autoComplete='off' />
                             <HStack justifyContent='space-between' >
-                                {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
+                                {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.dbName.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
@@ -149,8 +149,7 @@ function SuperAdminEditNewClientExtDatabase() {
                             <HStack justifyContent='space-between' >
                                 {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }
-                                {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
+                                }                                
                             </HStack>
                         </FormControl>
 
@@ -161,8 +160,7 @@ function SuperAdminEditNewClientExtDatabase() {
                             <HStack justifyContent='space-between' >
                                 {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }
-                                {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
+                                }                                
                             </HStack>
                         </FormControl>
                     </HStack>
@@ -200,7 +198,6 @@ function SuperAdminEditNewClientExtDatabase() {
                     <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
                     </Button>
-                    {/* </HStack> */}
                 </VStack>
             </VStack>
         </form>
@@ -249,7 +246,7 @@ function SuperAdminEditNewClientExtDatabase() {
             const result: GraphQlQueryResultType = await mutateGraphql(q)
             handleUpdateResult(result, () => {
                 closeModalDialogA()
-                appStaticStore.superAdmin.doReload()
+                appStaticStore.superAdmin.clients.doReload()
             }, 'updateClient')
         } catch (e: any) {
             showError(Messages.errUpdatingData)

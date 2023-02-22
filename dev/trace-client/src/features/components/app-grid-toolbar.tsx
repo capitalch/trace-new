@@ -1,6 +1,6 @@
 import { AppConstants, AppGridSearchBox, appStaticStore, appStore, Box, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useMediaQuery, } from "@src/features"
 
-function AppGridToolbar({ storeObjectName, title, CustomControl }: { storeObjectName: string, title?:string, CustomControl?: any }) {
+function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any }) {
     const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
     const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
     return (
@@ -14,7 +14,7 @@ function AppGridToolbar({ storeObjectName, title, CustomControl }: { storeObject
             </Box>}
             <HStack wrap='wrap'>
                 {CustomControl && <CustomControl />}
-                <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStore[storeObjectName].noOfRows.value} onChange={handleOnSelectRows}>
+                <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}>
                     <option value='100'>Last 100 rows</option>
                     <option value='1000'>Last 1000 rows</option>
                     <option value=''>All rows</option>
@@ -24,18 +24,18 @@ function AppGridToolbar({ storeObjectName, title, CustomControl }: { storeObject
                         onClick={handleOnClickReload}
                         icon={<RefreshIcon fontSize={26} color='blue.500' />} />
                 </Tooltip>}
-                <AppGridSearchBox storeObjectName={storeObjectName} />
+                <AppGridSearchBox appStoreObject={appStoreObject} appStaticStoreObject={appStaticStoreObject} />
             </HStack>
         </HStack>
     )
 
     async function handleOnClickReload() {
-        appStaticStore[storeObjectName].doReload()
+        appStaticStoreObject.doReload()
     }
 
     function handleOnSelectRows(e: any) {
-        appStore[storeObjectName].noOfRows.value = e.target.value
-        appStaticStore[storeObjectName].doReload()
+        appStoreObject.noOfRows.value = e.target.value
+        appStaticStoreObject.doReload()
     }
 }
 export { AppGridToolbar }

@@ -120,7 +120,7 @@ function SuperAdminEditNewClient() {
             const result: GraphQlQueryResultType = await mutateGraphql(q)
             handleUpdateResult(result, () => {
                 closeModalDialogA()
-                appStaticStore.superAdmin.doReload()
+                appStaticStore.superAdmin.clients.doReload()
             }, 'updateClient')
         } catch (e: any) {
             showError(Messages.errUpdatingData)

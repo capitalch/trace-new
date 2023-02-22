@@ -101,7 +101,7 @@ export {
 } from './utils'
 export { AppLoader } from './components/app-loader'
 export { AgGridReact, type AgGridReactProps } from 'ag-grid-react'
-export { type ColDef, GridApi, type GridOptions } from 'ag-grid-community'
+export { type ColDef, GridApi, type GridOptions, type GridReadyEvent, type RowDataUpdatedEvent } from 'ag-grid-community'
 export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
 export { useGranularEffect } from 'granular-hooks'
 export { AppAlertDialogOk } from './components/app-alert-dialog-ok'

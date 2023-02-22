@@ -61,6 +61,10 @@ class SqlQueriesAuth:
         ) as "jsonResult"
     '''
 
+    get_super_admin_roles = '''
+        select * from "RoleM"
+            where "clientId" is null
+    '''
     test_connection = '''
         select 1
     '''

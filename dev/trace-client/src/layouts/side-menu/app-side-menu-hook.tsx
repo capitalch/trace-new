@@ -17,7 +17,7 @@ import {
   AppPayments,
   AppSales,
 } from "@src/components";
-import {SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminGlobalRoles, SuperAdminSecuredControls } from "@src/super-admin";
+import {SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminRoles, SuperAdminSecuredControls } from "@src/super-admin";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -143,10 +143,10 @@ const superAdminMenu: MenuItemType[] = [
     component: SuperAdminClients,
   },
   {
-    breadcrumb: "Super admin global roles",
-    label: "Global roles",
+    breadcrumb: "Super admin roles",
+    label: "Roles",
     icon: <RolesIcon color="red" />,
-    component: SuperAdminGlobalRoles,
+    component: SuperAdminRoles,
   },
   {
     breadcrumb: "Super admin secured controls",

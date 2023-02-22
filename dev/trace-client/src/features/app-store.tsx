@@ -36,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzcwNTAwMjQsInN1YiI6eyJ1c2VySWQiOjN9fQ.jIIayAgEbLmIGVXTpixKDvwfyJ-1xnyHke7abNjNnxQ',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzcxNDIzOTksInN1YiI6eyJ1c2VySWQiOjN9fQ.fDXEtfDk7v4MpYiyL2YeozeDGufZKkFdKa25n2feCbc',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -52,11 +52,34 @@ const store: any = {
     reload: false,
 
     superAdmin: {
-        filteredRows: [],
-        noOfRows: 100,
-        rows: [],
-        refresh: true,
-        searchString: ''
+        adminUsers: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        clients: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        roles: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        securedControls: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        }
     }
 }
 
@@ -73,8 +96,16 @@ const appStaticStore: AppStaticStoreType = {
     isCloseClicked: false,
     isOpenClicked: false,
     superAdmin: {
-        doFilter: () => { },
-        doReload: () => { },
+        clients: {
+            doFilter: () => { },
+            doReload: () => { },
+        },
+        roles: {
+            doFilter: () => { },
+            doReload: () => { }
+        }
+        // doFilter: () => { },
+        // doReload: () => { },
     }
 }
 export { appStore, appStaticStore, resetAppStore }
@@ -85,9 +116,16 @@ interface AppStaticStoreType {
     isCloseClicked: boolean,
     isOpenClicked: boolean,
     superAdmin: {
-        doFilter: () => void,
-        // doRefresh: () => void,
-        doReload: () => void
+        clients: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+        roles: {
+            doFilter: () => void,
+            doReload: () => void
+        }
+        // doFilter: () => void,
+        // doReload: () => void
     },
-    [key:string]: any
+    [key: string]: any
 }
