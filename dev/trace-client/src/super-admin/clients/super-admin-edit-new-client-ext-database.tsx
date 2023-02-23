@@ -1,7 +1,7 @@
 import {
     _, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
-    Messages, useDialogs, useAppGraphql,
+    Messages, NumberInput, NumberInputField, useDialogs, useAppGraphql,
     useForm, VStack, appStaticStore, useEffect, useState, Text, AppRequiredAstrisk, useFeedback, useGranularEffect, debounceFilterOn, ebukiMessages, debounceEmit,
 } from '@src/features'
 import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
@@ -149,7 +149,7 @@ function SuperAdminEditNewClientExtDatabase() {
                             <HStack justifyContent='space-between' >
                                 {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }                                
+                                }
                             </HStack>
                         </FormControl>
 
@@ -160,7 +160,7 @@ function SuperAdminEditNewClientExtDatabase() {
                             <HStack justifyContent='space-between' >
                                 {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                                     : <>&nbsp;</>
-                                }                                
+                                }
                             </HStack>
                         </FormControl>
                     </HStack>
@@ -169,10 +169,10 @@ function SuperAdminEditNewClientExtDatabase() {
                         {/* port */}
                         <FormControl flex='1' isInvalid={!!errors.port}>
                             <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>DB port <AppRequiredAstrisk /></FormLabel>
-                            <Input placeholder='e.g 1234' name='port' size='sm' type='text' {...registerPort} autoComplete='off' />
-                            {/* <NumberInput size='sm' name='port' {...registerPort}>
-                                <NumberInputField />
-                            </NumberInput> */}
+                            {/* <Input placeholder='e.g 1234' name='port' size='sm' type='text' {...registerPort} autoComplete='off' /> */}
+                            <NumberInput size='sm'>
+                                <NumberInputField name='port' placeholder='e.g 5432' {...registerPort} />
+                            </NumberInput>
                             <HStack justifyContent='space-between' >
                                 {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
                                     : <>&nbsp;</>

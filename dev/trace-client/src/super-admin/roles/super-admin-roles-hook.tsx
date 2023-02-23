@@ -1,4 +1,4 @@
-import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
 
 function useSuperAdminRoles() {
     const { handleAndGetQueryResult } = useAppGraphql()
@@ -113,7 +113,7 @@ function EditCellRenderer(props: any) {
     const { showModalDialogA } = useDialogs()
     return (
         props.data.id && <Tooltip label='Edit'>
-            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon fontSize={18} color='teal.500' />} />
+            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon  color='blue.500' />} />
         </Tooltip>)
 
     function handleEditRow(params: any) {
@@ -142,8 +142,8 @@ function DeleteCellRenderer(props: any) {
     const { mutateGraphql } = useAppGraphql()
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
-        props.data.roleName && <Tooltip label='Delete'>
-            <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={18} color='red.500' />} />
+        props.data.id && <Tooltip label='Delete'>
+            <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon color='red.500' />} />
         </Tooltip>)
 
     function handleDeleteRow(data: any) {
@@ -153,7 +153,7 @@ function DeleteCellRenderer(props: any) {
 
     async function doDelete(id: number) {
         const sqlObj = {
-            tableName: 'TestM',
+            tableName: 'RoleM',
             deletedIds: [id]
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
@@ -161,7 +161,7 @@ function DeleteCellRenderer(props: any) {
         showAppLoader(true)
         const result: GraphQlQueryResultType = await mutateGraphql(q)
         handleUpdateResult(result, () => {
-            appStaticStore.superAdmin.clients.doReload()
+            appStaticStore.superAdmin.roles.doReload()
         })
         showAppLoader(false)
     }
@@ -169,19 +169,18 @@ function DeleteCellRenderer(props: any) {
 export { DeleteCellRenderer }
 
 function HideCellRenderer(props: any) {
-
     return (
         props.data.id && <Tooltip label='Hide'>
-            <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<CloseIcon color='gray.500' />} />
+            <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<HideIcon color='gray.500' />} />
         </Tooltip>
     )
     function handleHideRow(data: any) {
-        const filteredRows: any[] = appStore.superAdmin.clients.filteredRows.value
+        const filteredRows: any[] = appStore.superAdmin.roles.filteredRows.value
         const clone = filteredRows.map((x: any) => ({ ...x }))
         const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
         clone.splice(indexOfRow, 1)
 
-        appStore.superAdmin.clients.filteredRows.value = clone
+        appStore.superAdmin.roles.filteredRows.value = clone
     }
 }
 export { HideCellRenderer }

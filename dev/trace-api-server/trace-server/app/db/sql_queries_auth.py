@@ -63,7 +63,7 @@ class SqlQueriesAuth:
 
     get_super_admin_roles = '''
         select * from "RoleM"
-            where "clientId" is null
+            where "clientId" is null order by "id" DESC
     '''
     test_connection = '''
         select 1

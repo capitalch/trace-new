@@ -1,4 +1,4 @@
-import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
 import { SuperAdminEditNewClient } from './super-admin-edit-new-client'
 import { SuperAdminEditNewClientExtDatabase } from './super-admin-edit-new-client-ext-database'
 import { SuperAdminNewClientButtons } from './super-admin-new-client-buttons'
@@ -161,7 +161,7 @@ function EditCellRenderer(props: any) {
     const { showModalDialogA } = useDialogs()
     return (
         props.data.id && <Tooltip label='Edit'>
-            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon fontSize={18} color='teal.500' />} />
+            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon  color='blue.500' />} />
         </Tooltip>)
 
     function handleEditRow(params: any) {
@@ -191,7 +191,7 @@ function DeleteCellRenderer(props: any) {
     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
     return (
         props.data.id && <Tooltip label='Delete'>
-            <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon fontSize={18} color='red.500' />} />
+            <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon color='red.500' />} />
         </Tooltip>)
 
     function handleDeleteRow(data: any) {
@@ -220,7 +220,7 @@ function HideCellRenderer(props: any) {
 
     return (
         props.data.id && <Tooltip label='Hide'>
-            <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<CloseIcon color='gray.500' />} />
+            <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='hide' icon={<HideIcon color='gray.500' />} />
         </Tooltip>
     )
     function handleHideRow(data: any) {

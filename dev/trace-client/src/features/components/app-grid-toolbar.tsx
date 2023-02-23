@@ -1,8 +1,12 @@
 import { AppConstants, AppGridSearchBox, appStaticStore, appStore, Box, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useMediaQuery, } from "@src/features"
 
-function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any }) {
+function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl, toShowLastNoOfRows }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any, toShowLastNoOfRows?:any }) {
     const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
     const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
+    let toShow = toShowLastNoOfRows
+    if([undefined, null].includes(toShowLastNoOfRows)){
+        toShow = true
+    }
     return (
         <HStack mb={2}
             rowGap={1}
@@ -14,11 +18,11 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
             </Box>}
             <HStack wrap='wrap'>
                 {CustomControl && <CustomControl />}
-                <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}>
+                {toShow && <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}>
                     <option value='100'>Last 100 rows</option>
                     <option value='1000'>Last 1000 rows</option>
                     <option value=''>All rows</option>
-                </Select>
+                </Select>}
                 {isLargerThan480 && <Tooltip label='Reload data'>
                     <IconButton size='sm' aria-label="Reload"
                         onClick={handleOnClickReload}

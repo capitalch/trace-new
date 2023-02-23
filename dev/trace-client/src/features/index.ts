@@ -116,7 +116,7 @@ export { AppGridToolbar } from './components/app-grid-toolbar'
 export {
   ArrowLeftIcon as ArrowLeftIconChakra,
   ChevronDownIcon,
-  CloseIcon,
+  CloseIcon as CloseIconBig,
   DeleteIcon,
   EditIcon,
   RepeatIcon as RefreshIcon,
@@ -128,11 +128,14 @@ export {
 
 // Material design icons
 export {
+  
   MdContacts as ClientsIcon,
+  MdHideSource as HideIcon,
   MdOutlineFactCheck as AccountsIcon,
   MdAdminPanelSettings as AdminMenuIcon,
   MdPassword as ChangePasswordIcon,
   MdOutlineChangeCircle as ChangeUidIcon,
+  MdOutlineClose as CloseIcon,
   MdLogout as LogoutIcon,
   MdMenu as MenuIcon,
   MdOutlinePersonPin as UsersIcon

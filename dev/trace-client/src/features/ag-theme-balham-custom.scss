@@ -8,19 +8,19 @@
   /* then add back a border between rows */
     --ag-row-border-style: solid;
     --ag-row-border-width: 1px;
-    --ag-row-border-color: lightgray;
+    --ag-row-border-color: grey;
 
     .ag-cell
    {
-      border-right-color: lightgray;
+      border-right-color: grey;
       border-right-width: 1px ;
       border-right-style: solid ;
 
-      border-top-color: lightgray;
+      border-top-color: grey;
       border-top-width: 1px ;
       border-top-style: solid ;
 
-      border-left-color: lightgray;
+      border-left-color: grey;
       border-left-width: 1px ;
       border-left-style: solid ;
     }

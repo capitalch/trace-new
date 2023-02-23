@@ -52,6 +52,13 @@
 14. ag-grid filter for boolean
 																											15. Exec_sql update implementation
 																											15. Test database connection disable button and show waiting
+## RoleM
+1. Edit
+2. New
+3. Permissions
+4. Secured controls
+5. roleName client unique
+6. Generalize the client unique code
 ## Logic for Super admin
 1. Global roles: Reader(0), Manager(1), Accountant(2). Grid entry with add roles. These three roles cannot be deleted. others can be deleted
 2. Client change names: Protected controls -> Secured controls, Global roles -> special roles

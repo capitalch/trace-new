@@ -1,4 +1,5 @@
 const Messages = {
+    errAtLeast3Chars: 'Should be at least 3 chars long',
     errAtLeast4Chars: 'Should be at least 4 chars long',
     errAtLeast8Chars: 'Should be at least 8 chars long',
     errClientExists: 'Client already exists',
@@ -13,6 +14,7 @@ const Messages = {
     errNoSpceOrSpecialChar: 'Cannot have space or special character',
     errNoSpecialChar: 'Cannot have special character',
     errRequired: 'This value is required',
+    errRoleNameExists: 'Role name already exists',
     errGenericServerError: 'Server side error',
     errUpdatingData: 'Error in updating data at server',
 
