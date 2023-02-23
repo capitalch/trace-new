@@ -10,17 +10,33 @@ function SuperAdminEditNewRole() {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { showAppLoader, showError } = useFeedback()
-    const { appGraphqlStrings, handleAndGetQueryResult,mutateGraphql,  queryGraphql } = useAppGraphql()
+    const { appGraphqlStrings, handleAndGetQueryResult,mutateGraphql,  queryGraphql} = useAppGraphql()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
     const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
     // const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
+    useGranularEffect(() => {
+        setFormValues()
+        const subs1 = debounceFilterOn(ebukiMessages.roleNameChangeDebounce.toString(), 1200).subscribe(
+            (d: any) => {
+                validateRoleName(d.data, setError)
+            })
+        return (() => {
+            subs1.unsubscribe()
+        })
+    }, [], [validateRoleName, setFormValues])
+
     const registerRoleName = register('roleName', {
         required: Messages.errRequired
         , minLength: { value: 3, message: Messages.errAtLeast3Chars }
         , validate: {
-            checkNoSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
+            noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
+            validate: (val: string) => {
+                if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+                    debounceEmit(ebukiMessages.roleNameChangeDebounce.toString(), val)
+                }
+            }
         }
     })
 
@@ -102,10 +118,9 @@ function SuperAdminEditNewRole() {
 
     async function validateRoleName(roleName: string, setError: any) {
         const args = {
-            sqlId: 'get_role_name',
+            sqlId: 'get_super_admin_role_name',
             sqlArgs: {
-                id: null,
-                roleName: roleName
+                roleName: roleName.toLowerCase()
             }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')

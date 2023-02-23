@@ -7,7 +7,7 @@ function useSuperAdminClientsCommon() {
         const args = {
             sqlId: 'get_client',
             sqlArgs: {
-                clientCode: clientCode
+                clientCode: clientCode.toLowerCase()
             }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')

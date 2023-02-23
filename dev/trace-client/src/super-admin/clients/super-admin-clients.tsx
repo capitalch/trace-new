@@ -30,7 +30,7 @@ function SuperAdminClients() {
             headerName: '#',
             field: 'id',
             // headerCheckboxSelection: true,
-            width: 80
+            width: 80,
         },
         {
             field: 'id1',

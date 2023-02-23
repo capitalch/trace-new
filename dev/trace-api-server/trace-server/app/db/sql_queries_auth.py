@@ -1,5 +1,9 @@
 class SqlQueriesAuth:
     
+    create_database = '''
+        create database "%(dbName)s"
+    '''
+    
     drop_public_schema = '''
         DROP SCHEMA IF EXISTS public RESTRICT
     '''
@@ -10,14 +14,23 @@ class SqlQueriesAuth:
     '''
     get_client = '''
         select 1 from "TestM"
-            where "clientCode" = %(clientCode)s
+            where lower("clientCode") = %(clientCode)s
     '''
     get_database = '''
         SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
     '''
     
-    create_database = '''
-        create database "%(dbName)s"
+    
+    get_super_admin_roles = '''
+        select * from "RoleM"
+            where "clientId" is null order by "id" DESC
+    '''
+    
+    get_super_admin_role_name = '''
+        select 1
+            from "RoleM"
+        where "clientId" is null
+            and lower("roleName") = %(roleName)s
     '''
     
     get_user_details = '''
@@ -61,10 +74,6 @@ class SqlQueriesAuth:
         ) as "jsonResult"
     '''
 
-    get_super_admin_roles = '''
-        select * from "RoleM"
-            where "clientId" is null order by "id" DESC
-    '''
     test_connection = '''
         select 1
     '''

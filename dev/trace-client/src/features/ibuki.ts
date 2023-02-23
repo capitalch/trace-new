@@ -32,7 +32,8 @@ function debounceFilterOn(id: string, debouncePeriod: number = 1000) {
 
 enum ebukiMessages {
     searchStringChangeDebounce,
-    clientCodeChangeDebounce
+    clientCodeChangeDebounce,
+    roleNameChangeDebounce
 }
 
 export { ebukiMessages, emit, filterOn, hotEmit, hotFilterOn, debounceEmit, debounceFilterOn }

@@ -53,11 +53,11 @@
 																											15. Exec_sql update implementation
 																											15. Test database connection disable button and show waiting
 ## RoleM
-1. Edit
-2. New
+																											1. Edit
+																											2. New
 3. Permissions
 4. Secured controls
-5. roleName client unique
+																											5. roleName client unique
 6. Generalize the client unique code
 ## Logic for Super admin
 1. Global roles: Reader(0), Manager(1), Accountant(2). Grid entry with add roles. These three roles cannot be deleted. others can be deleted
@@ -141,6 +141,10 @@
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
 																											4. get_other_user_bundle error
+## 22-02-2023 - 23-02-2023
+1. Working on Roles
+2. Edit, view and New implemented
+
 ## 11-02-2023 - 21-02-2023
 1. Clients completed
 2. server sql helper with CRUD completed

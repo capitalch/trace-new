@@ -1,4 +1,5 @@
 import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
     const { handleAndGetQueryResult } = useAppGraphql()
@@ -104,7 +105,7 @@ function useSuperAdminRoles() {
         }
     }
 
-    return { columnDefs, defaultColDef, gridApiRef, gridOptions, onGridReady }
+    return { columnDefs, defaultColDef, gridApiRef, gridOptions, onGridReady, }
 }
 
 export { useSuperAdminRoles }
@@ -113,7 +114,7 @@ function EditCellRenderer(props: any) {
     const { showModalDialogA } = useDialogs()
     return (
         props.data.id && <Tooltip label='Edit'>
-            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon  color='blue.500' />} />
+            <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon color='blue.500' />} />
         </Tooltip>)
 
     function handleEditRow(params: any) {
@@ -122,11 +123,11 @@ function EditCellRenderer(props: any) {
 
         const dbParams = params?.dbParams || {}
 
-        const obj = { ...params, host: dbParams.host, user: dbParams.user, password: dbParams.password, port: dbParams.port, url: dbParams.url }
+        const obj = { ...params }
         delete obj['id1']
         showModalDialogA({
-            title: 'Edit client',
-            body: () => <></>, //params?.isExternalDb ? SuperAdminEditNewClientExtDatabase : SuperAdminEditNewClient,
+            title: 'Edit super admin role',
+            body: SuperAdminEditNewRole,
             defaultData: {
                 ...obj
             }
