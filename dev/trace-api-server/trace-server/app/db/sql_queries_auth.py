@@ -20,6 +20,9 @@ class SqlQueriesAuth:
         SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
     '''
     
+    get_secured_controls = '''
+        SELECT * from "SecuredControlM" ORDER by "controlNo"
+    '''
     
     get_super_admin_roles = '''
         select * from "RoleM"

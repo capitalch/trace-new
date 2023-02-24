@@ -103,6 +103,10 @@ const appStaticStore: AppStaticStoreType = {
         roles: {
             doFilter: () => { },
             doReload: () => { }
+        },
+        securedControls: {
+            doFilter: () => { },
+            doReload: () => { }
         }
         // doFilter: () => { },
         // doReload: () => { },
@@ -123,9 +127,11 @@ interface AppStaticStoreType {
         roles: {
             doFilter: () => void,
             doReload: () => void
-        }
-        // doFilter: () => void,
-        // doReload: () => void
+        },
+        securedControls: {
+            doFilter: () => void,
+            doReload: () => void
+        },
     },
     [key: string]: any
 }
