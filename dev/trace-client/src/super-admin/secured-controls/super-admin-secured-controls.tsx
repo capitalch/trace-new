@@ -1,11 +1,12 @@
 import { AgGridReact, AppGridToolbar, RowDataUpdatedEvent, appStore, Flex, appStaticStore, } from '@src/features'
+import { SuperAdminNewSecuredControlButton } from './super-admin-new-secured-control-button'
 import { useSuperAdminSecuredControls } from './super-admin-secured-controls-hook'
 
 function SuperAdminSecuredControls() {
     const { gridApiRef, gridOptions } = useSuperAdminSecuredControls()
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
     <AppGridToolbar appStoreObject={appStore.superAdmin.securedControls} appStaticStoreObject={appStaticStore.superAdmin.securedControls} title='Super admin secured controls view'
-        // CustomControl={SuperAdminNewRoleButton}
+        CustomControl={SuperAdminNewSecuredControlButton}
         toShowLastNoOfRows={false}
     />
     <AgGridReact
