@@ -60,7 +60,9 @@ function useAppGraphql () {
         mutation: q
       })
     } catch (error: any) {
-      showError(error.message || Messages.errUpdatingData)
+      error.message = error.message || Messages.errUpdatingData
+      // showError(error.message || Messages.errUpdatingData)
+      throw error
     }
     return ret
   }
@@ -73,7 +75,9 @@ function useAppGraphql () {
         query: q
       })
     } catch (error: any) {
-      showError(error.message || Messages.errFetchingData)
+      // showError(error.message || Messages.errFetchingData)
+      error.message = error.message || Messages.errFetchingData
+      throw error
     }
     return ret
   }

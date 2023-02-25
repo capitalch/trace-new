@@ -120,24 +120,24 @@ function SuperAdminEditNewClientExtDatabase() {
                         <FormControl isInvalid={!!errors.dbName}>
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground_accounts' name='dbName' size='sm' type='text' {...registerDbName} autoComplete='off' />
-                            <HStack justifyContent='space-between' >
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.dbName.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
 
                         {/* host */}
                         <FormControl isInvalid={!!errors.host}>
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB host <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground.com' name='host' size='sm' type='text' {...registerHost} autoComplete='off' />
-                            <HStack justifyContent='space-between' >
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.host) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
                                 {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
 
@@ -146,22 +146,22 @@ function SuperAdminEditNewClientExtDatabase() {
                         <FormControl isInvalid={!!errors.user}>
                             <FormLabel fontWeight='bold' htmlFor='user' fontSize='sm'>DB user name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='john123' name='user' size='sm' type='text' {...registerUser} autoComplete='off' />
-                            <HStack justifyContent='space-between' >
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
 
                         {/* password */}
                         <FormControl isInvalid={!!errors.password}>
                             <FormLabel fontWeight='bold' htmlFor='password' fontSize='sm'>DB password <AppRequiredAstrisk /></FormLabel>
                             <Input name='password' size='sm' type='password' {...registerPassword} autoComplete='off' />
-                            <HStack justifyContent='space-between' >
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
 
@@ -173,22 +173,23 @@ function SuperAdminEditNewClientExtDatabase() {
                             <NumberInput size='sm'>
                                 <NumberInputField name='port' placeholder='e.g 5432' {...registerPort} />
                             </NumberInput>
-                            <HStack justifyContent='space-between' >
+                            {/* <FormErrorMessage color='red.400' fontSize='xs'>{errors?.port?.message}</FormErrorMessage> */}
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
 
                         {/* url */}
                         <FormControl flex='2' isInvalid={!!errors.url}>
                             <FormLabel fontWeight='bold' fontSize='sm'>DB url</FormLabel>
                             <Input placeholder='e.g http://battledb.com' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
-                            <HStack justifyContent='space-between' >
+                            {/* <HStack justifyContent='space-between' > */}
                                 {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
                                     : <>&nbsp;</>
                                 }
-                            </HStack>
+                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
                     <HStack w='100%' justify='flex-end'>

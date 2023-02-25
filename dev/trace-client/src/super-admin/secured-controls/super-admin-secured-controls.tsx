@@ -15,13 +15,13 @@ function SuperAdminSecuredControls() {
             const api = gridApiRef.current.api
             const model: any = api.getModel()
             const visibleRows: any[] = model.rowsToDisplay
-            api.setPinnedBottomRowData([{ controlNo: 'Rows:', controlName: visibleRows.length }])
+            api.setPinnedBottomRowData([{ controlName: 'Rows:', controlNo: visibleRows.length }])
         }}
         onFilterChanged={(ev: any) => {
             const api = gridApiRef.current.api
             const model: any = api.getModel()
             const visibleRows: any[] = model.rowsToDisplay
-            api.setPinnedBottomRowData([{ controlNo: 'Rows:', controlName: visibleRows.length }])
+            api.setPinnedBottomRowData([{ controlName: 'Rows:', controlNo: visibleRows.length }])
         }}
         ref={gridApiRef}
         rowData={appStore.superAdmin.securedControls.filteredRows.value}

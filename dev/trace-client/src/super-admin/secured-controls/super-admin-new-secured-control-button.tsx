@@ -1,5 +1,5 @@
 import { Button, HStack, Tooltip, useDialogs, useMediaQuery } from '@src/features'
-import { SuperAdminEditNewSecuredControl } from './super-admin-edit-ne-secured-control'
+import { SuperAdminEditNewSecuredControl } from './super-admin-edit-new-secured-control'
 
 function SuperAdminNewSecuredControlButton(){
     const { showModalDialogA } = useDialogs()
@@ -11,7 +11,7 @@ function SuperAdminNewSecuredControlButton(){
 
     function handleNewSecuredControl() {
         showModalDialogA({
-            title: 'New super admin role',
+            title: 'New secured control',
             body: SuperAdminEditNewSecuredControl
         })
     }

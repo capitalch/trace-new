@@ -33,7 +33,7 @@ function SuperAdminEditNewRole() {
         , validate: {
             noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
             validate: (val: string) => {
-                if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
+                if (_.isEmpty(defaultData)) { // Allow unique roleName validation only when inserting data
                     debounceEmit(ebukiMessages.roleNameChangeDebounce.toString(), val)
                 }
             }

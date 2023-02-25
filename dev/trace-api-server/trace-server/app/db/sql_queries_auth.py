@@ -21,12 +21,26 @@ class SqlQueriesAuth:
     '''
     
     get_secured_controls = '''
-        SELECT * from "SecuredControlM" ORDER by "controlNo"
+        SELECT * from "SecuredControlM" ORDER by "controlNo" DESC
     '''
     
     get_super_admin_roles = '''
         select * from "RoleM"
             where "clientId" is null order by "id" DESC
+    '''
+    
+    get_super_admin_control_name = '''
+        select 1
+            from "SecuredControlM"
+        where
+            lower("controlName") = %(controlName)s
+    '''
+    
+    get_super_admin_control_no = '''
+        select 1
+            from "SecuredControlM"
+        where
+            "controlNo" = %(controlNo)s
     '''
     
     get_super_admin_role_name = '''
@@ -41,8 +55,8 @@ class SqlQueriesAuth:
         --with "uidOrEmail" as (values('capitalch'))
         , cte1 as ( -- user details
             select u.id as "userId", "uid", "userEmail", "hash", "userName"
-                , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", "isActive", u."roleId", u."specialRoleId"
-                , CASE when "isAdmin" THEN 'A' ELSE 'B' END as "userType"		
+                , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", "isActive", u."roleId"
+            , CASE when "isAdmin" THEN 'A' ELSE 'B' END as "userType"	
             from "UserM" u
             where (("uid" = (table "uidOrEmail") or ("userEmail" = (table "uidOrEmail")))))
         , cte2 as ( -- get bu's associated with user
@@ -53,22 +67,11 @@ class SqlQueriesAuth:
                     join "UserM" u
                         on u."id" = x."userId"
             where b."isActive" and (("uid" = 'capitalch' or ("userEmail" = 'capitalch'))))	
-        , cte3 as ( -- role, special role and weight
-                select r.id as "roleId", r."roleName", (
-                    select SUM("weight")
-                        from "SecuredControlM" s
-                            join "RoleSecuredControlX" x
-                                on s.id = x."securedControlId"
-                            join "RoleM" r
-                                on r.id = x."roleId"
-                    where u."roleId" = r."id"
-                ) as "roleWeight"
-                , s.id as "specialRoleId", s."roleName" as "specialRoleName", s."descr" as "specialRoleDescr", s."weight" as "specialRoleWeight" 
+        , cte3 as ( -- role
+                select r.id as "roleId", r."roleName", r."clientId" 
                 from cte1 u
                     left join "RoleM" r
-                            on r.id = u."roleId"
-                    left join "SpecialRoleM" s
-                        on s.id = u."specialRoleId"
+                    	on r.id = u."roleId"
         )
         select json_build_object(
             'userDetails',(select row_to_json(a) from cte1 a)

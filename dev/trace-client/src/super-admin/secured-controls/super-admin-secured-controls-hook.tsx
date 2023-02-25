@@ -28,15 +28,15 @@ function useSuperAdminSecuredControls() {
             width: 60
         },
         {
-            field: 'controlNo',
-            headerName: 'Control no',
-            width: 100
-        },
-        {
             field: 'controlName',
             headerName: 'Control name',
             headerClass: 'header',
             width: 150
+        },
+        {
+            field: 'controlNo',
+            headerName: 'Control no',
+            width: 100
         },
         {
             field: 'controlType',
