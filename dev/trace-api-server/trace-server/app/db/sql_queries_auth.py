@@ -9,11 +9,11 @@ class SqlQueriesAuth:
     '''
 
     get_all_clients = '''
-        select * from "TestM" 
+        select * from "ClientM" 
             order by "id" DESC limit %(noOfRows)s
     '''
     get_client = '''
-        select 1 from "TestM"
+        select 1 from "ClientM"
             where lower("clientCode") = %(clientCode)s
     '''
     get_database = '''
@@ -21,7 +21,7 @@ class SqlQueriesAuth:
     '''
     
     get_secured_controls = '''
-        SELECT * from "SecuredControlM" ORDER by "controlNo" DESC
+        SELECT * from "SecuredControlM" ORDER by "id" DESC
     '''
     
     get_super_admin_roles = '''

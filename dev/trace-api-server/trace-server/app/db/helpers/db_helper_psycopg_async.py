@@ -40,36 +40,42 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
 
 async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
-    schema = 'public' if schema is None else schema
+    # schema = 'public' if schema is None else schema
+    records = None
+    try:
+        records = await doProcess(connInfo,schema, dbName, sql, sqlArgs, toReconnect)        
+    except Exception as e:
+        records = await doProcess(connInfo,schema, dbName, sql, sqlArgs, toReconnect)
+    return (jsonable_encoder(records))
+
+async def doProcess(connInfo,schema, dbName, sql, sqlArgs, toReconnect):
     apool: AsyncConnectionPool = get_connection_pool(
-        connInfo, dbName, toReconnect)
+    connInfo, dbName, toReconnect)
     records = None
     async with apool.connection() as aconn:
         async with aconn.cursor(row_factory=dict_row) as acur:
-            await acur.execute(f'set search_path to {schema}')
-            await acur.execute(sql, sqlArgs)
-            if (acur.rowcount > 0):
-                records = await acur.fetchall()
+            try:
+                await acur.execute(f'set search_path to {schema}')
+                await acur.execute(sql, sqlArgs)
+                if (acur.rowcount > 0):
+                    records = await acur.fetchall()
+            except Exception as e:
+                if(aconn.closed):
+                    poolStore[dbName] = None
+                    raise e
         await acur.close()
         await aconn.commit()
         await aconn.close()
         # await apool.close()
-    return (jsonable_encoder(records))
+    return(records)
 
 # Data manipulation language sql. No return value. Not inside a transaction
-
-
 async def execute_sql_dml(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = '', sqlArgs: dict[str, str] = {}):
     connInfo = get_conn_info(dbName, db_params)
     aconn = await AsyncConnection.connect(connInfo, autocommit=True)
     await aconn.execute(f'set search_path to {schema}')
     await aconn.execute(sql, sqlArgs)
-    # records = []
-    # if(acur.rowcount > 0):
-    #     records = await acur.fetchall()
-    # await acur.close()
     await aconn.close()
-    # return(jsonable_encoder(records))
 
 
 async def process_details(sqlObject: Any, acur: Any, fkeyValue=None):

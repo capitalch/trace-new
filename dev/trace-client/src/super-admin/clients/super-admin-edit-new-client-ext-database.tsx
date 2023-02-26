@@ -229,7 +229,7 @@ function SuperAdminEditNewClientExtDatabase() {
             url: values?.url
         }
         const sqlObj = {
-            tableName: 'TestM',
+            tableName: 'ClientM',
             xData: {
                 id: id,
                 clientCode: values?.clientCode,

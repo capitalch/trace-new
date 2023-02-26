@@ -1,4 +1,4 @@
-import { appStaticStore, appStore, Messages, useToast } from '@src/features'
+import { appStaticStore, appStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryResultType, IconButton, Messages, Tooltip, useAppGraphql, useToast } from '@src/features'
 import { FC } from 'react'
 
 function useAgGridUtils() {
@@ -32,6 +32,80 @@ function useAgGridUtils() {
     return ret
   }
   return { getAlternateColorStyle, getPinnedRowStyle, swapId }
+}
+
+function useCellRenderers({ dbName, tableName, appStoreObject, appStaticStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any, appStaticStoreObject: any, EditBodyComponent?: FC, editTitle?: string }) {
+
+  function DeleteCellRenderer(props: any) {
+    const { showAlertDialogYesNo } = useDialogs()
+    const { appGraphqlStrings, handleUpdateResult } = useAppGraphql()
+    const { showAppLoader, } = useFeedback()
+    const { mutateGraphql } = useAppGraphql()
+    // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
+    return (
+      props.data.id && <Tooltip label='Delete'>
+        <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon color='red.500' />} />
+      </Tooltip>)
+
+    function handleDeleteRow(data: any) {
+      const deleteId = data?.id1
+      showAlertDialogYesNo({ action: () => doDelete(deleteId), title: 'Are you sure to delete this row?' })
+    }
+
+    async function doDelete(id: number) {
+      const sqlObj = {
+        tableName: tableName,
+        deletedIds: [id]
+      }
+      const q = appGraphqlStrings['genericUpdate'](sqlObj, dbName)
+
+      showAppLoader(true)
+      const result: GraphQlQueryResultType = await mutateGraphql(q)
+      handleUpdateResult(result, () => {
+        appStaticStoreObject.doReload()
+      })
+      showAppLoader(false)
+    }
+  }
+
+  function HideCellRenderer(props: any) {
+    return (
+      props.data.id && <Tooltip label='Hide'>
+        <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='edit' icon={<HideIcon color='gray.500' />} />
+      </Tooltip>
+    )
+    function handleHideRow(data: any) {
+      const filteredRows: any[] = appStoreObject.filteredRows.value
+      const clone = filteredRows.map((x: any) => ({ ...x }))
+      const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
+      clone.splice(indexOfRow, 1)
+
+      appStoreObject.filteredRows.value = clone
+    }
+  }
+
+  function EditCellRenderer(props: any) {
+    const { showModalDialogA } = useDialogs()
+    return (
+      props.data.id && <Tooltip label='Edit'>
+        <IconButton size='xs' onClick={() => handleEditRow(props.data)} mb={1} aria-label='edit' icon={<EditIcon color='blue.500' />} />
+      </Tooltip>)
+
+    function handleEditRow(params: any) {
+      const obj = { ...params }
+      obj.id = params.id1
+      // obj.id1 = undefined
+      delete obj['id1']
+      showModalDialogA({
+        title: editTitle || '',
+        body: EditBodyComponent || (() => <></>),
+        defaultData: {
+          ...obj
+        }
+      })
+    }
+  }
+  return ({ DeleteCellRenderer, EditCellRenderer, HideCellRenderer })
 }
 
 function useComponentHistory() {
@@ -151,52 +225,4 @@ function useFeedback() {
   return { showAppLoader, showError, showSuccess }
 }
 
-// function useQueryResult() {
-//   const { showError, showSuccess } = useFeedback()
-
-//   function handleUpdateResult(result: GraphQlQueryResultType, actionWhenSuccess?: () => void, queryName: string ='genericUpdate'): boolean {
-//     const res: any = result?.data?.[queryName]  //result.data[queryName]
-//     let ret = false
-//     const handleSuccess = () => {
-//       showSuccess()
-//       if (actionWhenSuccess) {
-//         actionWhenSuccess()
-//       }
-//     }
-//     if (res) {
-//       if (res?.error) {
-//         const detail = res.error.detail
-//         const errorCode = res.error.errorCode
-//         const exception = res.error.exception
-//         const message = `${errorCode}, ${detail}`
-//         ret = true
-//         showError(message)
-//         console.log(exception)
-//       } else {
-//         handleSuccess()
-//       }
-//     } else { // successful delete returns null
-//       handleSuccess()
-//     }
-//     return (ret)
-//   }
-
-//   function handleAndGetQueryResult(result: GraphQlQueryResultType, queryName: string = 'genericQuery'): any {
-//     const res: any = result?.data?.[queryName]
-//     if (res) {
-//       if (res?.error) {
-//         const detail = res.error.detail
-//         const errorCode = res.error.errorCode
-//         const exception = res.error.exception
-//         const message = `${errorCode}, ${detail}`
-//         showError(message)
-//         console.log(exception)
-//       }
-//     }
-//     return (res)
-//   }
-
-//   return ({ handleUpdateResult, handleAndGetQueryResult })
-// }
-
-export { useAgGridUtils, useComponentHistory, useDialogs, useFeedback, }
+export { useAgGridUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }

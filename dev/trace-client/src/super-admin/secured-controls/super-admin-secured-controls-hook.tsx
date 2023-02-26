@@ -1,14 +1,25 @@
-import { AgGridReact, AppGridToolbar, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, RowDataUpdatedEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useGranularEffect, useRef, Box, appStore, Flex, HStack, GridApi, appStaticStore, Button, IconButton, CloseIcon, Tooltip, useState, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { ColDef, GridOptions, GridReadyEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore,  appStaticStore,  Messages, GraphQlQueryResultType } from '@src/features'
+import { SuperAdminEditNewSecuredControl } from './super-admin-edit-new-secured-control'
+
 
 function useSuperAdminSecuredControls() {
-    const { handleAndGetQueryResult } = useAppGraphql()
     const { showError } = useFeedback()
-    const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
-    const { appGraphqlStrings, queryGraphql, } = useAppGraphql()
+    const { getAlternateColorStyle, getPinnedRowStyle, } = useAgGridUtils()
+    const { appGraphqlStrings, handleAndGetQueryResult, queryGraphql, } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
 
+    const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
+    = useCellRenderers({ 
+        dbName: 'traceAuth'
+        , tableName: 'SecuredControlM'
+        ,appStoreObject:appStore.superAdmin.securedControls
+        , appStaticStoreObject: appStaticStore.superAdmin.securedControls 
+        , EditBodyComponent: SuperAdminEditNewSecuredControl
+        , editTitle:'Edit secured control'
+    })
+    
     useGranularEffect(() => {
         appStaticStore.superAdmin.securedControls.doReload = loadData
     }, [], [loadData])
@@ -50,22 +61,21 @@ function useSuperAdminSecuredControls() {
             width: 300,
             flex: 1
         },
-        
-        // {
-        //     cellRenderer: DeleteCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
-        // {
-        //     cellRenderer: HideCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
-        // {
-        //     cellRenderer: EditCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
+        {
+            cellRenderer: DeleteCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
+        {
+            cellRenderer: HideCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
+        {
+            cellRenderer: EditCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
     ]
 
     const defaultColDef: ColDef = {
@@ -111,7 +121,7 @@ function useSuperAdminSecuredControls() {
         }
     }
 
-    return { gridApiRef, gridOptions,}
+    return { gridApiRef, gridOptions, }
 }
 
 export { useSuperAdminSecuredControls }

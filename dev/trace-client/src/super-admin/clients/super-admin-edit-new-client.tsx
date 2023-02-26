@@ -104,7 +104,7 @@ function SuperAdminEditNewClient() {
         }
         const id = values?.id
         const sqlObj = {
-            tableName: 'TestM',
+            tableName: 'ClientM',
             xData: {
                 ...values,
             }

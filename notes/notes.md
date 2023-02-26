@@ -1,5 +1,11 @@
 pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool] pycryptodome
 
+## DB comparisons
+1. asyncpg requires so many connections
+2. psycopg-async is stable from connection point of view but does if the connection breaks then throws error. Repoducable: restart database server at cloud. Now error is raised
+3. psycopg2: most stable. Re-establishes the connections even if it breaks. Restart of cloud database server does not raise exceptions
+4. psycopg2 is slower than psycopg-async but more stable. psycopg2 sometimes take long time to establish connections. But very less errors.
+
 ### React data grids
 1. react-data-grid: https://www.npmjs.com/package/react-data-grid
 2. frappe data table: https://frappe.io/datatable/docs/api/datatable

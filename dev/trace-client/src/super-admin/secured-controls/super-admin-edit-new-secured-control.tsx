@@ -1,5 +1,5 @@
 import {
-    _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
+    _, AppRequiredAstrisk, appStore, appValidators, Button, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDialogs, useAppGraphql, useFeedback,
     useForm, VStack, appStaticStore, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect, NumberInput, NumberInputField,
@@ -8,12 +8,11 @@ import {
 function SuperAdminEditNewSecuredControl() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
-    const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
+    const { closeModalDialogA, } = useDialogs()
     const { showAppLoader, showError } = useFeedback()
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
-    const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
+    const { checkNoSpaceOrSpecialChar, } = appValidators()
     const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
-    // const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useGranularEffect(() => {
@@ -58,14 +57,8 @@ function SuperAdminEditNewSecuredControl() {
 
     const registerControlType = register('controlType', {
         required: Messages.errRequired
-        // , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
             noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
-            validate: (val: string) => {
-                // if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
-                //     debounceEmit(ebukiMessages.roleNameChangeDebounce.toString(), val)
-                // }
-            }
         }
     })
 
@@ -76,16 +69,13 @@ function SuperAdminEditNewSecuredControl() {
                 <FormControl isInvalid={!!errors.controlName}>
                     <FormLabel fontWeight='bold'>Control name <AppRequiredAstrisk /></FormLabel>
                     <Input name='controlName' placeholder='e.g vouchers-journal' autoFocus size='sm' type='text' {...registerControlName} autoComplete='off' />
-                    {/* <HStack justifyContent='space-between' alignItems='center'> */}
-                    {/* {(!!errors.controlName) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.controlName.message}</FormErrorMessage>
-                        : <FormErrorMessage color='red.400' mt={0} fontSize='xs'>1234</FormErrorMessage>
-                    } */}
-                    <FormErrorMessage color='red.400' >{errors?.controlName?.message}</FormErrorMessage>
-                    {/* </HStack> */}
+                    {(!!errors.controlName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.controlName.message}</FormErrorMessage>
+                        : <>&nbsp;</>
+                    }
                 </FormControl>
 
                 {/* control no */}
-                <FormControl>
+                <FormControl isInvalid={!!errors.controlNo}>
                     <FormLabel fontWeight='bold'>Control no <AppRequiredAstrisk /></FormLabel>
                     <NumberInput size='sm'>
                         <NumberInputField name='permission' placeholder='e.g 0,1,2 ...' {...registerControlNo} />
@@ -99,12 +89,9 @@ function SuperAdminEditNewSecuredControl() {
                 <FormControl isInvalid={!!errors.controlType}>
                     <FormLabel fontWeight='bold'>Control type <AppRequiredAstrisk /></FormLabel>
                     <Input name='controlType' placeholder='e.g menu, button etc.' size='sm' type='text' {...registerControlType} autoComplete='off' />
-                    <HStack justifyContent='space-between' alignItems='center'>
-                        {(!!errors.controlType) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.controlType.message}</FormErrorMessage>
-                            : <>&nbsp;</>
-                        }
-                        {/* <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' onClick={handleRoleNameInfo}>Info</Button> */}
-                    </HStack>
+                    {(!!errors.controlType) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.controlType.message}</FormErrorMessage>
+                        : <>&nbsp;</>
+                    }
                 </FormControl>
 
                 {/* Description */}
