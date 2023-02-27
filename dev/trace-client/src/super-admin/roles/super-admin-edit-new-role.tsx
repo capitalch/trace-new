@@ -8,12 +8,12 @@ import {
 function SuperAdminEditNewRole() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
-    const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
+    const { closeModalDialogA, } = useDialogs()
     const { showAppLoader, showError } = useFeedback()
-    const { appGraphqlStrings, handleAndGetQueryResult,mutateGraphql,  queryGraphql} = useAppGraphql()
-    const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
+    const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
+    const { checkNoSpaceOrSpecialChar,  } = appValidators()
     const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
-    // const { validateClientCode } = useSuperAdminClientsCommon()
+
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useGranularEffect(() => {
@@ -48,11 +48,11 @@ function SuperAdminEditNewRole() {
                     <FormLabel fontWeight='bold'>Role name <AppRequiredAstrisk /></FormLabel>
                     <Input name='roleName' placeholder='e.g manager' autoFocus size='sm' type='text' {...registerRoleName} autoComplete='off' />
                     {/* <HStack justifyContent='space-between' alignItems='center'> */}
-                        {(!!errors.roleName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.roleName.message}</FormErrorMessage>
-                            : <>&nbsp;</>
-                        }
-                        {/* <Box>&nbsp;</Box> */}
-                        {/* <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' >Info</Button> */}
+                    {(!!errors.roleName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.roleName.message}</FormErrorMessage>
+                        : <>&nbsp;</>
+                    }
+                    {/* <Box>&nbsp;</Box> */}
+                    {/* <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' >Info</Button> */}
                     {/* </HStack> */}
                 </FormControl>
 

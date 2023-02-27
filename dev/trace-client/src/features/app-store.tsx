@@ -96,6 +96,10 @@ const appStaticStore: AppStaticStoreType = {
     isCloseClicked: false,
     isOpenClicked: false,
     superAdmin: {
+        adminUsers: {
+            doFilter: () => { },
+            doReload: () => { },
+        },
         clients: {
             doFilter: () => { },
             doReload: () => { },
@@ -120,6 +124,10 @@ interface AppStaticStoreType {
     isCloseClicked: boolean,
     isOpenClicked: boolean,
     superAdmin: {
+        adminUsers: {
+            doFilter: () => void,
+            doReload: () => void
+        },
         clients: {
             doFilter: () => void,
             doReload: () => void

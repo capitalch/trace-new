@@ -21,7 +21,7 @@ function useSuperAdminRoles() {
 
     useGranularEffect(() => {
         appStaticStore.superAdmin.roles.doReload = loadData
-    }, [], [])
+    }, [], [loadData])
 
     const onGridReady = (params: GridReadyEvent) => {
         if (isNotInComponentHistory(componentNames.superAdminRoles)) {
