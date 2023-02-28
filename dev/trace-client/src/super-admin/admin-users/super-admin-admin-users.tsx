@@ -5,7 +5,7 @@ import { SuperAdminNewAdminUserButton } from './super-admin-new-admin-user-butto
 function SuperAdminAdminUsers() {
     const { gridApiRef, gridOptions } = useSuperAdminAdminUsers()
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
-    <AppGridToolbar appStoreObject={appStore.superAdmin.securedControls} appStaticStoreObject={appStaticStore.superAdmin.securedControls} title='Super admin users'
+    <AppGridToolbar appStoreObject={appStore.superAdmin.adminUsers} appStaticStoreObject={appStaticStore.superAdmin.adminUsers} title='Admin users view'
         CustomControl={SuperAdminNewAdminUserButton}
         toShowLastNoOfRows={true}
     />

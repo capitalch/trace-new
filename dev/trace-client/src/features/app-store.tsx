@@ -36,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzc0NjQ5NTAsInN1YiI6eyJ1c2VySWQiOjN9fQ.duWG58bF72ScF2Q1oi1n75AiosZqx_r9zpU0KCFr3Zc',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzc2OTM3OTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.sXh5TskOE8YIhS2jaeIi6SVrOBz6jI19oKbu8X5pZSs',
         uidEmail: 'capitalch',
         userType: undefined,
     },

@@ -1,4 +1,4 @@
-import { ColDef, GridOptions, GridReadyEvent, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
+import { ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
 
 function useSuperAdminAdminUsers() {
     const { showError } = useFeedback()
@@ -37,7 +37,7 @@ function useSuperAdminAdminUsers() {
         {
             field: 'userEmail',
             headerName: 'Email',
-            width: 150,
+            width: 250,
         },
         {
             field: 'descr',
@@ -53,7 +53,11 @@ function useSuperAdminAdminUsers() {
         {
             field: 'timestamp',
             headerName: 'Timestamp',
-            width: 130
+            valueFormatter: (params: any) => {
+                const dateTime = params.value ? moment(params.value).format('YYYY/MM/DD hh:mm:ss') :''
+                return (dateTime)
+            },
+            width: 140
         }
         // {
         //     cellRenderer: DeleteCellRenderer,

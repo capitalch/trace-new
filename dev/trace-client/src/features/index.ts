@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import produce from 'immer'
 import React from 'react'
+import moment from 'moment'
 import urlJoin from 'url-join'
 export { Menu as MenuAnt, type MenuProps as MenuPropsAnt } from 'antd'
 export * from './app-constants'
@@ -71,7 +72,7 @@ export {
 } from '@chakra-ui/react'
 export { deepSignal, useDeepSignal } from '@deepsignal/react'
 export { Messages } from './messages'
-export { _, produce, React, urlJoin }
+export { _, moment, produce, React, urlJoin }
 export { type FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export { useForm } from 'react-hook-form'
