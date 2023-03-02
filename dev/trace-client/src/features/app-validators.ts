@@ -1,6 +1,16 @@
 import { Messages } from '@src/features'
 function appValidators() {
 
+    function checkIndiaMobileNo(input: string) {
+        let error = null
+        if (input.search(/^[0-9]+$/) < 0) {
+            error = Messages.errMustBeNumeric
+        } else if (input.length !== 10) {
+            error = Messages.errMobileNoLength
+        }
+        return (error)
+    }
+
     function checkUidEmail(input: string) {
         //should be alphanumeric, non empty and no space in between or email
         let error = null
@@ -28,7 +38,7 @@ function appValidators() {
         if (input.length < 8) {
             error = Messages.errAtLeast8Chars
         }
-        return error
+        return (error)
     }
 
     function checkMustHaveOneDigit(input: string) {
@@ -106,12 +116,20 @@ function appValidators() {
         return (error)
     }
 
+    function checkValidEmail(input: string) {
+        let error = null
+        if (input.search(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) < 0) {
+            error = Messages.errInvalidEmail
+        }
+        return (error)
+    }
+
     function isValidEmail(input: string) {
         const ret = input.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
         return ret
     }
 
-    return ({ checkNumeric, checkPwd, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail, checkUrl })
+    return ({ checkIndiaMobileNo, checkNumeric, checkPwd, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail, checkUrl, checkValidEmail })
 }
 
 export { appValidators }

@@ -3,6 +3,7 @@ import produce from 'immer'
 import React from 'react'
 import moment from 'moment'
 import urlJoin from 'url-join'
+import ReactSelect from 'react-select'
 export { Menu as MenuAnt, type MenuProps as MenuPropsAnt } from 'antd'
 export * from './app-constants'
 export * from './app-store'
@@ -72,7 +73,7 @@ export {
 } from '@chakra-ui/react'
 export { deepSignal, useDeepSignal } from '@deepsignal/react'
 export { Messages } from './messages'
-export { _, moment, produce, React, urlJoin }
+export { _, moment, produce, React, ReactSelect, urlJoin }
 export { type FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 export { useForm } from 'react-hook-form'
