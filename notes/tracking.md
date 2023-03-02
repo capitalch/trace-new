@@ -56,7 +56,12 @@
 																											1. Edit
 																											2. New
 3. Permissions
-4. Secured controls
+## user name
+1. Debounce email, username,
+2. Edit
+3. Hide
+4. Delete
+5. New
 																											5. roleName client unique
 6. Generalize the client unique code
 ## Logic for Super admin
