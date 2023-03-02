@@ -109,7 +109,7 @@ function useSuperAdminSecuredControls() {
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const rows: [] = handleAndGetQueryResult(result, 'genericQuery')
-            if (rows && (rows.length > 0)) {
+            if (rows) {
                 appStore.superAdmin.securedControls.rows.value = rows
                 appStaticStore.superAdmin.securedControls.doFilter()
             }

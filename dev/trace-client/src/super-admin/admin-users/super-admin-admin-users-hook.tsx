@@ -117,7 +117,7 @@ function useSuperAdminAdminUsers() {
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const rows: [] = handleAndGetQueryResult(result, 'genericQuery')
-            if (rows && (rows.length > 0)) {
+            if (rows) {
                 appStore.superAdmin.adminUsers.rows.value = rows
                 appStaticStore.superAdmin.adminUsers.doFilter()
             }

@@ -151,7 +151,7 @@ function SuperAdminClients() {
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const rows: [] = handleAndGetQueryResult(result, 'queryClients')
-            if (rows && (rows.length > 0)) {
+            if (rows) {
                 appStore.superAdmin.clients.rows.value = rows
                 appStaticStore.superAdmin.clients.doFilter()
             }

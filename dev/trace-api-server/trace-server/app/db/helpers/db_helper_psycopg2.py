@@ -45,7 +45,7 @@ def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = 
     connInfo = get_conn_info(dbName, db_params)
     pool: ThreadedConnectionPool = get_connection_pool(
         connInfo, dbName, toReconnect)
-    records = None
+    records = []
     with pool.getconn() as conn:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(f'set search_path to {schema}')            

@@ -41,7 +41,7 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
 async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
     # schema = 'public' if schema is None else schema
-    records = None
+    records = []
     try:
         records = await doProcess(connInfo,schema, dbName, sql, sqlArgs, toReconnect)        
     except Exception as e:
@@ -51,7 +51,7 @@ async def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, s
 async def doProcess(connInfo,schema, dbName, sql, sqlArgs, toReconnect):
     apool: AsyncConnectionPool = get_connection_pool(
     connInfo, dbName, toReconnect)
-    records = None
+    records = []
     async with apool.connection() as aconn:
         async with aconn.cursor(row_factory=dict_row) as acur:
             try:
