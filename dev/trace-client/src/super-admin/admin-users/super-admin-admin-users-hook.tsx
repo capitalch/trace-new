@@ -5,12 +5,21 @@ function useSuperAdminAdminUsers() {
     const { getAlternateColorStyle, getPinnedRowStyle, } = useAgGridUtils()
     const { appGraphqlStrings, handleAndGetQueryResult, queryGraphql, } = useAppGraphql()
     const { addToComponentHistory, componentNames, isNotInComponentHistory } = useComponentHistory()
-
     const gridApiRef: any = useRef(null)
 
     useGranularEffect(() => {
         appStaticStore.superAdmin.adminUsers.doReload = loadData
     }, [], [loadData])
+
+    const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
+    = useCellRenderers({ 
+        dbName: 'traceAuth'
+        , tableName: 'UserM'
+        ,appStoreObject:appStore.superAdmin.adminUsers
+        , appStaticStoreObject: appStaticStore.superAdmin.adminUsers 
+        // , EditBodyComponent: SuperAdminEditNewRole
+        // , editTitle:'Edit super admin role'
+    })
 
     const columnDefs: ColDef[] = [
         {
@@ -58,17 +67,17 @@ function useSuperAdminAdminUsers() {
                 return (dateTime)
             },
             width: 140
-        }
-        // {
-        //     cellRenderer: DeleteCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
-        // {
-        //     cellRenderer: HideCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
+        },
+        {
+            cellRenderer: DeleteCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
+        {
+            cellRenderer: HideCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
         // {
         //     cellRenderer: EditCellRenderer,
         //     cellStyle: { padding: 0, margin: 0 },
