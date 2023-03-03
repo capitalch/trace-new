@@ -53,8 +53,7 @@ function SuperAdminEditNewAdminUser() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing={4}>
-
+            <VStack>
                 {/* Client id */}
                 <FormControl isInvalid={!!errors.clintId}>
                     <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
@@ -72,7 +71,7 @@ function SuperAdminEditNewAdminUser() {
                 </FormControl>
 
                 {/* User name */}
-                <FormControl isInvalid={!!errors.userName}>
+                <FormControl isInvalid={!!errors.userName} mt={0} pt={0}>
                     <FormLabel fontWeight='bold'>User name <AppRequiredAstrisk /></FormLabel>
                     <Input name='userName' placeholder='e.g Robert Fedrik' autoFocus size='sm' type='text' {...registerUserName} autoComplete='off' />
                     {(!!errors.userName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.userName.message}</FormErrorMessage>

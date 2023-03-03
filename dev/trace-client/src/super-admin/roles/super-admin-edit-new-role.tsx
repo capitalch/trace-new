@@ -42,18 +42,15 @@ function SuperAdminEditNewRole() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing={4}>
+            <VStack>
+                
                 {/* Role name */}
                 <FormControl isInvalid={!!errors.roleName}>
                     <FormLabel fontWeight='bold'>Role name <AppRequiredAstrisk /></FormLabel>
                     <Input name='roleName' placeholder='e.g manager' autoFocus size='sm' type='text' {...registerRoleName} autoComplete='off' />
-                    {/* <HStack justifyContent='space-between' alignItems='center'> */}
                     {(!!errors.roleName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.roleName.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
-                    {/* <Box>&nbsp;</Box> */}
-                    {/* <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' >Info</Button> */}
-                    {/* </HStack> */}
                 </FormControl>
 
                 {/* Description */}

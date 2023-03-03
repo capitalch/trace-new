@@ -64,7 +64,7 @@ function SuperAdminEditNewSecuredControl() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing={4}>
+            <VStack>
                 {/* Control name */}
                 <FormControl isInvalid={!!errors.controlName}>
                     <FormLabel fontWeight='bold'>Control name <AppRequiredAstrisk /></FormLabel>

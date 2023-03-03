@@ -51,7 +51,7 @@ function SuperAdminEditNewClient() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing={4}>
+            <VStack>
                 <FormControl isInvalid={!!errors.clientCode}>
                     <FormLabel fontWeight='bold'>Client code <AppRequiredAstrisk /></FormLabel>
                     <Input name='clientCode' placeholder='e.g battleGround' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />

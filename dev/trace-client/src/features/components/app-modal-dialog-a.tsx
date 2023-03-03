@@ -15,7 +15,7 @@ function AppModalDialogA() {
         <Modal isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
-                <ModalHeader fontSize='xl' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>
+                <ModalHeader mt={-2} fontSize='xl' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <appStore.modalDialogA.body.value />
