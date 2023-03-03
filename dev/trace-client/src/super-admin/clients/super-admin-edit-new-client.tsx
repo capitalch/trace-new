@@ -56,7 +56,7 @@ function SuperAdminEditNewClient() {
                     <FormLabel fontWeight='bold'>Client code <AppRequiredAstrisk /></FormLabel>
                     <Input name='clientCode' placeholder='e.g battleGround' autoFocus size='sm' type='text' {...registerClientCode} autoComplete='off' />
                     <HStack justifyContent='space-between' alignItems='center'>
-                        {(!!errors.clientCode) ? <FormErrorMessage color='red.400' mt={0} fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
+                        {(!!errors.clientCode) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.clientCode.message}</FormErrorMessage>
                             : <>&nbsp;</>
                         }
                         <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientCodeInfo}>Info</Button>
@@ -67,7 +67,7 @@ function SuperAdminEditNewClient() {
                     <FormLabel fontWeight='bold'>Client name <AppRequiredAstrisk /></FormLabel>
                     <Input name='clientName' placeholder='e.g Battle Ground' size='sm' type='text' {...registerClientName} autoComplete='off' />
                     <HStack justifyContent='space-between' >
-                        {(!!errors.clientName) ? <FormErrorMessage mt={0} color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
+                        {(!!errors.clientName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.clientName.message}</FormErrorMessage>
                             : <>&nbsp;</>
                         }
                         <Button tabIndex={-1} size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button>
@@ -142,14 +142,3 @@ function SuperAdminEditNewClient() {
 }
 
 export { SuperAdminEditNewClient }
-
-// type SuperAdminClientType = {
-//     clientCode: string
-//     clientName: string
-//     isActive: boolean
-// }
-
-// const st = new Date().getTime()
-// const ret = await mutateGraphql(q)
-// const en = (new Date()).getTime()
-// console.log(en - st, ret)

@@ -117,7 +117,7 @@ function useSuperAdminSecuredControls() {
             showError(e.message || Messages.errFetchingData)
             console.log(e.message)
         } finally {
-            gridApiRef.current.api.hideOverlay()
+            gridApiRef?.current?.api?.hideOverlay()
         }
     }
 

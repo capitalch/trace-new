@@ -1,11 +1,14 @@
 import {
     _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
-    Messages, ReactSelect, useDialogs, useAppGraphql, useFeedback,
-    useForm, VStack, appStaticStore, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect, NumberInput, NumberInputField, Select,
+    Messages, ReactSelect, useDeepSignal, useDialogs, useAppGraphql, useFeedback,
+    useForm, VStack, appStaticStore, useEffect, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect, NumberInput, NumberInputField,
 } from '@src/features'
 
+import { Select } from 'chakra-react-select'
+
 function SuperAdminEditNewAdminUser() {
+    const meta: any = useDeepSignal({ clients: [], selectedClient: {} })
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, } = useDialogs()
@@ -16,12 +19,17 @@ function SuperAdminEditNewAdminUser() {
 
     const defaultData = appStore.modalDialogA.defaultData.value
 
-    const registerClientId = register('clientId', {
-        required: Messages.errRequired
-        , validate: {
-            // noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
-        }
-    })
+    useGranularEffect(() => {
+        setValue('clientId', meta.selectedClient.value.value)
+        setError('clientId', undefined)
+        loadClients()
+    }, [], [loadClients])
+
+    // const registerClientId = register('clientId', {
+    // required: Messages.errRequired
+    // validate: {
+    // }
+    // })
 
     const registerUserName = register('userName', {
         required: Messages.errRequired
@@ -45,36 +53,44 @@ function SuperAdminEditNewAdminUser() {
         }
     })
 
-    const options = [
-        { value: null, label: '--- Select ---' },
-        { value: 1, label: 'Capital group' },
-        { value: 2, label: 'Netwoven group' }
-    ]
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
                 {/* Client id */}
                 <FormControl isInvalid={!!errors.clintId}>
                     <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
-                    <ReactSelect options={options}  />
-                        {/* <Select size='sm' w='0.5xs' variant='filled' 
+                    <Select
+                        name='clientId'
+                        size='sm'
+                        options={meta.clients.value}
+                        value={meta.selectedClient.value.value}
+                        onChange={onClientSelected}
+                        // {...register('clientId')}
+                    // {...registerClientId} 
+                    />
+                    {/* <ReactSelect  placeholder='Select'
+                        options={meta.clients.value} autoFocus
+                        value={meta.selectedClient.value.value}
+                        onChange={onClientSelected}
+                        {...registerClientId} 
+                        /> */}
+                    {/* <Select size='sm' w='0.5xs' variant='filled' 
                     defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}
                     >
                     <option value='100'>Last 100 rows</option>
                     <option value='1000'>Last 1000 rows</option>
                     <option value=''>All rows</option>
                 </Select> */}
-                        {(!!errors.clintId) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.clintId.message}</FormErrorMessage>
-                            : <>&nbsp;</>
-                        }
+                    {(!!errors.clintId) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.clintId.message}</FormErrorMessage>
+                        : <>&nbsp;</>
+                    }
                 </FormControl>
 
                 {/* User name */}
-                <FormControl isInvalid={!!errors.userName} mt={0} pt={0}>
+                <FormControl isInvalid={!!errors.userName}>
                     <FormLabel fontWeight='bold'>User name <AppRequiredAstrisk /></FormLabel>
-                    <Input name='userName' placeholder='e.g Robert Fedrik' autoFocus size='sm' type='text' {...registerUserName} autoComplete='off' />
-                    {(!!errors.userName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.userName.message}</FormErrorMessage>
+                    <Input name='userName' placeholder='e.g Robert Fedrik' size='sm' type='text' {...registerUserName} autoComplete='off' />
+                    {(!!errors.userName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.userName.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
                 </FormControl>
@@ -83,7 +99,7 @@ function SuperAdminEditNewAdminUser() {
                 <FormControl isInvalid={!!errors.userEmail}>
                     <FormLabel fontWeight='bold'>Email <AppRequiredAstrisk /></FormLabel>
                     <Input name='userEmail' placeholder='e.g Robert@mycompany.com' size='sm' type='text' {...registerUserEmail} autoComplete='off' />
-                    {(!!errors.userEmail) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.userEmail.message}</FormErrorMessage>
+                    {(!!errors.userEmail) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.userEmail.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
                 </FormControl>
@@ -118,8 +134,44 @@ function SuperAdminEditNewAdminUser() {
         </form>
     )
 
-    function onSubmit(values: any) {
+    async function loadClients() {
+        const args = {
+            sqlId: 'get_all_clientNames_clentIds'
+        }
+        const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
+        showAppLoader(true)
+        try {
+            const result: GraphQlQueryResultType = await queryGraphql(q)
+            const rows: [] = handleAndGetQueryResult(result, 'genericQuery')
+            if (rows) {
+                const arr: any[] = rows.map((item: any) => {
+                    return ({ value: item.id, label: item.clientName })
+                })
+                meta.clients.value = [{ value: '', label: '--- select ---' }, ...arr]
+                // appStore.superAdmin.securedControls.rows.value = rows
+                // appStaticStore.superAdmin.securedControls.doFilter()
+            }
+        } catch (e: any) {
+            showError(e.message || Messages.errFetchingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+        }
+    }
 
+    function onClientSelected(selectedItem: any) {
+        meta.selectedClient.value.value = selectedItem.value//selectedItem
+        setValue('clientId', selectedItem.value)
+        if (!selectedItem.value) {
+            setError('clientId', { type: 'custom', message: 'This value is required' })
+        } else {
+            setError('clientId',  { type: 'custom', message: '' })
+        }
+        // registerClientId()
+    }
+
+    async function onSubmit(values: any) {
+        console.log(values)
     }
 }
 

@@ -69,7 +69,7 @@ function SuperAdminEditNewSecuredControl() {
                 <FormControl isInvalid={!!errors.controlName}>
                     <FormLabel fontWeight='bold'>Control name <AppRequiredAstrisk /></FormLabel>
                     <Input name='controlName' placeholder='e.g vouchers-journal' autoFocus size='sm' type='text' {...registerControlName} autoComplete='off' />
-                    {(!!errors.controlName) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.controlName.message}</FormErrorMessage>
+                    {(!!errors.controlName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.controlName.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
                 </FormControl>
@@ -89,7 +89,7 @@ function SuperAdminEditNewSecuredControl() {
                 <FormControl isInvalid={!!errors.controlType}>
                     <FormLabel fontWeight='bold'>Control type <AppRequiredAstrisk /></FormLabel>
                     <Input name='controlType' placeholder='e.g menu, button etc.' size='sm' type='text' {...registerControlType} autoComplete='off' />
-                    {(!!errors.controlType) ? <FormErrorMessage color='red.400' mt={2} fontSize='xs'>{errors.controlType.message}</FormErrorMessage>
+                    {(!!errors.controlType) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.controlType.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
                 </FormControl>

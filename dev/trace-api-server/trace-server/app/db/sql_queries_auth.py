@@ -21,10 +21,19 @@ class SqlQueriesAuth:
             select * from "ClientM" 
                 order by "id" DESC limit %(noOfRows)s
         '''
+    
+    get_all_clientNames_clentIds = '''
+        select "id", "clientName"
+            from "ClientM" order by "clientName"
+    '''
+
     get_client = '''
             select 1 from "ClientM"
                 where lower("clientCode") = %(clientCode)s
         '''
+    
+    
+
     get_database = '''
             SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
         '''
