@@ -33,6 +33,14 @@ const appGraphqlStrings: any = {
         mutation ${dbName} {
             updateClient(value:"${value}")
         }`
+    },
+
+    updateUser:(val: any, dbName: string)=>{
+        const value = encodeObj(val)
+        return gql`
+        mutation ${dbName} {
+            updateUser(value:"${value}")
+        }`
     }
 }
 

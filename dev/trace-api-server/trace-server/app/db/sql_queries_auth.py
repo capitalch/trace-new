@@ -9,11 +9,11 @@ class SqlQueriesAuth:
     '''
 
     get_admin_users = '''
-            SELECT "clientName", u."id", "uid", "userName", "userEmail", u."descr", u."isActive", u."timestamp"
+            SELECT c."id" as "clientId", "clientName", u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
                 from "UserM" u
                     join "ClientM" c
                         on c."id" = u."clientId"
-                    where "isAdmin"
+                    where "roleId" is null
         '''
 
 
@@ -33,7 +33,6 @@ class SqlQueriesAuth:
         '''
     
     
-
     get_database = '''
             SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
         '''
@@ -74,7 +73,7 @@ class SqlQueriesAuth:
             , cte1 as ( -- user details
                 select u.id as "userId", "uid", "userEmail", "hash", "userName"
                     , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", "isActive", u."roleId"
-                , CASE when "isAdmin" THEN 'A' ELSE 'B' END as "userType"	
+                , CASE when ("roleId" is null) THEN 'A' ELSE 'B' END as "userType"	
                 from "UserM" u
                 where (("uid" = (table "uidOrEmail") or ("userEmail" = (table "uidOrEmail")))))
             , cte2 as ( -- get bu's associated with user

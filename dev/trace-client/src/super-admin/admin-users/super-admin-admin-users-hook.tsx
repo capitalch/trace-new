@@ -1,4 +1,5 @@
 import { ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
+import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
 function useSuperAdminAdminUsers() {
     const { showError } = useFeedback()
@@ -11,15 +12,15 @@ function useSuperAdminAdminUsers() {
         appStaticStore.superAdmin.adminUsers.doReload = loadData
     }, [], [loadData])
 
-    const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
-    = useCellRenderers({ 
-        dbName: 'traceAuth'
-        , tableName: 'UserM'
-        ,appStoreObject:appStore.superAdmin.adminUsers
-        , appStaticStoreObject: appStaticStore.superAdmin.adminUsers 
-        // , EditBodyComponent: SuperAdminEditNewRole
-        // , editTitle:'Edit super admin role'
-    })
+    const { DeleteCellRenderer, EditCellRenderer, HideCellRenderer }
+        = useCellRenderers({
+            dbName: 'traceAuth'
+            , tableName: 'UserM'
+            , appStoreObject: appStore.superAdmin.adminUsers
+            , appStaticStoreObject: appStaticStore.superAdmin.adminUsers
+            , EditBodyComponent: SuperAdminEditNewAdminUser
+            , editTitle: 'Edit super admin role'
+        })
 
     const columnDefs: ColDef[] = [
         {
@@ -44,6 +45,11 @@ function useSuperAdminAdminUsers() {
             width: 250
         },
         {
+            field: 'mobileNo',
+            headerName: 'Mobile no',
+            width: 100
+        },
+        {
             field: 'userEmail',
             headerName: 'Email',
             width: 250,
@@ -52,6 +58,7 @@ function useSuperAdminAdminUsers() {
             field: 'descr',
             headerName: 'Description',
             width: 250,
+            minWidth: 30,
             flex: 1
         },
         {
@@ -63,7 +70,7 @@ function useSuperAdminAdminUsers() {
             field: 'timestamp',
             headerName: 'Timestamp',
             valueFormatter: (params: any) => {
-                const dateTime = params.value ? moment(params.value).format('YYYY/MM/DD hh:mm:ss') :''
+                const dateTime = params.value ? moment(params.value).format('YYYY/MM/DD hh:mm:ss') : ''
                 return (dateTime)
             },
             width: 140
@@ -78,11 +85,11 @@ function useSuperAdminAdminUsers() {
             cellStyle: { padding: 0, margin: 0 },
             width: 20
         },
-        // {
-        //     cellRenderer: EditCellRenderer,
-        //     cellStyle: { padding: 0, margin: 0 },
-        //     width: 20
-        // },
+        {
+            cellRenderer: EditCellRenderer,
+            cellStyle: { padding: 0, margin: 0 },
+            width: 20
+        },
     ]
 
     const defaultColDef: ColDef = {

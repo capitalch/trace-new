@@ -138,10 +138,6 @@ async def resolve_update_client(info, value):
                 if (dbToCreate):
                     dbNameInCatalog: str = exec_sql_psycopg2(  # Names of all databases in format [{'datname':'database1'}, {'datname':'database2'} ...]
                         dbName=operationName, sql=SqlQueriesAuth.get_database, sqlArgs={'datname': dbToCreate})
-                    
-                    # dbNameInCatalog: str = await exec_sql_psycopg_async(  # Names of all databases in format [{'datname':'database1'}, {'datname':'database2'} ...]
-                    #     dbName=operationName, sql=SqlQueriesAuth.get_database, sqlArgs={'datname': dbToCreate})
-                    # if db not exists ceate it
                     if (not dbNameInCatalog):
                         execute_sql_dml_psycopg2(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
                         execute_sql_dml_psycopg2(dbName=dbToCreate,
@@ -159,4 +155,36 @@ async def resolve_update_client(info, value):
         error['errorCode'] = 'e1010' if errorCode is None else errorCode
         data['error'] = error
         logger.error(error)
+    return (data)
+
+
+async def resolve_update_user(info, value):
+    error = {}
+    data = {}
+    try:
+        valueString = unquote(value)
+        request = info.context.get('request', None)
+        requestJson = await request.json()
+        operationName = requestJson.get('operationName', None)
+        sqlObj = json.loads(valueString)
+        xData = sqlObj.get('xData', None)
+        if(xData):
+            xData['uid'] = utils.getRandomUserId()
+            pwd = utils.getRandomPassword()
+            tHash = utils.getPasswordHash(pwd)
+            xData['hash'] = tHash
+        data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
+        # data = await generic_update_asyncpg(sqlObject=sqlObj)
+        # data = await generic_update_psycopg_async(sqlObject=sqlObj)
+        # data = generic_update_psycopg_sync(sqlObject=sqlObj)
+        
+        # data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
+    except Exception as e:
+        errorCode = getattr(e, 'errorCode', None)
+        detail = getattr(e, 'detail', None)
+        error['detail'] = Messages.err_query_execution if detail is None else detail
+        error['exception'] = str(e)
+        error['errorCode'] = 'e1007' if errorCode is None else errorCode
+        data['error'] = error
+        logger.error(e)
     return (data)

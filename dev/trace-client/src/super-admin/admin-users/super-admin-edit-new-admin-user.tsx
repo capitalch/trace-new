@@ -17,20 +17,13 @@ function SuperAdminEditNewAdminUser() {
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
     const { checkIndiaMobileNo, checkNoSpaceOrSpecialChar, checkValidEmail } = appValidators()
     const { control, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
-
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useGranularEffect(() => {
-        // setValue('clientId', meta.selectedClient.value.value)
-        // setError('clientId', undefined)
+        setFormValues()
         loadClients()
-    }, [], [loadClients])
+    }, [], [loadClients, setFormValues])
 
-    // const registerClientId = register('clientId', {
-    // required: Messages.errRequired
-    // validate: {
-    // }
-    // })
 
     const registerUserName = register('userName', {
         required: Messages.errRequired
@@ -62,14 +55,14 @@ function SuperAdminEditNewAdminUser() {
                 {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
                 <Controller
                     control={control}
-                    name='clientId'
+                    name='client'
                     rules={{ required: Messages.errRequired }}
                     render={
                         ({
                             field: { onChange, onBlur, value, name, ref },
                             fieldState: { error }
                         }) => (
-                            <FormControl isInvalid={!!error} id="clientId">
+                            <FormControl isInvalid={!!error} id="client">
                                 <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
                                 <Select
                                     size='sm'
@@ -78,7 +71,8 @@ function SuperAdminEditNewAdminUser() {
                                     ref={ref}
                                     onChange={onChange}
                                     onBlur={onBlur}
-                                    value={value}
+
+                                    value={value || ''}
                                     options={meta.clients.value}
                                     placeholder="Select client"
                                 />
@@ -153,6 +147,11 @@ function SuperAdminEditNewAdminUser() {
                 })
                 meta.clients.value = [...arr]
             }
+            if (!_.isEmpty(defaultData)) {
+                const clients: any[] = meta.clients.value
+                const selectedClient = clients.find((x: any) => (x.value === defaultData.clientId))
+                setValue('client', selectedClient)
+            }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
             console.log(e.message)
@@ -162,7 +161,44 @@ function SuperAdminEditNewAdminUser() {
     }
 
     async function onSubmit(values: any) {
-        console.log(values)
+        const id = values?.id
+        const sqlObj = {
+            tableName: 'UserM',
+            xData: {
+                id: id,
+                userName: values?.['userName'],
+                userEmail: values?.['userEmail'],
+                mobileNo: values?.['mobileNo'],
+                descr: values?.['descr'],
+                isActive: values?.['isActive'],
+                clientId: values?.['client'].value,
+            }
+        }
+        const q = appGraphqlStrings['updateUser'](sqlObj, 'traceAuth')
+        try {
+            setIsSubmitDisabled(true)
+            showAppLoader(true)
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStaticStore.superAdmin.adminUsers.doReload()
+            }, 'updateUser')
+        } catch (e: any) {
+            showError(Messages.errUpdatingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+            setIsSubmitDisabled(false)
+        }
+    }
+
+    function setFormValues() {
+        if (_.isEmpty(defaultData)) {
+            return
+        }
+        for (const key in defaultData) {
+            setValue(key, defaultData[key])
+        }
     }
 }
 
