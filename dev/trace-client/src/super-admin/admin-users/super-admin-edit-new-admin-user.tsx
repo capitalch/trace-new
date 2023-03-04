@@ -6,6 +6,7 @@ import {
 } from '@src/features'
 
 import { Select } from 'chakra-react-select'
+import { Controller } from 'react-hook-form'
 
 function SuperAdminEditNewAdminUser() {
     const meta: any = useDeepSignal({ clients: [], selectedClient: {} })
@@ -15,13 +16,13 @@ function SuperAdminEditNewAdminUser() {
     const { showAppLoader, showError } = useFeedback()
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
     const { checkIndiaMobileNo, checkNoSpaceOrSpecialChar, checkValidEmail } = appValidators()
-    const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { control, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
 
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useGranularEffect(() => {
-        setValue('clientId', meta.selectedClient.value.value)
-        setError('clientId', undefined)
+        // setValue('clientId', meta.selectedClient.value.value)
+        // setError('clientId', undefined)
         loadClients()
     }, [], [loadClients])
 
@@ -56,35 +57,38 @@ function SuperAdminEditNewAdminUser() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
-                {/* Client id */}
-                <FormControl isInvalid={!!errors.clintId}>
-                    <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
-                    <Select
-                        name='clientId'
-                        size='sm'
-                        options={meta.clients.value}
-                        value={meta.selectedClient.value.value}
-                        onChange={onClientSelected}
-                        // {...register('clientId')}
-                    // {...registerClientId} 
-                    />
-                    {/* <ReactSelect  placeholder='Select'
-                        options={meta.clients.value} autoFocus
-                        value={meta.selectedClient.value.value}
-                        onChange={onClientSelected}
-                        {...registerClientId} 
-                        /> */}
-                    {/* <Select size='sm' w='0.5xs' variant='filled' 
-                    defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}
-                    >
-                    <option value='100'>Last 100 rows</option>
-                    <option value='1000'>Last 1000 rows</option>
-                    <option value=''>All rows</option>
-                </Select> */}
-                    {(!!errors.clintId) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.clintId.message}</FormErrorMessage>
-                        : <>&nbsp;</>
+
+                {/* Client*/}
+                {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
+                <Controller
+                    control={control}
+                    name='clientId'
+                    rules={{ required: Messages.errRequired }}
+                    render={
+                        ({
+                            field: { onChange, onBlur, value, name, ref },
+                            fieldState: { error }
+                        }) => (
+                            <FormControl isInvalid={!!error} id="clientId">
+                                <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
+                                <Select
+                                    size='sm'
+                                    // isMulti
+                                    name={name}
+                                    ref={ref}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                    options={meta.clients.value}
+                                    placeholder="Select client"
+                                />
+                                {(!!error) ? <FormErrorMessage color='red.400' fontSize='xs'>{error.message}</FormErrorMessage>
+                                    : <>&nbsp;</>
+                                }
+                            </FormControl>
+                        )
                     }
-                </FormControl>
+                />
 
                 {/* User name */}
                 <FormControl isInvalid={!!errors.userName}>
@@ -147,9 +151,7 @@ function SuperAdminEditNewAdminUser() {
                 const arr: any[] = rows.map((item: any) => {
                     return ({ value: item.id, label: item.clientName })
                 })
-                meta.clients.value = [{ value: '', label: '--- select ---' }, ...arr]
-                // appStore.superAdmin.securedControls.rows.value = rows
-                // appStaticStore.superAdmin.securedControls.doFilter()
+                meta.clients.value = [...arr]
             }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
@@ -157,17 +159,6 @@ function SuperAdminEditNewAdminUser() {
         } finally {
             showAppLoader(false)
         }
-    }
-
-    function onClientSelected(selectedItem: any) {
-        meta.selectedClient.value.value = selectedItem.value//selectedItem
-        setValue('clientId', selectedItem.value)
-        if (!selectedItem.value) {
-            setError('clientId', { type: 'custom', message: 'This value is required' })
-        } else {
-            setError('clientId',  { type: 'custom', message: '' })
-        }
-        // registerClientId()
     }
 
     async function onSubmit(values: any) {
