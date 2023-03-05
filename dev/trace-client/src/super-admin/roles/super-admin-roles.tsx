@@ -8,7 +8,7 @@ function SuperAdminRoles() {
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
         <AppGridToolbar appStoreObject={appStore.superAdmin.roles} appStaticStoreObject={appStaticStore.superAdmin.roles} title='Super admin roles view'
             CustomControl={SuperAdminNewRoleButton}
-            toShowLastNoOfRows={false}
+            toShowLastNoOfRows={false} gridApiRef={gridApiRef}
         />
         <AgGridReact
             gridOptions={gridOptions}

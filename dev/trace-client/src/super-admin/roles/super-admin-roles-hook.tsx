@@ -2,10 +2,9 @@ import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, us
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
-    const { handleAndGetQueryResult } = useAppGraphql()
     const { showError } = useFeedback()
     const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
-    const { appGraphqlStrings, queryGraphql, } = useAppGraphql()
+    const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)

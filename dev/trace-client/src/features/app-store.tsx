@@ -36,7 +36,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzgwMDEwMzgsInN1YiI6eyJ1c2VySWQiOjN9fQ.rjzDuZUlBnZAefxoW0HtjvDI0S3KnVFudOWSCeKp_M0',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzgxMDU2OTksInN1YiI6eyJ1c2VySWQiOjN9fQ.39k4GyviZIGexB2F2kQr1eEGT3uLefscW7Mlkocrzyw',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -104,6 +104,9 @@ const appStaticStore: AppStaticStoreType = {
             doFilter: () => { },
             doReload: () => { },
         },
+        dashboard:{
+            doReload:()=>{}
+        },
         roles: {
             doFilter: () => { },
             doReload: () => { }
@@ -111,7 +114,8 @@ const appStaticStore: AppStaticStoreType = {
         securedControls: {
             doFilter: () => { },
             doReload: () => { }
-        }
+        },
+
         // doFilter: () => { },
         // doReload: () => { },
     }
@@ -131,6 +135,9 @@ interface AppStaticStoreType {
         clients: {
             doFilter: () => void,
             doReload: () => void
+        },
+        dashboard:{
+            doReload:()=> void
         },
         roles: {
             doFilter: () => void,

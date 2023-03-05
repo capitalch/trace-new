@@ -172,6 +172,7 @@ function SuperAdminEditNewAdminUser() {
                 descr: values?.['descr'],
                 isActive: values?.['isActive'],
                 clientId: values?.['client'].value,
+                uid: values?.['uid']
             }
         }
         const q = appGraphqlStrings['updateUser'](sqlObj, 'traceAuth')

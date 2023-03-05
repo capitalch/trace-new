@@ -1,6 +1,6 @@
-import { AppConstants, AppGridSearchBox, Box, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useMediaQuery, } from "@src/features"
+import { AppConstants, AppGridSearchBox, Box, Button, DownloadIcon, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useMediaQuery, } from "@src/features"
 
-function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl, toShowLastNoOfRows }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any, toShowLastNoOfRows?:any }) {
+function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl, toShowLastNoOfRows, gridApiRef }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any, toShowLastNoOfRows?:any, gridApiRef?:any }) {
     const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
     const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
     let toShow = toShowLastNoOfRows
@@ -18,6 +18,9 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
             </Box>}
             <HStack wrap='wrap'>
                 {CustomControl && <CustomControl />}
+                {isLargerThan480 && gridApiRef && <Tooltip label='Export as CSV file'>
+                    <Button colorScheme='twitter' rightIcon={<DownloadIcon />} variant='outline' size='sm' onClick={handleExportCsv}>Export csv</Button>
+                    </Tooltip>}
                 {toShow && <Select size='sm' w='0.5xs' variant='filled' defaultValue={appStoreObject.noOfRows.value} onChange={handleOnSelectRows}>
                     <option value='100'>Last 100 rows</option>
                     <option value='1000'>Last 1000 rows</option>
@@ -32,6 +35,12 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
             </HStack>
         </HStack>
     )
+
+    function handleExportCsv(){
+        if(gridApiRef){
+            gridApiRef.current.api.exportDataAsCsv()
+        }
+    }
 
     async function handleOnClickReload() {
         appStaticStoreObject.doReload()

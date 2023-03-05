@@ -110,7 +110,7 @@ function SuperAdminClients() {
 
     return (
         <Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
-            <AppGridToolbar appStoreObject={appStore.superAdmin.clients} appStaticStoreObject={appStaticStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} />
+            <AppGridToolbar appStoreObject={appStore.superAdmin.clients} appStaticStoreObject={appStaticStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} gridApiRef={gridApiRef} />
             <AgGridReact
                 gridOptions={gridOptions}
                 onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {
@@ -189,59 +189,3 @@ function EditCellRenderer(props: any) {
     }
 }
 export { EditCellRenderer }
-
-// function DeleteCellRenderer(props: any) {
-//     const { showAlertDialogYesNo } = useDialogs()
-//     const { handleUpdateResult } = useAppGraphql()
-//     const { showAppLoader, } = useFeedback()
-//     const { mutateGraphql } = useAppGraphql()
-//     // for pinnedBottomRow id is undefined hence props.data.id is undefined. So button not appears on pinned row
-//     return (
-//         props.data.id && <Tooltip label='Delete'>
-//             <IconButton onClick={() => handleDeleteRow(props?.data)} size='xs' mb={1} aria-label='edit' icon={<DeleteIcon color='red.500' />} />
-//         </Tooltip>)
-
-//     function handleDeleteRow(data: any) {
-//         const deleteId = data?.id1
-//         showAlertDialogYesNo({ action: () => doDelete(deleteId), title: 'Are you sure to delete this row?' })
-//     }
-
-//     async function doDelete(id: number) {
-//         const sqlObj = {
-//             tableName: 'TestM',
-//             deletedIds: [id]
-//         }
-//         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
-
-//         showAppLoader(true)
-//         const result: GraphQlQueryResultType = await mutateGraphql(q)
-//         handleUpdateResult(result, () => {
-//             appStaticStore.superAdmin.clients.doReload()
-//         })
-//         showAppLoader(false)
-//     }
-// }
-// export { DeleteCellRenderer }
-
-// function HideCellRenderer(props: any) {
-
-//     return (
-//         props.data.id && <Tooltip label='Hide'>
-//             <IconButton onClick={() => handleHideRow(props.data)} size='xs' mb={1} aria-label='hide' icon={<HideIcon color='gray.500' />} />
-//         </Tooltip>
-//     )
-//     function handleHideRow(data: any) {
-//         const filteredRows: any[] = appStore.superAdmin.clients.filteredRows.value
-//         const clone = filteredRows.map((x: any) => ({ ...x }))
-//         const indexOfRow = clone.findIndex((x: any) => (x.id === data.id))
-//         clone.splice(indexOfRow, 1)
-
-//         appStore.superAdmin.clients.filteredRows.value = clone
-//     }
-// }
-// export { HideCellRenderer }
-
-// const st = new Date().getTime()
-// const ret = await queryGraphql(q)
-// const en = (new Date()).getTime()
-// console.log(en - st, ret)

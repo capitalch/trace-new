@@ -7,7 +7,7 @@ function SuperAdminSecuredControls() {
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
     <AppGridToolbar appStoreObject={appStore.superAdmin.securedControls} appStaticStoreObject={appStaticStore.superAdmin.securedControls} title='Super admin secured controls view'
         CustomControl={SuperAdminNewSecuredControlButton}
-        toShowLastNoOfRows={false}
+        toShowLastNoOfRows={false} gridApiRef={gridApiRef}
     />
     <AgGridReact
         gridOptions={gridOptions}

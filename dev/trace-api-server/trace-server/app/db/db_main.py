@@ -168,12 +168,19 @@ async def resolve_update_user(info, value):
         operationName = requestJson.get('operationName', None)
         sqlObj = json.loads(valueString)
         xData = sqlObj.get('xData', None)
+        toSendMail = False
         if(xData):
-            xData['uid'] = utils.getRandomUserId()
-            pwd = utils.getRandomPassword()
-            tHash = utils.getPasswordHash(pwd)
-            xData['hash'] = tHash
+            uid = xData.get('uid', None)
+            if(uid is None):
+                xData['uid'] = utils.getRandomUserId()
+                pwd = utils.getRandomPassword()
+                tHash = utils.getPasswordHash(pwd)
+                xData['hash'] = tHash
+                toSendMail = True
         data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
+        if(toSendMail):
+            # code to send mail for uid and password
+            pass
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
