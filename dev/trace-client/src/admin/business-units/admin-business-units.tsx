@@ -1,11 +1,12 @@
 import { AgGridReact, AppGridToolbar, RowDataUpdatedEvent, appStore, Flex, appStaticStore, Box, } from '@src/features'
 import { useAdminBusinessUnits } from './admin-business-units-hook'
+import { AdminNewBusinessUnitButton } from './admin-new-business-unit-button'
 
 function AdminBusinessUnits() {
     const { gridApiRef, gridOptions, } = useAdminBusinessUnits()
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
         <AppGridToolbar appStoreObject={appStore.admin.businessUnits} appStaticStoreObject={appStaticStore.admin.businessUnits} title='Admin business units view'
-            // CustomControl={SuperAdminNewRoleButton}
+            CustomControl={AdminNewBusinessUnitButton}
             gridApiRef={gridApiRef}
         />
         <AgGridReact

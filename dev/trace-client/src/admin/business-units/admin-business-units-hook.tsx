@@ -1,4 +1,5 @@
 import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { AdminEditNewBusinessUnit } from './admin-edit-new-business-unit'
 
 function useAdminBusinessUnits() {
     const { showError } = useFeedback()
@@ -10,11 +11,11 @@ function useAdminBusinessUnits() {
     const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
     = useCellRenderers({ 
         dbName: 'traceAuth'
-        , tableName: 'RoleM'
-        ,appStoreObject:appStore.superAdmin.roles
-        , appStaticStoreObject: appStaticStore.superAdmin.roles 
-        // , EditBodyComponent: SuperAdminEditNewRole
-        // , editTitle:'Edit super admin role'
+        , tableName: 'BuM'
+        ,appStoreObject:appStore.admin.businessUnits
+        , appStaticStoreObject: appStaticStore.admin.businessUnits
+        , EditBodyComponent: AdminEditNewBusinessUnit
+        , editTitle:'Edit business unit'
     })
 
     useGranularEffect(() => {

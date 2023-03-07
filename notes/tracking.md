@@ -145,7 +145,15 @@
 1. Sometimes database server not working. Error connection
 																											2. AppHttpException of type custome exception not working
 																											3. Server side graphql authentication
+
 																											4. get_other_user_bundle error
+
+## 06-03-2023 - 07-03-2023
+1. Admin menu
+2. Admin business unit
+
+## 24-02-2023 - 05-03-2023
+1. Completed main portions of Super admin
 ## 22-02-2023 - 23-02-2023
 1. Working on Roles
 2. Edit, view and New implemented
