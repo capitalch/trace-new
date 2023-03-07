@@ -8,6 +8,14 @@ class SqlQueriesAuth:
         DROP SCHEMA IF EXISTS public RESTRICT
     '''
 
+    get_admin_businessUnits = '''
+         with "clientId" as (values(%(clientId)s))
+        -- with "clientId" as (values(1))
+        select * from "BuM"
+            where "clientId" = (table "clientId")
+                order by "buCode"
+    '''
+
     get_admin_users = '''
             SELECT c."id" as "clientId", "clientName", u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
                 from "UserM" u

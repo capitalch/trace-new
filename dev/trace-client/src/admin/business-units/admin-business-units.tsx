@@ -1,7 +1,31 @@
 import { AgGridReact, AppGridToolbar, RowDataUpdatedEvent, appStore, Flex, appStaticStore, Box, } from '@src/features'
-function AdminBusinessUnits(){
-return(<Box>
-    Business unit
-</Box>)
+import { useAdminBusinessUnits } from './admin-business-units-hook'
+
+function AdminBusinessUnits() {
+    const { gridApiRef, gridOptions, } = useAdminBusinessUnits()
+    return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+        <AppGridToolbar appStoreObject={appStore.admin.businessUnits} appStaticStoreObject={appStaticStore.admin.businessUnits} title='Admin business units view'
+            // CustomControl={SuperAdminNewRoleButton}
+            gridApiRef={gridApiRef}
+        />
+        <AgGridReact
+            gridOptions={gridOptions}
+            onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {
+                const api = gridApiRef.current.api
+                const model: any = api.getModel()
+                const visibleRows: any[] = model.rowsToDisplay
+                api.setPinnedBottomRowData([{ roleName: 'Rows:', descr: visibleRows.length }])
+            }}
+            onFilterChanged={(ev: any) => {
+                const api = gridApiRef.current.api
+                const model: any = api.getModel()
+                const visibleRows: any[] = model.rowsToDisplay
+                api.setPinnedBottomRowData([{ roleName: 'Rows:', descr: visibleRows.length }])
+            }}
+            ref={gridApiRef}
+            rowData={appStore.admin.businessUnits.filteredRows.value}
+            suppressScrollOnNewData={true}
+        />
+    </Flex>)
 }
-export {AdminBusinessUnits}
+export { AdminBusinessUnits }

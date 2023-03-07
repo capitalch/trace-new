@@ -22,6 +22,13 @@ function useAgGridUtils() {
     }
   }
 
+  function getRowStyle(params: any) {
+    const style1 = getAlternateColorStyle(params)
+    const style2 = getPinnedRowStyle(params)
+    const ret = { ...style1, ...style2 }
+    return (ret)
+  }
+
   function swapId(rows: any[]) {
     const ret: any[] = rows.map((row: any, i: number) => {
       const r = { ...row }
@@ -31,7 +38,7 @@ function useAgGridUtils() {
     })
     return ret
   }
-  return { getAlternateColorStyle, getPinnedRowStyle, swapId }
+  return { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId }
 }
 
 function useCellRenderers({ dbName, tableName, appStoreObject, appStaticStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any, appStaticStoreObject: any, EditBodyComponent?: FC, editTitle?: string }) {
@@ -126,8 +133,9 @@ function useComponentHistory() {
   }
 
   enum componentNames {
-    'superAdminClients',
+    'adminBusinessUnits',
     'superAdminAdminUsers',
+    'superAdminClients',
     'superAdminRoles',
     'superAdminSecuredControls'
   }

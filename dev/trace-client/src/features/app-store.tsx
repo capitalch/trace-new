@@ -2,6 +2,15 @@ import { deepSignal } from "@deepsignal/react"
 import { _, } from '@src/features'
 
 const store: any = {
+    admin: {
+        businessUnits: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        }
+    },
     alertDialogOk: {
         body: () => <></>,
         header: '',
@@ -95,6 +104,23 @@ const appStaticStore: AppStaticStoreType = {
     doReload: () => appStore.reload.value = !appStore.reload.value,
     isCloseClicked: false,
     isOpenClicked: false,
+    admin: {
+        businessUnits: {
+            doFilter: () => { },
+            doReload: () => { },
+        }
+    },
+    login: {
+        clientId: 0,
+        clientCode: undefined,
+        clientName: undefined,
+        buId: 0,
+        buCode: undefined,
+        buName: undefined,
+        branchId: 1,
+        branchCode: 'head', 
+        branchName: 'Head office'
+    },
     superAdmin: {
         adminUsers: {
             doFilter: () => { },
@@ -104,8 +130,8 @@ const appStaticStore: AppStaticStoreType = {
             doFilter: () => { },
             doReload: () => { },
         },
-        dashboard:{
-            doReload:()=>{}
+        dashboard: {
+            doReload: () => { }
         },
         roles: {
             doFilter: () => { },
@@ -127,6 +153,23 @@ interface AppStaticStoreType {
     doReload: () => void,
     isCloseClicked: boolean,
     isOpenClicked: boolean,
+    admin: {
+        businessUnits: {
+            doFilter: () => void,
+            doReload: () => void
+        }
+    },
+    login: {
+        clientId: number,
+        clientCode: string | undefined,
+        clientName: string | undefined,
+        buId: number
+        buCode: string | undefined
+        buName: string | undefined
+        branchId: number
+        branchCode: string | undefined
+        branchName: string | undefined
+    }
     superAdmin: {
         adminUsers: {
             doFilter: () => void,
@@ -136,8 +179,8 @@ interface AppStaticStoreType {
             doFilter: () => void,
             doReload: () => void
         },
-        dashboard:{
-            doReload:()=> void
+        dashboard: {
+            doReload: () => void
         },
         roles: {
             doFilter: () => void,

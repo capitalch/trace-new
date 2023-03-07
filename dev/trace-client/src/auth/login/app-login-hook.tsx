@@ -1,4 +1,4 @@
-import { appStore, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants } from '@src/features'
+import { appStore, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
@@ -18,6 +18,10 @@ function useAppLogin() {
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
+
+            appStaticStore.login.clientId = 1
+            appStaticStore.login.clientCode = 'capital'
+            appStaticStore.login.clientName = 'Capital group'
         } else {
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
