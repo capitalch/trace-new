@@ -150,6 +150,7 @@ export {
   MdContacts as ClientsIcon,
   MdHideSource as HideIcon,
   MdOutlineFactCheck as AccountsIcon,
+  MdAddBusiness as BuIcon,
   MdAdminPanelSettings as AdminMenuIcon,
   MdPassword as ChangePasswordIcon,
   MdOutlineChangeCircle as ChangeUidIcon,

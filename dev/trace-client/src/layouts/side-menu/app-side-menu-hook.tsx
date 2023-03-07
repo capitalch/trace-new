@@ -1,5 +1,6 @@
 import {
   appStore,
+  BuIcon,
   ClientsIcon,
   DashboardIcon,
   HomeIcon,
@@ -18,6 +19,7 @@ import {
   AppSales,
 } from "@src/components";
 import {SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminRoles, SuperAdminSecuredControls } from "@src/super-admin";
+import { AdminBusinessUnits } from "@src/admin";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -84,12 +86,12 @@ function useAppSideMenu() {
 export { useAppSideMenu };
 
 interface MenuItemType {
-  key?: string;
   breadcrumb?: string;
-  label: string;
+  children?: MenuItemType[];
   component?: React.FC;
   icon?: any;
-  children?: MenuItemType[];
+  key?: string;
+  label: string;
 }
 
 const accountsMenu: MenuItemType[] = [
@@ -164,13 +166,27 @@ const superAdminMenu: MenuItemType[] = [
 
 const adminMenu: MenuItemType[] = [
   {
-    label: "Home",
-    icon: <HomeIcon color="blue" />,
-    children: [
-      {
-        label: "Dashboard",
-        component: AppDashboard,
-      },
-    ],
+    breadcrumb: 'Admin dashboard',
+    label: "Dashboard",
+    icon: <DashboardIcon color="green" />,
+    component: ()=><></>
+  },
+  {
+    breadcrumb: "Admin business units",
+    label: "Business units",
+    icon: <BuIcon color="blue" />,
+    component: AdminBusinessUnits,
+  },
+  {
+    breadcrumb: "Admin roles",
+    label: "Roles",
+    icon: <RolesIcon color="red" />,
+    component: ()=><></>,
+  },
+  {
+    breadcrumb: "Admin business users",
+    label: "Business users",
+    icon: <UsersIcon color="dodgerBlue" />,
+    component: ()=><></>,
   },
 ];
