@@ -42,7 +42,7 @@ function useSuperAdminSecuredControls() {
             field: 'controlName',
             headerName: 'Control name',
             headerClass: 'header',
-            width: 150
+            width: 250
         },
         {
             field: 'controlNo',

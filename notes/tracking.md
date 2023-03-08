@@ -1,7 +1,13 @@
+## Logic for permissions
+1. Get array from securedControls. Map it to an object with SecuredControlId and {controlName, controlType}
+2. Get all rows from X against the roleId
+3. for all rows in 2 merge the isEnabled in 1
+4. convert 1 to an array
+5. use 4 for consumption in ag-grid
+6. in onSubmit, use id of X for update or insert
+7. Provide start as Reader, Manager buttons
 																											1. Validations
-2. Save data
-3. Delete and update data
-3. Save data encrypted at server
+
 																											4. Submit button disabled
 																											5. Astrix for required field
 ## To do
@@ -40,7 +46,7 @@
 																											20. In the modal window show 'Test database connection' button
 																											15. Column filters implement
 																											21. Implement test database connection functionality
-15. React form
+
 																											14. Server script for database create
 																											15. dbParams entry in DB encrypted
 																											16. Server separate route
@@ -52,18 +58,9 @@
 14. ag-grid filter for boolean
 																											15. Exec_sql update implementation
 																											15. Test database connection disable button and show waiting
-## RoleM
 																											1. Edit
 																											2. New
 3. Permissions
-## user name
-1. Debounce email, username,
-2. Edit
-3. Hide
-4. Delete
-5. New
-																											5. roleName client unique
-6. Generalize the client unique code
 ## Logic for Super admin
 1. Global roles: Reader(0), Manager(1), Accountant(2). Grid entry with add roles. These three roles cannot be deleted. others can be deleted
 2. Client change names: Protected controls -> Secured controls, Global roles -> special roles

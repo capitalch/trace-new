@@ -1,4 +1,4 @@
-import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact } from '@src/features'
+import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex } from '@src/features'
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
@@ -142,15 +142,15 @@ function PermissionCellRenderer(params: any) {
     function handlePermissionClick() {
         showModalDialogA({
             title: 'Control permissions',
-            body: () => <SecuredControlsWithPermissions roleId={4} />,
+            body:  SecuredControlsWithPermissions,
             toShowCloseButton: true,
             defaultData: {}
         })
     }
 }
-
-function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
-    const meta: any = useDeepSignal({ rows: [] })
+// { roleId }: { roleId: number }
+function SecuredControlsWithPermissions() {
+    const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
     const { showError } = useFeedback()
     const { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId } = useAgGridUtils()
     const gridApiRef: any = useRef(null)
@@ -185,19 +185,21 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
     // }, [], [loadData])
 
     return (
-        <AgGridReact
-            gridOptions={gridOptions}
-            ref={gridApiRef}
-            rowData={appStore.superAdmin.roles.filteredRows.value}
-            suppressScrollOnNewData={true}
-        />
+        <Flex h='100%' w='100%' className='ag-theme-balham'>
+            <AgGridReact
+                gridOptions={gridOptions}
+                ref={gridApiRef}
+                rowData={meta.rows.value}
+                suppressScrollOnNewData={true}
+            />
+        </Flex>
     )
 
     async function loadData() {
         const args = {
             sqlId: 'get_secured_controls_with_permissions',
             sqlArgs: {
-                roleId: roleId
+                roleId: 4 //roleId
             }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
@@ -207,8 +209,15 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
             const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
             if (rows) {
                 const jsonResult = rows[0]?.['jsonResult']
-                console.log(jsonResult)
-                meta.rows.value = []
+                const allSecuredControls: any[] = jsonResult?.securedControls || []
+                const permissions: any[] = jsonResult?.permissions || []
+                const securedControlsObject = getControlsObjectFromArray(allSecuredControls)
+                for (const item of permissions) {
+                    securedControlsObject[item.securedControlId].isEnabled = item.isEnabled
+                }
+                console.log(securedControlsObject)
+                const securedControls = getArrayFromObject(securedControlsObject)
+                meta.rows.value = securedControls
                 // appStore.superAdmin.roles.rows.value = rows
                 // appStaticStore.superAdmin.roles.doFilter()
             }
@@ -218,5 +227,28 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
         } finally {
             gridApiRef?.current?.api?.hideOverlay()
         }
+    }
+
+    function getArrayFromObject(obj: any) {
+        const arr: any[] = []
+        for (const key of Object.keys(obj)) {
+            const myObj: any = {}
+            myObj.securedControlId = key
+            myObj.controlType = obj[key].controlType
+            myObj.controlName = obj[key].controlName
+            myObj.isEnabled = obj[key].isEnabled || true
+            myObj.id = obj[key].xId || undefined
+            arr.push(myObj)
+        }
+        return (arr)
+    }
+
+    function getControlsObjectFromArray(securedControls: any[]) {
+        const secObject: any = {}
+        for (const control of securedControls) {
+            const controlId: number = control.securedControlId
+            secObject[controlId] = { controlType: control.controlType, controlName: control.controlName }
+        }
+        return (secObject)
     }
 }

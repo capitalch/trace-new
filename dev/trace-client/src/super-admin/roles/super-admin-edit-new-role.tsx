@@ -59,11 +59,11 @@ function SuperAdminEditNewRole() {
                     <Input name='descr' size='sm' type='text' autoComplete='off' {...register('descr')} />
                 </FormControl>
 
-                {/* Permission */}
+                {/* Rank */}
                 <FormControl>
-                    <FormLabel fontWeight='bold'>Permission</FormLabel>
+                    <FormLabel fontWeight='bold'>Rank</FormLabel>
                     <NumberInput size='sm'>
-                        <NumberInputField name='permission' placeholder='e.g 0,1,2 ...' {...register('permission')} />
+                        <NumberInputField name='rank' placeholder='e.g 0,1,2 ...' {...register('rank')} />
                     </NumberInput>
                 </FormControl>
 
@@ -84,7 +84,7 @@ function SuperAdminEditNewRole() {
                 id: id,
                 roleName: values?.roleName,
                 descr: values?.descr,
-                permission: values?.permission || null
+                rank: values?.permission || null
             }
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
