@@ -45,7 +45,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzgyNDc5MTYsInN1YiI6eyJ1c2VySWQiOjN9fQ.MRuOjzPsaF0iY3vCuX7bwj6tYh4rEinNEhopRlbIMRs',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzgzMzQ4ODUsInN1YiI6eyJ1c2VySWQiOjN9fQ.XlG5jMFCXO126DOWcxvNg1zqbpYwOgNrf-7b9ep-D7U',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -88,7 +88,10 @@ const store: any = {
             rows: [],
             refresh: true,
             searchString: ''
-        }
+        },
+        // securedControlsWithPermissions: {
+
+        // }
     }
 }
 

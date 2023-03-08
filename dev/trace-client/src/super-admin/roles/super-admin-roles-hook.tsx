@@ -1,4 +1,4 @@
-import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql,useCellRenderers, useGranularEffect, useRef, appStore,  appStaticStore, IconButton, Tooltip,  useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact } from '@src/features'
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
@@ -8,15 +8,15 @@ function useSuperAdminRoles() {
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
-    const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
-    = useCellRenderers({ 
-        dbName: 'traceAuth'
-        , tableName: 'RoleM'
-        ,appStoreObject:appStore.superAdmin.roles
-        , appStaticStoreObject: appStaticStore.superAdmin.roles 
-        , EditBodyComponent: SuperAdminEditNewRole
-        , editTitle:'Edit super admin role'
-    })
+    const { DeleteCellRenderer, EditCellRenderer, HideCellRenderer }
+        = useCellRenderers({
+            dbName: 'traceAuth'
+            , tableName: 'RoleM'
+            , appStoreObject: appStore.superAdmin.roles
+            , appStaticStoreObject: appStaticStore.superAdmin.roles
+            , EditBodyComponent: SuperAdminEditNewRole
+            , editTitle: 'Edit super admin role'
+        })
 
     useGranularEffect(() => {
         appStaticStore.superAdmin.roles.doReload = loadData
@@ -48,8 +48,16 @@ function useSuperAdminRoles() {
             flex: 1
         },
         {
-            field: 'permission',
-            headerName: 'Permission',
+            cellRenderer: PermissionCellRenderer,
+            // cellRendererParams: {
+            //     clicked: (field: any) => {
+            //         alert(field)
+            //     }
+            // }
+        },
+        {
+            field: 'rank',
+            headerName: 'Rank',
             width: 100
         },
         {
@@ -94,7 +102,10 @@ function useSuperAdminRoles() {
 
     async function loadData() {
         const args = {
-            sqlId: 'get_super_admin_roles',
+            sqlId: 'get_roles',
+            sqlArgs: {
+                clientId: appStaticStore.login.clientId || 0
+            }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
         gridApiRef.current.api.showLoadingOverlay()
@@ -117,3 +128,95 @@ function useSuperAdminRoles() {
 }
 
 export { useSuperAdminRoles }
+
+function PermissionCellRenderer(params: any) {
+    const rank = params?.data?.rank || (params?.data?.rank === 0)
+    const { showModalDialogA } = useDialogs()
+    // let visible = true
+    // if((rank) || rank === 0){
+
+    // }
+    // B
+    return ((!rank) && <Button onClick={handlePermissionClick} size='xs' variant='link' colorScheme='blue'>Permission</Button>)
+
+    function handlePermissionClick() {
+        showModalDialogA({
+            title: 'Control permissions',
+            body: () => <SecuredControlsWithPermissions roleId={4} />,
+            toShowCloseButton: true,
+            defaultData: {}
+        })
+    }
+}
+
+function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
+    const meta: any = useDeepSignal({ rows: [] })
+    const { showError } = useFeedback()
+    const { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId } = useAgGridUtils()
+    const gridApiRef: any = useRef(null)
+    const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
+
+    const onGridReady = (params: GridReadyEvent) => {
+        // if (isNotInComponentHistory(componentNames.superAdminRoles)) {
+        loadData()
+        // addToComponentHistory(componentNames.superAdminRoles)
+    }
+
+
+    const columnDefs: ColDef[] = [
+        {
+            headerName: '#',
+            field: 'id',
+            width: 60
+        },
+    ]
+
+    const gridOptions: GridOptions = {
+        animateRows: true,
+        columnDefs: columnDefs,
+
+        getRowStyle: getRowStyle,
+        onGridReady: onGridReady,
+        rowSelection: 'single'
+    }
+
+    // useGranularEffect(() => {
+    //     loadData()
+    // }, [], [loadData])
+
+    return (
+        <AgGridReact
+            gridOptions={gridOptions}
+            ref={gridApiRef}
+            rowData={appStore.superAdmin.roles.filteredRows.value}
+            suppressScrollOnNewData={true}
+        />
+    )
+
+    async function loadData() {
+        const args = {
+            sqlId: 'get_secured_controls_with_permissions',
+            sqlArgs: {
+                roleId: roleId
+            }
+        }
+        const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
+        gridApiRef.current.api.showLoadingOverlay()
+        try {
+            const result: GraphQlQueryResultType = await queryGraphql(q)
+            const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
+            if (rows) {
+                const jsonResult = rows[0]?.['jsonResult']
+                console.log(jsonResult)
+                meta.rows.value = []
+                // appStore.superAdmin.roles.rows.value = rows
+                // appStaticStore.superAdmin.roles.doFilter()
+            }
+        } catch (e: any) {
+            showError(e.message || Messages.errFetchingData)
+            console.log(e.message)
+        } finally {
+            gridApiRef?.current?.api?.hideOverlay()
+        }
+    }
+}

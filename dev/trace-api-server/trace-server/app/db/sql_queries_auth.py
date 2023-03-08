@@ -49,6 +49,22 @@ class SqlQueriesAuth:
             SELECT * from "SecuredControlM" ORDER by "id" DESC
         '''
 
+    get_secured_controls_with_permissions = '''
+        with "roleId" as (values (%(roleId)s))
+        -- with "roleId" as (values(4))
+        , cte1 as (
+            select id as "securedControlId", "controlName", "controlType"
+                from "SecuredControlM")
+        , cte2 as (
+            select id, "securedControlId", "isEnabled"
+                from "RoleSecuredControlX"
+                    where "roleId" = COALESCE((table "roleId"), 0)
+        ) select json_build_object(
+            'securedControls', (select json_agg(row_to_json(a)) from cte1 a)
+            , 'permissions', (select json_agg(row_to_json(b)) from cte2 b)
+        ) as "jsonResult"
+    '''
+    
     get_dashboard = '''
         with "dbName" as (values(%(dbName)s))
         -- with "dbName" as (values('traceAuth'))
@@ -85,11 +101,17 @@ class SqlQueriesAuth:
             ) as "jsonResult"
 
     '''
-
-    get_super_admin_roles = '''
-            select * from "RoleM"
-                where "clientId" is null order by "id" DESC
+    
+    get_roles = '''
+        select * from "RoleM"
+                where COALESCE("clientId",0) = %(clientId)s 
+                    order by "id" DESC
         '''
+
+    # get_super_admin_roles = '''
+    #         select * from "RoleM"
+    #             where "clientId" is null order by "id" DESC
+    #     '''
 
     get_super_admin_control_name = '''
             select 1
