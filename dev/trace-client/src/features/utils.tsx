@@ -173,16 +173,19 @@ function useDialogs() {
   }
 
   function showModalDialogA({
+    size,
     title,
     body,
     toShowCloseButton = false,
     defaultData = undefined
   }: {
+    size?: string
     title: string
     body: FC
     toShowCloseButton?: boolean
     defaultData?: { [key: string]: any }
   }) {
+    appStore.modalDialogA.size.value = size || 'md'
     appStore.modalDialogA.title.value = title
     appStore.modalDialogA.toShowCloseButton.value = toShowCloseButton
     appStore.modalDialogA.body.value = body

@@ -12,7 +12,7 @@ import {
 
 function AppModalDialogA() {
     return (
-        <Modal isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
+        <Modal size={appStore.modalDialogA.size.value} isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
                 <ModalHeader mt={-2} fontSize='xl' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>

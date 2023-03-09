@@ -1,6 +1,6 @@
 import { AgGridReact, AppGridToolbar, RowDataUpdatedEvent, appStore, Flex, appStaticStore, } from '@src/features'
 import { SuperAdminNewRoleButton } from './super-admin-new-role-button'
-import { useSuperAdminRoles } from './super-admin-roles-hook'
+import {useSuperAdminRoles } from './super-admin-roles-hook'
 
 function SuperAdminRoles() {
     const { gridApiRef, gridOptions, } = useSuperAdminRoles()

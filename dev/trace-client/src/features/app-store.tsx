@@ -54,6 +54,7 @@ const store: any = {
         body: () => <></>,
         defaultData: undefined,
         isOpen: false,
+        size: 'md',
         title: '',
         toShowCloseButton: false,
     },

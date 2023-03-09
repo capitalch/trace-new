@@ -1,4 +1,5 @@
-import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar } from '@src/features'
+import { Checkbox, Spacer } from '@chakra-ui/react'
+import { AppGridSearchBox, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar, HStack } from '@src/features'
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
@@ -136,6 +137,7 @@ function PermissionCellRenderer(params: any) {
 
     function handlePermissionClick() {
         showModalDialogA({
+            size: '2xl',
             title: 'Control permissions',
             body: SecuredControlsWithPermissions,
             toShowCloseButton: false,
@@ -163,7 +165,33 @@ function SecuredControlsWithPermissions() {
         {
             headerName: '#',
             field: 'id',
-            width: 60
+            width: 50
+        },
+        {
+            field: 'controlName',
+            headerName: 'Control name',
+            headerClass: 'header',
+            width: 300,
+            flex: 1,
+        },
+        {
+            field: 'controlType',
+            headerName: 'Type',
+            headerClass: 'header',
+            width: 80
+        },
+        {
+            editable: true,
+            field: 'isEnabled',
+            headerName: 'Enabled',
+            headerClass: 'header',
+            width: 70,
+            cellRenderer: (params: any) => {
+            // console.log(params)
+            return <Checkbox 
+                border='1px solid grey' size='md' mt={1} colorScheme='blue'
+                checked={params.data.isEnabled} 
+            />}
         },
     ]
 
@@ -176,27 +204,45 @@ function SecuredControlsWithPermissions() {
         rowSelection: 'single'
     }
 
-    // useGranularEffect(() => {
-    //     loadData()
-    // }, [], [loadData])
-
     return (
-        <Flex h='100%' w='100%' className='ag-theme-balham' direction='column'>
-            {/* <Button>Test button</Button> */}
-            <AppGridToolbar appStoreObject={appStore.permissions} 
-            appStaticStoreObject={appStaticStore.permissions} 
-            // title='Permissions'
-                // CustomControl={SuperAdminNewRoleButton}
-                toShowLastNoOfRows={false} gridApiRef={gridApiRef}
-            />
-            <AgGridReact 
+        <Flex h={400} w='100%' className='ag-theme-balham' direction='column'>
+            <HStack justifyContent='flex-end' mb={5}>
+                <AppGridSearchBox appStaticStoreObject={appStaticStore.permissions} appStoreObject={appStore.permissions} />
+            </HStack>
+            <AgGridReact
                 gridOptions={gridOptions}
                 ref={gridApiRef}
                 rowData={appStore.permissions.filteredRows.value}
                 suppressScrollOnNewData={true}
             />
+            <HStack justifyContent='flex-end' mt={2}>
+                <Button size='md' variant='solid' colorScheme='blue' onClick={onSubmit}>Submit</Button>
+            </HStack>
         </Flex>
     )
+
+    function getArrayFromObject(obj: any) {
+        const arr: any[] = []
+        for (const key of Object.keys(obj)) {
+            const myObj: any = {}
+            myObj.securedControlId = key
+            myObj.controlType = obj[key].controlType
+            myObj.controlName = obj[key].controlName
+            myObj.isEnabled = obj[key].isEnabled || true
+            myObj.id = obj[key].xId || undefined
+            arr.push(myObj)
+        }
+        return (arr)
+    }
+
+    function getControlsObjectFromArray(securedControls: any[]) {
+        const secObject: any = {}
+        for (const control of securedControls) {
+            const controlId: number = control.securedControlId
+            secObject[controlId] = { controlType: control.controlType, controlName: control.controlName }
+        }
+        return (secObject)
+    }
 
     async function loadData() {
         const args = {
@@ -235,26 +281,10 @@ function SecuredControlsWithPermissions() {
         }
     }
 
-    function getArrayFromObject(obj: any) {
-        const arr: any[] = []
-        for (const key of Object.keys(obj)) {
-            const myObj: any = {}
-            myObj.securedControlId = key
-            myObj.controlType = obj[key].controlType
-            myObj.controlName = obj[key].controlName
-            myObj.isEnabled = obj[key].isEnabled || true
-            myObj.id = obj[key].xId || undefined
-            arr.push(myObj)
-        }
-        return (arr)
-    }
-
-    function getControlsObjectFromArray(securedControls: any[]) {
-        const secObject: any = {}
-        for (const control of securedControls) {
-            const controlId: number = control.securedControlId
-            secObject[controlId] = { controlType: control.controlType, controlName: control.controlName }
-        }
-        return (secObject)
+    async function onSubmit(){
+        const fData = appStore.permissions.filteredRows.value
+        console.log(fData)
     }
 }
+
+export { SecuredControlsWithPermissions }
