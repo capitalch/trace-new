@@ -4,9 +4,11 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
     const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
     const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
     let toShow = toShowLastNoOfRows
+    
     if([undefined, null].includes(toShowLastNoOfRows)){
         toShow = true
     }
+    
     return (
         <HStack mb={2}
             rowGap={1}

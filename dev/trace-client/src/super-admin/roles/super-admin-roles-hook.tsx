@@ -1,4 +1,4 @@
-import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex } from '@src/features'
+import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar } from '@src/features'
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
@@ -49,11 +49,6 @@ function useSuperAdminRoles() {
         },
         {
             cellRenderer: PermissionCellRenderer,
-            // cellRendererParams: {
-            //     clicked: (field: any) => {
-            //         alert(field)
-            //     }
-            // }
         },
         {
             field: 'rank',
@@ -142,12 +137,13 @@ function PermissionCellRenderer(params: any) {
     function handlePermissionClick() {
         showModalDialogA({
             title: 'Control permissions',
-            body:  SecuredControlsWithPermissions,
-            toShowCloseButton: true,
+            body: SecuredControlsWithPermissions,
+            toShowCloseButton: false,
             defaultData: {}
         })
     }
 }
+
 // { roleId }: { roleId: number }
 function SecuredControlsWithPermissions() {
     const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
@@ -185,11 +181,18 @@ function SecuredControlsWithPermissions() {
     // }, [], [loadData])
 
     return (
-        <Flex h='100%' w='100%' className='ag-theme-balham'>
-            <AgGridReact
+        <Flex h='100%' w='100%' className='ag-theme-balham' direction='column'>
+            {/* <Button>Test button</Button> */}
+            <AppGridToolbar appStoreObject={appStore.permissions} 
+            appStaticStoreObject={appStaticStore.permissions} 
+            // title='Permissions'
+                // CustomControl={SuperAdminNewRoleButton}
+                toShowLastNoOfRows={false} gridApiRef={gridApiRef}
+            />
+            <AgGridReact 
                 gridOptions={gridOptions}
                 ref={gridApiRef}
-                rowData={meta.rows.value}
+                rowData={appStore.permissions.filteredRows.value}
                 suppressScrollOnNewData={true}
             />
         </Flex>
@@ -217,7 +220,10 @@ function SecuredControlsWithPermissions() {
                 }
                 console.log(securedControlsObject)
                 const securedControls = getArrayFromObject(securedControlsObject)
-                meta.rows.value = securedControls
+                appStore.permissions.rows.value = securedControls
+                appStaticStore.permissions.doFilter()
+                console.log(appStore.permissions.filteredRows.value)
+                // meta.rows.value = securedControls
                 // appStore.superAdmin.roles.rows.value = rows
                 // appStaticStore.superAdmin.roles.doFilter()
             }

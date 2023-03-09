@@ -45,7 +45,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzgzMzQ4ODUsInN1YiI6eyJ1c2VySWQiOjN9fQ.XlG5jMFCXO126DOWcxvNg1zqbpYwOgNrf-7b9ep-D7U',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzg0MjE1MTQsInN1YiI6eyJ1c2VySWQiOjN9fQ.I7kXe1bPJg3OHP43i5tK5rUveQSXYKzY7fEJIT4FuKk',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -59,6 +59,14 @@ const store: any = {
     },
 
     reload: false,
+
+    permissions: {
+        filteredRows: [],
+        noOfRows: 100,
+        rows: [],
+        refresh: true,
+        searchString: ''
+    },
 
     superAdmin: {
         adminUsers: {
@@ -121,8 +129,12 @@ const appStaticStore: AppStaticStoreType = {
         buCode: undefined,
         buName: undefined,
         branchId: 1,
-        branchCode: 'head', 
+        branchCode: 'head',
         branchName: 'Head office'
+    },
+    permissions: {
+        doFilter: () => { },
+        doReload: () => { },
     },
     superAdmin: {
         adminUsers: {
@@ -172,6 +184,10 @@ interface AppStaticStoreType {
         branchId: number
         branchCode: string | undefined
         branchName: string | undefined
+    },
+    permissions: {
+        doFilter: () => void,
+        doReload: () => void
     }
     superAdmin: {
         adminUsers: {
