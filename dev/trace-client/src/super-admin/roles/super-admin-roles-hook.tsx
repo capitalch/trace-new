@@ -190,7 +190,10 @@ function SecuredControlsWithPermissions() {
             // console.log(params)
             return <Checkbox 
                 border='1px solid grey' size='md' mt={1} colorScheme='blue'
-                checked={params.data.isEnabled} 
+                checked={params.data.isEnabled}
+                onClick={()=>{
+                    params.data.isEnabled = !params.data.isEnabled
+                }}
             />}
         },
     ]
