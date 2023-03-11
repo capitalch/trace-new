@@ -1,5 +1,5 @@
 import { Checkbox, Spacer } from '@chakra-ui/react'
-import { AppGridSearchBox, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar, HStack } from '@src/features'
+import { _, AppGridSearchBox, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar, HStack } from '@src/features'
 import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
 
 function useSuperAdminRoles() {
@@ -139,7 +139,7 @@ function PermissionCellRenderer(params: any) {
         showModalDialogA({
             size: '2xl',
             title: 'Control permissions',
-            body: SecuredControlsWithPermissions,
+            body: () => <SecuredControlsWithPermissions roleId={params.data.id1} />,
             toShowCloseButton: false,
             defaultData: {}
         })
@@ -147,7 +147,7 @@ function PermissionCellRenderer(params: any) {
 }
 
 // { roleId }: { roleId: number }
-function SecuredControlsWithPermissions() {
+function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
     const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
     const { showError } = useFeedback()
     const { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId } = useAgGridUtils()
@@ -186,12 +186,54 @@ function SecuredControlsWithPermissions() {
             headerName: 'Enabled',
             headerClass: 'header',
             width: 70,
-            cellRenderer: (params: any) => {
+            cellRenderer: function (params: any) {
+                return <Checkbox
+                    border='1px solid grey' size='md' mt={1}
+                    colorScheme='blue'
+                    isChecked={params.node.data.isEnabled}
+                    onChange={(e: any) => {
+                        params.node.data.isEnabled = !params.value
+                        const checked = params.node.data.isEnabled
+                        let col = params.column.colId
+                        params.node.setDataValue(col, checked)
+                        // appStore.reload.value = !appStore.reload.value
+                    }}
+                // onClick={(e:any)=>{
+                //     params.value = !params.value
+                //     params.node.data.isEnabled = params.value
+                // }}
+                />
+            }
+            // return <input
+            //     type='checkbox'
+            //     checked={params.value}
+            //     onChange={(e: any) => {
+            //         params.value = !params.value;
+            //         params.node.data.fieldName = params.value;
+            //     }}
+            // />
+            // var input = document.createElement('input');
+            // input.type = "checkbox"
+            // input.checked = params.value
+            // input.addEventListener('click', function (event) {
+            //     params.value = !params.value;
+            //     params.node.data.fieldName = params.value;
+            // });
+            // return input;
+            // cellRenderer: (params: any) => {
             // console.log(params)
-            return <Checkbox 
-                border='1px solid grey' size='md' mt={1} colorScheme='blue'
-                checked={params.data.isEnabled} 
-            />}
+            // return <Checkbox 
+            //     border='1px solid grey' size='md' mt={1} 
+            //     colorScheme='blue'
+            //     // isChecked={params.data.isEnabled}
+            //     onClick= {(e:any)=>{
+            //         const checked = e.target.checked
+            //         const col = params.column.isEnabled
+            //         params.node.setDataValue(col, checked)
+            //         console.log(e.target.checked)
+            //         // params.data.isEnabled = e.target.checked
+            //     }}
+            // />}
         },
     ]
 
@@ -206,9 +248,11 @@ function SecuredControlsWithPermissions() {
 
     return (
         <Flex h={400} w='100%' className='ag-theme-balham' direction='column'>
-            <HStack justifyContent='flex-end' mb={5}>
+            <HStack justifyContent='space-between' mb={5}>
+                <InitPermissionButtons></InitPermissionButtons>
                 <AppGridSearchBox appStaticStoreObject={appStaticStore.permissions} appStoreObject={appStore.permissions} />
             </HStack>
+
             <AgGridReact
                 gridOptions={gridOptions}
                 ref={gridApiRef}
@@ -248,7 +292,7 @@ function SecuredControlsWithPermissions() {
         const args = {
             sqlId: 'get_secured_controls_with_permissions',
             sqlArgs: {
-                roleId: 4 //roleId
+                roleId: roleId
             }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
@@ -264,11 +308,11 @@ function SecuredControlsWithPermissions() {
                 for (const item of permissions) {
                     securedControlsObject[item.securedControlId].isEnabled = item.isEnabled
                 }
-                console.log(securedControlsObject)
+                // console.log(securedControlsObject)
                 const securedControls = getArrayFromObject(securedControlsObject)
                 appStore.permissions.rows.value = securedControls
                 appStaticStore.permissions.doFilter()
-                console.log(appStore.permissions.filteredRows.value)
+                // console.log(appStore.permissions.filteredRows.value)
                 // meta.rows.value = securedControls
                 // appStore.superAdmin.roles.rows.value = rows
                 // appStaticStore.superAdmin.roles.doFilter()
@@ -281,10 +325,43 @@ function SecuredControlsWithPermissions() {
         }
     }
 
-    async function onSubmit(){
+    async function onSubmit() {
         const fData = appStore.permissions.filteredRows.value
-        console.log(fData)
+        const submitArray: any[] = fData.map((item: any) => {
+            return (
+                {
+                    id: item.id1,
+                    securedControlId: item.securedControlId,
+                    roleId: roleId,
+                    isEnabled: item.isEnabled
+                }
+            )
+        })
+        // console.log(submitArray)
     }
 }
 
-export { SecuredControlsWithPermissions }
+// export { SecuredControlsWithPermissions }
+
+function InitPermissionButtons() {
+    return (<HStack>
+        <Button size='xs' colorScheme='blue' onClick={handleOnClickReader} variant='outline'>Start with reader</Button>
+        <Button size='xs' colorScheme='blue' onClick={handleOnClickManager} variant='outline'>Start with manager</Button>
+    </HStack>)
+
+    function handleOnClickReader() {
+        const filteredRows: any[] = _.cloneDeep(appStore.permissions.filteredRows.value)
+        filteredRows.forEach((item: any) => {
+            item.isEnabled = false
+        })
+        appStore.permissions.filteredRows.value = filteredRows
+    }
+
+    function handleOnClickManager() {
+        const filteredRows: any[] = _.cloneDeep(appStore.permissions.filteredRows.value)
+        filteredRows.forEach((item: any) => {
+            item.isEnabled = true
+        })
+        appStore.permissions.filteredRows.value = filteredRows
+    }
+}
