@@ -198,42 +198,8 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
                         params.node.setDataValue(col, checked)
                         // appStore.reload.value = !appStore.reload.value
                     }}
-                // onClick={(e:any)=>{
-                //     params.value = !params.value
-                //     params.node.data.isEnabled = params.value
-                // }}
                 />
             }
-            // return <input
-            //     type='checkbox'
-            //     checked={params.value}
-            //     onChange={(e: any) => {
-            //         params.value = !params.value;
-            //         params.node.data.fieldName = params.value;
-            //     }}
-            // />
-            // var input = document.createElement('input');
-            // input.type = "checkbox"
-            // input.checked = params.value
-            // input.addEventListener('click', function (event) {
-            //     params.value = !params.value;
-            //     params.node.data.fieldName = params.value;
-            // });
-            // return input;
-            // cellRenderer: (params: any) => {
-            // console.log(params)
-            // return <Checkbox 
-            //     border='1px solid grey' size='md' mt={1} 
-            //     colorScheme='blue'
-            //     // isChecked={params.data.isEnabled}
-            //     onClick= {(e:any)=>{
-            //         const checked = e.target.checked
-            //         const col = params.column.isEnabled
-            //         params.node.setDataValue(col, checked)
-            //         console.log(e.target.checked)
-            //         // params.data.isEnabled = e.target.checked
-            //     }}
-            // />}
         },
     ]
 
