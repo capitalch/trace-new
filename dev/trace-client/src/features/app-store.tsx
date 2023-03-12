@@ -9,6 +9,13 @@ const store: any = {
             rows: [],
             refresh: true,
             searchString: ''
+        },
+        businessUsers: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         }
     },
     alertDialogOk: {
@@ -45,7 +52,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzg1OTM3NzYsInN1YiI6eyJ1c2VySWQiOjN9fQ.JBms-6Je0Bcpx5zBHMy3J301_KfCb4RzeBHDgLzwMlE',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzg2ODExMDcsInN1YiI6eyJ1c2VySWQiOjN9fQ.EKERSWI-s8w14AtBARd6Uyn6L_-LAYs348rML-hByXw',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -120,6 +127,10 @@ const appStaticStore: AppStaticStoreType = {
         businessUnits: {
             doFilter: () => { },
             doReload: () => { },
+        },
+        businessUsers: {
+            doFilter: () => { },
+            doReload: () => { },
         }
     },
     login: {
@@ -171,6 +182,10 @@ interface AppStaticStoreType {
     isOpenClicked: boolean,
     admin: {
         businessUnits: {
+            doFilter: () => void,
+            doReload: () => void
+        }
+        businessUsers: {
             doFilter: () => void,
             doReload: () => void
         }

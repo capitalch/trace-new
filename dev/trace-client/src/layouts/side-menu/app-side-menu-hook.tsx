@@ -18,8 +18,10 @@ import {
   AppPayments,
   AppSales,
 } from "@src/components";
-import {SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminRoles, SuperAdminSecuredControls } from "@src/super-admin";
-import { AdminBusinessUnits } from "@src/admin";
+import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
+import { AdminBusinessUnits } from "@src/auth/admin";
+import { AppRoles } from "@src/auth/roles/app-roles";
+import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -148,7 +150,7 @@ const superAdminMenu: MenuItemType[] = [
     breadcrumb: "Super admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    component: SuperAdminRoles,
+    component: AppRoles,
   },
   {
     breadcrumb: "Super admin secured controls",
@@ -169,7 +171,7 @@ const adminMenu: MenuItemType[] = [
     breadcrumb: 'Admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    component: ()=><></>
+    component: () => <></>
   },
   {
     breadcrumb: "Admin business units",
@@ -181,12 +183,12 @@ const adminMenu: MenuItemType[] = [
     breadcrumb: "Admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    component: ()=><></>,
+    component: AppRoles,
   },
   {
-    breadcrumb: "Admin business users",
+    breadcrumb: "Business users",
     label: "Business users",
     icon: <UsersIcon color="dodgerBlue" />,
-    component: ()=><></>,
+    component: AdminBusinessUsers,
   },
 ];

@@ -119,6 +119,7 @@ function useAppGraphql () {
     queryName: string = 'genericQuery'
   ): any {
     const res: any = result?.data?.[queryName]
+    let out = undefined
     if (res) {
       if (res?.error) {
         const detail = res.error.detail
@@ -127,9 +128,11 @@ function useAppGraphql () {
         const message = `${errorCode}, ${detail}`
         showError(message)
         console.log(exception)
+      } else {
+        out = res
       }
     }
-    return res
+    return out
   }
 
   return {

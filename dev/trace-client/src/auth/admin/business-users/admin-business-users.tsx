@@ -1,14 +1,13 @@
 import { AgGridReact, AppGridToolbar, RowDataUpdatedEvent, appStore, Flex, appStaticStore, } from '@src/features'
-import { SuperAdminNewRoleButton } from './super-admin-new-role-button'
-import {useSuperAdminRoles } from './super-admin-roles-hook'
+import { useAdminBusinessUsers } from './admin-business-users-hook'
+import { AdminNewBusinessUserButton } from './admin-new-business-user-button'
 
-function SuperAdminRoles() {
-    const { gridApiRef, gridOptions, } = useSuperAdminRoles()
-
+function AdminBusinessUsers() {
+    const { gridApiRef, gridOptions } = useAdminBusinessUsers()
     return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
-        <AppGridToolbar appStoreObject={appStore.superAdmin.roles} appStaticStoreObject={appStaticStore.superAdmin.roles} title='Super admin roles view'
-            CustomControl={SuperAdminNewRoleButton}
-            toShowLastNoOfRows={false} gridApiRef={gridApiRef}
+        <AppGridToolbar appStoreObject={appStore.admin.businessUsers} appStaticStoreObject={appStaticStore.admin.businessUsers} title='Business users view'
+            CustomControl={AdminNewBusinessUserButton}
+            toShowLastNoOfRows={true} gridApiRef={gridApiRef}
         />
         <AgGridReact
             gridOptions={gridOptions}
@@ -16,20 +15,18 @@ function SuperAdminRoles() {
                 const api = gridApiRef.current.api
                 const model: any = api.getModel()
                 const visibleRows: any[] = model.rowsToDisplay
-                api.setPinnedBottomRowData([{ roleName: 'Rows:', descr: visibleRows.length }])
+                api.setPinnedBottomRowData([{ controlName: 'Rows:', controlNo: visibleRows.length }])
             }}
             onFilterChanged={(ev: any) => {
                 const api = gridApiRef.current.api
                 const model: any = api.getModel()
                 const visibleRows: any[] = model.rowsToDisplay
-                api.setPinnedBottomRowData([{ roleName: 'Rows:', descr: visibleRows.length }])
+                api.setPinnedBottomRowData([{ controlName: 'Rows:', controlNo: visibleRows.length }])
             }}
             ref={gridApiRef}
-            rowData={appStore.superAdmin.roles.filteredRows.value}
+            rowData={appStore.admin.businessUsers.filteredRows.value}
             suppressScrollOnNewData={true}
         />
     </Flex>)
-
-
 }
-export { SuperAdminRoles }
+export { AdminBusinessUsers }

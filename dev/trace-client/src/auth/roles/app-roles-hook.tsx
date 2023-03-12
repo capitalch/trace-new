@@ -1,10 +1,10 @@
-import { Checkbox, Spacer } from '@chakra-ui/react'
-import { _, AppGridSearchBox, ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar, HStack } from '@src/features'
-import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
+import { Checkbox, } from '@chakra-ui/react'
+import { _, AppGridSearchBox, ColDef, GridOptions, GridReadyEvent,  useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType, Button, useDeepSignal, AgGridReact, Flex, AppGridToolbar, HStack, useState } from '@src/features'
+import { AppEditNewRole } from './app-edit-new-role'
 
-function useSuperAdminRoles() {
+function useAppRoles() {
     const { showError } = useFeedback()
-    const { getAlternateColorStyle, getPinnedRowStyle, swapId } = useAgGridUtils()
+    const {getRowStyle, } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
@@ -15,7 +15,7 @@ function useSuperAdminRoles() {
             , tableName: 'RoleM'
             , appStoreObject: appStore.superAdmin.roles
             , appStaticStoreObject: appStaticStore.superAdmin.roles
-            , EditBodyComponent: SuperAdminEditNewRole
+            , EditBodyComponent: AppEditNewRole
             , editTitle: 'Edit super admin role'
         })
 
@@ -88,14 +88,6 @@ function useSuperAdminRoles() {
         rowSelection: 'single'
     }
 
-
-    function getRowStyle(params: any) {
-        const style1 = getAlternateColorStyle(params)
-        const style2 = getPinnedRowStyle(params)
-        const ret = { ...style1, ...style2 }
-        return (ret)
-    }
-
     async function loadData() {
         const args = {
             sqlId: 'get_roles',
@@ -123,17 +115,13 @@ function useSuperAdminRoles() {
     return { columnDefs, defaultColDef, gridApiRef, gridOptions, onGridReady, }
 }
 
-export { useSuperAdminRoles }
+export { useAppRoles }
 
 function PermissionCellRenderer(params: any) {
     const rank = params?.data?.rank || (params?.data?.rank === 0)
     const { showModalDialogA } = useDialogs()
-    // let visible = true
-    // if((rank) || rank === 0){
 
-    // }
-    // B
-    return ((!rank) && <Button onClick={handlePermissionClick} size='xs' variant='link' colorScheme='blue'>Permission</Button>)
+    return ((!rank) && (params.data.id) && <Button onClick={handlePermissionClick} size='xs' variant='link' colorScheme='blue'>Permission</Button>)
 
     function handlePermissionClick() {
         showModalDialogA({
@@ -146,18 +134,17 @@ function PermissionCellRenderer(params: any) {
     }
 }
 
-// { roleId }: { roleId: number }
 function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
     const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
-    const { showError } = useFeedback()
-    const { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId } = useAgGridUtils()
+    const { showAppLoader, showError, } = useFeedback()
+    const { closeModalDialogA, } = useDialogs()
+    const { getRowStyle, } = useAgGridUtils()
     const gridApiRef: any = useRef(null)
-    const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
+    const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult, handleUpdateResult, mutateGraphql } = useAppGraphql()
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
 
     const onGridReady = (params: GridReadyEvent) => {
-        // if (isNotInComponentHistory(componentNames.superAdminRoles)) {
         loadData()
-        // addToComponentHistory(componentNames.superAdminRoles)
     }
 
 
@@ -196,7 +183,6 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
                         const checked = params.node.data.isEnabled
                         let col = params.column.colId
                         params.node.setDataValue(col, checked)
-                        // appStore.reload.value = !appStore.reload.value
                     }}
                 />
             }
@@ -226,7 +212,7 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
                 suppressScrollOnNewData={true}
             />
             <HStack justifyContent='flex-end' mt={2}>
-                <Button size='md' variant='solid' colorScheme='blue' onClick={onSubmit}>Submit</Button>
+                <Button size='md' variant='solid' disabled={isSubmitDisabled} colorScheme='blue' onClick={onSubmit}>Submit</Button>
             </HStack>
         </Flex>
     )
@@ -238,7 +224,10 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
             myObj.securedControlId = key
             myObj.controlType = obj[key].controlType
             myObj.controlName = obj[key].controlName
-            myObj.isEnabled = obj[key].isEnabled || true
+            myObj.isEnabled = obj[key].isEnabled
+            if(obj[key].isEnabled == null){// '==' and not '===' operator is used to check for null or undefined. For null or undefined, the value is true else unaltered
+                myObj.isEnabled = true
+            }
             myObj.id = obj[key].xId || undefined
             arr.push(myObj)
         }
@@ -273,15 +262,12 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
                 const securedControlsObject = getControlsObjectFromArray(allSecuredControls)
                 for (const item of permissions) {
                     securedControlsObject[item.securedControlId].isEnabled = item.isEnabled
+                    securedControlsObject[item.securedControlId].xId = item.id
                 }
-                // console.log(securedControlsObject)
+
                 const securedControls = getArrayFromObject(securedControlsObject)
                 appStore.permissions.rows.value = securedControls
                 appStaticStore.permissions.doFilter()
-                // console.log(appStore.permissions.filteredRows.value)
-                // meta.rows.value = securedControls
-                // appStore.superAdmin.roles.rows.value = rows
-                // appStaticStore.superAdmin.roles.doFilter()
             }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
@@ -292,8 +278,8 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
     }
 
     async function onSubmit() {
-        const fData = appStore.permissions.filteredRows.value
-        const submitArray: any[] = fData.map((item: any) => {
+        const fRows: any[] = appStore.permissions.filteredRows.value
+        const submitArray: any[] = fRows.map((item: any) => {
             return (
                 {
                     id: item.id1,
@@ -303,11 +289,28 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
                 }
             )
         })
-        // console.log(submitArray)
+        const sqlObj = {
+            tableName: 'RoleSecuredControlX',
+            xData: submitArray
+        }
+        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
+        try {
+            setIsSubmitDisabled(true)
+            showAppLoader(true)
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStaticStore.superAdmin.roles.doReload()
+            }, 'genericUpdate')
+        } catch (e: any) {
+            showError(Messages.errUpdatingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+            setIsSubmitDisabled(false)
+        }
     }
 }
-
-// export { SecuredControlsWithPermissions }
 
 function InitPermissionButtons() {
     return (<HStack>

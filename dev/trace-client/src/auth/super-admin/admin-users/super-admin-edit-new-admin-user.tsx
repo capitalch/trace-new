@@ -1,8 +1,8 @@
 import {
-    _, AppRequiredAstrisk, appStore, appValidators, Box, Button, Checkbox, FormControl,
+    _, AppRequiredAstrisk, appStore, appValidators,  Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
-    Messages, ReactSelect, useDeepSignal, useDialogs, useAppGraphql, useFeedback,
-    useForm, VStack, appStaticStore, useEffect, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect, NumberInput, NumberInputField,
+    Messages, useDeepSignal, useDialogs, useAppGraphql, useFeedback,
+    useForm, VStack, appStaticStore, useState, useGranularEffect, NumberInput, NumberInputField,
 } from '@src/features'
 
 import { Select } from 'chakra-react-select'
@@ -16,7 +16,7 @@ function SuperAdminEditNewAdminUser() {
     const { showAppLoader, showError } = useFeedback()
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
     const { checkIndiaMobileNo, checkNoSpaceOrSpecialChar, checkValidEmail } = appValidators()
-    const { control, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { control, handleSubmit, register, formState: { errors }, setValue, }: any = useForm({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
     useGranularEffect(() => {
@@ -66,7 +66,6 @@ function SuperAdminEditNewAdminUser() {
                                 <FormLabel fontWeight='bold'>Client <AppRequiredAstrisk /></FormLabel>
                                 <Select
                                     size='sm'
-                                    // isMulti
                                     name={name}
                                     ref={ref}
                                     onChange={onChange}

@@ -1,4 +1,4 @@
-import { _, appGraphqlStrings, appStaticStore, appStore, GraphQlQueryResultType, Messages, useAppGraphql, useDeepSignal, useFeedback, useGranularEffect } from '@src/features'
+import { _, appStaticStore, GraphQlQueryResultType, Messages, useAppGraphql, useDeepSignal, useFeedback, useGranularEffect } from '@src/features'
 
 function useSuperAdminDashboard() {
     const meta: any = useDeepSignal({
@@ -12,7 +12,7 @@ function useSuperAdminDashboard() {
             inactive: 0,
             total: 0
         },
-        counts:{
+        counts: {
             dbCount: 0,
             securedControlsCount: 0,
             adminUsersCount: 0,
@@ -88,12 +88,12 @@ function useSuperAdminDashboard() {
         const securedControlsCount = rows[0]?.jsonResult?.securedControlsCount || 0
         const adminUsersCount = rows[0]?.jsonResult?.adminUsersCount || 0
         const adminRolesCount = rows[0]?.jsonResult?.adminRolesCount || 0
-        
+
         meta.counts.dbCount.value = dbCount
         meta.counts.securedControlsCount.value = securedControlsCount
         meta.counts.adminUsersCount.value = adminUsersCount
         meta.counts.adminRolesCount.value = adminRolesCount
-        
+
     }
 
 

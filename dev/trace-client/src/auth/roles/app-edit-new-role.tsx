@@ -5,7 +5,7 @@ import {
     useForm, VStack, appStaticStore, useState, debounceFilterOn, ebukiMessages, debounceEmit, useGranularEffect, NumberInput, NumberInputField,
 } from '@src/features'
 
-function SuperAdminEditNewRole() {
+function AppEditNewRole() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, } = useDialogs()
@@ -60,9 +60,10 @@ function SuperAdminEditNewRole() {
                 </FormControl>
 
                 {/* Rank */}
+                {/* Rank in enabled for Super admin and disabled for admin user */}
                 <FormControl>
                     <FormLabel fontWeight='bold'>Rank</FormLabel>
-                    <NumberInput size='sm'>
+                    <NumberInput size='sm' isDisabled={Boolean(appStaticStore.login.clientId)}>
                         <NumberInputField name='rank' placeholder='e.g 0,1,2 ...' {...register('rank')} />
                     </NumberInput>
                 </FormControl>
@@ -82,6 +83,7 @@ function SuperAdminEditNewRole() {
             tableName: 'RoleM',
             xData: {
                 id: id,
+                clientId: appStaticStore.login.clientId || undefined,
                 roleName: values?.roleName,
                 descr: values?.descr,
                 rank: values?.permission || null
@@ -139,4 +141,4 @@ function SuperAdminEditNewRole() {
         return (ret)
     }
 }
-export { SuperAdminEditNewRole }
+export { AppEditNewRole }

@@ -1,7 +1,7 @@
-import { Button, HStack, Tooltip, useDialogs, useMediaQuery } from '@src/features'
+import { Button, useDialogs, } from '@src/features'
 import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
-function SuperAdminNewAdminUserButton(){
+function SuperAdminNewAdminUserButton() {
     const { showModalDialogA } = useDialogs()
     return (
         <Button size='sm' colorScheme={'blue'} onClick={handleNewAdminUser}>
@@ -17,4 +17,4 @@ function SuperAdminNewAdminUserButton(){
     }
 }
 
-export {SuperAdminNewAdminUserButton}
+export { SuperAdminNewAdminUserButton }

@@ -1,7 +1,7 @@
-import { Button, HStack, Tooltip, useDialogs, useMediaQuery } from '@src/features'
-import { SuperAdminEditNewRole } from './super-admin-edit-new-role'
+import { Button, useDialogs } from '@src/features'
+import { AppEditNewRole } from './app-edit-new-role'
 
-function SuperAdminNewRoleButton() {
+function AppNewRoleButton() {
     const { showModalDialogA } = useDialogs()
     return (
         <Button size='sm' colorScheme={'blue'} onClick={handleNewRole}>
@@ -12,8 +12,8 @@ function SuperAdminNewRoleButton() {
     function handleNewRole() {
         showModalDialogA({
             title: 'New super admin role',
-            body: SuperAdminEditNewRole
+            body: AppEditNewRole
         })
     }
 }
-export { SuperAdminNewRoleButton }
+export { AppNewRoleButton }

@@ -1,4 +1,4 @@
-import { Button, HStack, Tooltip, useDialogs, useMediaQuery } from '@src/features'
+import { Button, useDialogs, } from '@src/features'
 import { SuperAdminEditNewSecuredControl } from './super-admin-edit-new-secured-control'
 
 function SuperAdminNewSecuredControlButton(){

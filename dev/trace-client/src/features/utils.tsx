@@ -134,6 +134,7 @@ function useComponentHistory() {
 
   enum componentNames {
     'adminBusinessUnits',
+    'adminBusiinessUsers',
     'superAdminAdminUsers',
     'superAdminClients',
     'superAdminRoles',

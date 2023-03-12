@@ -13,7 +13,7 @@ import {
 } from "@src/features"
 
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
-import { SuperAdminClients } from "@src/super-admin"
+import { SuperAdminClients } from "@src/auth/super-admin"
 function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
 
