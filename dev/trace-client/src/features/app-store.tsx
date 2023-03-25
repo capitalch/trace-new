@@ -52,7 +52,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzg2ODExMDcsInN1YiI6eyJ1c2VySWQiOjN9fQ.EKERSWI-s8w14AtBARd6Uyn6L_-LAYs348rML-hByXw',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzk4MDgyMjAsInN1YiI6eyJ1c2VySWQiOjN9fQ.bOLEI9XjA2ivfC2_UvEad11Y6AboTOtotMJl1QYeBmE',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -110,12 +110,17 @@ const store: any = {
         // }
     }
 }
-
+// let appStore: any
+// resetAppStore()
 let appStore: any = deepSignal(_.cloneDeep(store))
 function resetAppStore() {
+    // appStore = deepSignal(_.cloneDeep(store))
+    // appStore.reload.value = !appStore.reload.value
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
     appStore.content.value = { ...store.content }
+    // appStore.admin.value = _.cloneDeep(store.admin)
+    // appStore.superAdmin.value = _.cloneDeep(store.superAdmin)
 }
 
 const appStaticStore: AppStaticStoreType = {

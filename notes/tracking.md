@@ -138,12 +138,22 @@
 6. RoleSecuredControlX: id, securedControlId, roleId
 
 ## Bug fix
+### Client side
+1. Logout does not clear the appStore data. 
+	Reproduce:
+	logout as admin
+	login as super admin
+	still the roles of admin are visible
 ### Server side
-1. Sometimes database server not working. Error connection
-																											2. AppHttpException of type custome exception not working
+																											1. Sometimes database server not working. Error connection
+																											2. AppHttpException of type custom exception not working
 																											3. Server side graphql authentication
 
 																											4. get_other_user_bundle error
+
+
+## 08-03-2023 - 25-03-2023
+OFF
 
 ## 06-03-2023 - 07-03-2023
 1. Admin menu
