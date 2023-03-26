@@ -6,8 +6,8 @@ function useAppRoles() {
     const { showError } = useFeedback()
     const {getRowStyle, } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
-    const { componentNames, isNotInComponentHistory } = useComponentHistory()
-    const { addToComponentHistory } = useComponentHistory()
+    // const { componentNames, isNotInComponentHistory } = useComponentHistory()
+    // const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
     const { DeleteCellRenderer, EditCellRenderer, HideCellRenderer }
         = useCellRenderers({
@@ -24,10 +24,11 @@ function useAppRoles() {
     }, [], [loadData])
 
     const onGridReady = (params: GridReadyEvent) => {
-        if (isNotInComponentHistory(componentNames.superAdminRoles)) {
-            loadData()
-            addToComponentHistory(componentNames.superAdminRoles)
-        }
+        loadData()
+        // if (isNotInComponentHistory(componentNames.superAdminRoles)) {
+            // loadData()
+            // addToComponentHistory(componentNames.superAdminRoles)
+        // }
     }
 
     const columnDefs: ColDef[] = [
@@ -135,7 +136,7 @@ function PermissionCellRenderer(params: any) {
 }
 
 function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
-    const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
+    // const meta: any = useDeepSignal({ rows: [], filteredRows: [] })
     const { showAppLoader, showError, } = useFeedback()
     const { closeModalDialogA, } = useDialogs()
     const { getRowStyle, } = useAgGridUtils()

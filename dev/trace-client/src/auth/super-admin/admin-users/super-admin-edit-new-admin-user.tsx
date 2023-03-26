@@ -50,7 +50,6 @@ function SuperAdminEditNewAdminUser() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
-
                 {/* Client*/}
                 {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
                 <Controller

@@ -52,7 +52,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzk4MDgyMjAsInN1YiI6eyJ1c2VySWQiOjN9fQ.bOLEI9XjA2ivfC2_UvEad11Y6AboTOtotMJl1QYeBmE',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzk5MTYyMTQsInN1YiI6eyJ1c2VySWQiOjN9fQ.95NRJPxRALyc6d_MbvHBQkwSntGJhs-s-ptohq4rum8',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -119,8 +119,21 @@ function resetAppStore() {
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
     appStore.content.value = { ...store.content }
+    appStaticStore.login = { ...staticLoginObject }
     // appStore.admin.value = _.cloneDeep(store.admin)
     // appStore.superAdmin.value = _.cloneDeep(store.superAdmin)
+}
+
+const staticLoginObject = {
+    clientId: 0,
+    clientCode: undefined,
+    clientName: undefined,
+    buId: 0,
+    buCode: undefined,
+    buName: undefined,
+    branchId: 1,
+    branchCode: 'head',
+    branchName: 'Head office'
 }
 
 const appStaticStore: AppStaticStoreType = {
