@@ -51,7 +51,16 @@ class SqlQueriesAuth:
     
     get_all_clientNames_clentIds = '''
         select "id", "clientName"
-            from "ClientM" order by "clientName"
+            from "ClientM" 
+            order by "clientName"
+    '''
+    
+    get_all_roleNames_roleIds = '''
+        select "id", "roleName"
+            from "RoleM" 
+                where COALESCE("clientId",0) = %(clientId)s
+                    or "clientId" is null
+            order by "roleName"
     '''
 
     get_client = '''
