@@ -1,4 +1,4 @@
-import { ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
+import {Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
 import { AdminEditNewBusinessUser } from './admin-edit-new-business-user'
 // import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
@@ -66,6 +66,10 @@ function useAdminBusinessUsers() {
                 field: 'businessUnits',
                 headerName: 'Business units',
                 width: 250,
+            },
+            {
+                headerName:'Branches',
+                cellRenderer: BranchCellRenderer   
             },
             {
                 field: 'isActive',
@@ -148,3 +152,14 @@ function useAdminBusinessUsers() {
     return { gridApiRef, gridOptions, }
 }
 export { useAdminBusinessUsers }
+
+function BranchCellRenderer(params: any){
+    const { showModalDialogA } = useDialogs()
+    return(
+        <Button onClick={handleBranchesClick} size='xs' variant='link' colorScheme='blue'>Branches</Button>
+    )
+
+    function handleBranchesClick(){
+
+    }
+}

@@ -151,7 +151,9 @@
 
 																											4. get_other_user_bundle error
 
-
+## 26-03-2023 - 28-03-2023
+1. Business users view
+2. New / edit business user -- part
 ## 08-03-2023 - 25-03-2023
 OFF
 

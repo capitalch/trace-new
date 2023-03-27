@@ -52,7 +52,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzk5MTYyMTQsInN1YiI6eyJ1c2VySWQiOjN9fQ.95NRJPxRALyc6d_MbvHBQkwSntGJhs-s-ptohq4rum8',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODAwMjg5OTUsInN1YiI6eyJ1c2VySWQiOjN9fQ.rBDdfsEIuRZkFUzbfA_-6NSqZpdTMvHk6Joh6AD8QEA',
         uidEmail: 'capitalch',
         userType: undefined,
     },

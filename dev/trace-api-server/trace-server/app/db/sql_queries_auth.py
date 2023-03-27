@@ -62,6 +62,26 @@ class SqlQueriesAuth:
                     or "clientId" is null
             order by "roleName"
     '''
+    
+    get_all_roles_roleIds_buCodes_buIds = '''
+        --with "clientId" as (values(1))
+        with "clientId" as (values(%(clientId)s))
+        , cte1 as (
+            select "id", "roleName"
+                from "RoleM" 
+                    where COALESCE("clientId",0) = (table "clientId")
+                        or "clientId" is null
+                order by "roleName")
+        , cte2 as (
+            select "id", "buCode"
+                from "BuM"
+                    where "clientId" = (table "clientId")
+                        and "isActive"
+        ) select json_build_object(
+            'roles', (select json_agg(row_to_json(a)) from cte1 a)
+            , 'bues', (select json_agg(row_to_json(b)) from cte2 b)
+        ) as "jsonResult"
+    '''
 
     get_client = '''
             select 1 from "ClientM"

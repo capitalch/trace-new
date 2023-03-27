@@ -9,7 +9,7 @@ import { Select } from 'chakra-react-select'
 import { Controller } from 'react-hook-form'
 
 function AdminEditNewBusinessUser() {
-    const meta: any = useDeepSignal({ roles: [], selectedRole: {}, branches: [], selectedBranches: [] })
+    const meta: any = useDeepSignal({ roles: [], selectedRole: {}, bues: [], selectedBues: [] })
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, } = useDialogs()
@@ -21,8 +21,8 @@ function AdminEditNewBusinessUser() {
 
     useGranularEffect(() => {
         setFormValues()
-        loadRoles()
-    }, [], [loadRoles, setFormValues])
+        loadRolesBuCodes()
+    }, [], [loadRolesBuCodes, setFormValues])
 
     const registerUserName = register('userName', {
         required: Messages.errRequired
@@ -49,72 +49,6 @@ function AdminEditNewBusinessUser() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
-
-
-                {/* Role*/}
-                {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
-                <Controller
-                    control={control}
-                    name='role'
-                    rules={{ required: Messages.errRequired }}
-                    render={
-                        ({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { error }
-                        }) => (
-                            <FormControl isInvalid={!!error} id="role">
-                                <FormLabel fontWeight='bold'>Role <AppRequiredAstrisk /></FormLabel>
-                                <Select
-                                    size='sm'
-                                    name={name}
-                                    ref={ref}
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-
-                                    value={value || ''}
-                                    options={meta.roles.value}
-                                    placeholder="Select role"
-                                />
-                                {(!!error) ? <FormErrorMessage color='red.400' fontSize='xs'>{error.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
-                            </FormControl>
-                        )
-                    }
-                />
-
-                {/* Branches*/}
-                {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
-                <Controller
-                    control={control}
-                    name='branches'
-                    rules={{ required: Messages.errRequired }}
-                    render={
-                        ({
-                            field: { onChange, onBlur, value, name, ref },
-                            fieldState: { error }
-                        }) => (
-                            <FormControl isInvalid={!!error} id="branches">
-                                <FormLabel fontWeight='bold'>Branches <AppRequiredAstrisk /></FormLabel>
-                                <Select
-                                    size='sm'
-                                    name={name}
-                                    ref={ref}
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-
-                                    value={value || ''}
-                                    options={meta.branches.value}
-                                    placeholder="Select branches"
-                                />
-                                {(!!error) ? <FormErrorMessage color='red.400' fontSize='xs'>{error.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
-                            </FormControl>
-                        )
-                    }
-                />
-
                 {/* User name */}
                 <FormControl isInvalid={!!errors.userName}>
                     <FormLabel fontWeight='bold'>User name <AppRequiredAstrisk /></FormLabel>
@@ -150,6 +84,70 @@ function AdminEditNewBusinessUser() {
                     <Input name='descr' size='sm' type='text' autoComplete='off' {...register('descr')} />
                 </FormControl>
 
+                {/* Role*/}
+                {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
+                <Controller
+                    control={control}
+                    name='role'
+                    rules={{ required: Messages.errRequired }}
+                    render={
+                        ({
+                            field: { onChange, onBlur, value, name, ref },
+                            fieldState: { error }
+                        }) => (
+                            <FormControl isInvalid={!!error} id="role">
+                                <FormLabel fontWeight='bold'>Role <AppRequiredAstrisk /></FormLabel>
+                                <Select
+                                    size='sm'
+                                    name={name}
+                                    ref={ref}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+
+                                    value={value || ''}
+                                    options={meta.roles.value}
+                                    placeholder="Select role"
+                                />
+                                {(!!error) ? <FormErrorMessage color='red.400' fontSize='xs'>{error.message}</FormErrorMessage>
+                                    : <>&nbsp;</>
+                                }
+                            </FormControl>
+                        )
+                    }
+                />
+
+                {/* Bu codes*/}
+                {/* chakra-react-select is used with react-hook-form. It is uncontrolled control. Hence Controller is used */}
+                <Controller
+                    control={control}
+                    name='bues'
+                    rules={{ required: Messages.errRequired }}
+                    render={
+                        ({
+                            field: { onChange, onBlur, value, name, ref },
+                            fieldState: { error }
+                        }) => (
+                            <FormControl isInvalid={!!error} id="branches">
+                                <FormLabel fontWeight='bold'>Bu codes <AppRequiredAstrisk /></FormLabel>
+                                <Select
+                                    size='sm'
+                                    name={name}
+                                    ref={ref}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    isMulti={true}
+                                    value={value || ''}
+                                    options={meta.bues.value}
+                                    placeholder="Select bu codes"
+                                />
+                                {(!!error) ? <FormErrorMessage color='red.400' fontSize='xs'>{error.message}</FormErrorMessage>
+                                    : <>&nbsp;</>
+                                }
+                            </FormControl>
+                        )
+                    }
+                />
+
                 <FormControl>
                     <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this user active?</Checkbox>
                 </FormControl>
@@ -163,10 +161,10 @@ function AdminEditNewBusinessUser() {
         </form>
     )
 
-    async function loadRoles() {
+    async function loadRolesBuCodes() {
         const clientId = appStaticStore.login.clientId
         const args = {
-            sqlId: 'get_all_roleNames_roleIds',
+            sqlId: 'get_all_roles_roleIds_buCodes_buIds',
             sqlArgs: {
                 clientId: clientId
             }
@@ -175,12 +173,22 @@ function AdminEditNewBusinessUser() {
         showAppLoader(true)
         try {
             const result: GraphQlQueryResultType = await queryGraphql(q)
-            const rows: [] = handleAndGetQueryResult(result, 'genericQuery')
+            const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
             if (rows) {
-                const arr: any[] = rows.map((item: any) => {
+                const jsonResult = rows[0]?.['jsonResult']
+                const allRoles: any[] = jsonResult?.roles || []
+                const allBues: any[] = jsonResult?.bues || []
+
+
+                const allRolesArray: any[] = allRoles.map((item: any) => {
                     return ({ value: item.id, label: item.roleName })
                 })
-                meta.roles.value = [...arr]
+                meta.roles.value = [...allRolesArray]
+
+                const allBuArray: any[] = allBues.map((item: any) => {
+                    return ({ value: item.id, label: item.buCode })
+                })
+                meta.bues.value = [...allBuArray]
             }
             if (!_.isEmpty(defaultData)) {
                 const roles: any[] = meta.roles.value
