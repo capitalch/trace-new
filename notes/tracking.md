@@ -1,3 +1,9 @@
+## Logic for business users
+1. For new business user capture multiple buIds and on submit store it in UserBuX table
+2. Multiple branches are to be cap.tured against individual Bu
+3. On Branches button click, opens a modal dialog showing all Bu's against the user. In each row there is button as "Assign branches". There is a column showing all the branches for the user and Bu
+4. On click of "Assign branches" button the accounts database is queried and all branches against Bu<->Schema are displayed in a new Modal dialog
+5. In new modal dialog you can select multiple branches against a user and Bu and click submit button. Data of branchIds is saved in UserBuX table
 ## Logic for permissions
 1. Get array from securedControls. Map it to an object with SecuredControlId and {controlName, controlType}
 2. Get all rows from X against the roleId
@@ -150,6 +156,11 @@
 																											3. Server side graphql authentication
 
 																											4. get_other_user_bundle error
+
+## 31-03-2023
+
+## 29-03-2023 - 30-03-2023
+No work done
 
 ## 26-03-2023 - 28-03-2023
 1. Business users view

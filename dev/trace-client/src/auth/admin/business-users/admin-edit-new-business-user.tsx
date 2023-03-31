@@ -209,12 +209,14 @@ function AdminEditNewBusinessUser() {
             tableName: 'UserM',
             xData: {
                 id: id,
+                roleId: values?.['role']?.value,
                 userName: values?.['userName'],
                 userEmail: values?.['userEmail'],
                 mobileNo: values?.['mobileNo'],
                 descr: values?.['descr'],
                 isActive: values?.['isActive'],
-                clientId: values?.['client'].value,
+                // clientId: values?.['client'].value,
+                clientId: appStaticStore.login.clientId,
                 uid: values?.['uid']
             }
         }
@@ -222,11 +224,11 @@ function AdminEditNewBusinessUser() {
         try {
             setIsSubmitDisabled(true)
             showAppLoader(true)
-            const result: GraphQlQueryResultType = await mutateGraphql(q)
-            handleUpdateResult(result, () => {
-                closeModalDialogA()
-                appStaticStore.superAdmin.adminUsers.doReload()
-            }, 'updateUser')
+            // const result: GraphQlQueryResultType = await mutateGraphql(q)
+            // handleUpdateResult(result, () => {
+            //     closeModalDialogA()
+            //     appStaticStore.superAdmin.adminUsers.doReload()
+            // }, 'updateUser')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
             console.log(e.message)
