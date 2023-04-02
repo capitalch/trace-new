@@ -23,26 +23,6 @@ class SqlQueriesAuth:
                         on c."id" = u."clientId"
                     where "roleId" is null
         '''
-    
-    get_business_users = '''
-        -- with "clientId" as (values(1))
-        with "clientId" as (values(%(clientId)s))       
-        SELECT   u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
-                , "roleName", r.id "roleId"
-                , string_agg(b."buCode", ',' order by b."buCode") as "businessUnits"
-                from "UserM" u
-                join "ClientM" c
-                    on c."id" = u."clientId"
-                join "RoleM" r
-                    on r."id" = u."roleId"
-                left join "UserBuX" x
-                    on u."id" = x."userId"
-                left join "BuM" b
-                    on b."id" = x."buId"
-                where u."clientId" = (table "clientId")
-        group by u."id", r."roleName", r.id
-        order by id DESC
-    '''
 
     get_all_clients = '''
             select * from "ClientM" 
@@ -83,6 +63,29 @@ class SqlQueriesAuth:
         ) as "jsonResult"
     '''
 
+    get_business_users = '''
+        -- with "clientId" as (values(1))
+        with "clientId" as (values(%(clientId)s))       
+        SELECT   u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
+                , "roleName", r.id "roleId"
+                , string_agg(b."buCode", ',' order by b."buCode") as "businessUnits"
+                -- , string_agg(b."id"::text, ', ' order by b."id") as "buIds"
+                , (select json_agg(row_to_json(a))  from (select id, "buId"
+					from "UserBuX" where "userId" = u.id) a) "buIdsJson"
+                from "UserM" u
+                join "ClientM" c
+                    on c."id" = u."clientId"
+                join "RoleM" r
+                    on r."id" = u."roleId"
+                left join "UserBuX" x
+                    on u."id" = x."userId"
+                left join "BuM" b
+                    on b."id" = x."buId"
+                where u."clientId" = (table "clientId")
+        group by u."id", r."roleName", r.id
+        order by id DESC
+    '''
+    
     get_client = '''
             select 1 from "ClientM"
                 where lower("clientCode") = %(clientCode)s

@@ -16,7 +16,7 @@ dbParams: dict = {
 }
 
 
-def get_connection_pool(connInfo: str, dbName: str, toReconnect=False) -> ThreadedConnectionPool:    
+def get_connection_pool(connInfo: str, dbName: str, toReconnect=False) -> ThreadedConnectionPool:
     global poolStore
     pool = poolStore.get(dbName)
 
@@ -48,7 +48,7 @@ def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = 
     records = []
     with pool.getconn() as conn:
         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute(f'set search_path to {schema}')            
+            cursor.execute(f'set search_path to {schema}')
             cursor.execute(sql, sqlArgs)
             if (cursor.rowcount > 0):
                 records = cursor.fetchall()
@@ -64,7 +64,7 @@ def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = 
 #         connInfo, dbName, toReconnect)
 #     records =[]
 #     with pool.getconn() as conn:
-#         with conn.cursor(cursor_factory=RealDictCursor) as cursor:            
+#         with conn.cursor(cursor_factory=RealDictCursor) as cursor:
 #             cursor.execute(f'set search_path to {schema}')
 #             for idx, sql in sqls:
 #                 cursor.execute(sql, sqlArgs[idx])
@@ -212,7 +212,9 @@ def get_update_sql(xData, tableName):
 
 
 def process_deleted_ids(sqlObject, acur: Any):
-    deletedIdList = sqlObject.get('deletedIds')
+    deletedIdList: list = sqlObject.get('deletedIds')
+    if (len(deletedIdList) == 0):
+        return
     tableName = sqlObject.get('tableName')
     ret = '('
     for x in deletedIdList:

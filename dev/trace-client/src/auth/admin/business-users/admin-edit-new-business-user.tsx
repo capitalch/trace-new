@@ -9,7 +9,7 @@ import { Select } from 'chakra-react-select'
 import { Controller } from 'react-hook-form'
 
 function AdminEditNewBusinessUser() {
-    const meta: any = useDeepSignal({ roles: [], selectedRole: {}, bues: [], selectedBues: [] })
+    const meta: any = useDeepSignal({ roles: [], selectedRole: {}, bues: [], selectedBues: [], origBuIdsJson: [] })
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, } = useDialogs()
@@ -189,11 +189,39 @@ function AdminEditNewBusinessUser() {
                     return ({ value: item.id, label: item.buCode })
                 })
                 meta.bues.value = [...allBuArray]
+
+                if (!_.isEmpty(defaultData)) {
+                    const roles: any[] = meta.roles.value
+                    const selectedRole = roles.find((x: any) => (x.value === defaultData.roleId))
+                    setValue('role', selectedRole)
+                }
             }
+            // Edit mode has non empty defaultData
             if (!_.isEmpty(defaultData)) {
                 const roles: any[] = meta.roles.value
                 const selectedRole = roles.find((x: any) => (x.value === defaultData.roleId))
                 setValue('client', selectedRole)
+
+                // const selectedBuIdString = defaultData.buIds
+                // const selectedBuIds = selectedBuIdString ? selectedBuIdString.split(',') : []
+                const bues: any[] = meta.bues.value
+
+                // const selectedBues1: any[] = selectedBuIds.map((x: string) => {
+                //     const bu = bues.find((b: any) => (b.value === Number(x)))
+                //     return (bu)
+                // })
+
+                const selectedBuIdsJson = defaultData.buIdsJson || []
+                meta.origBuIdsJson.value = [...selectedBuIdsJson]
+
+                const selectedBues: any[] = selectedBuIdsJson.map((it: any) => {
+                    const bu = bues.find((b: any) => (b.value === it.buId))
+                    bu.id = it.id
+                    return (bu)
+                })
+
+
+                setValue('bues', selectedBues)
             }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
@@ -206,14 +234,27 @@ function AdminEditNewBusinessUser() {
     async function onSubmit(values: any) {
         const id = values?.id
         let details: any[] = []
-        const businessUnits:any[] = values.bues
-        if(businessUnits){
-            details = businessUnits.map((bu:any)=>{
-                return({
+        const businessUnits: any[] = values.bues
+        const origBuIdsJson: any[] = meta.origBuIdsJson.value
+        const origIds: number[] = origBuIdsJson.flatMap((x: any) => x.id)
+        const selectedIds: number[] = businessUnits.flatMap((x: any) => x.id)
+
+        const deletedIds: number[] = []
+        origIds.forEach((id: number) => {
+            if (!selectedIds.includes(id)) {
+                deletedIds.push(id)
+            }
+        })
+
+        if (businessUnits) {
+            details = businessUnits.map((bu: any) => {
+                return ({
                     tableName: 'UserBuX',
                     fkeyName: 'userId',
+                    deletedIds: deletedIds,
                     xData: {
-                        buId:bu?.value
+                        buId: bu?.value,
+                        id: bu?.id
                     }
                 })
             })
@@ -240,7 +281,7 @@ function AdminEditNewBusinessUser() {
             const result: GraphQlQueryResultType = await mutateGraphql(q)
             handleUpdateResult(result, () => {
                 closeModalDialogA()
-                appStaticStore.superAdmin.adminUsers.doReload()
+                appStaticStore.admin.businessUsers.doReload()
             }, 'updateUser')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
