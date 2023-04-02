@@ -28,7 +28,7 @@ class SqlQueriesAuth:
         -- with "clientId" as (values(1))
         with "clientId" as (values(%(clientId)s))       
         SELECT   u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
-                , "roleName"
+                , "roleName", r.id "roleId"
                 , string_agg(b."buCode", ',' order by b."buCode") as "businessUnits"
                 from "UserM" u
                 join "ClientM" c
@@ -40,7 +40,7 @@ class SqlQueriesAuth:
                 left join "BuM" b
                     on b."id" = x."buId"
                 where u."clientId" = (table "clientId")
-        group by u."id", r."roleName"
+        group by u."id", r."roleName", r.id
         order by id DESC
     '''
 

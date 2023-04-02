@@ -205,6 +205,19 @@ function AdminEditNewBusinessUser() {
 
     async function onSubmit(values: any) {
         const id = values?.id
+        let details: any[] = []
+        const businessUnits:any[] = values.bues
+        if(businessUnits){
+            details = businessUnits.map((bu:any)=>{
+                return({
+                    tableName: 'UserBuX',
+                    fkeyName: 'userId',
+                    xData: {
+                        buId:bu?.value
+                    }
+                })
+            })
+        }
         const sqlObj = {
             tableName: 'UserM',
             xData: {
@@ -215,20 +228,20 @@ function AdminEditNewBusinessUser() {
                 mobileNo: values?.['mobileNo'],
                 descr: values?.['descr'],
                 isActive: values?.['isActive'],
-                // clientId: values?.['client'].value,
                 clientId: appStaticStore.login.clientId,
-                uid: values?.['uid']
+                uid: values?.['uid'],
+                xDetails: details
             }
         }
         const q = appGraphqlStrings['updateUser'](sqlObj, 'traceAuth')
         try {
             setIsSubmitDisabled(true)
             showAppLoader(true)
-            // const result: GraphQlQueryResultType = await mutateGraphql(q)
-            // handleUpdateResult(result, () => {
-            //     closeModalDialogA()
-            //     appStaticStore.superAdmin.adminUsers.doReload()
-            // }, 'updateUser')
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStaticStore.superAdmin.adminUsers.doReload()
+            }, 'updateUser')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
             console.log(e.message)

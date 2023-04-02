@@ -1,5 +1,5 @@
 import {
-    _, AppRequiredAstrisk, appStore, appValidators,  Button, Checkbox, FormControl,
+    _, AppRequiredAstrisk, appStore, appValidators, Button, Checkbox, FormControl,
     FormErrorMessage, FormLabel, GraphQlQueryResultType, HStack, Input,
     Messages, useDeepSignal, useDialogs, useAppGraphql, useFeedback,
     useForm, VStack, appStaticStore, useState, useGranularEffect, NumberInput, NumberInputField,
@@ -170,7 +170,7 @@ function SuperAdminEditNewAdminUser() {
                 descr: values?.['descr'],
                 isActive: values?.['isActive'],
                 clientId: values?.['client'].value,
-                uid: values?.['uid']
+                uid: values?.['uid'],
             }
         }
         const q = appGraphqlStrings['updateUser'](sqlObj, 'traceAuth')
