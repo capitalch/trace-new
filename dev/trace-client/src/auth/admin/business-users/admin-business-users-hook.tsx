@@ -1,4 +1,4 @@
-import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption } from '@src/features'
+import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td } from '@src/features'
 import { AdminEditNewBusinessUser } from './admin-edit-new-business-user'
 // import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
@@ -161,23 +161,65 @@ function BranchCellRenderer(params: any) {
 
     function handleBranchesClick() {
         const userName = params?.data?.userName || ''
+        const buIdsJson = params?.data?.buIdsJson || {}
         showModalDialogA({
-            title: `Business units and branches for ${userName}`,
+            title: `Business units and respective branches for ${userName}`,
             body: ModalDisplayBues,
-            defaultData:{
-                userName: userName
-            }
+            defaultData: {
+                userName: userName,
+                buIdsJson: buIdsJson
+            },
+            size:'lg'
         })
     }
 }
 
 function ModalDisplayBues() {
     const defaultData = appStore.modalDialogA.defaultData.value
-    return (<TableContainer>
-        <Table variant='striped' colorScheme='whiteAlpha' size='sm'>
-            <TableCaption>{`Business usits for ${defaultData.userName}`}</TableCaption>
-
+    const { showModalDialogB } = useDialogs()
+    const buIdsJson: any[] = defaultData.buIdsJson
+    return (<TableContainer minHeight={400} fontSize={12}>
+        <Table variant='unstyled' colorScheme='gray' size='sm'>
+            {/* <TableCaption>{`Business units for ${defaultData.userName}`}</TableCaption> */}
+            <Thead>
+                <Tr>
+                    <Th pl={0}>Bu Id</Th>
+                    <Th pl={0}>Bu code</Th>
+                    <Th pl={0}>Branch ids</Th>
+                    <Th pl={0}>Assign Branches</Th>
+                </Tr>
+            </Thead>
+            <Tbody>
+                {getBuList()}
+            </Tbody>
         </Table>
     </TableContainer>)
+
+    function getBuList() {
+        const buList = buIdsJson.map((x: any, ind: number) => (
+            <Tr key={ind + 1}>
+                <Td>{x.buId}</Td>
+                <td>{x.buCode}</td>
+                <td>{x.branchIds}</td>
+                <td>
+                    <Button size='xs' variant='outline' colorScheme='teal' onClick={handleAssignBranches}>Assign branches</Button>
+                </td>
+            </Tr>
+        ))
+
+        function handleAssignBranches(){
+            showModalDialogB({
+                title: `branches for `,
+                // body: ModalDisplayBues,
+                body: ()=><></>,
+                // defaultData: {
+                //     userName: userName,
+                //     buIdsJson: buIdsJson
+                // },
+                size:'xl'
+            })
+        }
+        return (buList)
+    }
 }
 export { ModalDisplayBues }

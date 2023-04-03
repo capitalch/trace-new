@@ -52,7 +52,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA1MzAzMjAsInN1YiI6eyJ1c2VySWQiOjN9fQ.TCtCapOKBsZ2KTJzsO9x2Jbr7qZylUjkRRtPalkb_G8',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA2MTkwMzQsInN1YiI6eyJ1c2VySWQiOjN9fQ.WsV7rdKzPamIIOCYTR4vtTrItiaJ2dJ8vlPR6X6uI1g',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -62,6 +62,15 @@ const store: any = {
         defaultData: undefined,
         isOpen: false,
         size: 'md',
+        title: '',
+        toShowCloseButton: false,
+    },
+
+    modalDialogB: {
+        body: () => <></>,
+        defaultData: undefined,
+        isOpen: false,
+        size: 'sm',
         title: '',
         toShowCloseButton: false,
     },

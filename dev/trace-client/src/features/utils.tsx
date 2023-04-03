@@ -198,11 +198,38 @@ function useDialogs() {
     appStore.modalDialogA.isOpen.value = false
   }
 
+  function showModalDialogB({
+    size,
+    title,
+    body,
+    toShowCloseButton = false,
+    defaultData = undefined
+  }: {
+    size?: string
+    title: string
+    body: FC
+    toShowCloseButton?: boolean
+    defaultData?: { [key: string]: any }
+  }) {
+    appStore.modalDialogB.size.value = size || 'sm'
+    appStore.modalDialogB.title.value = title
+    appStore.modalDialogB.toShowCloseButton.value = toShowCloseButton
+    appStore.modalDialogB.body.value = body
+    appStore.modalDialogB.defaultData.value = defaultData
+    appStore.modalDialogB.isOpen.value = true
+  }
+
+  function closeModalDialogB() {
+    appStore.modalDialogA.isOpen.value = false
+  }
+
   return {
     closeModalDialogA,
+    closeModalDialogB,
     showAlertDialogOk,
     showAlertDialogYesNo,
-    showModalDialogA
+    showModalDialogA,
+    showModalDialogB
   }
 }
 

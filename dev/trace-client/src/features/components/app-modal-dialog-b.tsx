@@ -10,17 +10,17 @@ import {
     ModalCloseButton,
 } from "@src/features"
 
-function AppModalDialogA() {
+function AppModalDialogB() {
     return (
-        <Modal size={appStore.modalDialogA.size.value} isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
+        <Modal size={appStore.modalDialogB.size.value} isOpen={appStore.modalDialogB.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
-                <ModalHeader mt={-2} fontSize='lg' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>
+                <ModalHeader mt={-2} fontSize='lg' fontWeight='bold'>{appStore.modalDialogB.title.value}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <appStore.modalDialogA.body.value />
+                    <appStore.modalDialogB.body.value />
                 </ModalBody>
-                {appStore.modalDialogA.toShowCloseButton.value && <ModalFooter>
+                {appStore.modalDialogB.toShowCloseButton.value && <ModalFooter>
                     <Button colorScheme="blue" mr={3} onClick={handleOnClose}>
                         Close
                     </Button>
@@ -30,8 +30,8 @@ function AppModalDialogA() {
     )
 
     function handleOnClose() {
-        appStore.modalDialogA.isOpen.value = false
+        appStore.modalDialogB.isOpen.value = false
     }
 }
 
-export { AppModalDialogA }
+export { AppModalDialogB }

@@ -64,14 +64,18 @@ class SqlQueriesAuth:
     '''
 
     get_business_users = '''
-        -- with "clientId" as (values(1))
+        --with "clientId" as (values(1))
         with "clientId" as (values(%(clientId)s))       
         SELECT   u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
                 , "roleName", r.id "roleId"
                 , string_agg(b."buCode", ',' order by b."buCode") as "businessUnits"
-                -- , string_agg(b."id"::text, ', ' order by b."id") as "buIds"
-                , (select json_agg(row_to_json(a))  from (select id, "buId"
-					from "UserBuX" where "userId" = u.id) a) "buIdsJson"
+                , (select json_agg(row_to_json(a))  from (
+					select x.id, "buId", "buCode"
+						from "UserBuX" x
+							join "BuM" b
+								on b.id = x."buId"
+					where "userId" = u.id
+				) a) "buIdsJson"
                 from "UserM" u
                 join "ClientM" c
                     on c."id" = u."clientId"
