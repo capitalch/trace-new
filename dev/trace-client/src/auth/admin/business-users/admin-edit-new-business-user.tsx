@@ -15,7 +15,7 @@ function AdminEditNewBusinessUser() {
     const { closeModalDialogA, } = useDialogs()
     const { showAppLoader, showError } = useFeedback()
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
-    const { checkIndiaMobileNo, checkNoSpaceOrSpecialChar, checkValidEmail } = appValidators()
+    const { checkIndiaMobileNo, checkNoSpecialChar, checkValidEmail } = appValidators()
     const { control, handleSubmit, register, formState: { errors }, setValue, }: any = useForm({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
@@ -28,7 +28,7 @@ function AdminEditNewBusinessUser() {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
-            noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
+            noSpecialChar: (val: string) => checkNoSpecialChar(val),
         }
     })
 
@@ -201,15 +201,7 @@ function AdminEditNewBusinessUser() {
                 const roles: any[] = meta.roles.value
                 const selectedRole = roles.find((x: any) => (x.value === defaultData.roleId))
                 setValue('client', selectedRole)
-
-                // const selectedBuIdString = defaultData.buIds
-                // const selectedBuIds = selectedBuIdString ? selectedBuIdString.split(',') : []
                 const bues: any[] = meta.bues.value
-
-                // const selectedBues1: any[] = selectedBuIds.map((x: string) => {
-                //     const bu = bues.find((b: any) => (b.value === Number(x)))
-                //     return (bu)
-                // })
 
                 const selectedBuIdsJson = defaultData.buIdsJson || []
                 meta.origBuIdsJson.value = [...selectedBuIdsJson]
@@ -219,8 +211,6 @@ function AdminEditNewBusinessUser() {
                     bu.id = it.id
                     return (bu)
                 })
-
-
                 setValue('bues', selectedBues)
             }
         } catch (e: any) {

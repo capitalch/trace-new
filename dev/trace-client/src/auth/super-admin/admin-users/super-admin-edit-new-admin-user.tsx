@@ -15,7 +15,7 @@ function SuperAdminEditNewAdminUser() {
     const { closeModalDialogA, } = useDialogs()
     const { showAppLoader, showError } = useFeedback()
     const { appGraphqlStrings, handleAndGetQueryResult, mutateGraphql, queryGraphql } = useAppGraphql()
-    const { checkIndiaMobileNo, checkNoSpaceOrSpecialChar, checkValidEmail } = appValidators()
+    const { checkIndiaMobileNo, checkNoSpecialChar, checkValidEmail } = appValidators()
     const { control, handleSubmit, register, formState: { errors }, setValue, }: any = useForm({ mode: 'onTouched' })
     const defaultData = appStore.modalDialogA.defaultData.value
 
@@ -29,7 +29,7 @@ function SuperAdminEditNewAdminUser() {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
         , validate: {
-            noSpaceOrSpecialChar: (val: string) => checkNoSpaceOrSpecialChar(val),
+            noSpaceOrSpecialChar: (val: string) => checkNoSpecialChar(val),
         }
     })
 
