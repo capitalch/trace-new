@@ -118,6 +118,7 @@ function useSuperAdminAdminUsers() {
     async function loadData() {
         const args = {
             sqlId: 'get_admin_users',
+            // dbParams: 'abcd'
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
         gridApiRef.current.api.showLoadingOverlay()
