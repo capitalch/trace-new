@@ -10,6 +10,7 @@ import {
   AppAlertDialogYesNo,
   AppLoader,
   AppModalDialogA,
+  AppModalDialogB,
 } from "@src/features"
 
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
@@ -33,6 +34,7 @@ function AppLayouts() {
         <AppDrawer />
         <AppContent />
         <AppModalDialogA />
+        <AppModalDialogB />
         <AppAlertDialogOk />
         <AppLoader />
         <AppAlertDialogYesNo />

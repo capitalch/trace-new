@@ -1,4 +1,4 @@
-import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td } from '@src/features'
+import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Box, Text, HStack, Checkbox, VStack, Flex } from '@src/features'
 import { AdminEditNewBusinessUser } from './admin-edit-new-business-user'
 // import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
@@ -169,7 +169,7 @@ function BranchCellRenderer(params: any) {
                 userName: userName,
                 buIdsJson: buIdsJson
             },
-            size:'lg'
+            size: 'lg'
         })
     }
 }
@@ -178,6 +178,7 @@ function ModalDisplayBues() {
     const defaultData = appStore.modalDialogA.defaultData.value
     const { showModalDialogB } = useDialogs()
     const buIdsJson: any[] = defaultData.buIdsJson
+    const userName: string = defaultData.userName
     return (<TableContainer minHeight={400} fontSize={12}>
         <Table variant='unstyled' colorScheme='gray' size='sm'>
             {/* <TableCaption>{`Business units for ${defaultData.userName}`}</TableCaption> */}
@@ -202,24 +203,53 @@ function ModalDisplayBues() {
                 <td>{x.buCode}</td>
                 <td>{x.branchIds}</td>
                 <td>
-                    <Button size='xs' variant='outline' colorScheme='teal' onClick={handleAssignBranches}>Assign branches</Button>
+                    <Button size='xs' variant='outline' colorScheme='teal' onClick={()=>handleAssignBranches(x.buCode)}>Assign branches</Button>
                 </td>
             </Tr>
         ))
 
-        function handleAssignBranches(){
+        function handleAssignBranches(buCode: string) {
             showModalDialogB({
-                title: `branches for `,
+                title: `Select branches for user  ${userName}`,
                 // body: ModalDisplayBues,
-                body: ()=><></>,
-                // defaultData: {
-                //     userName: userName,
-                //     buIdsJson: buIdsJson
-                // },
-                size:'xl'
+                body: ModalAssignBranches,
+                defaultData: {
+                    userName: userName,
+                    buCode: buCode
+                },
+                size: 'sm'
             })
         }
         return (buList)
     }
 }
 export { ModalDisplayBues }
+
+function ModalAssignBranches() {
+    const defaultData = appStore.modalDialogB.defaultData.value
+    const buCode = defaultData.buCode
+    return (
+        <Box>
+            <Flex direction='column' maxHeight={350} overflowY='auto'>
+                {getBranches()}
+            </Flex>
+            <Button mt={5} mb={1} size='md'  width='full' colorScheme='blue'>Submit</Button>
+        </Box>
+    )
+
+    function loadAllBranches(){
+
+    }
+
+    function getBranches() {
+        const branchIds = [1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        const branches = branchIds.map((x: any, idx: number) => (
+            <HStack fontSize={12} pl={5} pr={5} pt={2} key={idx + 1} justifyContent='space-between'>
+                <Text w={50} >{idx}</Text>
+                <Text w='xl' flexWrap='wrap'>{`Branch ${idx + 1}`}</Text>
+                <Checkbox />
+            </HStack>
+        ))
+        return (branches)
+    }
+}
