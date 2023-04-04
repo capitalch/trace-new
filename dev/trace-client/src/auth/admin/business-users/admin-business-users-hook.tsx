@@ -227,7 +227,8 @@ export { ModalDisplayBues }
 
 function ModalAssignBranches() {
     const meta: any = useDeepSignal({
-        branches: []
+        branches: [],
+        testIsChecked: false
     })
     const defaultData = appStore.modalDialogB.defaultData.value
     const buCode = defaultData.buCode
@@ -287,8 +288,8 @@ function ModalAssignBranches() {
                 <Text w={50} >{branch.id}</Text>
                 <Text w={70}>{branch.branchCode}</Text>
                 <Text w='xl' flexWrap='wrap'>{branch.branchName}</Text>
-                <Checkbox isChecked={branch.isEnabled} onChange={(e: any) => {
-                    branch.isEnabled.value = e.target.checked
+                <Checkbox isChecked={meta.testIsChecked.value} onChange={(e: any) => {
+                    meta.testIsChecked.value = e.target.checked
                 }} />
             </HStack>
         ))
