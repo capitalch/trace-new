@@ -43,6 +43,7 @@ def get_conn_info(dbName: str, db_params: dict[str, str]) -> str:
 
 def exec_sql(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public', sql: str = None, sqlArgs: dict[str, str] = {}, toReconnect=False):
     connInfo = get_conn_info(dbName, db_params)
+    schema = 'public' if schema is None else schema
     pool: ThreadedConnectionPool = get_connection_pool(
         connInfo, dbName, toReconnect)
     records = []

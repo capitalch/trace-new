@@ -17,6 +17,8 @@ from psycopg import AsyncConnection, connect, Connection, Cursor
 from psycopg.conninfo import make_conninfo
 from psycopg_pool import AsyncConnectionPool, ConnectionPool
 from urllib.parse import unquote
+from .db.sql_queries_auth import SqlQueriesAuth
+from .db.sql_queries_client import SqlQueriesClient
 import json
 
 

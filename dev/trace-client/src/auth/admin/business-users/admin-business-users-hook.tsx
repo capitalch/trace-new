@@ -1,4 +1,4 @@
-import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Box, Text, HStack, Checkbox, VStack, Flex } from '@src/features'
+import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Box, Text, HStack, Checkbox, VStack, Flex, appGraphqlStrings, useEffect, useDeepSignal } from '@src/features'
 import { AdminEditNewBusinessUser } from './admin-edit-new-business-user'
 // import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
@@ -203,14 +203,14 @@ function ModalDisplayBues() {
                 <td>{x.buCode}</td>
                 <td>{x.branchIds}</td>
                 <td>
-                    <Button size='xs' variant='outline' colorScheme='teal' onClick={()=>handleAssignBranches(x.buCode)}>Assign branches</Button>
+                    <Button size='xs' variant='outline' colorScheme='teal' onClick={() => handleAssignBranches(x.buCode)}>Assign branches</Button>
                 </td>
             </Tr>
         ))
 
         function handleAssignBranches(buCode: string) {
             showModalDialogB({
-                title: `Select branches for user  ${userName}`,
+                title: `Select branches for user ${userName} and business unit ${buCode}`,
                 // body: ModalDisplayBues,
                 body: ModalAssignBranches,
                 defaultData: {
@@ -226,30 +226,86 @@ function ModalDisplayBues() {
 export { ModalDisplayBues }
 
 function ModalAssignBranches() {
+    const meta: any = useDeepSignal({
+        branches: []
+    })
     const defaultData = appStore.modalDialogB.defaultData.value
     const buCode = defaultData.buCode
+    const { appGraphqlStrings, handleAndGetQueryResult, queryGraphql, } = useAppGraphql()
+    const { showAppLoader, showError } = useFeedback()
+
+    useGranularEffect(() => {
+        loadAllBranches()
+    }, [], [loadAllBranches])
+
     return (
         <Box>
+            <HStack pl={5} pr={5} fontSize={12}>
+                <Text w={50} >Id</Text>
+                <Text w={70}>Code</Text>
+                <Text w='xl' flexWrap='wrap'>Branch name</Text>
+                <Text>Selected</Text>
+            </HStack>
             <Flex direction='column' maxHeight={350} overflowY='auto'>
                 {getBranches()}
             </Flex>
-            <Button mt={5} mb={1} size='md'  width='full' colorScheme='blue'>Submit</Button>
+            <Button mt={8} mb={1} size='md' width='full' colorScheme='blue' onClick={handleSubmit}>Submit</Button>
         </Box>
     )
 
-    function loadAllBranches(){
+    async function handleSubmit() {
+        const branches = meta.branches.value
+        console.log(branches)
+    }
 
+    async function loadAllBranches() {
+        const args = {
+            sqlId: 'get_all_branches',
+            buCode: 'capitalchowringhee'
+        }
+        const q = appGraphqlStrings['genericQuery'](args, 'capital_test',)
+        showAppLoader(true)
+        try {
+            const result: GraphQlQueryResultType = await queryGraphql(q)
+            const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
+            if (rows) {
+                meta.branches.value = rows.map((x: any) => ({ ...x, isEnabled: false }))
+                // console.log(meta.branches.value)
+            }
+        } catch (e: any) {
+            showError(e.message || Messages.errFetchingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+        }
     }
 
     function getBranches() {
-        const branchIds = [1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-        const branches = branchIds.map((x: any, idx: number) => (
-            <HStack fontSize={12} pl={5} pr={5} pt={2} key={idx + 1} justifyContent='space-between'>
-                <Text w={50} >{idx}</Text>
-                <Text w='xl' flexWrap='wrap'>{`Branch ${idx + 1}`}</Text>
-                <Checkbox />
+        const branches = meta.branches.value
+        const branchesLayout = branches.map((branch: any, idx: number) => (
+            <HStack fontSize={12} pl={5} pr={5} pt={1} pb={1} key={idx + 1} justifyContent='space-between'>
+                <Text w={50} >{branch.id}</Text>
+                <Text w={70}>{branch.branchCode}</Text>
+                <Text w='xl' flexWrap='wrap'>{branch.branchName}</Text>
+                <Checkbox isChecked={branch.isEnabled} onChange={(e: any) => {
+                    branch.isEnabled.value = e.target.checked
+                }} />
             </HStack>
         ))
-        return (branches)
+        // const branchIds = [1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        // const branches = branchIds.map((x: any, idx: number) => (
+        //     <HStack fontSize={12} pl={5} pr={5} pt={2} key={idx + 1} justifyContent='space-between'>
+        //         <Text w={50} >{idx}</Text>
+        //         <Text w='xl' flexWrap='wrap'>{`Branch ${idx + 1}`}</Text>
+        //         <Checkbox />
+        //     </HStack>
+        // ))
+        return (branchesLayout)
+    }
+    type BranchType = {
+        id: number,
+        branchCode: string,
+        branchName: string,
+        isEnabled?: any
     }
 }

@@ -3,6 +3,7 @@ from app import AppHttpException, CustomErrorCodes, logger, Messages, utils
 
 from psycopg2.extras import RealDictCursor
 from .sql_queries_auth import SqlQueriesAuth
+from .sql_queries_client import SqlQueriesClient
 from .helpers.db_helper_asyncpg import exec_generic_update as generic_update_asyncpg
 from .helpers.db_helper_asyncpg import exec_generic_query as generic_query_asyncpg
 
@@ -25,6 +26,7 @@ async def resolve_generic_query(info, value):
         valueString = unquote(value)
         valueDict = json.loads(valueString) if valueString else {}
         dbParams = valueDict.get('dbParams', None)
+        schema = valueDict.get('buCode', None)
         toReconnect = valueDict.get('toReconnect', False)
         sqlId = valueDict.get('sqlId', None)
         request = info.context.get('request', None)
@@ -32,12 +34,15 @@ async def resolve_generic_query(info, value):
         operationName = requestJson.get('operationName', None)
         if (not sqlId):
             raise AppHttpException('Bad sqlId', error_code='1001')
-        sql = getattr(SqlQueriesAuth, sqlId)
+        sqlQueryObject = utils.getSqlQueryObject(
+            operationName)  # dbName is operationName
+        sql = getattr(sqlQueryObject, sqlId)
         sqlArgs = valueDict.get('sqlArgs', {})
         # data = await generic_query_asyncpg(sql=sql, sqlArgs=sqlArgs)
         # data = await generic_query_psycopg_async(sql=sql, sqlArgs=sqlArgs)
         # data = generic_query_psycopg_sync(sql=sql, sqlArgs=sqlArgs)
-        data = exec_sql_psycopg2(dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
+        data = exec_sql_psycopg2(dbName=operationName, schema=schema,  sql=sql,
+                                 sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
         # data = await exec_sql_psycopg_async(
         #     dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
     except Exception as e:
@@ -97,7 +102,7 @@ async def resolve_query_clients(info, value):
 
         # data: dict[str, Any] = await exec_sql_psycopg_async(
         #     dbName=operationName, sql=sql, sqlArgs=sqlArgs, db_params=dbParams, toReconnect=toReconnect)
-        
+
         for item in data:
             dbParamsEncrypted = item.get('dbParams', None)
             if (dbParamsEncrypted):
@@ -139,9 +144,10 @@ async def resolve_update_client(info, value):
                     dbNameInCatalog: str = exec_sql_psycopg2(  # Names of all databases in format [{'datname':'database1'}, {'datname':'database2'} ...]
                         dbName=operationName, sql=SqlQueriesAuth.get_database, sqlArgs={'datname': dbToCreate})
                     if (not dbNameInCatalog):
-                        execute_sql_dml_psycopg2(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
+                        execute_sql_dml_psycopg2(
+                            dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
                         execute_sql_dml_psycopg2(dbName=dbToCreate,
-                                                                       sql=SqlQueriesAuth.drop_public_schema)
+                                                 sql=SqlQueriesAuth.drop_public_schema)
                         # await execute_sql_dml_psycopg_async(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
                         # await execute_sql_dml_psycopg_async(dbName=dbToCreate,
                         #                                                sql=SqlQueriesAuth.drop_public_schema)
@@ -169,22 +175,22 @@ async def resolve_update_user(info, value):
         sqlObj = json.loads(valueString)
         xData = sqlObj.get('xData', None)
         toSendMail = False
-        if(xData):
+        if (xData):
             uid = xData.get('uid', None)
-            if(uid is None):
+            if (uid is None):
                 xData['uid'] = utils.getRandomUserId()
                 pwd = utils.getRandomPassword()
                 tHash = utils.getPasswordHash(pwd)
                 xData['hash'] = tHash
                 toSendMail = True
         data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
-        if(toSendMail):
+        if (toSendMail):
             # code to send mail for uid and password
             pass
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
-        
+
         # data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)

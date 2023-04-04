@@ -1,3 +1,12 @@
+## To Do Before Vietnam trip on 04-04-2023
+											1. In TraceLink create a database as capital_test after restoring capital_accounts
+											2. Connect and get branches out from its capitalchowringhee bu
+											3. Display all branches of capitalchowringhee at modal window
+3. Issue with persistence and onchange of checkbox. Research with deepsignal with arrays
+4. For edit purpose mark the branches saved previously
+5. Submit branches for user
+6. Persistence of values of branches
+
 ## Logic for business users
 1. For new business user capture multiple buIds and on submit store it in UserBuX table
 2. Multiple branches are to be captured against individual Bu

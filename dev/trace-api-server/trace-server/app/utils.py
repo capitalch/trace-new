@@ -1,4 +1,4 @@
-from app.vendors import Fernet, HTTPException, JSONResponse, OAuth2PasswordBearer, status
+from app.vendors import Fernet, HTTPException, JSONResponse, OAuth2PasswordBearer, SqlQueriesAuth, SqlQueriesClient, status
 from app import Config
 import bcrypt
 import logging
@@ -65,3 +65,9 @@ def getRandomUserId():
     rnd = randomStringGenerator(8, string.ascii_letters + string.digits)
     # Remove all instances of ':' since clint sends credentials as 'uid:pwd'
     return(rnd.replace(':', '$'))
+
+def getSqlQueryObject(dbName: str):
+    queryObject = SqlQueriesClient
+    if(dbName == 'traceAuth'):
+        queryObject = SqlQueriesAuth
+    return(queryObject)
