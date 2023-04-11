@@ -1,4 +1,4 @@
-import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Box, Text, HStack, Checkbox, VStack, Flex, appGraphqlStrings, useEffect, useDeepSignal } from '@src/features'
+import { Button, ColDef, GridOptions, GridReadyEvent, moment, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useDialogs, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType, TableContainer, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Box, Text, HStack, Checkbox, VStack, Flex, appGraphqlStrings, useEffect, useDeepSignal, useState } from '@src/features'
 import { AdminEditNewBusinessUser } from './admin-edit-new-business-user'
 // import { SuperAdminEditNewAdminUser } from './super-admin-edit-new-admin-user'
 
@@ -106,6 +106,7 @@ function useAdminBusinessUsers() {
         headerClass: 'header',
         resizable: true,
         width: 100,
+        suppressSizeToFit: true,
         filter: true,
     }
 
@@ -226,6 +227,7 @@ function ModalDisplayBues() {
 export { ModalDisplayBues }
 
 function ModalAssignBranches() {
+    const [, setRefresh] = useState({})
     const meta: any = useDeepSignal({
         branches: [],
         testIsChecked: false
@@ -255,8 +257,11 @@ function ModalAssignBranches() {
     )
 
     async function handleSubmit() {
-        const branches = meta.branches.value
-        console.log(branches)
+        const branches: BranchType[] = meta.branches.value
+        const enabledBranches  = branches.filter((x:BranchType)=>(x.isEnabled))
+        const enabledIds = enabledBranches.map((x:BranchType)=>(x.id))
+        const idsAsString = enabledIds.join()
+        console.log(idsAsString)
     }
 
     async function loadAllBranches() {
@@ -271,7 +276,6 @@ function ModalAssignBranches() {
             const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
             if (rows) {
                 meta.branches.value = rows.map((x: any) => ({ ...x, isEnabled: false }))
-                // console.log(meta.branches.value)
             }
         } catch (e: any) {
             showError(e.message || Messages.errFetchingData)
@@ -282,25 +286,19 @@ function ModalAssignBranches() {
     }
 
     function getBranches() {
-        const branches = meta.branches.value
+        const branches: BranchType[] = meta.branches.value
         const branchesLayout = branches.map((branch: any, idx: number) => (
             <HStack fontSize={12} pl={5} pr={5} pt={1} pb={1} key={idx + 1} justifyContent='space-between'>
                 <Text w={50} >{branch.id}</Text>
                 <Text w={70}>{branch.branchCode}</Text>
                 <Text w='xl' flexWrap='wrap'>{branch.branchName}</Text>
-                <Checkbox isChecked={meta.testIsChecked.value} onChange={(e: any) => {
-                    meta.testIsChecked.value = e.target.checked
+                <Checkbox isChecked={meta.branches?.value[idx]?.isEnabled || false} onChange={(e: any) => {
+                    const branches: BranchType[] = meta.branches.value.map((x: BranchType) => ({ ...x }))
+                    branches[idx].isEnabled = e.target.checked
+                    meta.branches.value = branches.map((x: BranchType) => ({ ...x }))
                 }} />
             </HStack>
         ))
-        // const branchIds = [1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-        // const branches = branchIds.map((x: any, idx: number) => (
-        //     <HStack fontSize={12} pl={5} pr={5} pt={2} key={idx + 1} justifyContent='space-between'>
-        //         <Text w={50} >{idx}</Text>
-        //         <Text w='xl' flexWrap='wrap'>{`Branch ${idx + 1}`}</Text>
-        //         <Checkbox />
-        //     </HStack>
-        // ))
         return (branchesLayout)
     }
     type BranchType = {
@@ -310,3 +308,12 @@ function ModalAssignBranches() {
         isEnabled?: any
     }
 }
+
+// const branchIds = [1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+// const branches = branchIds.map((x: any, idx: number) => (
+//     <HStack fontSize={12} pl={5} pr={5} pt={2} key={idx + 1} justifyContent='space-between'>
+//         <Text w={50} >{idx}</Text>
+//         <Text w='xl' flexWrap='wrap'>{`Branch ${idx + 1}`}</Text>
+//         <Checkbox />
+//     </HStack>
+// ))

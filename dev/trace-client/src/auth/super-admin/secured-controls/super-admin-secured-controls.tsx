@@ -4,7 +4,7 @@ import { useSuperAdminSecuredControls } from './super-admin-secured-controls-hoo
 
 function SuperAdminSecuredControls() {
     const { gridApiRef, gridOptions } = useSuperAdminSecuredControls()
-    return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+    return (<Flex h='100%' direction='column' className="ag-theme-balham" >
     <AppGridToolbar appStoreObject={appStore.superAdmin.securedControls} appStaticStoreObject={appStaticStore.superAdmin.securedControls} title='Super admin secured controls view'
         CustomControl={SuperAdminNewSecuredControlButton}
         toShowLastNoOfRows={false} gridApiRef={gridApiRef}

@@ -16,7 +16,10 @@ const store: any = {
             rows: [],
             refresh: true,
             searchString: ''
-        }
+        },
+        // branches: [
+
+        // ]
     },
     alertDialogOk: {
         body: () => <></>,
@@ -52,7 +55,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODEyMzc2NDgsInN1YiI6eyJ1c2VySWQiOjN9fQ.2wfkgz9mFZ2NoOj0Kkdb8uf0p4a8jwVSac0fUzHVtEQ',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODEzMDQ3MDUsInN1YiI6eyJ1c2VySWQiOjN9fQ.jTJ95VcM5bMtLk0D2Dw76euYnytBfDXITJ1UpaJvMQA',
         uidEmail: 'capitalch',
         userType: undefined,
     },

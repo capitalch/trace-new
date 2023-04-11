@@ -4,7 +4,7 @@ import { AdminNewBusinessUserButton } from './admin-new-business-user-button'
 
 function AdminBusinessUsers() {
     const { gridApiRef, gridOptions } = useAdminBusinessUsers()
-    return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+    return (<Flex h='100%' direction='column' className="ag-theme-balham" >
         <AppGridToolbar appStoreObject={appStore.admin.businessUsers} appStaticStoreObject={appStaticStore.admin.businessUsers} title='Business users view'
             CustomControl={AdminNewBusinessUserButton}
             toShowLastNoOfRows={true} gridApiRef={gridApiRef}

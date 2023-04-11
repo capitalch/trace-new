@@ -4,7 +4,7 @@ import { AdminNewBusinessUnitButton } from './admin-new-business-unit-button'
 
 function AdminBusinessUnits() {
     const { gridApiRef, gridOptions, } = useAdminBusinessUnits()
-    return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+    return (<Flex h='100%' direction='column' className="ag-theme-balham" >
         <AppGridToolbar appStoreObject={appStore.admin.businessUnits} appStaticStoreObject={appStaticStore.admin.businessUnits} title='Admin business units view'
             CustomControl={AdminNewBusinessUnitButton}
             gridApiRef={gridApiRef}

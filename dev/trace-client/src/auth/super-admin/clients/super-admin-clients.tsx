@@ -109,7 +109,7 @@ function SuperAdminClients() {
     }
 
     return (
-        <Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+        <Flex h='100%'direction='column' className="ag-theme-balham" >
             <AppGridToolbar appStoreObject={appStore.superAdmin.clients} appStaticStoreObject={appStaticStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} gridApiRef={gridApiRef} />
             <AgGridReact
                 gridOptions={gridOptions}

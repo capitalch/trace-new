@@ -5,7 +5,7 @@ import { useAppRoles } from './app-roles-hook'
 function AppRoles() {
     const { gridApiRef, gridOptions, } = useAppRoles()
 
-    return (<Flex h='100%' w='100%' direction='column' className="ag-theme-balham" >
+    return (<Flex h='100%' direction='column' className="ag-theme-balham" >
         <AppGridToolbar appStoreObject={appStore.superAdmin.roles} appStaticStoreObject={appStaticStore.superAdmin.roles} title='Super admin roles view'
             CustomControl={AppNewRoleButton}
             toShowLastNoOfRows={false} gridApiRef={gridApiRef}
