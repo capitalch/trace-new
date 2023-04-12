@@ -9,6 +9,14 @@ type GraphQlQueryResultType = {
   }
 }
 
+type SqlObject = {
+  tableName: string
+  xData: {
+    [key: string]: any
+    xDetails?: SqlObject
+  }
+}
+
 enum UserTypesEnum {
   "SUPER_ADMIN",
   "ADMIN",
@@ -26,4 +34,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export { type GraphQlQueryResultType, SideMenuTypesEnum, UserTypesEnum };
+export { type GraphQlQueryResultType, SideMenuTypesEnum, type SqlObject, UserTypesEnum }

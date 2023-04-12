@@ -70,7 +70,7 @@ class SqlQueriesAuth:
                 , "roleName", r.id "roleId"
                 , string_agg(b."buCode", ',' order by b."buCode") as "businessUnits"
                 , (select json_agg(row_to_json(a))  from (
-					select x.id, "buId", "buCode"
+					select x.id, "buId", "buCode", "branchIds"
 						from "UserBuX" x
 							join "BuM" b
 								on b.id = x."buId"

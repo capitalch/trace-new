@@ -220,7 +220,7 @@ function useDialogs() {
   }
 
   function closeModalDialogB() {
-    appStore.modalDialogA.isOpen.value = false
+    appStore.modalDialogB.isOpen.value = false
   }
 
   return {

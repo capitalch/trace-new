@@ -95,6 +95,7 @@ export { Else, Fallback, If, Then } from 'react-if'
 export {
   type GraphQlQueryResultType,
   SideMenuTypesEnum,
+  type SqlObject,
   UserTypesEnum
 } from './app-types'
 // export { AppModalA, useAppModalA } from './components/app-modal-a'

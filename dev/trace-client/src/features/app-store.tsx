@@ -55,7 +55,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODEzMDQ3MDUsInN1YiI6eyJ1c2VySWQiOjN9fQ.jTJ95VcM5bMtLk0D2Dw76euYnytBfDXITJ1UpaJvMQA',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE0MDQ5NDYsInN1YiI6eyJ1c2VySWQiOjN9fQ.q2wh6LSC2lYCA5Ad6S9dmT5VZ5trZMENLQyvVkT91bY',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -161,6 +161,9 @@ const appStaticStore: AppStaticStoreType = {
         businessUsers: {
             doFilter: () => { },
             doReload: () => { },
+        },
+        bues: {
+            doReload: () => { }
         }
     },
     login: {
@@ -217,6 +220,9 @@ interface AppStaticStoreType {
         }
         businessUsers: {
             doFilter: () => void,
+            doReload: () => void
+        },
+        bues: {
             doReload: () => void
         }
     },
