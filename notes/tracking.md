@@ -1,11 +1,12 @@
-## To Do Before Vietnam trip on 04-04-2023
-											1. In TraceLink create a database as capital_test after restoring capital_accounts
-											2. Connect and get branches out from its capitalchowringhee bu
-											3. Display all branches of capitalchowringhee at modal window
-3. Issue with persistence and onchange of checkbox. Research with deepsignal with arrays
-4. For edit purpose mark the branches saved previously
-5. Submit branches for user
-6. Persistence of values of branches
+## Concluding Auth
+1. Dashboard for admin users
+2. Check sign in as Super admin, Admin and Business user
+3. Validate all items of super admin
+4. Validate all items of admin user
+5. Implement email for validation purpose
+6. Admin user change UID, Change Password, Show admin menu, Show accounts menu
+7. Business user Change UID, Change password
+8. Check SMS gateway
 
 ## Logic for business users
 1. For new business user capture multiple buIds and on submit store it in UserBuX table
@@ -165,8 +166,10 @@
 																											3. Server side graphql authentication
 
 																											4. get_other_user_bundle error
-
-## 31-03-2023
+## 11-04-2023 - 13-04-2023
+1. Completed user management for admin users
+## 31-03-2023 - 10-04-2023
+No work done
 
 ## 29-03-2023 - 30-03-2023
 No work done

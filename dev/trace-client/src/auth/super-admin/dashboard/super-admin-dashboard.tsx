@@ -10,10 +10,10 @@ function SuperAdminDashboard() {
     return (
         <>
             <HStack justifyContent='flex-end'>
-                <Tooltip label='Reload'>
+                <Tooltip label='Refresh' children=''>
                     <IconButton size='sm' aria-label="Reload"
                         onClick={loadData}
-                        icon={<RefreshIcon fontSize={26} color='blue.500' />} />
+                        icon={<RefreshIcon gradient={1} fontSize={26} color='blue.500' />} />
                 </Tooltip>
             </HStack>
             <SimpleGrid mt={2} spacing={8} templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>

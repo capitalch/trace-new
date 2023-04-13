@@ -7,7 +7,7 @@ function AdminDashboard() {
     return (
         <>
             <HStack justifyContent='flex-end'>
-                <Tooltip label='Reload'>
+                <Tooltip aria-label='reload' label='Reload'>
                     <IconButton size='sm' aria-label="Reload"
                         // onClick={loadData}
                         icon={<RefreshIcon fontSize={26} color='blue.500' />} />

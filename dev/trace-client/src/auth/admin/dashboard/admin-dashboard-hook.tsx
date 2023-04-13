@@ -22,9 +22,9 @@ function useAdminDashboard() {
     async function loadData() {
         const args = {
             sqlId: 'get_admin_dashboard',
-            sqlArgs: {
-                dbName: 'traceAuth'
-            }
+            // sqlArgs: {
+            //     dbName: 'traceAuth'
+            // }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
         showAppLoader(true)

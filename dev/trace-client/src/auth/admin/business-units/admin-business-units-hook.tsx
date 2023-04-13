@@ -1,22 +1,22 @@
-import { ColDef, DeleteIcon, EditIcon, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, IconButton, Tooltip, useDialogs, appGraphqlStrings, Messages, GraphQlQueryResultType } from '@src/features'
+import { ColDef, GridOptions, GridReadyEvent, HideIcon, useComponentHistory, useAgGridUtils, useFeedback, useAppGraphql, useCellRenderers, useGranularEffect, useRef, appStore, appStaticStore, Messages, GraphQlQueryResultType } from '@src/features'
 import { AdminEditNewBusinessUnit } from './admin-edit-new-business-unit'
 
 function useAdminBusinessUnits() {
     const { showError } = useFeedback()
-    const { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId } = useAgGridUtils()
+    const { getRowStyle, } = useAgGridUtils()
     const { appGraphqlStrings, queryGraphql, handleAndGetQueryResult } = useAppGraphql()
     const { componentNames, isNotInComponentHistory } = useComponentHistory()
     const { addToComponentHistory } = useComponentHistory()
     const gridApiRef: any = useRef(null)
-    const { DeleteCellRenderer,EditCellRenderer, HideCellRenderer } 
-    = useCellRenderers({ 
-        dbName: 'traceAuth'
-        , tableName: 'BuM'
-        ,appStoreObject:appStore.admin.businessUnits
-        , appStaticStoreObject: appStaticStore.admin.businessUnits
-        , EditBodyComponent: AdminEditNewBusinessUnit
-        , editTitle:'Edit business unit'
-    })
+    const { DeleteCellRenderer, EditCellRenderer, HideCellRenderer }
+        = useCellRenderers({
+            dbName: 'traceAuth'
+            , tableName: 'BuM'
+            , appStoreObject: appStore.admin.businessUnits
+            , appStaticStoreObject: appStaticStore.admin.businessUnits
+            , EditBodyComponent: AdminEditNewBusinessUnit
+            , editTitle: 'Edit business unit'
+        })
 
     useGranularEffect(() => {
         appStaticStore.admin.businessUnits.doReload = loadData
@@ -43,7 +43,7 @@ function useAdminBusinessUnits() {
         },
         {
             field: 'buName',
-            flex:1,
+            flex: 1,
             headerName: 'Bu name',
             headerClass: 'header',
             width: 150
