@@ -1,31 +1,26 @@
 import { HStack, IconButton, RefreshIcon, SimpleGrid, Tooltip, } from '@src/features'
-import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
-import { SuperAdminDatabaseConnections } from './super-admin-database-connections'
-import { SuperAdminCounts } from './super-admin-counts'
-import { SuperAdminClients } from './super-admin-clients'
+import { AdminCounts } from './admin-counts'
 
-function SuperAdminDashboard() {
-    const { loadData, } = useSuperAdminDashboard()
+function AdminDashboard() {
+    // const { loadData, } = useSuperAdminDashboard()
 
     return (
         <>
             <HStack justifyContent='flex-end'>
                 <Tooltip label='Reload'>
                     <IconButton size='sm' aria-label="Reload"
-                        onClick={loadData}
+                        // onClick={loadData}
                         icon={<RefreshIcon fontSize={26} color='blue.500' />} />
                 </Tooltip>
             </HStack>
             <SimpleGrid mt={2} spacing={8} templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>
-                <SuperAdminDatabaseConnections />
+                <AdminCounts />
+                {/* <SuperAdminDatabaseConnections />
                 <SuperAdminClients />
-                <SuperAdminCounts />
+                <SuperAdminCounts /> */}
             </SimpleGrid>
         </>
     )
 }
 
-export { SuperAdminDashboard }
-
-
-
+export { AdminDashboard }

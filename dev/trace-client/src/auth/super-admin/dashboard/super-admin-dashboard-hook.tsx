@@ -30,7 +30,7 @@ function useSuperAdminDashboard() {
 
     async function loadData() {
         const args = {
-            sqlId: 'get_dashboard',
+            sqlId: 'get_super_admin_dashboard',
             sqlArgs: {
                 dbName: 'traceAuth'
             }
@@ -93,10 +93,7 @@ function useSuperAdminDashboard() {
         meta.counts.securedControlsCount.value = securedControlsCount
         meta.counts.adminUsersCount.value = adminUsersCount
         meta.counts.adminRolesCount.value = adminRolesCount
-
     }
-
-
 }
 
 export { useSuperAdminDashboard }
@@ -105,6 +102,7 @@ type Client = {
     isActive: boolean
     count: number
 } | undefined
+
 type Connection = {
     state: 'active' | 'idle'
     count: number

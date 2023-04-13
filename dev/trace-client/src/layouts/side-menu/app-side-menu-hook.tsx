@@ -19,7 +19,7 @@ import {
   AppSales,
 } from "@src/components";
 import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
-import { AdminBusinessUnits } from "@src/auth/admin";
+import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
 import { AppRoles } from "@src/auth/roles/app-roles";
 import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
@@ -171,7 +171,7 @@ const adminMenu: MenuItemType[] = [
     breadcrumb: 'Admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    component: () => <></>
+    component: AdminDashboard
   },
   {
     breadcrumb: "Admin business units",

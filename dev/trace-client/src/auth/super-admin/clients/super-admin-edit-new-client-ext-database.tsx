@@ -314,9 +314,3 @@ function SuperAdminEditNewClientExtDatabase() {
 }
 
 export { SuperAdminEditNewClientExtDatabase }
-
-// type SuperAdminClientType = {
-//     clientCode: string
-//     clientName: string
-//     isActive: boolean
-// }

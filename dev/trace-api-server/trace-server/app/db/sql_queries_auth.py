@@ -95,43 +95,6 @@ class SqlQueriesAuth:
                 where lower("clientCode") = %(clientCode)s
         '''
     
-    get_dashboard = '''
-        with "dbName" as (values(%(dbName)s))
-        -- with "dbName" as (values('traceAuth'))
-        , cte1 as(
-            SELECT count(*) as count, state FROM pg_stat_activity 
-                where datname = (table "dbName") and state in('active', 'idle')
-                    group by state)
-		, cte2 as (
-			SELECT count(*) as count, "isActive"
-				from "ClientM"
-					group by "isActive")
-		, cte3 as (
-			SELECT count(*) as count 
-				FROM pg_database 
-					where datname not in('template0', 'template1'))
-		, cte4 as (
-			SELECT count(*) as count
-				from "SecuredControlM")
-		, cte5 as (
-			SELECT count(*) as count
-				from "UserM"
-					where "roleId" is null)
-		, cte6 as (
-			SELECT count(*) as count
-				from "RoleM"
-					where "clientId" is null)
-            select json_build_object(
-                'connections',(select json_agg(row_to_json(a)) from cte1 a)
-				, 'clients', (select json_agg(row_to_json(b)) from cte2 b)
-				, 'dbCount', (select count from cte3)
-				, 'securedControlsCount', (select count from cte4)
-				, 'adminUsersCount', (select count from cte5)
-				, 'adminRolesCount', (select count from cte6)
-            ) as "jsonResult"
-
-    '''
-    
     get_database = '''
             SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
         '''
@@ -175,6 +138,43 @@ class SqlQueriesAuth:
             where
                 "controlNo" = %(controlNo)s
         '''
+        
+    get_super_admin_dashboard = '''
+        with "dbName" as (values(%(dbName)s))
+        -- with "dbName" as (values('traceAuth'))
+        , cte1 as(
+            SELECT count(*) as count, state FROM pg_stat_activity 
+                where datname = (table "dbName") and state in('active', 'idle')
+                    group by state)
+		, cte2 as (
+			SELECT count(*) as count, "isActive"
+				from "ClientM"
+					group by "isActive")
+		, cte3 as (
+			SELECT count(*) as count 
+				FROM pg_database 
+					where datname not in('template0', 'template1'))
+		, cte4 as (
+			SELECT count(*) as count
+				from "SecuredControlM")
+		, cte5 as (
+			SELECT count(*) as count
+				from "UserM"
+					where "roleId" is null)
+		, cte6 as (
+			SELECT count(*) as count
+				from "RoleM"
+					where "clientId" is null)
+            select json_build_object(
+                'connections',(select json_agg(row_to_json(a)) from cte1 a)
+				, 'clients', (select json_agg(row_to_json(b)) from cte2 b)
+				, 'dbCount', (select count from cte3)
+				, 'securedControlsCount', (select count from cte4)
+				, 'adminUsersCount', (select count from cte5)
+				, 'adminRolesCount', (select count from cte6)
+            ) as "jsonResult"
+
+    '''
 
     get_super_admin_role_name = '''
             select 1
