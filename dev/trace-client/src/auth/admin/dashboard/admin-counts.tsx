@@ -12,34 +12,26 @@ function AdminCounts() {
                 <Tbody>
                     <Tr>
                         <Td>
-                            <Text>Local databases</Text>
+                            <Text>Business units</Text>
                         </Td>
                         <Td>
-                            {/* <Text>{meta.counts.dbCount.value}</Text> */}
-                        </Td>
-                    </Tr>
-                    <Tr>
-                        <Td>
-                            <Text>Secured controls</Text>
-                        </Td>
-                        <Td>
-                            {/* <Text>{meta.counts.securedControlsCount.value}</Text> */}
+                            <Text>{meta.counts.buesCount.value}</Text>
                         </Td>
                     </Tr>
                     <Tr>
                         <Td>
-                            <Text>Admin users</Text>
+                            <Text>Roles</Text>
                         </Td>
                         <Td>
-                            {/* <Text>{meta.counts.adminUsersCount.value}</Text> */}
+                            <Text>{meta.counts.rolesCount.value}</Text>
                         </Td>
                     </Tr>
                     <Tr>
                         <Td>
-                            <Text>Admin roles</Text>
+                            <Text>Business users</Text>
                         </Td>
                         <Td>
-                            {/* <Text>{meta.counts.adminRolesCount.value}</Text> */}
+                            <Text>{meta.counts.businessUsersCount.value}</Text>
                         </Td>
                     </Tr>
                 </Tbody>

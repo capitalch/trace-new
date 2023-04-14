@@ -1,10 +1,10 @@
-import { _, appStaticStore, GraphQlQueryResultType, Messages, useAppGraphql, useDeepSignal, useFeedback, useGranularEffect } from '@src/features'
+import { _, appStaticStore, Card, CardBody, CardHeader, GraphQlQueryResultType, Heading, Messages, Table, TableContainer, Tbody, Text, Th, Thead, Tr, useAppGraphql, useDeepSignal, useFeedback, useGranularEffect } from '@src/features'
 
 
 function useAdminDashboard() {
     const meta: any = useDeepSignal({
         counts: {
-            buCount: 0,
+            buesCount: 0,
             rolesCount: 0,
             businessUsersCount: 0
         }
@@ -17,14 +17,14 @@ function useAdminDashboard() {
         loadData()
     }, [], [loadData])
 
-    return ({ loadData, meta })
+    return ({ meta })
 
     async function loadData() {
         const args = {
             sqlId: 'get_admin_dashboard',
-            // sqlArgs: {
-            //     dbName: 'traceAuth'
-            // }
+            sqlArgs: {
+                clientId: appStaticStore.login.clientId
+            }
         }
         const q = appGraphqlStrings['genericQuery'](args, 'traceAuth')
         showAppLoader(true)
@@ -32,8 +32,6 @@ function useAdminDashboard() {
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const rows: any[] = handleAndGetQueryResult(result, 'genericQuery')
             if (rows && (rows.length > 0)) {
-                // setConnections(rows)
-                // setClients(rows)
                 setCounts(rows)
             }
         } catch (e: any) {
@@ -45,15 +43,13 @@ function useAdminDashboard() {
     }
 
     function setCounts(rows: any[]) {
-        // const dbCount: number = rows[0]?.jsonResult?.dbCount || 0
-        // const securedControlsCount = rows[0]?.jsonResult?.securedControlsCount || 0
-        // const adminUsersCount = rows[0]?.jsonResult?.adminUsersCount || 0
-        // const adminRolesCount = rows[0]?.jsonResult?.adminRolesCount || 0
+        const buesCount: number = rows[0]?.jsonResult?.buesCount || 0
+        const rolesCount: number = rows[0]?.jsonResult?.rolesCount || 0
+        const businessUsersCount: number = rows[0]?.jsonResult?.businessUsersCount || 0
 
-        // meta.counts.dbCount.value = dbCount
-        // meta.counts.securedControlsCount.value = securedControlsCount
-        // meta.counts.adminUsersCount.value = adminUsersCount
-        // meta.counts.adminRolesCount.value = adminRolesCount
+        meta.counts.buesCount.value = buesCount
+        meta.counts.rolesCount.value = rolesCount
+        meta.counts.businessUsersCount.value = businessUsersCount
     }
 }
 

@@ -17,10 +17,8 @@ const store: any = {
             refresh: true,
             searchString: ''
         },
-        // branches: [
-
-        // ]
     },
+
     alertDialogOk: {
         body: () => <></>,
         header: '',
@@ -55,7 +53,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE0NjY2NjIsInN1YiI6eyJ1c2VySWQiOjN9fQ.cw48AldkHb3NmH5lychliqdciJbqyUZQb_KZ7tFO7f0',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         uidEmail: 'capitalch',
         userType: undefined,
     },

@@ -1,12 +1,13 @@
 ## Concluding Auth
 1. Dashboard for admin users
-2. Check sign in as Super admin, Admin and Business user
+2. In login component code for three buttons of Super admin admin, admin and business user login instead of fixed one
+#. After login, populate clientId, clientCode etc. in appStaticStore
 3. Validate all items of super admin
 4. Validate all items of admin user
 5. Implement email for validation purpose
 6. Admin user change UID, Change Password, Show admin menu, Show accounts menu
 7. Business user Change UID, Change password
-8. Check SMS gateway
+8. Check and research SMS gateway
 
 ## Logic for business users
 1. For new business user capture multiple buIds and on submit store it in UserBuX table

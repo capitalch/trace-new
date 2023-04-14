@@ -16,6 +16,28 @@ class SqlQueriesAuth:
                 order by "buCode"
     '''
 
+    get_admin_dashboard = '''
+        with "clientId" as (values(%(clientId)s))
+		--with "clientId" as (values(1))
+		, cte1 as (
+		 	select COUNT(*) count
+				from "BuM"
+			 		where "clientId" = (table "clientId") and "isActive")
+		, cte2 as (
+			select COUNT(*) count
+				from "RoleM"
+					where "clientId" = (table "clientId"))
+		, cte3 as (
+			select COUNT(*) count
+				from "UserM"
+					where "clientId" = (table "clientId") and "isActive")
+        select json_build_object(
+                    'buesCount', (select count from cte1)
+                    , 'rolesCount', (select count from cte2)
+                    , 'businessUsersCount', (select count from cte3)
+                ) as "jsonResult"
+    '''
+
     get_admin_users = '''
             SELECT c."id" as "clientId", "clientName", u."id", "uid", "userName", "userEmail", "mobileNo", u."descr", u."isActive", u."timestamp"
                 from "UserM" u
