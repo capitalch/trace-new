@@ -6,12 +6,12 @@ function AppLogin() {
     const { handleSubmit, register, formState: { errors } }: any = useForm({mode:'onTouched'})
     const { checkPwd, checkUidEmail } = appValidators()
 
-    const registerUidEmail = register('uidEmail', {
+    const registerUsername = register('username', {
         required: Messages.errRequired
         , validate: { checkUidEmail }
         , minLength: { value: 4, message: Messages.errAtLeast4Chars }
     })
-    const registerPwd = register('pwd', {
+    const registerPassword = register('password', {
         required: Messages.errRequired
         , validate: { checkPwd }
         , minLength: { value: 8, message: Messages.errAtLeast8Chars }
@@ -24,21 +24,21 @@ function AppLogin() {
             <form onSubmit={handleSubmit(handleOnSubmit)}>
 
                 {/* uid email */}
-                <FormControl isInvalid={!!errors.uidEmail}>
+                <FormControl isInvalid={!!errors.username}>
                     <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
-                    <Input id='uidEmail' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' {...registerUidEmail} />
-                    {(!!errors.uidEmail)
-                        ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.uidEmail.message}</FormErrorMessage>
+                    <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' {...registerUsername} />
+                    {(!!errors.username)
+                        ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.username.message}</FormErrorMessage>
                         : <FormHelperText fontSize='xs' color='gray.400'> {Messages.messNoSpecialSpace4Plus}</FormHelperText>
                     }
                 </FormControl>
 
                 {/* Password */}
-                <FormControl mt={4} isInvalid={!!errors.pwd}>
+                <FormControl mt={4} isInvalid={!!errors.password}>
                     <FormLabel color='blue.500'>Password</FormLabel>
-                    <Input id='pwd' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPwd} />
-                    {(!!errors.pwd)
-                        ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.pwd.message}</FormErrorMessage>
+                    <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" {...registerPassword} />
+                    {(!!errors.password)
+                        ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                         : <FormHelperText color='gray.400' fontSize='xs'>{Messages.messMin8Char1Digit1Special}</FormHelperText>
                     }
                 </FormControl>

@@ -1,11 +1,28 @@
-import { appStore, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore } from '@src/features'
+import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
     })
 
-    function handleOnSubmit(data: any) {
+    async function handleOnSubmit(data: any) {
         appStore.login.isLoggedIn.value = true
+        const ret = axios({
+            method: 'post',
+            url: 'http://localhost:8000/login',
+            data: qs.stringify({
+                username: data.username,
+                password: data.password
+            }),
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            }
+        }).then((r:any)=>{
+            console.log(r.data.accessToken)
+            console.log(r.data.refreshToken)
+        }).catch((e:any)=>{
+            console.log(e)
+        })
+        console.log(ret)
     }
 
     function handleTestSubmit(userType: string) {
