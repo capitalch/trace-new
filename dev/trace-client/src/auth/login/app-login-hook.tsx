@@ -66,6 +66,7 @@ function useAppLogin() {
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
             appStore.login.uidEmail.value = payload.email
+            appStaticStore.login.clientId = payload.clientId || 0
         } else {
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
@@ -100,7 +101,7 @@ function useAppLogin() {
 export { useAppLogin }
 
 type PayloadType = {
-    clientId?: number
+    clientId?: number | undefined
     userType: string
     uid?: string
     email: string
