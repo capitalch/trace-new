@@ -1,3 +1,19 @@
+## Security algorithm
+1. AppLogin submit button sends uid, password in urlencoded form using axios to /login endpoint
+#. Find the dynamic url for login as for graphql
+2. Server validates username, password.
+3. If validation OK then server returns accessToken and refreshToken
+	4. Client stores accessToken at appStore and stores refreshtoken at browser's memory
+	5. For every secured resource client puts bearer + accessToken in authorization header
+	6. At every secured endpoint at server the accesstoken is validated. If validation fine then proceeds to serve the resource
+	7. If client receives invalid accesstoken or accessToken not present then it throws login screen
+	8. If client receives accesstoken expired then it retrieves refresh token from browser memory
+	9. Client sends refreshToken at create accesstoken endpoint
+	10. The server creates accesstoken and sends to client
+	11. Client stores accesstoken at appStore
+	12. Client retrieves the resource with new accesstoken
+13. If login fails, error is shown to client at login screen
+
 ## Concluding Auth
 1. Dashboard for admin users
 2. In login component code for three buttons of Super admin admin, admin and business user login instead of fixed one

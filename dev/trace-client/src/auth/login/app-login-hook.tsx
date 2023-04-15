@@ -1,28 +1,50 @@
-import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore } from '@src/features'
+import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
     })
 
-    async function handleOnSubmit(data: any) {
-        appStore.login.isLoggedIn.value = true
-        const ret = axios({
-            method: 'post',
-            url: 'http://localhost:8000/login',
-            data: qs.stringify({
-                username: data.username,
-                password: data.password
-            }),
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-            }
-        }).then((r:any)=>{
-            console.log(r.data.accessToken)
-            console.log(r.data.refreshToken)
-        }).catch((e:any)=>{
+    async function doLogin(data: any) {
+        const hostUrl = getHostUrl()
+        const loginUrl = urlJoin(hostUrl, 'login')
+        try {
+            const ret = await axios({
+                method: 'post',
+                url: loginUrl,
+                data: qs.stringify({
+                    username: data.username,
+                    password: data.password
+                }),
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                }
+            })
+            console.log(ret)
+        } catch (e: any) {
             console.log(e)
-        })
-        console.log(ret)
+        }
+    }
+
+    function handleOnSubmit(data: any) {
+        doLogin(data)
+        appStore.login.isLoggedIn.value = true
+        // const ret = axios({
+        //     method: 'post',
+        //     url: 'http://localhost:8000/login',
+        //     data: qs.stringify({
+        //         username: data.username,
+        //         password: data.password
+        //     }),
+        //     headers: {
+        //         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+        //     }
+        // }).then((r: any) => {
+        //     console.log(r.data.accessToken)
+        //     console.log(r.data.refreshToken)
+        // }).catch((e: any) => {
+        //     console.log(e)
+        // })
+        // console.log(ret)
     }
 
     function handleTestSubmit(userType: string) {

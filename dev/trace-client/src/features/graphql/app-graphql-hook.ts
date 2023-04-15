@@ -9,6 +9,7 @@ import {
 // import { setContext } from '@apollo/client/link/context'
 import {
   appStore,
+  getHostUrl,
   GraphQlQueryResultType,
   Messages,
   urlJoin,
@@ -18,12 +19,13 @@ import { appGraphqlStrings } from './app-graphql-strings'
 
 function useAppGraphql () {
   const { showError, showSuccess } = useFeedback()
+  
   function getClient () {
     const token = appStore.login.token.value
-    const url: any =
-      process.env.NODE_ENV === 'development'
-        ? process.env.REACT_APP_LOCAL_SERVER_URL
-        : window.location.href
+    const url: any = getHostUrl()
+      // process.env.NODE_ENV === 'development'
+      //   ? process.env.REACT_APP_LOCAL_SERVER_URL
+      //   : window.location.href
     const link = new HttpLink({
       uri: urlJoin(url, 'graphql/')
     })

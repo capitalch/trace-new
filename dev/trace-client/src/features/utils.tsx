@@ -1,6 +1,14 @@
 import { appStaticStore, appStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryResultType, IconButton, Messages, Tooltip, useAppGraphql, useToast } from '@src/features'
 import { FC } from 'react'
 
+function getHostUrl() {
+  const url: any =
+    process.env.NODE_ENV === 'development'
+      ? process.env.REACT_APP_LOCAL_SERVER_URL
+      : window.location.href
+  return (url)
+}
+
 function useAgGridUtils() {
   function getAlternateColorStyle(params: any) {
     const id = params?.data?.id
@@ -265,4 +273,4 @@ function useFeedback() {
   return { showAppLoader, showError, showSuccess }
 }
 
-export { useAgGridUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }
+export { getHostUrl, useAgGridUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }
