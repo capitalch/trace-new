@@ -1,10 +1,11 @@
-import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin } from '@src/features'
+import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin, Messages, useEffect } from '@src/features'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
     })
 
     async function doLogin(data: any) {
+        meta.serverError.value = ''
         const hostUrl = getHostUrl()
         const loginUrl = urlJoin(hostUrl, 'login')
         try {
@@ -19,15 +20,26 @@ function useAppLogin() {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 }
             })
+            appStore.login.isLoggedIn.value = true
+            const accessToken = ret.data.accessToken
+            appStaticStore.login.accessToken=accessToken
+            const refreshToken = ret.data.refreshToken
+            const payload = ret.data.payload
+            if (payload.userType === 'S') {
+                appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
+                appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
+                appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
+            }
             console.log(ret)
         } catch (e: any) {
+            meta.serverError.value = Messages.errInvalidUidPwd
             console.log(e)
         }
     }
 
     function handleOnSubmit(data: any) {
         doLogin(data)
-        appStore.login.isLoggedIn.value = true
+        // appStore.login.isLoggedIn.value = true
         // const ret = axios({
         //     method: 'post',
         //     url: 'http://localhost:8000/login',

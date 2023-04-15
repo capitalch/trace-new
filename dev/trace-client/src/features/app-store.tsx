@@ -53,7 +53,7 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
+        // token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         uidEmail: 'capitalch',
         userType: undefined,
     },
@@ -135,6 +135,7 @@ function resetAppStore() {
 }
 
 const staticLoginObject = {
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
     clientId: 0,
     clientCode: undefined,
     clientName: undefined,
@@ -165,6 +166,7 @@ const appStaticStore: AppStaticStoreType = {
         }
     },
     login: {
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         clientId: 0,
         clientCode: undefined,
         clientName: undefined,
@@ -225,6 +227,7 @@ interface AppStaticStoreType {
         }
     },
     login: {
+        accessToken: string,
         clientId: number,
         clientCode: string | undefined,
         clientName: string | undefined,

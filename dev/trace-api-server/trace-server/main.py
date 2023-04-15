@@ -33,7 +33,7 @@ async def app_custom_exception_handler(request: Request, exc: AppHttpException):
     )
 
 
-@app.post("/api")
+@app.get("/api")
 async def home(request: Request):
     print(request.headers)
     return {"message": 'abcd'}
@@ -50,10 +50,14 @@ async def handle_middleware(request: Request, call_next):
         return await call_next(request)
     except (Exception) as e:
         logger.error(e)
-        return JSONResponse(status_code=getattr(e, 'status_code', None) or 500, content={
+        # stcode = getattr(e,'status_code', None)
+        # detail= getattr(e, 'detail', None)
+        # er = str(e)
+        res = JSONResponse(status_code=getattr(e, 'status_code', None) or 500, content={
             'detail': getattr(e, 'detail', None) or str(e) or Messages.err_unknown_server_error,
             'errorCode': 'e1001'
         }, headers={"X-error": Messages.err_unknown_server_error})
+        return(res)
 
 # Load graphQL as separate app
 # app.mount('/graphql', GraphQLApp)

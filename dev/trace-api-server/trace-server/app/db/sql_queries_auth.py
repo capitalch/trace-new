@@ -221,7 +221,7 @@ class SqlQueriesAuth:
                             on b.id = x."buId"
                         join "UserM" u
                             on u."id" = x."userId"
-                where b."isActive" and (("uid" = 'capitalch' or ("userEmail" = 'capitalch'))))	
+                where b."isActive" and (("uid" = (table "uidOrEmail") or ("userEmail" = (table "uidOrEmail")))))
             , cte3 as ( -- role
                     select r.id as "roleId", r."roleName", r."clientId" 
                     from cte1 u

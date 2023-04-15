@@ -3,7 +3,7 @@ import { useAppLogin } from './app-login-hook'
 
 function AppLogin() {
     const { handleOnSubmit, handleTestSubmit, meta, } = useAppLogin()
-    const { handleSubmit, register, formState: { errors } }: any = useForm({mode:'onTouched'})
+    const { handleSubmit, register, formState: { errors } }: any = useForm({ mode: 'onTouched' })
     const { checkPwd, checkUidEmail } = appValidators()
 
     const registerUsername = register('username', {
@@ -59,7 +59,10 @@ function AppLogin() {
                     <Button size='xs' variant='ghost' colorScheme='red' onClick={() => handleTestSubmit('admin')}>Sign in admin</Button>
                     <Button size='xs' variant='ghost' colorScheme='blue' onClick={() => handleTestSubmit('businessUser')} >Sign in business user</Button>
                 </HStack>
-                <Text as='b' fontSize='small' color='red.400'>{meta.serverError.value}</Text>
+                <Center>
+                    <Text as='b' fontSize='small' color='red.400'>{meta.serverError.value}</Text>
+                </Center>
+
             </form>
         </Box>
     </Center>)

@@ -45,16 +45,21 @@ async def get_other_user_bundle(uidOrEmail, password):
         businessUnits = jsonResultDict.get('businessUnits')
         role = jsonResultDict.get('role')
 
+        if((userDetails is None)):
+            raise AppHttpException(
+                detail=Messages.err_invalid_uid, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1002'
+            )
+
         userType = userDetails['userType']
         isActive = userDetails['isActive']
         if (not isActive):
             raise AppHttpException(
-                detail=Messages.err_inactive_user, status_code=status.HTTP_401_UNAUTHORIZED)
+                detail=Messages.err_inactive_user, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1012')
         hash = userDetails['hash']
         isPwdVerified = verify_password(password, hash)
         if (not isPwdVerified):
             raise AppHttpException(
-                detail=Messages.err_invalid_pwd, status_code=status.HTTP_401_UNAUTHORIZED)
+                detail=Messages.err_invalid_pwd, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1011')
 
         user = UserClass(userType=userType,
                          uid=userDetails['uid'],

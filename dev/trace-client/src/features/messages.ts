@@ -9,6 +9,7 @@ const Messages = {
     errInputMustBeUrl: 'Input value should be url',
     errInvalidEmail: 'This email is not valid',
     errInvalidInput: 'Invalid input',
+    errInvalidUidPwd: 'Invalid user id or password',
     errMobileNoLength: 'Mobile number should be 10 digits long',
     errMustBeNumeric: 'Must be numeric',
     errMustHaveOneDigit: "Should have a digit",

@@ -8,6 +8,7 @@ import {
 } from '@apollo/client'
 // import { setContext } from '@apollo/client/link/context'
 import {
+  appStaticStore,
   appStore,
   getHostUrl,
   GraphQlQueryResultType,
@@ -21,7 +22,8 @@ function useAppGraphql () {
   const { showError, showSuccess } = useFeedback()
   
   function getClient () {
-    const token = appStore.login.token.value
+    // const token = appStore.login.token.value
+    const token = appStaticStore.login.accessToken
     const url: any = getHostUrl()
       // process.env.NODE_ENV === 'development'
       //   ? process.env.REACT_APP_LOCAL_SERVER_URL
