@@ -22,14 +22,10 @@ function useAppLogin() {
             })
             appStore.login.isLoggedIn.value = true
             const accessToken = ret.data.accessToken
-            appStaticStore.login.accessToken=accessToken
+            appStaticStore.login.accessToken = accessToken
             const refreshToken = ret.data.refreshToken
-            const payload = ret.data.payload
-            if (payload.userType === 'S') {
-                appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
-                appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
-                appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
-            }
+            const payload: PayloadType = ret.data.payload
+            setLoggedInuser(payload)
             console.log(ret)
         } catch (e: any) {
             meta.serverError.value = Messages.errInvalidUidPwd
@@ -59,6 +55,25 @@ function useAppLogin() {
         // console.log(ret)
     }
 
+    function setLoggedInuser(payload: PayloadType) {
+        if (payload.userType === 'S') {
+            appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
+            appStore.login.uidEmail.value = payload.email
+        } else if(payload.userType === 'A'){
+            appStore.login.userType.value = UserTypesEnum.ADMIN
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
+            appStore.login.uidEmail.value = payload.email
+        } else {
+            appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
+            appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
+            appStore.login.uidEmail.value = payload.email
+        }
+    }
+
     function handleTestSubmit(userType: string) {
         appStore.login.isLoggedIn.value = true
         if (userType === 'superAdmin') {
@@ -83,3 +98,15 @@ function useAppLogin() {
     return ({ handleOnSubmit, handleTestSubmit, meta })
 }
 export { useAppLogin }
+
+type PayloadType = {
+    clientId?: number
+    userType: string
+    uid?: string
+    email: string
+    mobileNo: string
+    userName: string
+    userId?: number
+    businessUnits?: any[]
+    role?: string
+}

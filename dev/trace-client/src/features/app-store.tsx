@@ -54,7 +54,7 @@ const store: any = {
     login: {
         isLoggedIn: false,
         // token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
-        uidEmail: 'capitalch',
+        uidEmail: '',
         userType: undefined,
     },
 
