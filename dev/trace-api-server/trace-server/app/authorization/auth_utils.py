@@ -32,6 +32,7 @@ def create_access_token(subject: dict) -> str:
 
 def create_refresh_token(subject: Any) -> str:
     expiresDelta = datetime.utcnow() + timedelta(weeks=int(REFRESH_TOKEN_EXPIRE_WEEKS))
+    # expiresDelta = datetime.utcnow() + timedelta(seconds=int(ACCESS_TOKEN_EXPIRE_SECONDS))
     toEncode = {
         "exp": expiresDelta, "sub": subject
     }

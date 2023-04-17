@@ -79,8 +79,12 @@ function useAppGraphql() {
         mutation: q
       })
     } catch (error: any) {
-      error.message = error.message || Messages.errUpdatingData
-      throw error
+      if (error.networkError) {
+        handleNetworkError(q, GraphqlType.mutation)
+      } else {
+        error.message = error.message || Messages.errUpdatingData
+        throw error
+      }
     }
     return ret
   }
@@ -94,12 +98,11 @@ function useAppGraphql() {
       })
     } catch (error: any) {
       if (error.networkError) {
-        handleNetworkError(q, GraphqlType.query)
+        ret = await handleNetworkError(q, GraphqlType.query)
       } else {
         error.message = error.message || Messages.errFetchingData
         throw error
       }
-
     }
     return ret
   }
@@ -120,10 +123,11 @@ function useAppGraphql() {
             token: refreshToken
           }
         })
-        // appStaticStore.login.accessToken = result?.data?.accessToken
         localStorage.setItem('accessToken', result?.data?.accessToken)
         if (gqlType === GraphqlType.query) {
-          queryGraphql(q)
+          return await queryGraphql(q)
+        } else {
+          return await mutateGraphql(q)
         }
       }
     } catch (e: any) {
@@ -197,4 +201,3 @@ function useAppGraphql() {
 export { useAppGraphql }
 
 enum GraphqlType { 'query', 'mutation' }
-// type GraphqlType = 'query' | 'mutation'
