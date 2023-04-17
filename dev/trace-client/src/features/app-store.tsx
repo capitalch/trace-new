@@ -123,9 +123,15 @@ const store: any = {
 // let appStore: any
 // resetAppStore()
 let appStore: any = deepSignal(_.cloneDeep(store))
+
+function doLogout() {
+    resetAppStore()
+}
 function resetAppStore() {
     // appStore = deepSignal(_.cloneDeep(store))
     // appStore.reload.value = !appStore.reload.value
+    localStorage.setItem('accessToken', '')
+    localStorage.setItem('refreshToken', '')
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
     appStore.content.value = { ...store.content }
@@ -135,7 +141,7 @@ function resetAppStore() {
 }
 
 const staticLoginObject = {
-    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
+    // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
     clientId: 0,
     clientCode: undefined,
     clientName: undefined,
@@ -166,7 +172,7 @@ const appStaticStore: AppStaticStoreType = {
         }
     },
     login: {
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
+        // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         clientId: 0,
         clientCode: undefined,
         clientName: undefined,
@@ -206,7 +212,7 @@ const appStaticStore: AppStaticStoreType = {
         // doReload: () => { },
     }
 }
-export { appStore, appStaticStore, resetAppStore }
+export { appStore, appStaticStore, doLogout, resetAppStore }
 
 interface AppStaticStoreType {
     componentHistorySet: Set<string>
@@ -227,7 +233,7 @@ interface AppStaticStoreType {
         }
     },
     login: {
-        accessToken: string,
+        // accessToken: string,
         clientId: number,
         clientCode: string | undefined,
         clientName: string | undefined,

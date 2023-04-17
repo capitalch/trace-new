@@ -2,7 +2,8 @@ from app import AppHttpException, Config, CustomErrorCodes, Messages
 from app.vendors import json, status
 from .auth_utils import create_access_token, create_refresh_token, verify_password
 from app.db import UserClass, SqlQueriesAuth
-from app.db.helpers.db_helper_asyncpg import exec_generic_query
+# from app.db.helpers.db_helper_asyncpg import exec_generic_query
+from app.db.helpers.db_helper_psycopg2 import exec_sql
 
 
 def get_bundle(user: UserClass):
@@ -37,10 +38,11 @@ async def get_other_user_bundle(uidOrEmail, password):
     user = None
     bundle = None
     userType = None
-    details: list = await exec_generic_query(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
+    # details: list = await exec_generic_query(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
+    details: list = exec_sql(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
     if (details):
-        jsonResult = details[0]['jsonResult']
-        jsonResultDict = json.loads(jsonResult)
+        jsonResultDict = details[0]['jsonResult']
+        # jsonResultDict = jsonResult #json.loads(jsonResult)
         userDetails = jsonResultDict.get('userDetails')
         businessUnits = jsonResultDict.get('businessUnits')
         role = jsonResultDict.get('role')

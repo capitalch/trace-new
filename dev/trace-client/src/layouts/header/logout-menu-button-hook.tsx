@@ -1,4 +1,5 @@
 import { AccountsIcon, AdminMenuIcon, appStore, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, resetAppStore, UserTypesEnum } from '@src/features'
+
 function useLogoutMenuButton() {
     const userType = appStore.login.userType.value
 

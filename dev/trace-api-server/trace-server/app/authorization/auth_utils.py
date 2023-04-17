@@ -5,6 +5,7 @@ from app import Config
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated='auto')
 
 ACCESS_TOKEN_EXPIRE_HOURS = Config.ACCESS_TOKEN_EXPIRE_HOURS
+ACCESS_TOKEN_EXPIRE_SECONDS = Config.ACCESS_TOKEN_EXPIRE_SECONDS
 REFRESH_TOKEN_EXPIRE_WEEKS = Config.REFRESH_TOKEN_EXPIRE_WEEKS
 ALGORITHM = Config.ALGORITHM
 ACCESS_TOKEN_SECRET_KEY = Config.ACCESS_TOKEN_SECRET_KEY
@@ -21,6 +22,7 @@ def verify_password(password: str, hashed_pass: str) -> bool:
 
 def create_access_token(subject: dict) -> str:
     expiresDelta = datetime.utcnow() + timedelta(hours=int(ACCESS_TOKEN_EXPIRE_HOURS))
+    # expiresDelta = datetime.utcnow() + timedelta(seconds=int(ACCESS_TOKEN_EXPIRE_SECONDS))
     toEncode = {
         "exp": expiresDelta, "sub": subject
     }

@@ -2,9 +2,12 @@ from app.vendors import BaseModel
 
 
 class Messages():
+    err_access_token_signature_expired = 'Access token signature is expired'
+    err_access_token_signature_invalid = 'Access token signature is invalid'
+    err_access_token_invalid = 'Access token is invalid'
     err_config_file = 'There is some error in config file at server'
     err_inactive_user = 'User is not active. Contact administrator'
-    err_invalid_access_token = 'Invalid or missing access token'
+    # err_invalid_access_token = 'Invalid or missing access token'
     err_invalid_credentials = 'Token is invalid or already expired'
     err_invalid_super_admin_password = 'Super admin password is invalid'
     err_invalid_pwd = 'Invalid password'
@@ -31,4 +34,7 @@ class CustomErrorCodes():
     e1010 = 'Error updating client in resolve_update_client method'
     e1011 = 'Invalid password'
     e1012 = 'User is not active'
+    e1013 = 'Access token signature is expired'
+    e1014 = 'Access token signature is invalid'
+    e1015 = 'Access token is invalid'
 # messages = Messages()

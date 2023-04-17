@@ -148,11 +148,9 @@ async def resolve_update_client(info, value):
                             dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
                         execute_sql_dml_psycopg2(dbName=dbToCreate,
                                                  sql=SqlQueriesAuth.drop_public_schema)
-                        # await execute_sql_dml_psycopg_async(dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
-                        # await execute_sql_dml_psycopg_async(dbName=dbToCreate,
-                        #                                                sql=SqlQueriesAuth.drop_public_schema)
+                        
         data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
-        #  data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
+    
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)

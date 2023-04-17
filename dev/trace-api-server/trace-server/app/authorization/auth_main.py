@@ -1,8 +1,8 @@
-from app.vendors import Depends, jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status, ValidationError
-from app import AppHttpException, Config, CustomErrorCodes,logger, Messages
+from app.vendors import BaseModel, Depends, jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status, ValidationError
+from app import AppHttpException, Config, CustomErrorCodes, logger, Messages
 from .auth_helper import get_super_admin_bundle, get_other_user_bundle
 from .auth_utils import create_access_token
-# from app.utils import get_reusable_oauth
+from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError, InvalidTokenError
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
@@ -48,18 +48,24 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
         )
 
 
-async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_oauth)):
+class Item(BaseModel):
+    token: str
+
+
+async def renew_access_token_from_refresh_token(item: Item):
     '''
     A new access token is returned as payload against the refresh token
     '''
     try:
+        itemDict = item.dict()
+        token = itemDict.get('token')
         if (not token.strip()):
             raise Exception
         payload = jwt.decode(token, Config.REFRESH_TOKEN_SECRET_KEY,
                              algorithms=[Config.ALGORITHM])
         accessToken = create_access_token(payload.get('sub'))
         return {
-            'access_token': accessToken
+            'accessToken': accessToken
         }
 
     except Exception as e:
@@ -67,7 +73,7 @@ async def renew_access_token_from_refresh_token(token: str = Depends(reuseable_o
         raise AppHttpException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=Messages.err_renew_access_token,
-            error_code=CustomErrorCodes.e1004
+            error_code='e1004'
         )
 
 
@@ -84,8 +90,23 @@ async def validate_token(request: Request):
         if (err):
             raise Exception
         return (True)
+    except ExpiredSignatureError as e:
+        logger.error(e)
+        raise AppHttpException(
+            detail=Messages.err_access_token_signature_expired, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1013'
+        )
+    except InvalidSignatureError as e:
+        logger.error(e)
+        raise AppHttpException(
+            detail=Messages.err_access_token_signature_invalid, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1014'
+        )
+    except InvalidTokenError as e:
+        logger.error(e)
+        raise AppHttpException(
+            detail=Messages.err_access_token_invalid, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1015'
+        )
     except Exception as e:
         logger.error(e)
         raise AppHttpException(
-            detail=Messages.err_invalid_access_token, status_code=status.HTTP_401_UNAUTHORIZED, error_code=CustomErrorCodes.e1005
+            detail=Messages.err_access_token_invalid, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1015'
         )

@@ -1,4 +1,5 @@
 import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin, Messages, useEffect } from '@src/features'
+import { access } from 'fs'
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
@@ -20,10 +21,14 @@ function useAppLogin() {
                     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
                 }
             })
-            appStore.login.isLoggedIn.value = true
             const accessToken = ret.data.accessToken
-            appStaticStore.login.accessToken = accessToken
             const refreshToken = ret.data.refreshToken
+            if (accessToken && refreshToken) {
+                appStore.login.isLoggedIn.value = true
+            }
+            // appStaticStore.login.accessToken = accessToken
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
             const payload: PayloadType = ret.data.payload
             setLoggedInuser(payload)
             console.log(ret)
@@ -35,24 +40,6 @@ function useAppLogin() {
 
     function handleOnSubmit(data: any) {
         doLogin(data)
-        // appStore.login.isLoggedIn.value = true
-        // const ret = axios({
-        //     method: 'post',
-        //     url: 'http://localhost:8000/login',
-        //     data: qs.stringify({
-        //         username: data.username,
-        //         password: data.password
-        //     }),
-        //     headers: {
-        //         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-        //     }
-        // }).then((r: any) => {
-        //     console.log(r.data.accessToken)
-        //     console.log(r.data.refreshToken)
-        // }).catch((e: any) => {
-        //     console.log(e)
-        // })
-        // console.log(ret)
     }
 
     function setLoggedInuser(payload: PayloadType) {
@@ -61,7 +48,7 @@ function useAppLogin() {
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
             appStore.login.uidEmail.value = payload.email
-        } else if(payload.userType === 'A'){
+        } else if (payload.userType === 'A') {
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
@@ -72,6 +59,7 @@ function useAppLogin() {
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
             appStore.login.uidEmail.value = payload.email
+            appStaticStore.login.clientId = payload.clientId || 0
         }
     }
 
