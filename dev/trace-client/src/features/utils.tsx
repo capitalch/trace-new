@@ -1,6 +1,46 @@
 import { appStaticStore, appStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryResultType, IconButton, Messages, Tooltip, useAppGraphql, useToast } from '@src/features'
 import { FC } from 'react'
 
+function usingAuthUtils() {
+  function getAccessToken() {
+    return (localStorage.getItem('accessToken'))
+  }
+
+  function setAccesstoken(accessToken: string) {
+    localStorage.setItem('accessToken', accessToken)
+  }
+
+  function getRefreshToken() {
+    return (localStorage.getItem('refreshToken'))
+  }
+
+  function setRefreshToken(refreshToken: string) {
+    localStorage.setItem('refreshToken', refreshToken)
+  }
+
+  function getIsLoggedIn() {
+    const ret = localStorage.getItem('isLoggedIn')
+    return (Boolean(ret))
+  }
+
+  function setIsLoggedIn(isLoggedIn: boolean) {
+    const is = String(isLoggedIn)
+    localStorage.setItem('isLoggedIn', is)
+  }
+
+  function getLoginInfo(){
+    const ret = localStorage.getItem('loginInfo') || ''
+    return(JSON.parse(ret))
+  }
+
+  function setLoginInfo(loginInfo: {}){
+    const loginString = JSON.stringify(loginInfo)
+    localStorage.setItem('loginInfo', loginString)
+  }
+
+  return ({ getAccessToken, getIsLoggedIn, getLoginInfo, getRefreshToken, setAccesstoken, setIsLoggedIn,setLoginInfo, setRefreshToken })
+}
+
 function getHostUrl() {
   const url: any =
     process.env.NODE_ENV === 'development'
@@ -273,4 +313,4 @@ function useFeedback() {
   return { showAppLoader, showError, showSuccess }
 }
 
-export { getHostUrl, useAgGridUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }
+export { getHostUrl, useAgGridUtils, usingAuthUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }
