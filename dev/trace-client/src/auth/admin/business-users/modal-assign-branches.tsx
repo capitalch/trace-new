@@ -1,4 +1,4 @@
-import { Button, useFeedback, useAppGraphql, useGranularEffect, useDialogs, appStore, appStaticStore, Messages, GraphQlQueryResultType,Box, Text, HStack, Checkbox, Flex, useDeepSignal, useState, SqlObject } from '@src/features'
+import { Button, useFeedback, useAppGraphql, useGranularEffect, useDialogs, appStore, appStaticStore, Messages, GraphQlQueryResultType,Box, Text, HStack, Checkbox, Flex, useDeepSignal, useState, SqlObjectType } from '@src/features'
 
 function ModalAssignBranches() {
     const { closeModalDialogA, closeModalDialogB } = useDialogs()
@@ -37,7 +37,7 @@ function ModalAssignBranches() {
         const enabledBranches = branches.filter((x: BranchType) => (x.isEnabled))
         const enabledIds = enabledBranches.map((x: BranchType) => (x.id))
         const idsAsString = enabledIds.join()
-        const sqlObj: SqlObject = {
+        const sqlObj: SqlObjectType = {
             tableName: 'UserBuX',
             xData: {
                 id: userBuXId,

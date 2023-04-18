@@ -1,5 +1,5 @@
-import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin, Messages, useEffect } from '@src/features'
-import { access } from 'fs'
+import { appStore, axios, qs, SideMenuTypesEnum, useDeepSignal, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, urlJoin, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, LoginInfoType, UserTypesType, SideMenuType } from '@src/features'
+
 function useAppLogin() {
     const meta: any = useDeepSignal({
         serverError: '',
@@ -29,12 +29,14 @@ function useAppLogin() {
             // 
             if (accessToken && refreshToken) {
                 appStore.login.isLoggedIn.value = true
+                setIsLoggedInInLS(true)
+                setAccesstokenInLS(accessToken)
+                setRefreshTokenInLS(refreshToken)
+                const payload: PayloadType = ret.data.payload
+                setLoggedInUser(payload)
             }
             // appStaticStore.login.accessToken = accessToken
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
-            const payload: PayloadType = ret.data.payload
-            setLoggedInuser(payload)
+
             console.log(ret)
         } catch (e: any) {
             meta.serverError.value = Messages.errInvalidUidPwd
@@ -46,29 +48,52 @@ function useAppLogin() {
         doLogin(data)
     }
 
-    function setLoggedInuser(payload: PayloadType) {
+    function setLoggedInUser(payload: PayloadType) {
+        const loginInfo: LoginInfoType = {
+            uidEmail: payload.email,
+            userType: '',
+            clientId: payload.clientId || 0,
+            clientCode: payload.clientCode,
+            clientName: payload.clientName,
+            sideMenuHeading: '',
+            sideMenuType: ''
+        }
         if (payload.userType === 'S') {
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
-            appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
+            // appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
             appStore.login.uidEmail.value = payload.email
+
+            loginInfo.userType = 'SUPER_ADMIN'
+            // loginInfo.sideMenuType = 'superAdminMenu'
+            // loginInfo.sideMenuHeading = AppConstants.SUPER_ADMIN_USER
+
         } else if (payload.userType === 'A') {
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
-            appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
+            // appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
             appStore.login.uidEmail.value = payload.email
             appStaticStore.login.clientId = payload.clientId || 0
+
+            loginInfo.userType = 'ADMIN'
+            // loginInfo.sideMenuType = 'adminMenu'
+            // loginInfo.sideMenuHeading = AppConstants.ADMIN_USER
         } else {
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
-            appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
+            // appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
             appStore.login.uidEmail.value = payload.email
             appStaticStore.login.clientId = payload.clientId || 0
+
+            loginInfo.userType = 'BUSINESS_USER'
+            // loginInfo.sideMenuType = 'accountsMenu'
+            // loginInfo.sideMenuHeading = AppConstants.BUSINESS_USER
         }
     }
 
     function handleTestSubmit(userType: string) {
         appStore.login.isLoggedIn.value = true
+        // setIsLoggedInInLS(true)
         if (userType === 'superAdmin') {
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
@@ -94,6 +119,8 @@ export { useAppLogin }
 
 type PayloadType = {
     clientId?: number | undefined
+    clientCode?: string | undefined
+    clientName?: string | undefined
     userType: string
     uid?: string
     email: string

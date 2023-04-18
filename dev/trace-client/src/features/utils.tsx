@@ -2,43 +2,47 @@ import { appStaticStore, appStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryR
 import { FC } from 'react'
 
 function usingAuthUtils() {
-  function getAccessToken() {
+  function getAccessTokenFromLS() {
     return (localStorage.getItem('accessToken'))
   }
 
-  function setAccesstoken(accessToken: string) {
+  function setAccesstokenInLS(accessToken: string) {
     localStorage.setItem('accessToken', accessToken)
   }
 
-  function getRefreshToken() {
+  function getRefreshTokenFromLS() {
     return (localStorage.getItem('refreshToken'))
   }
 
-  function setRefreshToken(refreshToken: string) {
+  function setRefreshTokenInLS(refreshToken: string) {
     localStorage.setItem('refreshToken', refreshToken)
   }
 
-  function getIsLoggedIn() {
+  function getIsLoggedInFromLS() {
     const ret = localStorage.getItem('isLoggedIn')
-    return (Boolean(ret))
+    return (ret === 'true')
   }
 
-  function setIsLoggedIn(isLoggedIn: boolean) {
+  function setIsLoggedInInLS(isLoggedIn: boolean) {
     const is = String(isLoggedIn)
     localStorage.setItem('isLoggedIn', is)
   }
 
-  function getLoginInfo(){
-    const ret = localStorage.getItem('loginInfo') || ''
-    return(JSON.parse(ret))
+  function getLoginInfoFromLS() {
+    const ret = localStorage.getItem('loginInfo') || '{}'
+    return (JSON.parse(ret))
   }
 
-  function setLoginInfo(loginInfo: {}){
+  function setLoginInfoInLS(loginInfo: {}) {
     const loginString = JSON.stringify(loginInfo)
     localStorage.setItem('loginInfo', loginString)
   }
 
-  return ({ getAccessToken, getIsLoggedIn, getLoginInfo, getRefreshToken, setAccesstoken, setIsLoggedIn,setLoginInfo, setRefreshToken })
+  function resetLoginInfoInLS() {
+    localStorage.setItem('loginInfo', '')
+  }
+
+  return ({ getAccessTokenFromLS, getIsLoggedInFromLS, getLoginInfoFromLS, getRefreshTokenFromLS, resetLoginInfoInLS, setAccesstokenInLS, setIsLoggedInInLS, setLoginInfoInLS, setRefreshTokenInLS })
 }
 
 function getHostUrl() {

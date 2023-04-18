@@ -1,5 +1,5 @@
 import { deepSignal } from "@deepsignal/react"
-import { _, } from '@src/features'
+import { _, setAccesstokenInLS, setIsLoggedInInLS, setRefreshTokenInLS, } from '@src/features'
 
 const store: any = {
     admin: {
@@ -53,7 +53,6 @@ const store: any = {
 
     login: {
         isLoggedIn: false,
-        // token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         uidEmail: '',
         userType: undefined,
     },
@@ -115,39 +114,32 @@ const store: any = {
             refresh: true,
             searchString: ''
         },
-        // securedControlsWithPermissions: {
-
-        // }
     }
 }
-// let appStore: any
-// resetAppStore()
+
 let appStore: any = deepSignal(_.cloneDeep(store))
 
 function doLogout() {
     resetAppStore()
 }
 function resetAppStore() {
-    // appStore = deepSignal(_.cloneDeep(store))
-    // appStore.reload.value = !appStore.reload.value
-    localStorage.setItem('accessToken', '')
-    localStorage.setItem('refreshToken', '')
+    setAccesstokenInLS('')
+    setRefreshTokenInLS('')
+    setIsLoggedInInLS(false)
+    
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
     appStore.content.value = { ...store.content }
-    appStaticStore.login = { ...staticLoginObject }
-    // appStore.admin.value = _.cloneDeep(store.admin)
-    // appStore.superAdmin.value = _.cloneDeep(store.superAdmin)
+    appStaticStore.login = { ...defaultLoginObject }
 }
 
-const staticLoginObject = {
-    // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
+const defaultLoginObject = {
     clientId: 0,
-    clientCode: undefined,
-    clientName: undefined,
+    clientCode: '',
+    clientName: '',
     buId: 0,
-    buCode: undefined,
-    buName: undefined,
+    buCode: '',
+    buName: '',
     branchId: 1,
     branchCode: 'head',
     branchName: 'Head office'
@@ -172,13 +164,12 @@ const appStaticStore: AppStaticStoreType = {
         }
     },
     login: {
-        // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE1NzIwNTIsInN1YiI6eyJ1c2VySWQiOjN9fQ.xFwO3gqanDoGApWTlupTd0wvr9mOBdf9QdqmojeejLk',
         clientId: 0,
-        clientCode: undefined,
-        clientName: undefined,
+        clientCode: '',
+        clientName: '',
         buId: 0,
-        buCode: undefined,
-        buName: undefined,
+        buCode: '',
+        buName: '',
         branchId: 1,
         branchCode: 'head',
         branchName: 'Head office'
@@ -207,9 +198,6 @@ const appStaticStore: AppStaticStoreType = {
             doFilter: () => { },
             doReload: () => { }
         },
-
-        // doFilter: () => { },
-        // doReload: () => { },
     }
 }
 export { appStore, appStaticStore, doLogout, resetAppStore }
@@ -233,16 +221,15 @@ interface AppStaticStoreType {
         }
     },
     login: {
-        // accessToken: string,
         clientId: number,
-        clientCode: string | undefined,
-        clientName: string | undefined,
+        clientCode: string
+        clientName: string
         buId: number
-        buCode: string | undefined
-        buName: string | undefined
+        buCode: string
+        buName: string
         branchId: number
-        branchCode: string | undefined
-        branchName: string | undefined
+        branchCode: string
+        branchName: string
     },
     permissions: {
         doFilter: () => void,

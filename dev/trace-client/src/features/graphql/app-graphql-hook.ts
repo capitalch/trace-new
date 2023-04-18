@@ -11,22 +11,26 @@ import {
   appStaticStore,
   axios,
   doLogout,
+  getAccessTokenFromLS,
   getHostUrl,
+  getRefreshTokenFromLS,
   GraphQlQueryResultType,
   Messages,
+  setAccesstokenInLS,
   urlJoin,
   useFeedback
 } from '@src/features'
 import { appGraphqlStrings } from './app-graphql-strings'
 
-// import { onError } from '@apollo/client/link/error'
-
-function useAppGraphql() {
+function useAppGraphql () {
   const { showError, showSuccess } = useFeedback()
+  enum GraphqlType {
+    'query',
+    'mutation'
+  }
 
-  function getClient() {
-    // const token = appStaticStore.login.accessToken
-    const token = localStorage.getItem('accessToken')
+  function getClient () {
+    const token = getAccessTokenFromLS()
     const url: any = getHostUrl()
     const link = new HttpLink({
       uri: urlJoin(url, 'graphql/')
@@ -43,21 +47,6 @@ function useAppGraphql() {
       }
     )
 
-    // const errorLink = onError(({ graphQLErrors, networkError }) => {
-    //   if (graphQLErrors) {
-    //     graphQLErrors.forEach(({ message }) => {
-    //       if (message === "Invalid token") {
-    //         // Handle invalid token error here
-    //       } else if (message === "Expired token") {
-    //         // Handle expired token error here
-    //       }
-    //     })
-    //   }
-    //   if (networkError) {
-    //     console.log(`[Network error]: ${networkError}`)
-    //   }
-    // })
-
     const client = new ApolloClient({
       cache: new InMemoryCache(),
       // link: ApolloLink.from([errorLink, authLink, link]),
@@ -66,12 +55,12 @@ function useAppGraphql() {
         query: {
           fetchPolicy: 'network-only'
         }
-      },
+      }
     })
     return client
   }
 
-  async function mutateGraphql(q: any) {
+  async function mutateGraphql (q: any) {
     const client = getClient()
     let ret: any
     try {
@@ -89,12 +78,12 @@ function useAppGraphql() {
     return ret
   }
 
-  async function queryGraphql(q: any) {
+  async function queryGraphql (q: any) {
     const client = getClient()
     let ret: any
     try {
       ret = await client.query({
-        query: q,
+        query: q
       })
     } catch (error: any) {
       if (error.networkError) {
@@ -107,9 +96,9 @@ function useAppGraphql() {
     return ret
   }
 
-  async function handleNetworkError(q: any, gqlType: GraphqlType) {
+  async function handleNetworkError (q: any, gqlType: GraphqlType) {
     // get refreshtoken and call refresh API to get accesstoken then again try query
-    const refreshToken = localStorage.getItem('refreshToken')
+    const refreshToken = getRefreshTokenFromLS()
     const hostUrl = getHostUrl()
     const renewTokenUrl = urlJoin(hostUrl, 'renew')
     try {
@@ -123,7 +112,7 @@ function useAppGraphql() {
             token: refreshToken
           }
         })
-        localStorage.setItem('accessToken', result?.data?.accessToken)
+        setAccesstokenInLS(result?.data?.accessToken)
         if (gqlType === GraphqlType.query) {
           return await queryGraphql(q)
         } else {
@@ -136,7 +125,7 @@ function useAppGraphql() {
     }
   }
 
-  function handleUpdateResult(
+  function handleUpdateResult (
     result: GraphQlQueryResultType,
     actionWhenSuccess?: () => void,
     queryName: string = 'genericUpdate'
@@ -168,7 +157,7 @@ function useAppGraphql() {
     return ret
   }
 
-  function handleAndGetQueryResult(
+  function handleAndGetQueryResult (
     result: GraphQlQueryResultType,
     queryName: string = 'genericQuery'
   ): any {
@@ -200,4 +189,17 @@ function useAppGraphql() {
 
 export { useAppGraphql }
 
-enum GraphqlType { 'query', 'mutation' }
+// const errorLink = onError(({ graphQLErrors, networkError }) => {
+//   if (graphQLErrors) {
+//     graphQLErrors.forEach(({ message }) => {
+//       if (message === "Invalid token") {
+//         // Handle invalid token error here
+//       } else if (message === "Expired token") {
+//         // Handle expired token error here
+//       }
+//     })
+//   }
+//   if (networkError) {
+//     console.log(`[Network error]: ${networkError}`)
+//   }
+// })
