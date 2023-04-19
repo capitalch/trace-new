@@ -54,7 +54,7 @@ const store: any = {
     login: {
         isLoggedIn: false,
         uidEmail: '',
-        userType: undefined,
+        userType: '',
     },
 
     modalDialogA: {

@@ -24,7 +24,7 @@ function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
 
   useEffect(() => {
-    loadLoginInfo()
+    // loadLoginInfo()
     appStore.layouts.selectedComponent.value = (appStore.login.isLoggedIn.value
       ? DummyComponent
       : AppLogin)
@@ -52,8 +52,8 @@ function AppLayouts() {
     // populate appStore properties
     appStore.login.uidEmail = loginInfo.uidEmail
     appStore.login.userType = loginInfo.userType
-    appStore.layouts.sideMenuType = loginInfo.sideMenuType
-    appStore.layouts.sideMenuHeading = loginInfo.sideMenuHeading
+    appStore.layouts.sideMenuType = loginInfo.sideMenuType || ''
+    appStore.layouts.sideMenuHeading = loginInfo.sideMenuHeading || ''
 
     appStaticStore.login.branchCode = loginInfo.branchCode || ''
     appStaticStore.login.branchId = loginInfo.branchId || 0
