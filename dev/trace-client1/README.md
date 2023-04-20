@@ -1,0 +1,1 @@
+## In app_layouts.tsx comment out showClients() and uncomment the line above it

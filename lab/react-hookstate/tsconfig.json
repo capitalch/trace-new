@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@src/*":["./src/*"],
-    },
-    "target": "ESNext",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -25,5 +22,5 @@
   },
   "include": [
     "src"
-, "craco.config.js"  ]
+  ]
 }

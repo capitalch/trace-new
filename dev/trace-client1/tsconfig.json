@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+  "compilerOptions": {  
     "paths": {
       "@src/*":["./src/*"],
     },
@@ -7,7 +7,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "ESNext"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -25,5 +25,5 @@
   },
   "include": [
     "src"
-, "craco.config.js"  ]
+  ]
 }

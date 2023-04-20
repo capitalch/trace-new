@@ -8,7 +8,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
 import "@src/features/ag-theme-balham-custom.scss" // Customized the balham theme
-
+// import './super-admin-clients.scss'
 
 export const App = () => (
   <ChakraProvider theme={theme}>

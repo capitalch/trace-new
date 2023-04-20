@@ -1,5 +1,4 @@
-// import { deepSignal } from "@deepsignal/react"
-import {hookstate, State} from '@hookstate/core'
+import { deepSignal } from "@deepsignal/react"
 import { _, setAccesstokenInLS, setIsLoggedInInLS, setRefreshTokenInLS, } from '@src/features'
 
 const store: any = {
@@ -118,7 +117,7 @@ const store: any = {
     }
 }
 
-let appStore: State<any> = hookstate(_.cloneDeep(store))
+let appStore: any = deepSignal(_.cloneDeep(store))
 
 function doLogout() {
     resetAppStore()
