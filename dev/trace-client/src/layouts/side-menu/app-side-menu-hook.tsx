@@ -9,22 +9,24 @@ import {
   SalesPurchaseIcon,
   SecuredControlsIcon,
   SideMenuTypesEnum,
+  useHookstate,
   UsersIcon,
   VouchersIcon,
 } from "@src/features";
-import {
-  AppDashboard,
-  AppJournals,
-  AppPayments,
-  AppSales,
-} from "@src/components";
-import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
-import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
-import { AppRoles } from "@src/auth/roles/app-roles";
-import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
+// import {
+//   AppDashboard,
+//   AppJournals,
+//   AppPayments,
+//   AppSales,
+// } from "@src/components";
+// import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
+// import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
+// import { AppRoles } from "@src/auth/roles/app-roles";
+// import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
-  const sideMenuType = appStore.layouts.sideMenuType.value;
+  const store:any = useHookstate(appStore)
+  const sideMenuType = store.layouts.sideMenuType.get();
   let num: number = 1; // For counter
   const componentsMap: { [key: string]: React.FC } = {};
   const breadcrumbMap: { [key: string]: any } = {}
@@ -56,20 +58,20 @@ function useAppSideMenu() {
   }
 
   function handleOnClick({ key }: any) {
-    appStore.layouts.isDrawerOpen.value = false;
-    appStore.layouts.selectedComponent.value = componentsMap[key];
-    appStore.content.breadcrumb.value = breadcrumbMap[key]
+    store.layouts.isDrawerOpen.set(false)
+    store.layouts.selectedComponent.set(componentsMap[key])
+    store.content.breadcrumb.set(breadcrumbMap[key])
   }
 
   function handleOnSelect({ key }: any) {
-    appStore.layouts.sideMenuSelectedKeys.value = [key];
+    store.layouts.sideMenuSelectedKeys.set([key])
   }
 
   function handleOnOpenChange(openKeys: string[]) {
     const lastOpenKeyIndex = openKeys.length - 1 || 0;
     const lastOpenKey = openKeys[lastOpenKeyIndex];
-    appStore.layouts.sideMenuOpenKeys.value = [lastOpenKey];
-    appStore.layouts.sideMenuSelectedKeys.value = ["0"];
+    store.layouts.sideMenuOpenKeys.set([lastOpenKey])
+    store.layouts.sideMenuSelectedKeys.set(["0"])
   }
 
   function incr() {
@@ -103,7 +105,7 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Dashboard",
-        component: AppDashboard,
+        // component: AppDashboard,
       },
     ],
   },
@@ -113,11 +115,11 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Journals",
-        component: AppJournals,
+        // component: AppJournals,
       },
       {
         label: "Payments",
-        component: AppPayments,
+        // component: AppPayments,
       },
     ],
   },
@@ -127,7 +129,7 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Sales",
-        component: AppSales,
+        // component: AppSales,
       },
     ],
   },
@@ -138,31 +140,31 @@ const superAdminMenu: MenuItemType[] = [
     breadcrumb: 'Super admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    component: SuperAdminDashboard,
+    // component: SuperAdminDashboard,
   },
   {
     breadcrumb: "Super admin clients",
     label: "Clients",
     icon: <ClientsIcon color="dodgerBlue" />,
-    component: SuperAdminClients,
+    // component: SuperAdminClients,
   },
   {
     breadcrumb: "Super admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    component: AppRoles,
+    // component: AppRoles,
   },
   {
     breadcrumb: "Super admin secured controls",
     label: "Secured controls",
     icon: <SecuredControlsIcon color="teal" />,
-    component: SuperAdminSecuredControls,
+    // component: SuperAdminSecuredControls,
   },
   {
     breadcrumb: "Admin users",
     label: "Admin users",
     icon: <UsersIcon color="dodgerBlue" />,
-    component: SuperAdminAdminUsers,
+    // component: SuperAdminAdminUsers,
   },
 ];
 
@@ -171,24 +173,24 @@ const adminMenu: MenuItemType[] = [
     breadcrumb: 'Admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    component: AdminDashboard
+    // component: AdminDashboard
   },
   {
     breadcrumb: "Admin business units",
     label: "Business units",
     icon: <BuIcon color="blue" />,
-    component: AdminBusinessUnits,
+    // component: AdminBusinessUnits,
   },
   {
     breadcrumb: "Admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    component: AppRoles,
+    // component: AppRoles,
   },
   {
     breadcrumb: "Business users",
     label: "Business users",
     icon: <UsersIcon color="dodgerBlue" />,
-    component: AdminBusinessUsers,
+    // component: AdminBusinessUsers,
   },
 ];

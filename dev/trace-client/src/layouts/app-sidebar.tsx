@@ -9,12 +9,14 @@ import {
   IconButton,
   Image,
   Slide,
+  useHookstate,
   VStack,
 } from "@src/features";
 import { AppSideMenu } from "./side-menu/app-side-menu";
 
 function AppSidebar() {
-  const isSidebarOpen = appStore.layouts.isSidebarOpen.value;
+  const store: any = useHookstate(appStore)
+  const isSidebarOpen = store.layouts.isSidebarOpen.get();
   const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH;
   const HEIGHT = AppConstants.HEADER_HEIGHT;
 
@@ -43,14 +45,14 @@ function AppSidebar() {
           </HStack>
           <AppSideMenu />
         </VStack>
-        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{appStore.layouts.sideMenuHeading.value}</Heading>
+        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.get()}</Heading>
       </Flex>
     </Slide>
   );
 
   function handleClickSidebarClose() {
-    appStore.layouts.isSidebarOpen.value = false;
-    appStaticStore.isCloseClicked = true;
+    store.layouts.isSidebarOpen.set(false)
+    appStaticStore.isCloseClicked = true
   }
 }
 export { AppSidebar };

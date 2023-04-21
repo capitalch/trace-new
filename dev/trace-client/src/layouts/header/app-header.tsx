@@ -1,13 +1,14 @@
 import {
-    AppConstants, appStaticStore, appStore, Box, IconButton, MenuIcon, useEffect, useMediaQuery, Flex
+    AppConstants, appStaticStore, appStore, Box, IconButton, MenuIcon, HState, useEffect, useMediaQuery, Flex, useHookstate
 } from '@src/features'
 import { LogoutMenuButton } from './logout-menu-button'
 
 function AppHeader() {
+    const store: any = useHookstate(appStore)
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)", { ssr: false })
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
-    const isLoggedIn = appStore.login.isLoggedIn.value
-    const isSidebarOpen = appStore.layouts.isSidebarOpen.value
+    const isLoggedIn = store.login.isLoggedIn.get()
+    const isSidebarOpen = store.layouts.isSidebarOpen.get()
 
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEIGHT = AppConstants.HEADER_HEIGHT
@@ -34,11 +35,11 @@ function AppHeader() {
                     appStaticStore.isCloseClicked = false
                 }
             }
-            appStore.layouts.isSidebarOpen.value = isOpen
+            store.layouts.isSidebarOpen.set(isOpen)
 
         } else {
-            appStore.layouts.isSidebarOpen.value = false
-            appStore.layouts.isDrawerOpen.value = false
+            store.layouts.isSidebarOpen.set(false)
+            store.layouts.isDrawerOpen.set(false)
         }
     }, [isSidebarOpen, isLargerThan1536, isLoggedIn,])
 
@@ -62,11 +63,11 @@ function AppHeader() {
 
     function handleMenuClick() {
         if (isSmallerThan768) {
-            appStore.layouts.isDrawerOpen.value = true
-            appStore.layouts.isSidebarOpen.value = false
+            store.layouts.isDrawerOpen.set(true)
+            store.layouts.isSidebarOpen.set(false)
         } else {
-            appStore.layouts.isSidebarOpen.value = true
-            appStore.layouts.isDrawerOpen.value = false
+            store.layouts.isSidebarOpen.set(true)
+            store.layouts.isDrawerOpen.set(false)
             appStaticStore.isOpenClicked = true
         }
     }

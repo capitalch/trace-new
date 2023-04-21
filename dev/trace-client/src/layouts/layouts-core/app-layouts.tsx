@@ -1,33 +1,31 @@
-import { AppLogin, DummyComponent } from "@src/components";
+// import { AppLogin, DummyComponent, appComponentSelect } from "@src/components";
 import {
-  // AppConstants,
   appStore,
   Box,
   useEffect,
-  // SideMenuTypesEnum,
-  // UserTypesEnum,
-  AppAlertDialogOk,
-  AppAlertDialogYesNo,
-  AppLoader,
-  AppModalDialogA,
-  AppModalDialogB,
+  // AppAlertDialogOk,
+  // AppAlertDialogYesNo,
+  // AppLoader,
+  // AppModalDialogA,
+  // AppModalDialogB,
   LoginInfoType,
   getLoginInfoFromLS,
   getIsLoggedInFromLS,
   appStaticStore,
+  useHookstate,
 } from "@src/features"
 
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
-// import { SuperAdminClients } from "@src/auth/super-admin"
 
 function AppLayouts() {
-  const isLoggedIn = appStore.login.isLoggedIn.value;
-
+  const store: any = useHookstate(appStore)
+  const isLoggedIn = store.login.isLoggedIn.get();
+  // store.layouts.selectedComponent.set(AppLogin)
   useEffect(() => {
-    // loadLoginInfo()
-    appStore.layouts.selectedComponent.value = (appStore.login.isLoggedIn.value
-      ? DummyComponent
-      : AppLogin)
+    const selectedComponentName = (isLoggedIn
+      ? 'dummyComponent'
+      : 'appLogin')
+    store.layouts.selectedComponentName.set(selectedComponentName)
   }, [isLoggedIn])
 
   return (
@@ -37,38 +35,30 @@ function AppLayouts() {
         <AppSidebar />
         <AppDrawer />
         <AppContent />
-        <AppModalDialogA />
+        {/* <AppModalDialogA />
         <AppModalDialogB />
         <AppAlertDialogOk />
         <AppLoader />
-        <AppAlertDialogYesNo />
+        <AppAlertDialogYesNo /> */}
       </Box>
     </Box>
   )
 
-  function loadLoginInfo() {
-    appStore.login.isLoggedIn.value = getIsLoggedInFromLS()
-    const loginInfo: LoginInfoType = getLoginInfoFromLS()
-    // populate appStore properties
-    appStore.login.uidEmail = loginInfo.uidEmail
-    appStore.login.userType = loginInfo.userType
-    appStore.layouts.sideMenuType = loginInfo.sideMenuType || ''
-    appStore.layouts.sideMenuHeading = loginInfo.sideMenuHeading || ''
+  // function loadLoginInfo() {
+  //   appStore.login.isLoggedIn.value = getIsLoggedInFromLS()
+  //   const loginInfo: LoginInfoType = getLoginInfoFromLS()
+  //   // populate appStore properties
+  //   appStore.login.uidEmail = loginInfo.uidEmail
+  //   appStore.login.userType = loginInfo.userType
+  //   appStore.layouts.sideMenuType = loginInfo.sideMenuType || ''
+  //   appStore.layouts.sideMenuHeading = loginInfo.sideMenuHeading || ''
 
-    appStaticStore.login.branchCode = loginInfo.branchCode || ''
-    appStaticStore.login.branchId = loginInfo.branchId || 0
-    appStaticStore.login.branchName = loginInfo.branchName || ''
-    appStaticStore.login.buCode = loginInfo.buCode || ''
-    appStaticStore.login.buId = loginInfo.buId || 0
-    appStaticStore.login.buName = loginInfo.buName || ''
-  }
-
-  // function showClients() {
-  //   appStore.login.isLoggedIn.value = true;
-  //   appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN;
-  //   appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu;
-  //   appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER;
-  //   appStore.layouts.selectedComponent.value = SuperAdminClients;
+  //   appStaticStore.login.branchCode = loginInfo.branchCode || ''
+  //   appStaticStore.login.branchId = loginInfo.branchId || 0
+  //   appStaticStore.login.branchName = loginInfo.branchName || ''
+  //   appStaticStore.login.buCode = loginInfo.buCode || ''
+  //   appStaticStore.login.buId = loginInfo.buId || 0
+  //   appStaticStore.login.buName = loginInfo.buName || ''
   // }
 }
 export { AppLayouts }

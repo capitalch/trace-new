@@ -3,13 +3,13 @@ import { State, useHookstate } from '@hookstate/core'
 import { AppStoreType, appStore } from '../features/app-store'
 
 function Comp1() {
-    const store: State<AppStoreType> = useHookstate(appStore)
+    const store: any = useHookstate(appStore)
     return (
         <VStack>
             <Text>Comp1</Text>
             <HStack>
-                <Text>{store.admin.businessUnit.name.get()}</Text>
-                <Text>{store.admin.businessUnit.code.get()}</Text>
+                <Text>{store.admin.businessUnit.name.value}</Text>
+                <Text>{store.admin.businessUnit.code.value}</Text>
             </HStack>
         </VStack>
     )

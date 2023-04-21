@@ -90,7 +90,7 @@ export {
 } from '@chakra-ui/react'
 // export { deepSignal, useDeepSignal } from '@deepsignal/react'
 export { Messages } from './messages'
-export { _, axios, moment, produce, qs, React, ReactSelect, urlJoin }
+export { _, axios, moment,  qs, React, ReactSelect, urlJoin }
 export {
   type FC,
   useEffect,
@@ -172,6 +172,7 @@ export {
   resetLoginInfoInLS,
   setLoginInfoInLS
 }
+export { hookstate, type State as HState, useHookstate } from '@hookstate/core'
 //icons
 
 // chakra-ui icons

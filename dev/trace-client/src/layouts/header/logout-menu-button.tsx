@@ -1,9 +1,10 @@
 import {
-    appStore, Button, ChevronDownIcon, Menu, MenuButton, MenuList,PersonIcon, 
+    appStore, Button, ChevronDownIcon, Menu, MenuButton, MenuList,PersonIcon, useHookstate
 } from '@src/features'
 import { useLogoutMenuButton } from './logout-menu-button-hook'
 
 function LogoutMenuButton() {
+    const store: any = useHookstate(appStore)
     const {getMenuItems, } = useLogoutMenuButton()
     return (
         <Menu>
@@ -21,7 +22,7 @@ function LogoutMenuButton() {
                 aria-label='Logout'
                 leftIcon={<PersonIcon fontSize='1.2rem' />}
                 rightIcon={<ChevronDownIcon fontSize='1.2rem' />}
-                variant='ghost'>{appStore.login.uidEmail.value}</MenuButton>
+                variant='ghost'>{store.login.uidEmail.get()}</MenuButton>
             <MenuList  p={0} borderRadius={8}>
                 {getMenuItems()}
             </MenuList>

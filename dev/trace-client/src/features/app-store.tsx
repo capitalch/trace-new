@@ -46,6 +46,7 @@ const store: any = {
         isDrawerOpen: false,
         isSidebarOpen: true,
         selectedComponent: undefined,
+        selectedComponentName: 'dummyComponent',
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
         sideMenuType: '',
@@ -118,7 +119,7 @@ const store: any = {
     }
 }
 
-let appStore: State<any> = hookstate(_.cloneDeep(store))
+let appStore: any = hookstate(_.cloneDeep(store))
 
 function doLogout() {
     resetAppStore()
@@ -128,9 +129,12 @@ function resetAppStore() {
     setRefreshTokenInLS('')
     setIsLoggedInInLS(false)
     
-    appStore.layouts.value = { ...store.layouts }
-    appStore.login.value = { ...store.login }
-    appStore.content.value = { ...store.content }
+    // appStore.layouts.value = { ...store.layouts }
+    // appStore.login.value = { ...store.login }
+    // appStore.content.value = { ...store.content }
+    appStore.layouts.set({...store.layouts })
+    appStore.login.set({...store.login })
+    appStore.content.set({...store.content })
     appStaticStore.login = { ...defaultLoginObject }
 }
 

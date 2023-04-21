@@ -9,9 +9,11 @@ import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
 import "@src/features/ag-theme-balham-custom.scss" // Customized the balham theme
 
-
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <AppLayouts />
-  </ChakraProvider>
-)
+function App() {
+  return (
+    <ChakraProvider theme={theme}>
+      <AppLayouts />
+    </ChakraProvider>
+  )
+}
+export default App
