@@ -46,6 +46,8 @@ function usingAuthUtils() {
 }
 
 function getHostUrl() {
+  const nodeEnv = process.env.NODE_ENV
+  const serverUrl = process.env.REACT_APP_LOCAL_SERVER_URL
   const url: any =
     process.env.NODE_ENV === 'development'
       ? process.env.REACT_APP_LOCAL_SERVER_URL
