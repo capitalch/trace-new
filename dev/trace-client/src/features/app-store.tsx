@@ -124,14 +124,12 @@ let appStore: any = hookstate(_.cloneDeep(store))
 function doLogout() {
     resetAppStore()
 }
+
 function resetAppStore() {
     setAccesstokenInLS('')
     setRefreshTokenInLS('')
     setIsLoggedInInLS(false)
     
-    // appStore.layouts.value = { ...store.layouts }
-    // appStore.login.value = { ...store.login }
-    // appStore.content.value = { ...store.content }
     appStore.layouts.set({...store.layouts })
     appStore.login.set({...store.login })
     appStore.content.set({...store.content })
@@ -262,4 +260,123 @@ interface AppStaticStoreType {
         },
     },
     [key: string]: any
+}
+
+type AuthStoreType = {
+    admin: {
+        businessUnits: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        businessUsers: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+    },
+
+    login: {
+        isLoggedIn: boolean,
+        uidEmail: string,
+        userType: string,
+    },
+
+    permissions: {
+        filteredRows: [],
+        noOfRows: number,
+        rows: [],
+        refresh: boolean,
+        searchString: string
+    },
+
+    reload: boolean
+
+    superAdmin: {
+        adminUsers: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        clients: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        roles: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        securedControls: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+    }
+}
+
+type BluePrintStoreType = {
+   
+    alertDialogOk: {
+        body: ()=>any,
+        header: '',
+        isOpen: false,
+    },
+
+    alertDialogYesNo: {
+        action: () => { },
+        body: () => any,
+        header: '',
+        isOpen: false,
+        result: false
+    },
+    
+    appLoader: {
+        isOpen: boolean
+    },
+
+    content: {
+        breadcrumb: string
+    },
+
+    layouts: {
+        isDrawerOpen: boolean,
+        isSidebarOpen: boolean,
+        selectedComponentName: string,
+        sideMenuOpenKeys: [],
+        sideMenuSelectedKeys: [],
+        sideMenuType: string,
+        sideMenuHeading: string
+    },
+
+    modalDialogA: {
+        body: () => any,
+        defaultData: undefined,
+        isOpen: false,
+        size: 'md',
+        title: '',
+        toShowCloseButton: false,
+    },
+
+    modalDialogB: {
+        body: () => any,
+        defaultData: undefined,
+        isOpen: false,
+        size: 'sm',
+        title: '',
+        toShowCloseButton: false,
+    },
 }

@@ -58,10 +58,10 @@ function useAppLogin() {
         }
         if (payload.userType === 'S') {
             // const s:string = UserTypesEnum.SUPER_ADMIN
-            // store.login.userType.set(UserTypesEnum.SUPER_ADMIN)
-            // appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
-            // appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
-            // appStore.login.uidEmail.value = payload.email
+            store.login.userType.set(UserTypesEnum.SUPER_ADMIN)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
+            store.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
+            store.login.uidEmail.set(payload.email)
 
             // loginInfo.userType = 'SUPER_ADMIN'
             // loginInfo.sideMenuType = 'superAdminMenu'
