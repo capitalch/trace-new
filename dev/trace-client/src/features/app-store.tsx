@@ -1,5 +1,5 @@
 // import { deepSignal } from "@deepsignal/react"
-import {hookstate, State} from '@hookstate/core'
+import { hookstate, State } from '@hookstate/core'
 import { _, setAccesstokenInLS, setIsLoggedInInLS, setRefreshTokenInLS, } from '@src/features'
 
 const store: any = {
@@ -129,10 +129,10 @@ function resetAppStore() {
     setAccesstokenInLS('')
     setRefreshTokenInLS('')
     setIsLoggedInInLS(false)
-    
-    appStore.layouts.set({...store.layouts })
-    appStore.login.set({...store.login })
-    appStore.content.set({...store.content })
+
+    appStore.layouts.set({ ...store.layouts })
+    appStore.login.set({ ...store.login })
+    appStore.content.set({ ...store.content })
     appStaticStore.login = { ...defaultLoginObject }
 }
 
@@ -205,62 +205,124 @@ const appStaticStore: AppStaticStoreType = {
 }
 export { appStore, appStaticStore, doLogout, resetAppStore }
 
-interface AppStaticStoreType {
-    componentHistorySet: Set<string>
-    doReload: () => void,
-    isCloseClicked: boolean,
-    isOpenClicked: boolean,
+const authStore: State<AuthStoreType> = hookstate<AuthStoreType>({
     admin: {
         businessUnits: {
-            doFilter: () => void,
-            doReload: () => void
-        }
-        businessUsers: {
-            doFilter: () => void,
-            doReload: () => void
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         },
-        bues: {
-            doReload: () => void
-        }
+        businessUsers: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
     },
+
     login: {
-        clientId: number,
-        clientCode: string
-        clientName: string
-        buId: number
-        buCode: string
-        buName: string
-        branchId: number
-        branchCode: string
-        branchName: string
+        isLoggedIn: false,
+        uidEmail: '',
+        userType: '',
     },
+
     permissions: {
-        doFilter: () => void,
-        doReload: () => void
-    }
+        filteredRows: [],
+        noOfRows: 100,
+        rows: [],
+        refresh: true,
+        searchString: ''
+    },
+
+    reload: false,
+
     superAdmin: {
         adminUsers: {
-            doFilter: () => void,
-            doReload: () => void
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         },
         clients: {
-            doFilter: () => void,
-            doReload: () => void
-        },
-        dashboard: {
-            doReload: () => void
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         },
         roles: {
-            doFilter: () => void,
-            doReload: () => void
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         },
         securedControls: {
-            doFilter: () => void,
-            doReload: () => void
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
         },
+    }
+
+})
+
+const coreStore: State<CoreStoreType> = hookstate<CoreStoreType>({
+    alertDialogOk: {
+        body: () => <></>,
+        header: '',
+        isOpen: false,
     },
-    [key: string]: any
-}
+
+    alertDialogYesNo: {
+        action: () => {},
+        body: () => <></>,
+        header: '',
+        isOpen: false,
+        result: false
+    },
+
+    appLoader: {
+        isOpen: false
+    },
+
+    content: {
+        breadcrumb: ''
+    },
+
+    layouts: {
+        isDrawerOpen: false,
+        isSidebarOpen: true,
+        selectedComponentName: 'dummyComponent',
+        sideMenuOpenKeys: [],
+        sideMenuSelectedKeys: [],
+        sideMenuType: '',
+        sideMenuHeading: ''
+    },
+
+    modalDialogA: {
+        body: () => <></>,
+        defaultData: undefined,
+        isOpen: false,
+        size: 'md',
+        title: '',
+        toShowCloseButton: false,
+    },
+
+    modalDialogB: {
+        body: () => <></>,
+        defaultData: undefined,
+        isOpen: false,
+        size: 'sm',
+        title: '',
+        toShowCloseButton: false,
+    },
+})
 
 type AuthStoreType = {
     admin: {
@@ -328,22 +390,21 @@ type AuthStoreType = {
     }
 }
 
-type BluePrintStoreType = {
-   
+type CoreStoreType = {
     alertDialogOk: {
-        body: ()=>any,
-        header: '',
-        isOpen: false,
+        body: () => any,
+        header: string,
+        isOpen: boolean,
     },
 
-    alertDialogYesNo: {
-        action: () => { },
+    alertDialogYesNo?: {
+        action: () => void,
         body: () => any,
-        header: '',
+        header: string,
         isOpen: false,
         result: false
     },
-    
+
     appLoader: {
         isOpen: boolean
     },
@@ -363,20 +424,77 @@ type BluePrintStoreType = {
     },
 
     modalDialogA: {
-        body: () => any,
+        body: () => void,
         defaultData: undefined,
         isOpen: false,
-        size: 'md',
-        title: '',
-        toShowCloseButton: false,
+        size: 'md' | 'lg' |'sm' | 'xl',
+        title: string,
+        toShowCloseButton: boolean,
     },
 
     modalDialogB: {
-        body: () => any,
-        defaultData: undefined,
-        isOpen: false,
+        body: () => void,
+        defaultData: any,
+        isOpen: boolean,
         size: 'sm',
-        title: '',
-        toShowCloseButton: false,
+        title: any,
+        toShowCloseButton: boolean,
     },
+}
+
+interface AppStaticStoreType {
+    componentHistorySet: Set<string>
+    doReload: () => void,
+    isCloseClicked: boolean,
+    isOpenClicked: boolean,
+    admin: {
+        businessUnits: {
+            doFilter: () => void,
+            doReload: () => void
+        }
+        businessUsers: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+        bues: {
+            doReload: () => void
+        }
+    },
+    login: {
+        clientId: number,
+        clientCode: string
+        clientName: string
+        buId: number
+        buCode: string
+        buName: string
+        branchId: number
+        branchCode: string
+        branchName: string
+    },
+    permissions: {
+        doFilter: () => void,
+        doReload: () => void
+    }
+    superAdmin: {
+        adminUsers: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+        clients: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+        dashboard: {
+            doReload: () => void
+        },
+        roles: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+        securedControls: {
+            doFilter: () => void,
+            doReload: () => void
+        },
+    },
+    [key: string]: any
 }

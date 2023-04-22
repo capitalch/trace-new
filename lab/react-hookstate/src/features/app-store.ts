@@ -1,6 +1,7 @@
 import { hookstate, State } from "@hookstate/core"
 import { DummyComponent } from "../components/dummy-component"
-const appStore: any = hookstate({
+
+const appStore: AppStoreType = hookstate({
     admin:{
         businessUnit: {
             name: '',
