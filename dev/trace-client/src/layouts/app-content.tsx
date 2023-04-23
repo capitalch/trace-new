@@ -1,15 +1,15 @@
-import { AppConstants, appStore, Box, Flex, HStack, Text, useHookstate, } from '@src/features'
-import { appComponentSelect, } from '../components'
+import { appSelectComponent } from '@src/components'
+import { AppConstants, appStore, } from '@src/features'
+import { Box, FC, Flex, HStack, Text, } from '@src/libs'
 
 function AppContent() {
-    const store: any = useHookstate(appStore)
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
-    const isLoggedIn = store.login.isLoggedIn.get()
+    const isLoggedIn = appStore.login.isLoggedIn.value
     const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
-    const isSidebarOpen = store.layouts.isSidebarOpen.get()
-    // const selectedComponent = store.layouts.selectedComponent.get()
-    const selectedComponentName = store.layouts.selectedComponentName.get()
-    const SelectedComponent: any = appComponentSelect[selectedComponentName]
+    const isSidebarOpen = appStore.layouts.isSidebarOpen.value
+    const selectedComponentName = appStore.layouts.selectedComponentName.value
+    const SelectedComponent: FC = appSelectComponent[selectedComponentName]
+    // const selectedComponent = appStore.layouts.selectedComponent.value
 
     return (<Box
         h={`calc(100vh - ${HEADER_HEIGHT})`}
@@ -17,10 +17,9 @@ function AppContent() {
         ml={isSidebarOpen ? SIDEBARWIDTH : 0} pl={6} pr={6} pb={5} pt={0}>
         <Flex h='100%' direction='column'>
             <HStack w='100%' mb={1} mt={1}>
-                <Text color='GrayText' fontWeight='bold' fontSize='md'>{store.content.breadcrumb.get()}</Text>
+                <Text color='GrayText' fontWeight='bold' fontSize='md'>{appStore.content.breadcrumb.value}</Text>
             </HStack>
             <SelectedComponent />
-            {/* {selectedComponent ? <store.layouts.selectedComponent.value /> : <></>} */}
         </Flex>
     </Box>)
 }

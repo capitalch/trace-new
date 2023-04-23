@@ -1,7 +1,8 @@
-import { AccountsIcon, AdminMenuIcon, appStore, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, resetAppStore,HState, useHookstate, UserTypesEnum } from '@src/features'
+import { AccountsIcon, AdminMenuIcon, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, State, useHookstate, } from '@src/libs'
+import { appStore, AppStoreType, doLogout, UserTypesEnum } from '@src/features'
 
 function useLogoutMenuButton() {
-    const store: any = useHookstate(appStore)
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
     const userType = store.login.userType.get()
 
     function getAdminMenuItems() {
@@ -36,9 +37,9 @@ function useLogoutMenuButton() {
 
     function getMenuItems() {
         let ret: any = undefined
-        if (userType === UserTypesEnum.SUPER_ADMIN) {
+        if (userType === UserTypesEnum.superAdmin) {
             ret = getSuperAdminMenuItems
-        } else if (userType === UserTypesEnum.ADMIN) {
+        } else if (userType === UserTypesEnum.admin) {
             ret = getAdminMenuItems
         } else {
             ret = getBusinessUserMenuItems
@@ -47,7 +48,7 @@ function useLogoutMenuButton() {
     }
 
     function handleLogoutOnClick() {
-        resetAppStore()
+        doLogout()
     }
 
     return ({ getMenuItems, handleLogoutOnClick })

@@ -1,5 +1,5 @@
-import { appStaticStore, appStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryResultType, IconButton, Messages, Tooltip, useAppGraphql, useToast } from '@src/features'
-import { FC } from 'react'
+import { DeleteIcon, EditIcon, FC, HideIcon, IconButton, Tooltip, useToast } from '@src/libs'
+import { appStaticStore, GraphQlQueryResultType, Messages, useAppGraphql } from '@src/features'
 
 function usingAuthUtils() {
   function getAccessTokenFromLS() {
@@ -204,9 +204,9 @@ function useComponentHistory() {
 
 function useDialogs() {
   function showAlertDialogOk({ title, body }: { title: string; body: any }) {
-    appStore.alertDialogOk.isOpen.value = true
-    appStore.alertDialogOk.header.value = title
-    appStore.alertDialogOk.body.value = body
+    // appStore.alertDialogOk.isOpen.value = true
+    // appStore.alertDialogOk.header.value = title
+    // appStore.alertDialogOk.body.value = body
   }
 
   function showAlertDialogYesNo({
@@ -219,10 +219,10 @@ function useDialogs() {
     body?: any
   }) {
     const b: any = <>This operation cannot be undone </>
-    appStore.alertDialogYesNo.action.value = action || (() => { })
-    appStore.alertDialogYesNo.isOpen.value = true
-    appStore.alertDialogYesNo.header.value = title || 'Are you sure'
-    appStore.alertDialogYesNo.body.value = body || b
+    // appStore.alertDialogYesNo.action.value = action || (() => { })
+    // appStore.alertDialogYesNo.isOpen.value = true
+    // appStore.alertDialogYesNo.header.value = title || 'Are you sure'
+    // appStore.alertDialogYesNo.body.value = body || b
   }
 
   function showModalDialogA({
@@ -238,16 +238,16 @@ function useDialogs() {
     toShowCloseButton?: boolean
     defaultData?: { [key: string]: any }
   }) {
-    appStore.modalDialogA.size.value = size || 'md'
-    appStore.modalDialogA.title.value = title
-    appStore.modalDialogA.toShowCloseButton.value = toShowCloseButton
-    appStore.modalDialogA.body.value = body
-    appStore.modalDialogA.defaultData.value = defaultData
-    appStore.modalDialogA.isOpen.value = true
+    // appStore.modalDialogA.size.value = size || 'md'
+    // appStore.modalDialogA.title.value = title
+    // appStore.modalDialogA.toShowCloseButton.value = toShowCloseButton
+    // appStore.modalDialogA.body.value = body
+    // appStore.modalDialogA.defaultData.value = defaultData
+    // appStore.modalDialogA.isOpen.value = true
   }
 
   function closeModalDialogA() {
-    appStore.modalDialogA.isOpen.value = false
+    // appStore.modalDialogA.isOpen.value = false
   }
 
   function showModalDialogB({
@@ -263,16 +263,16 @@ function useDialogs() {
     toShowCloseButton?: boolean
     defaultData?: { [key: string]: any }
   }) {
-    appStore.modalDialogB.size.value = size || 'sm'
-    appStore.modalDialogB.title.value = title
-    appStore.modalDialogB.toShowCloseButton.value = toShowCloseButton
-    appStore.modalDialogB.body.value = body
-    appStore.modalDialogB.defaultData.value = defaultData
-    appStore.modalDialogB.isOpen.value = true
+    // appStore.modalDialogB.size.value = size || 'sm'
+    // appStore.modalDialogB.title.value = title
+    // appStore.modalDialogB.toShowCloseButton.value = toShowCloseButton
+    // appStore.modalDialogB.body.value = body
+    // appStore.modalDialogB.defaultData.value = defaultData
+    // appStore.modalDialogB.isOpen.value = true
   }
 
   function closeModalDialogB() {
-    appStore.modalDialogB.isOpen.value = false
+    // appStore.modalDialogB.isOpen.value = false
   }
 
   return {
@@ -289,7 +289,7 @@ function useFeedback() {
   const toast = useToast()
 
   function showAppLoader(toShow: boolean) {
-    appStore.appLoader.isOpen.value = toShow
+    // appStore.appLoader.isOpen.value = toShow
   }
 
   function showError(message: string) {

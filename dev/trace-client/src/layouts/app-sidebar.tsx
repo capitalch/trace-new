@@ -2,6 +2,9 @@ import {
   AppConstants,
   appStaticStore,
   appStore,
+  AppStoreType
+} from "@src/features"
+import {
   ArrowLeftIconChakra,
   Flex,
   Heading,
@@ -9,14 +12,16 @@ import {
   IconButton,
   Image,
   Slide,
+  State,
   useHookstate,
   VStack,
-} from "@src/features";
+} from '@src/libs'
 import { AppSideMenu } from "./side-menu/app-side-menu";
 
 function AppSidebar() {
-  const store: any = useHookstate(appStore)
-  const isSidebarOpen = store.layouts.isSidebarOpen.get();
+  const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+
+  const isSidebarOpen = store.layouts.isSidebarOpen.value;
   const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH;
   const HEIGHT = AppConstants.HEADER_HEIGHT;
 
@@ -45,7 +50,7 @@ function AppSidebar() {
           </HStack>
           <AppSideMenu />
         </VStack>
-        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.get()}</Heading>
+        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.value}</Heading>
       </Flex>
     </Slide>
   );

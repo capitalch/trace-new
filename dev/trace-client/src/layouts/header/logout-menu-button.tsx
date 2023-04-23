@@ -1,15 +1,17 @@
 import {
-    appStore, Button, ChevronDownIcon, Menu, MenuButton, MenuList,PersonIcon, useHookstate
-} from '@src/features'
+    Button, ChevronDownIcon, Menu, MenuButton, MenuList, PersonIcon, State, useHookstate
+} from '@src/libs'
+import { appStore, AppStoreType } from '@src/features'
 import { useLogoutMenuButton } from './logout-menu-button-hook'
 
 function LogoutMenuButton() {
-    const store: any = useHookstate(appStore)
-    const {getMenuItems, } = useLogoutMenuButton()
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+
+    const { getMenuItems, } = useLogoutMenuButton()
     return (
         <Menu>
             <MenuButton ml='auto' mr={2}
-                 as={Button}
+                as={Button}
                 _hover={{
                     background: "blue.500",
                     color: "gray.50",
@@ -23,7 +25,7 @@ function LogoutMenuButton() {
                 leftIcon={<PersonIcon fontSize='1.2rem' />}
                 rightIcon={<ChevronDownIcon fontSize='1.2rem' />}
                 variant='ghost'>{store.login.uidEmail.get()}</MenuButton>
-            <MenuList  p={0} borderRadius={8}>
+            <MenuList p={0} borderRadius={8}>
                 {getMenuItems()}
             </MenuList>
         </Menu>

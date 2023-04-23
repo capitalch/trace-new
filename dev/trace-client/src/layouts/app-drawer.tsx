@@ -1,10 +1,11 @@
-import { appStore, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, useHookstate } from '@src/features'
+import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, State, useHookstate } from '@src/libs'
+import { appStore, AppStoreType } from '@src/features'
 import { AppSideMenu } from './side-menu/app-side-menu'
 
 function AppDrawer() {
-    const store: any = useHookstate(appStore)
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
     return (<Drawer
-        isOpen={store.layouts.isDrawerOpen.get()}
+        isOpen={store.layouts.isDrawerOpen.value}
         placement='left'
         size='xs'
         onClose={handleOnCloseDrawer}>

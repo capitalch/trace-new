@@ -6,18 +6,17 @@ import {
   Operation,
   NextLink
 } from '@apollo/client'
-// import { setContext } from '@apollo/client/link/context'
+import { axios,urlJoin,} from '@src/libs'
 import {
   appStaticStore,
-  axios,
-  doLogout,
+ 
+  // doLogout,
   getAccessTokenFromLS,
   getHostUrl,
   getRefreshTokenFromLS,
   GraphQlQueryResultType,
   Messages,
   setAccesstokenInLS,
-  urlJoin,
   useFeedback
 } from '@src/features'
 import { appGraphqlStrings } from './app-graphql-strings'
@@ -31,7 +30,7 @@ function useAppGraphql () {
 
   function getClient () {
     const token = getAccessTokenFromLS()
-    const url: any = getHostUrl()
+    const url: any =  getHostUrl()
     const link = new HttpLink({
       uri: urlJoin(url, 'graphql/')
     })
@@ -103,7 +102,7 @@ function useAppGraphql () {
     const renewTokenUrl = urlJoin(hostUrl, 'renew')
     try {
       if (!refreshToken) {
-        doLogout()
+        // doLogout()
       } else {
         const result: any = await axios({
           method: 'post',
@@ -121,7 +120,7 @@ function useAppGraphql () {
       }
     } catch (e: any) {
       console.log(e)
-      doLogout()
+      // doLogout()
     }
   }
 

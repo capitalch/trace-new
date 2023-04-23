@@ -1,8 +1,8 @@
-import { appStore, appValidators, Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Messages, Text, useForm, useHookstate } from '@src/features'
+import { appValidators, Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Messages, Text, useForm, useHookstate } from '@src/features'
 import { useAppLogin } from './app-login-hook'
 
 function AppLogin() {
-    const store: any = useHookstate(appStore)
+    // const store: any = useHookstate(appStore)
     const { handleOnSubmit, handleTestSubmit,} = useAppLogin()
     const { handleSubmit, register, formState: { errors } }: any = useForm({ mode: 'onTouched' })
     const { checkPwd, checkUidEmail } = appValidators()

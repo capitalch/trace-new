@@ -1,4 +1,9 @@
-function DummyComponent(){
-    return(<>Dummy</>)
+function DummyComponent() {
+    return (<>Dummy</>)
 }
-export {DummyComponent}
+export { DummyComponent }
+
+function emptyComponent() {
+    return (<>Dummy</>)
+}
+export { emptyComponent }

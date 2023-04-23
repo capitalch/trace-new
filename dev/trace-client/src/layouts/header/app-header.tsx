@@ -1,10 +1,12 @@
 import {
-    AppConstants, appStaticStore, appStore, Box, IconButton, MenuIcon, HState, useEffect, useMediaQuery, Flex, useHookstate
-} from '@src/features'
+     Box, IconButton, MenuIcon, useEffect, useMediaQuery, Flex, useHookstate, State
+} from '@src/libs'
+import {AppConstants, appStaticStore, appStore, AppStoreType,} from '@src/features'
 import { LogoutMenuButton } from './logout-menu-button'
 
 function AppHeader() {
-    const store: any = useHookstate(appStore)
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)", { ssr: false })
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
     const isLoggedIn = store.login.isLoggedIn.get()
@@ -45,7 +47,7 @@ function AppHeader() {
 
 
     return (
-        isLoggedIn &&
+        isLoggedIn ?
         <Box h={HEIGHT} bg={AppConstants.HEADER_BACKGROUND_COLOR} color={AppConstants.HEADER_COLOR} shadow='md' display='flex'
             w={isSidebarOpen ? `calc(100vw - ${SIDEBARWIDTH})` : '100vw'}
             ml={isSidebarOpen ? SIDEBARWIDTH : 0} >
@@ -58,7 +60,7 @@ function AppHeader() {
                 }
                 <LogoutMenuButton />
             </Flex>
-        </Box>
+        </Box> : <></>
     )
 
     function handleMenuClick() {

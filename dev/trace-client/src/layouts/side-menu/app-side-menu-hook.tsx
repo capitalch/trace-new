@@ -1,5 +1,4 @@
 import {
-  appStore,
   BuIcon,
   ClientsIcon,
   DashboardIcon,
@@ -8,37 +7,35 @@ import {
   RolesIcon,
   SalesPurchaseIcon,
   SecuredControlsIcon,
-  SideMenuTypesEnum,
-  useHookstate,
   UsersIcon,
   VouchersIcon,
-} from "@src/features";
-// import {
-//   AppDashboard,
-//   AppJournals,
-//   AppPayments,
-//   AppSales,
-// } from "@src/components";
+} from "@src/libs";
+import {appStore, AppStoreType, SideMenuTypesEnum} from '@src/features'
+import {
+  AppDashboard,
+  AppJournals,
+  AppPayments,
+  AppSales,
+} from "@src/components";
 // import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
 // import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
 // import { AppRoles } from "@src/auth/roles/app-roles";
 // import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
-  const store:any = useHookstate(appStore)
-  const sideMenuType = store.layouts.sideMenuType.get();
+  const sideMenuType = appStore.layouts.sideMenuType.value;
   let num: number = 1; // For counter
   const componentsMap: { [key: string]: React.FC } = {};
   const breadcrumbMap: { [key: string]: any } = {}
 
   function getItems() {
-    if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
-      return getMenuItems(accountsMenu);
-    } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
-      return getMenuItems(superAdminMenu);
-    } else {
-      return getMenuItems(adminMenu);
-    }
+    // if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
+    //   return getMenuItems(accountsMenu);
+    // } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
+    //   return getMenuItems(superAdminMenu);
+    // } else {
+    //   return getMenuItems(adminMenu);
+    // }
   }
 
   function getMenuItems(items: MenuItemType[]): any[] {
@@ -58,20 +55,20 @@ function useAppSideMenu() {
   }
 
   function handleOnClick({ key }: any) {
-    store.layouts.isDrawerOpen.set(false)
-    store.layouts.selectedComponent.set(componentsMap[key])
-    store.content.breadcrumb.set(breadcrumbMap[key])
+    // appStore.layouts.isDrawerOpen.value = false;
+    // appStore.layouts.selectedComponent.value = componentsMap[key];
+    // appStore.content.breadcrumb.value = breadcrumbMap[key]
   }
 
   function handleOnSelect({ key }: any) {
-    store.layouts.sideMenuSelectedKeys.set([key])
+    // appStore.layouts.sideMenuSelectedKeys.value = [key];
   }
 
   function handleOnOpenChange(openKeys: string[]) {
     const lastOpenKeyIndex = openKeys.length - 1 || 0;
     const lastOpenKey = openKeys[lastOpenKeyIndex];
-    store.layouts.sideMenuOpenKeys.set([lastOpenKey])
-    store.layouts.sideMenuSelectedKeys.set(["0"])
+    // appStore.layouts.sideMenuOpenKeys.value = [lastOpenKey];
+    // appStore.layouts.sideMenuSelectedKeys.value = ["0"];
   }
 
   function incr() {
@@ -115,11 +112,11 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Journals",
-        // component: AppJournals,
+        component: AppJournals,
       },
       {
         label: "Payments",
-        // component: AppPayments,
+        component: AppPayments,
       },
     ],
   },
@@ -129,7 +126,7 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Sales",
-        // component: AppSales,
+        component: AppSales,
       },
     ],
   },
