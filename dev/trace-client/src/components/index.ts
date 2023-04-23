@@ -1,5 +1,5 @@
 export { EmptyComponent } from './empty-component'
-export { appSelectComponent } from './app-select-component'
+export { useAppSelectComponent } from './app-select-component'
 export { AppLogin } from './auth'
 export { AppJournals, AppPayments, AppSales } from './accounts'
 export { AppDashboard } from './app-dashboard'

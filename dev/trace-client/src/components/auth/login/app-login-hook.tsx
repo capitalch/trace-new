@@ -95,20 +95,20 @@ function useAppLogin() {
         store.login.isLoggedIn.set(true)
         // setIsLoggedInInLS(true)
         if (userType === 'superAdmin') {
-            // authStore.login.userType.set(UserTypesEnum.SUPER_ADMIN)
-            // mainStore.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
+            store.login.userType.set(UserTypesEnum.superAdmin)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
             store.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
         } else if (userType === 'admin') {
-            // authStore.login.userType.set(UserTypesEnum.ADMIN)
-            // mainStore.layouts.sideMenuType.set(SideMenuTypesEnum.adminMenu)
+            store.login.userType.set(UserTypesEnum.admin)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.adminMenu)
             store.layouts.sideMenuHeading.set(AppConstants.ADMIN_USER)
 
             appStaticStore.login.clientId = 1
             appStaticStore.login.clientCode = 'capital'
             appStaticStore.login.clientName = 'Capital group'
         } else {
-            // authStore.login.userType.set(UserTypesEnum.BUSINESS_USER)
-            // mainStore.layouts.sideMenuType.set(SideMenuTypesEnum.accountsMenu)
+            store.login.userType.set(UserTypesEnum.businessUser)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.accountsMenu)
             store.layouts.sideMenuHeading.set(AppConstants.BUSINESS_USER)
         }
     }

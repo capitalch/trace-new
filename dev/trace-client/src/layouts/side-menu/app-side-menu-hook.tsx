@@ -7,6 +7,8 @@ import {
   RolesIcon,
   SalesPurchaseIcon,
   SecuredControlsIcon,
+  State,
+  useHookstate,
   UsersIcon,
   VouchersIcon,
 } from "@src/libs";
@@ -23,19 +25,20 @@ import {
 // import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
-  const sideMenuType = appStore.layouts.sideMenuType.value;
+  const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+  const sideMenuType = store.layouts.sideMenuType.value;
   let num: number = 1; // For counter
   const componentsMap: { [key: string]: React.FC } = {};
   const breadcrumbMap: { [key: string]: any } = {}
 
   function getItems() {
-    // if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
-    //   return getMenuItems(accountsMenu);
-    // } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
-    //   return getMenuItems(superAdminMenu);
-    // } else {
-    //   return getMenuItems(adminMenu);
-    // }
+    if (sideMenuType === SideMenuTypesEnum.accountsMenu) {
+      return getMenuItems(accountsMenu);
+    } else if (sideMenuType === SideMenuTypesEnum.superAdminMenu) {
+      return getMenuItems(superAdminMenu);
+    } else {
+      return getMenuItems(adminMenu);
+    }
   }
 
   function getMenuItems(items: MenuItemType[]): any[] {
@@ -55,20 +58,20 @@ function useAppSideMenu() {
   }
 
   function handleOnClick({ key }: any) {
-    // appStore.layouts.isDrawerOpen.value = false;
-    // appStore.layouts.selectedComponent.value = componentsMap[key];
-    // appStore.content.breadcrumb.value = breadcrumbMap[key]
+    store.layouts.isDrawerOpen.set(false)
+    // store.layouts.selectedComponent.set(componentsMap[key])
+    store.content.breadcrumb.set(breadcrumbMap[key])
   }
 
   function handleOnSelect({ key }: any) {
-    // appStore.layouts.sideMenuSelectedKeys.value = [key];
+    store.layouts.sideMenuSelectedKeys.set([key])
   }
 
   function handleOnOpenChange(openKeys: string[]) {
     const lastOpenKeyIndex = openKeys.length - 1 || 0;
     const lastOpenKey = openKeys[lastOpenKeyIndex];
-    // appStore.layouts.sideMenuOpenKeys.value = [lastOpenKey];
-    // appStore.layouts.sideMenuSelectedKeys.value = ["0"];
+    store.layouts.sideMenuOpenKeys.set([lastOpenKey])
+    store.layouts.sideMenuSelectedKeys.set(["0"])
   }
 
   function incr() {
@@ -82,6 +85,7 @@ function useAppSideMenu() {
     handleOnClick,
     handleOnOpenChange,
     handleOnSelect,
+    store
   };
 }
 export { useAppSideMenu };

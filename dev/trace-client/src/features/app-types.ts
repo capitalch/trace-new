@@ -43,9 +43,9 @@ enum UserTypesEnum {
 }
 
 enum SideMenuTypesEnum {
-  "superAdminMenu",
-  "adminMenu",
-  "accountsMenu",
+  superAdminMenu = "superAdminMenu",
+  adminMenu = "adminMenu",
+  accountsMenu = "accountsMenu",
 }
 
 export { type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type LoginInfoType, type SqlObjectType, UserTypesEnum, type UserTypesType }

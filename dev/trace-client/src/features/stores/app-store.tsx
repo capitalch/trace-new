@@ -9,7 +9,7 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
         isDrawerOpen: false,
         isSidebarOpen: true,
         // selectedComponent: () => <></>,
-        selectedComponentName: '',
+        selectedComponentName: 'emptyComponent',
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
         sideMenuType: '',

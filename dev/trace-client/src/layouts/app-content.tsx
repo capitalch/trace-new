@@ -1,15 +1,16 @@
-import { appSelectComponent } from '@src/components'
-import { AppConstants, appStore, } from '@src/features'
-import { Box, FC, Flex, HStack, Text, } from '@src/libs'
+import { useAppSelectComponent } from '../components'
+import { AppConstants, appStore, AppStoreType } from '@src/features'
+import { Box, FC, Flex, HStack, State, Text, useHookstate } from '@src/libs'
 
 function AppContent() {
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    const { appSelectComponent } = useAppSelectComponent()
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
-    const isLoggedIn = appStore.login.isLoggedIn.value
+    const isLoggedIn = store.login.isLoggedIn.value
     const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
-    const isSidebarOpen = appStore.layouts.isSidebarOpen.value
-    const selectedComponentName = appStore.layouts.selectedComponentName.value
+    const isSidebarOpen = store.layouts.isSidebarOpen.value
+    const selectedComponentName = store.layouts.selectedComponentName.value
     const SelectedComponent: FC = appSelectComponent[selectedComponentName]
-    // const selectedComponent = appStore.layouts.selectedComponent.value
 
     return (<Box
         h={`calc(100vh - ${HEADER_HEIGHT})`}

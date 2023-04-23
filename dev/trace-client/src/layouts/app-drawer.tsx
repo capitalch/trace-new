@@ -19,7 +19,6 @@ function AppDrawer() {
                     Accounting package
                 </DrawerFooter>
             </DrawerContent>
-
     </Drawer>)
 
     function handleOnCloseDrawer(){

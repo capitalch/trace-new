@@ -2,7 +2,7 @@ import { hookstate, State, useHookstate,  } from "@hookstate/core"
 
 import { FC } from "react"
 
-const appStore = hookstate({
+const appStore: State<AppStoreType> = hookstate({
     admin: {
         businessUnit: {
             name: '',
