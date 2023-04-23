@@ -1,5 +1,5 @@
 import { hookstate, State, useHookstate,  } from "@hookstate/core"
-import { DummyComponent, emptyComponent } from "../components/dummy-component"
+
 import { FC } from "react"
 
 const appStore = hookstate({
