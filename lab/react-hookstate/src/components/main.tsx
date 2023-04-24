@@ -6,8 +6,8 @@ import { selectComponent, AppContent } from "@src/components"
 
 
 function Main() {
-    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
-    const compName = store.layouts.compName.value
+    // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    const compName = appStore.layouts.compName.value
     const SelectedComponent:any = selectComponent[compName]
 
     const CompA = selectComponent['comp11A']

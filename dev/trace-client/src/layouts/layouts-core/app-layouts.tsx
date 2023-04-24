@@ -4,12 +4,12 @@ import { AppLogin } from '@src/components'
 import { AppContent, AppHeader, AppSidebar } from '@src/layouts'
 
 function AppLayouts() {
-  const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
-  const isLoggedIn = store.login.isLoggedIn.value
+  // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+  const isLoggedIn = appStore.login.isLoggedIn.value
 
   useEffect(() => {
     const compName = isLoggedIn ? 'emptyComponent' : 'appLogin'
-    store.layouts.selectedComponentName.set(compName)
+    appStore.layouts.selectedComponentName.set(compName)
 
   }, [isLoggedIn])
 

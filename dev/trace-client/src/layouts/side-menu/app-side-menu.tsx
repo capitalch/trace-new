@@ -3,7 +3,7 @@ import {MenuAnt,} from '@src/libs'
 import { useAppSideMenu } from './app-side-menu-hook'
 
 function AppSideMenu() {
-    const { getItems, handleOnClick, handleOnOpenChange, handleOnSelect, store } = useAppSideMenu()
+    const { getItems, handleOnClick, handleOnOpenChange, handleOnSelect, } = useAppSideMenu()
     return (<MenuAnt
         items={getItems()}
         mode='inline'

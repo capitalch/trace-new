@@ -25,8 +25,8 @@ import {
 // import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
-  const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
-  const sideMenuType = store.layouts.sideMenuType.value;
+  // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+  const sideMenuType = appStore.layouts.sideMenuType.value;
   let num: number = 1; // For counter
   const componentsMap: { [key: string]: React.FC } = {};
   const breadcrumbMap: { [key: string]: any } = {}
@@ -58,20 +58,20 @@ function useAppSideMenu() {
   }
 
   function handleOnClick({ key }: any) {
-    store.layouts.isDrawerOpen.set(false)
+    appStore.layouts.isDrawerOpen.set(false)
     // store.layouts.selectedComponent.set(componentsMap[key])
-    store.content.breadcrumb.set(breadcrumbMap[key])
+    appStore.content.breadcrumb.set(breadcrumbMap[key])
   }
 
   function handleOnSelect({ key }: any) {
-    store.layouts.sideMenuSelectedKeys.set([key])
+    appStore.layouts.sideMenuSelectedKeys.set([key])
   }
 
   function handleOnOpenChange(openKeys: string[]) {
     const lastOpenKeyIndex = openKeys.length - 1 || 0;
     const lastOpenKey = openKeys[lastOpenKeyIndex];
-    store.layouts.sideMenuOpenKeys.set([lastOpenKey])
-    store.layouts.sideMenuSelectedKeys.set(["0"])
+    appStore.layouts.sideMenuOpenKeys.set([lastOpenKey])
+    appStore.layouts.sideMenuSelectedKeys.set(["0"])
   }
 
   function incr() {
@@ -85,7 +85,7 @@ function useAppSideMenu() {
     handleOnClick,
     handleOnOpenChange,
     handleOnSelect,
-    store
+    appStore
   };
 }
 export { useAppSideMenu };

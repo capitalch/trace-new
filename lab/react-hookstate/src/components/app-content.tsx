@@ -4,8 +4,8 @@ import { useHookstate } from '@hookstate/core'
 import { selectComponent } from '@src/components'
 
 function AppContent() {
-    const store = useHookstate(appStore)
-    const compName = store.layouts.compName.value
+    // const store:any = useHookstate(appStore)
+    const compName = appStore.layouts.compName.value
     const SelectedComponent:any = selectComponent[compName]
 
     return (<Box>
@@ -15,11 +15,13 @@ function AppContent() {
     </Box>)
 
     function handleLoadA() {
-        store.layouts.compName.set('comp11A')
+        appStore.layouts.compName.set('comp11A')
     }
 
     function handleLoadB() {
-        store.layouts.compName.set('comp11B')
+        // store.layouts.compName.set('comp11B')
+        appStore.layouts.compName.set('comp11B')
+        // store.layouts.selectedComponent.set(()=><>ABC</>)
     }
 }
 export { AppContent }

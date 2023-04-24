@@ -8,8 +8,6 @@ import {
 } from '@apollo/client'
 import { axios,urlJoin,} from '@src/libs'
 import {
-  appStaticStore,
- 
   // doLogout,
   getAccessTokenFromLS,
   getHostUrl,

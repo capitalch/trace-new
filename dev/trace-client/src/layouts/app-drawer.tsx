@@ -3,9 +3,9 @@ import { appStore, AppStoreType } from '@src/features'
 import { AppSideMenu } from './side-menu/app-side-menu'
 
 function AppDrawer() {
-    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
     return (<Drawer
-        isOpen={store.layouts.isDrawerOpen.value}
+        isOpen={appStore.layouts.isDrawerOpen.value}
         placement='left'
         size='xs'
         onClose={handleOnCloseDrawer}>
@@ -22,7 +22,7 @@ function AppDrawer() {
     </Drawer>)
 
     function handleOnCloseDrawer(){
-        store.layouts.isDrawerOpen.set(false)
+        appStore.layouts.isDrawerOpen.set(false)
     }
 }
 export { AppDrawer }

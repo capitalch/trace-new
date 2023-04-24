@@ -1,7 +1,7 @@
 import { SideMenuTypesEnum, UserTypesEnum, AppConstants, appStaticStore, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, LoginInfoType, UserTypesType, SideMenuType, AppStoreType, appStore } from '@src/features'
 import { axios, qs, State, urlJoin, useHookstate, } from '@src/libs'
 function useAppLogin() {
-    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
 
     const meta: any = useHookstate({
         serverError: '',
@@ -28,7 +28,7 @@ function useAppLogin() {
             const refreshToken = ret.data.refreshToken
 
             if (accessToken && refreshToken) {
-                store.login.isLoggedIn.set(true)
+                appStore.login.isLoggedIn.set(true)
                 setIsLoggedInInLS(true)
                 setAccesstokenInLS(accessToken)
                 setRefreshTokenInLS(refreshToken)
@@ -61,8 +61,8 @@ function useAppLogin() {
 
             // authStore.login.userType.set(UserTypesEnum.SUPER_ADMIN)
             // mainStore.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
-            store.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
-            store.login.uidEmail.set(payload.email)
+            appStore.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
+            appStore.login.uidEmail.set(payload.email)
 
             // loginInfo.userType = 'SUPER_ADMIN'
             // loginInfo.sideMenuType = 'superAdminMenu'
@@ -92,24 +92,24 @@ function useAppLogin() {
     }
 
     function handleTestSubmit(userType: string) {
-        store.login.isLoggedIn.set(true)
+        appStore.login.isLoggedIn.set(true)
         // setIsLoggedInInLS(true)
         if (userType === 'superAdmin') {
-            store.login.userType.set(UserTypesEnum.superAdmin)
-            store.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
-            store.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
+            appStore.login.userType.set(UserTypesEnum.superAdmin)
+            appStore.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
+            appStore.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
         } else if (userType === 'admin') {
-            store.login.userType.set(UserTypesEnum.admin)
-            store.layouts.sideMenuType.set(SideMenuTypesEnum.adminMenu)
-            store.layouts.sideMenuHeading.set(AppConstants.ADMIN_USER)
+            appStore.login.userType.set(UserTypesEnum.admin)
+            appStore.layouts.sideMenuType.set(SideMenuTypesEnum.adminMenu)
+            appStore.layouts.sideMenuHeading.set(AppConstants.ADMIN_USER)
 
             appStaticStore.login.clientId = 1
             appStaticStore.login.clientCode = 'capital'
             appStaticStore.login.clientName = 'Capital group'
         } else {
-            store.login.userType.set(UserTypesEnum.businessUser)
-            store.layouts.sideMenuType.set(SideMenuTypesEnum.accountsMenu)
-            store.layouts.sideMenuHeading.set(AppConstants.BUSINESS_USER)
+            appStore.login.userType.set(UserTypesEnum.businessUser)
+            appStore.layouts.sideMenuType.set(SideMenuTypesEnum.accountsMenu)
+            appStore.layouts.sideMenuHeading.set(AppConstants.BUSINESS_USER)
         }
     }
 
