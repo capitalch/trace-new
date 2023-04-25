@@ -6,9 +6,9 @@ function AppContent() {
     const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
     const { appSelectComponent } = useAppSelectComponent()
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
-    const isLoggedIn = appStore.login.isLoggedIn.value
+    const isLoggedIn = store.login.isLoggedIn.value
     const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
-    const isSidebarOpen = appStore.layouts.isSidebarOpen.value
+    const isSidebarOpen = store.layouts.isSidebarOpen.value
     const selectedComponentName = store.layouts.selectedComponentName.get()
     const SelectedComponent: FC = appSelectComponent[selectedComponentName]
 

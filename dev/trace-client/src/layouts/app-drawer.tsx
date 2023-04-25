@@ -22,7 +22,7 @@ function AppDrawer() {
     </Drawer>)
 
     function handleOnCloseDrawer(){
-        appStore.layouts.isDrawerOpen.set(false)
+        store.layouts.isDrawerOpen.set(false)
     }
 }
 export { AppDrawer }

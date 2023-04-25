@@ -2,8 +2,8 @@ import { AccountsIcon, AdminMenuIcon, ChangePasswordIcon, ChangeUidIcon, LogoutI
 import { appStore, AppStoreType, doLogout, UserTypesEnum } from '@src/features'
 
 function useLogoutMenuButton() {
-    // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
-    const userType = appStore.login.userType.get()
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    const userType = store.login.userType.get()
 
     function getAdminMenuItems() {
         return (

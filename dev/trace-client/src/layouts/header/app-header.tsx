@@ -5,12 +5,12 @@ import {AppConstants, appStaticStore, appStore, AppStoreType,} from '@src/featur
 import { LogoutMenuButton } from './logout-menu-button'
 
 function AppHeader() {
-    // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+    const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
     
     const [isSmallerThan768] = useMediaQuery("(max-width: 768px)", { ssr: false })
     const [isLargerThan1536] = useMediaQuery("(min-width: 1536px)", { ssr: false })
-    const isLoggedIn = appStore.login.isLoggedIn.get()
-    const isSidebarOpen = appStore.layouts.isSidebarOpen.get()
+    const isLoggedIn = store.login.isLoggedIn.get()
+    const isSidebarOpen = store.layouts.isSidebarOpen.get()
 
     const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH
     const HEIGHT = AppConstants.HEADER_HEIGHT
@@ -37,11 +37,11 @@ function AppHeader() {
                     appStaticStore.isCloseClicked = false
                 }
             }
-            appStore.layouts.isSidebarOpen.set(isOpen)
+            store.layouts.isSidebarOpen.set(isOpen)
 
         } else {
-            appStore.layouts.isSidebarOpen.set(false)
-            appStore.layouts.isDrawerOpen.set(false)
+            store.layouts.isSidebarOpen.set(false)
+            store.layouts.isDrawerOpen.set(false)
         }
     }, [isSidebarOpen, isLargerThan1536, isLoggedIn,])
 
@@ -65,11 +65,11 @@ function AppHeader() {
 
     function handleMenuClick() {
         if (isSmallerThan768) {
-            appStore.layouts.isDrawerOpen.set(true)
-            appStore.layouts.isSidebarOpen.set(false)
+            store.layouts.isDrawerOpen.set(true)
+            store.layouts.isSidebarOpen.set(false)
         } else {
-            appStore.layouts.isSidebarOpen.set(true)
-            appStore.layouts.isDrawerOpen.set(false)
+            store.layouts.isSidebarOpen.set(true)
+            store.layouts.isDrawerOpen.set(false)
             appStaticStore.isOpenClicked = true
         }
     }
