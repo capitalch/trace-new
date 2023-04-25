@@ -19,9 +19,9 @@ import {
 import { AppSideMenu } from "./side-menu/app-side-menu";
 
 function AppSidebar() {
-  // const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
+  const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
 
-  const isSidebarOpen = appStore.layouts.isSidebarOpen.value;
+  const isSidebarOpen = store.layouts.isSidebarOpen.value;
   const SIDEBARWIDTH = AppConstants.SIDEBAR_WIDTH;
   const HEIGHT = AppConstants.HEADER_HEIGHT;
 
@@ -50,13 +50,13 @@ function AppSidebar() {
           </HStack>
           <AppSideMenu />
         </VStack>
-        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{appStore.layouts.sideMenuHeading.value}</Heading>
+        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.value}</Heading>
       </Flex>
     </Slide>
   );
 
   function handleClickSidebarClose() {
-    appStore.layouts.isSidebarOpen.set(false)
+    store.layouts.isSidebarOpen.set(false)
     appStaticStore.isCloseClicked = true
   }
 }

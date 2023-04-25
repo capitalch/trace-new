@@ -2,7 +2,7 @@ import { hookstate, State, useHookstate,  } from "@hookstate/core"
 
 import { FC } from "react"
 
-const appStore: State<AppStoreType> = hookstate({
+const appStore: State<AppStoreType> = hookstate<AppStoreType>({
     admin: {
         businessUnit: {
             name: '',
@@ -12,7 +12,8 @@ const appStore: State<AppStoreType> = hookstate({
     layouts: {
         selectedComponent: ()=><></>,
         compName: 'dummy'
-    }
+    },
+    test: 'abc'
 })
 
 export { appStore }
@@ -28,6 +29,7 @@ type AppStoreType = {
         selectedComponent: any,
         compName: string
     }
+    test: string
 }
 
 export { type AppStoreType }
