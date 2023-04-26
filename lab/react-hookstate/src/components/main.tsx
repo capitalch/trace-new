@@ -12,7 +12,7 @@ function Main() {
 
     const CompA = selectComponent['comp11A']
     const CompB = selectComponent['comp11B']
-
+    
     return (<Box m={15}>
         <SelectedComponent />
         <Text>{store.test.value}</Text>

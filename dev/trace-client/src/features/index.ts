@@ -1,10 +1,11 @@
 import { usingAuthUtils } from './utils'
-import {usingStoreUtils} from './stores/store-utils'
+import { usingStoreUtils } from './stores/store-utils'
 
 export { AppConstants } from './app-constants'
 export { appStore, type AppStoreType } from './stores/app-store'
 export { appStaticStore } from './stores/app-static-store'
 export {
+  ComponentNamesEnum,
   type GraphQlQueryResultType,
   SideMenuTypesEnum,
   type SideMenuType,
@@ -58,6 +59,6 @@ export {
   resetLoginInfoInLS,
   setLoginInfoInLS
 }
-const {doLogout} = usingStoreUtils()
-export {doLogout}
+const { doLogout } = usingStoreUtils()
+export { doLogout }
 

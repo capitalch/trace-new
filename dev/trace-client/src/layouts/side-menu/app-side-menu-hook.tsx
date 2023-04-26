@@ -12,12 +12,13 @@ import {
   UsersIcon,
   VouchersIcon,
 } from "@src/libs";
-import {appStore, AppStoreType, SideMenuTypesEnum} from '@src/features'
+import {appStore, AppStoreType, ComponentNamesEnum, SideMenuTypesEnum} from '@src/features'
 import {
   AppDashboard,
   AppJournals,
   AppPayments,
   AppSales,
+  SuperAdminDashboard
 } from "@src/components";
 // import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
 // import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
@@ -59,6 +60,7 @@ function useAppSideMenu() {
 
   function handleOnClick({ key }: any) {
     store.layouts.isDrawerOpen.set(false)
+    store.layouts.selectedComponentName.set(ComponentNamesEnum.superAdminDashboard)
     // store.layouts.selectedComponent.set(componentsMap[key])
     store.content.breadcrumb.set(breadcrumbMap[key])
   }
@@ -94,6 +96,7 @@ interface MenuItemType {
   breadcrumb?: string;
   children?: MenuItemType[];
   component?: React.FC;
+  componentName?: string;
   icon?: any;
   key?: string;
   label: string;
