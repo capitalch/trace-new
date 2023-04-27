@@ -10,6 +10,7 @@ function useAppContent() {
         appSales: AppSales,
         emptyComponent: EmptyComponent,
         superAdminDashboard: SuperAdminDashboard,
+        // superAdminClients: SuperAdminClients,
     }
 
     function getComponent(compName: string) {

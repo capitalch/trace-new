@@ -12,7 +12,8 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
     },
     layouts: {
         selectedComponent: () => <></>,
-        compName: 'dummy'
+        compName: 'dummy',
+        comp: () => <></>
     },
     test: 'abc',
     myFunction: () => 'ABC'
@@ -29,11 +30,12 @@ type AppStoreType = {
         },
     },
     layouts: {
-        selectedComponent: any,
+        selectedComponent: FC,
         compName: string
+        comp: FC
     }
     test: string
-    myFunction: () => void
+    myFunction: any
 }
 
 export { type AppStoreType }

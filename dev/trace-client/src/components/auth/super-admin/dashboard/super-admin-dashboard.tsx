@@ -1,8 +1,8 @@
 import { HStack, IconButton, RefreshIcon, SimpleGrid, Tooltip, } from '@src/libs'
 import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
-import { SuperAdminDatabaseConnections } from './super-admin-database-connections'
-import { SuperAdminCounts } from './super-admin-counts'
-import { SuperAdminClients } from './super-admin-clients'
+import { SuperAdminDbConnectionsCard } from './super-admin-dd-connections-card'
+import { SuperAdminCountsCard } from './super-admin-counts-card'
+import { SuperAdminClientsCard } from './super-admin-clients-card'
 
 function SuperAdminDashboard() {
     const { loadData, } = useSuperAdminDashboard()
@@ -17,9 +17,9 @@ function SuperAdminDashboard() {
                 </Tooltip>
             </HStack>
             <SimpleGrid mt={2} spacing={8} templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>
-                <SuperAdminDatabaseConnections />
-                <SuperAdminClients />
-                <SuperAdminCounts />
+                <SuperAdminDbConnectionsCard />
+                <SuperAdminClientsCard />
+                <SuperAdminCountsCard />
             </SimpleGrid>
         </>
     )

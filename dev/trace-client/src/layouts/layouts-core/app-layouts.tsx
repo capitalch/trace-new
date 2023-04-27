@@ -1,6 +1,6 @@
 import { appStore, AppStoreType, } from '@src/features'
 import { Box, State, useEffect, useHookstate } from '@src/libs'
-import { AppLogin } from '@src/components'
+import { AppLogin, EmptyComponent } from '@src/components'
 import { AppContent, AppHeader, AppSidebar } from '@src/layouts'
 
 function AppLayouts() {
@@ -8,8 +8,14 @@ function AppLayouts() {
   const isLoggedIn = store.login.isLoggedIn.value
 
   useEffect(() => {
+    const comp = isLoggedIn ? EmptyComponent : AppLogin
     const compName = isLoggedIn ? 'emptyComponent' : 'appLogin'
-    store.layouts.selectedComponentName.set(compName)
+    // store.layouts.selectedComponentName.set(compName)
+    store.layouts.set((item: any) => {
+      item.selectedComponent = comp
+      return (item)
+    })
+
 
   }, [isLoggedIn])
 

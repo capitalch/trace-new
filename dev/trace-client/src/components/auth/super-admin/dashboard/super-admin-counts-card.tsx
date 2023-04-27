@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader, Heading, Table, Tbody, Td, Text, Tr, } from '@src/libs'
 import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
 
-function SuperAdminCounts() {
+function SuperAdminCountsCard() {
     const { meta, } = useSuperAdminDashboard()
     return (<Card colorScheme='blue' backgroundColor='twitter.900' color='white' variant='outline' >
         <CardHeader>
@@ -48,4 +48,4 @@ function SuperAdminCounts() {
     </Card>)
 }
 
-export {SuperAdminCounts}
+export {SuperAdminCountsCard}

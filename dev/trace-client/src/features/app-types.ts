@@ -38,11 +38,12 @@ type SideMenuType = "superAdminMenu" | "adminMenu" | "accountsMenu" | ''
 
 enum ComponentNamesEnum {
   appDashboard = 'appDashboard',
-  AppJournals = 'appJournals',
+  appJournals = 'appJournals',
   appLogin = 'appLogin',
   appPayments = 'appPayments',
   appSales = 'appSales',
   emptyComponent = 'emptyComponent',
+  superAdminClients = 'superAdminClients',
   superAdminDashboard = 'superAdminDashboard',
 }
 

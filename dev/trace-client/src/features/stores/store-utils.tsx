@@ -36,7 +36,7 @@ function usingStoreUtils() {
     // setAccesstokenInLS('')
     // setRefreshTokenInLS('')
     // setIsLoggedInInLS(false)
-    appStore.layouts.set({ ...defaultLayouts })
+    // appStore.layouts.set({ ...defaultLayouts })
     appStore.login.set({ ...defaultLogin })
     appStore.content.breadcrumb.set('')
     appStaticStore.login = { ...defaultLoginStaticObject }

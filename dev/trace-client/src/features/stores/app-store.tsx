@@ -1,14 +1,21 @@
-import { State, hookstate } from "@src/libs";
+import { FC, State, hookstate } from "@src/libs";
+import { string } from "yup";
 
 
 const appStore: State<AppStoreType> = hookstate<AppStoreType>({
+    alertDialogOk: {
+        body: () => <></>,
+        header: '',
+        isOpen: false,
+    },
+
     content: {
         breadcrumb: ''
     },
     layouts: {
         isDrawerOpen: false,
         isSidebarOpen: true,
-        // selectedComponent: () => <></>,
+        selectedComponent: () => <></>,
         selectedComponentName: 'emptyComponent',
         sideMenuOpenKeys: ['1'],
         sideMenuSelectedKeys: ['2'],
@@ -25,13 +32,18 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
 })
 
 type AppStoreType = {
+    alertDialogOk: {
+        body: FC,
+        header: string,
+        isOpen: boolean,
+    },
     content: {
         breadcrumb: string
     },
     layouts: {
         isDrawerOpen: boolean,
         isSidebarOpen: boolean,
-        // selectedComponent: any,
+        selectedComponent: FC,
         selectedComponentName: string,
         sideMenuOpenKeys: Array<string>,
         sideMenuSelectedKeys: Array<string>,

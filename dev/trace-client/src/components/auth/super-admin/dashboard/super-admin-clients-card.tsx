@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader, Heading, Table, Tbody, Td, Text, Tr, } from '@src/libs'
 import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
 
-function SuperAdminClients() {
+function SuperAdminClientsCard() {
     const { meta, } = useSuperAdminDashboard()
     return (<Card colorScheme='blue' backgroundColor='twitter.900' color='white' variant='outline' >
         <CardHeader>
@@ -40,4 +40,4 @@ function SuperAdminClients() {
     </Card>)
 }
 
-export {SuperAdminClients}
+export {SuperAdminClientsCard}

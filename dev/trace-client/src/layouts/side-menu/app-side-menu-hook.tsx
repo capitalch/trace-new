@@ -12,7 +12,7 @@ import {
   UsersIcon,
   VouchersIcon,
 } from "@src/libs";
-import {appStore, AppStoreType, ComponentNamesEnum, SideMenuTypesEnum} from '@src/features'
+import { appStore, AppStoreType, ComponentNamesEnum, SideMenuTypesEnum } from '@src/features'
 import {
   AppDashboard,
   AppJournals,
@@ -29,7 +29,8 @@ function useAppSideMenu() {
   const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
   const sideMenuType = store.layouts.sideMenuType.value;
   let num: number = 1; // For counter
-  const componentsMap: { [key: string]: React.FC } = {};
+  // const componentsMap: { [key: string]: React.FC } = {};
+  const componentsMap: { [key: string]: any } = {};
   const breadcrumbMap: { [key: string]: any } = {}
 
   function getItems() {
@@ -45,14 +46,16 @@ function useAppSideMenu() {
   function getMenuItems(items: MenuItemType[]): any[] {
     const menuItemsWithKeys: MenuItemType[] = items.map(
       (item: MenuItemType) => {
-        item.key = incr();
-        if (item.component) {
-          componentsMap[item.key] = item.component;
-          breadcrumbMap[item.key] = item.breadcrumb
+        const ret:MenuItemType = {label:item.label}
+        ret.key = incr()
+        // item.key = incr();
+        if (item.componentName) {
+          componentsMap[ret.key] = item.componentName;
+          breadcrumbMap[ret.key] = item.breadcrumb
         } else if (item.children && item.children.length > 0) {
-          item.children = getMenuItems(item.children);
+          ret.children = getMenuItems(item.children);
         }
-        return item;
+        return ret;
       }
     );
     return menuItemsWithKeys;
@@ -60,7 +63,7 @@ function useAppSideMenu() {
 
   function handleOnClick({ key }: any) {
     store.layouts.isDrawerOpen.set(false)
-    store.layouts.selectedComponentName.set(ComponentNamesEnum.superAdminDashboard)
+    store.layouts.selectedComponentName.set(componentsMap[key])
     // store.layouts.selectedComponent.set(componentsMap[key])
     store.content.breadcrumb.set(breadcrumbMap[key])
   }
@@ -110,6 +113,7 @@ const accountsMenu: MenuItemType[] = [
       {
         label: "Dashboard",
         // component: AppDashboard,
+        componentName: ComponentNamesEnum.appDashboard
       },
     ],
   },
@@ -119,11 +123,13 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Journals",
-        component: AppJournals,
+        // component: AppJournals,
+        componentName: ComponentNamesEnum.appJournals
       },
       {
         label: "Payments",
-        component: AppPayments,
+        // component: AppPayments,
+        componentName: ComponentNamesEnum.appPayments
       },
     ],
   },
@@ -133,7 +139,8 @@ const accountsMenu: MenuItemType[] = [
     children: [
       {
         label: "Sales",
-        component: AppSales,
+        // component: AppSales,
+        componentName: ComponentNamesEnum.appSales,
       },
     ],
   },
@@ -145,31 +152,33 @@ const superAdminMenu: MenuItemType[] = [
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
     // component: SuperAdminDashboard,
+    componentName: ComponentNamesEnum.superAdminDashboard,
   },
   {
     breadcrumb: "Super admin clients",
     label: "Clients",
     icon: <ClientsIcon color="dodgerBlue" />,
     // component: SuperAdminClients,
+    componentName: ComponentNamesEnum.superAdminClients,
   },
-  {
-    breadcrumb: "Super admin roles",
-    label: "Roles",
-    icon: <RolesIcon color="red" />,
-    // component: AppRoles,
-  },
-  {
-    breadcrumb: "Super admin secured controls",
-    label: "Secured controls",
-    icon: <SecuredControlsIcon color="teal" />,
-    // component: SuperAdminSecuredControls,
-  },
-  {
-    breadcrumb: "Admin users",
-    label: "Admin users",
-    icon: <UsersIcon color="dodgerBlue" />,
-    // component: SuperAdminAdminUsers,
-  },
+  // {
+  //   breadcrumb: "Super admin roles",
+  //   label: "Roles",
+  //   icon: <RolesIcon color="red" />,
+  //   // component: AppRoles,
+  // },
+  // {
+  //   breadcrumb: "Super admin secured controls",
+  //   label: "Secured controls",
+  //   icon: <SecuredControlsIcon color="teal" />,
+  //   // component: SuperAdminSecuredControls,
+  // },
+  // {
+  //   breadcrumb: "Admin users",
+  //   label: "Admin users",
+  //   icon: <UsersIcon color="dodgerBlue" />,
+  //   // component: SuperAdminAdminUsers,
+  // },
 ];
 
 const adminMenu: MenuItemType[] = [

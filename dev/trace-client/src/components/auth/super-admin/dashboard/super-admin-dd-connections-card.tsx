@@ -2,7 +2,7 @@ import { Card, CardBody, CardHeader, Heading, Table, Tbody, Td, Text, Tr, } from
 
 import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
 
-function SuperAdminDatabaseConnections() {
+function SuperAdminDbConnectionsCard() {
     const { meta, } = useSuperAdminDashboard()
 
     return (<Card colorScheme='blue' backgroundColor='twitter.900' color='white' variant='outline' >
@@ -42,4 +42,4 @@ function SuperAdminDatabaseConnections() {
     </Card>)
 }
 
-export { SuperAdminDatabaseConnections }
+export { SuperAdminDbConnectionsCard }
