@@ -9,6 +9,10 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
         isOpen: false,
     },
 
+    appLoader: {
+        isOpen: false
+    },
+
     content: {
         breadcrumb: ''
     },
@@ -29,6 +33,46 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
         userType: '',
     },
 
+    modalDialogA: {
+        body: () => <></>,
+        defaultData: {},
+        isOpen: false,
+        size: 'md',
+        title: '',
+        toShowCloseButton: false,
+    },
+
+    superAdmin: {
+        adminUsers: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        clients: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        roles: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+        securedControls: {
+            filteredRows: [],
+            noOfRows: 100,
+            rows: [],
+            refresh: true,
+            searchString: ''
+        },
+    }
+
 })
 
 type AppStoreType = {
@@ -36,6 +80,9 @@ type AppStoreType = {
         body: FC,
         header: string,
         isOpen: boolean,
+    },
+    appLoader: {
+        isOpen: boolean
     },
     content: {
         breadcrumb: string
@@ -56,6 +103,46 @@ type AppStoreType = {
         uidEmail: string,
         userType: string,
     },
+
+    modalDialogA: {
+        body: FC,
+        defaultData: any,
+        isOpen: boolean,
+        size: string,
+        title: string,
+        toShowCloseButton: boolean,
+    },
+
+    superAdmin: {
+        adminUsers: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        clients: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        roles: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+        securedControls: {
+            filteredRows: [],
+            noOfRows: number,
+            rows: [],
+            refresh: boolean,
+            searchString: string
+        },
+    }
 
 }
 

@@ -29,8 +29,8 @@ function useAppSideMenu() {
   const store: State<AppStoreType> = useHookstate<AppStoreType>(appStore)
   const sideMenuType = store.layouts.sideMenuType.value;
   let num: number = 1; // For counter
-  // const componentsMap: { [key: string]: React.FC } = {};
   const componentsMap: { [key: string]: any } = {};
+  // const componentsMap: { [key: string]: any } = {};
   const breadcrumbMap: { [key: string]: any } = {}
 
   function getItems() {
@@ -46,11 +46,11 @@ function useAppSideMenu() {
   function getMenuItems(items: MenuItemType[]): any[] {
     const menuItemsWithKeys: MenuItemType[] = items.map(
       (item: MenuItemType) => {
-        const ret:MenuItemType = {label:item.label}
+        const ret: MenuItemType = { label: item.label }
         ret.key = incr()
         // item.key = incr();
         if (item.componentName) {
-          componentsMap[ret.key] = item.componentName;
+          componentsMap[ret.key] = item.component
           breadcrumbMap[ret.key] = item.breadcrumb
         } else if (item.children && item.children.length > 0) {
           ret.children = getMenuItems(item.children);
@@ -63,7 +63,11 @@ function useAppSideMenu() {
 
   function handleOnClick({ key }: any) {
     store.layouts.isDrawerOpen.set(false)
-    store.layouts.selectedComponentName.set(componentsMap[key])
+    // store.layouts.selectedComponentName.set(componentsMap[key])
+    store.layouts.set((item: any) => {
+      item.selectedComponent = componentsMap[key]
+      return (item)
+    })
     // store.layouts.selectedComponent.set(componentsMap[key])
     store.content.breadcrumb.set(breadcrumbMap[key])
   }
@@ -151,7 +155,7 @@ const superAdminMenu: MenuItemType[] = [
     breadcrumb: 'Super admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    // component: SuperAdminDashboard,
+    component: SuperAdminDashboard,
     componentName: ComponentNamesEnum.superAdminDashboard,
   },
   {

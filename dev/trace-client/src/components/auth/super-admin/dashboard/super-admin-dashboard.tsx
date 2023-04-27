@@ -1,6 +1,6 @@
 import { HStack, IconButton, RefreshIcon, SimpleGrid, Tooltip, } from '@src/libs'
 import { useSuperAdminDashboard } from './super-admin-dashboard-hook'
-import { SuperAdminDbConnectionsCard } from './super-admin-dd-connections-card'
+import { SuperAdminDbConnectionsCard } from './super-admin-db-connections-card'
 import { SuperAdminCountsCard } from './super-admin-counts-card'
 import { SuperAdminClientsCard } from './super-admin-clients-card'
 

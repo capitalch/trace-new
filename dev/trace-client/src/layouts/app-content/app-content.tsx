@@ -12,7 +12,7 @@ function AppContent() {
     const HEADER_HEIGHT = isLoggedIn ? AppConstants.HEADER_HEIGHT : '0px'
     const isSidebarOpen = store.layouts.isSidebarOpen.value
     const selectedComponentName = store.layouts.selectedComponentName.get()
-    const SelectedComponent = store.layouts.get({ noproxy: true }).selectedComponent
+    const SelectedComponent:FC = store.layouts.get({ noproxy: true }).selectedComponent
     // const SelectedComponent: FC = getComponent(selectedComponentName)
     // appSelectComponent[selectedComponentName]
 
