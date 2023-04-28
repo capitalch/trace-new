@@ -3,7 +3,9 @@ import { useAppSideMenu } from './app-side-menu-hook'
 
 function AppSideMenu() {
     const { getItems, handleOnClick, handleOnOpenChange, handleOnSelect } = useAppSideMenu()
-    return (<MenuAnt
+    // const isLoggedIn = appStore.login.isLoggedIn.value
+    return (
+    <MenuAnt
         items={getItems()}
         mode='inline'
         onClick={handleOnClick}
@@ -14,7 +16,8 @@ function AppSideMenu() {
         style={{ width: `${AppConstants.SIDEBAR_WIDTH}`, marginTop: 0, }}
     // theme='dark'
     >
-    </MenuAnt>)
+    </MenuAnt>
+    )
 }
 
 export { AppSideMenu }

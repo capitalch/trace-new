@@ -47,7 +47,7 @@ function useAppSideMenu() {
   function getMenuItems(items: MenuItemType[]): any[] {
     const menuItemsWithKeys: MenuItemType[] = items.map(
       (item: MenuItemType) => {
-        const ret: MenuItemType = { label: item.label }
+        const ret: MenuItemType = { label: item.label, icon: item.icon }
         ret.key = incr()
         // item.key = incr();
         if (item.componentName) {

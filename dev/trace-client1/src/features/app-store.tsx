@@ -1,5 +1,17 @@
-import { deepSignal } from "@deepsignal/react"
+import { deepSignal,  } from "@deepsignal/react"
+
+import {Signal, signal,} from '@preact/signals-react'
 import { _, setAccesstokenInLS, setIsLoggedInInLS, setRefreshTokenInLS, } from '@src/features'
+
+type TestType = {
+    name: string
+}
+
+const testSignal: Signal<TestType> = signal({
+    name:'myName'
+})
+
+
 
 const store: any = {
     admin: {
@@ -117,7 +129,42 @@ const store: any = {
     }
 }
 
-let appStore: any = deepSignal(_.cloneDeep(store))
+let appStore = deepSignal(_.cloneDeep(store))
+
+// const test: Signal = signal({
+//     superAdmin: {
+//         adminUsers: {
+//             filteredRows: [],
+//             noOfRows: 100,
+//             rows: [],
+//             refresh: true,
+//             searchString: ''
+//         },
+//         clients: {
+//             filteredRows: [],
+//             noOfRows: 100,
+//             rows: [],
+//             refresh: true,
+//             searchString: ''
+//         },
+//         roles: {
+//             filteredRows: [],
+//             noOfRows: 100,
+//             rows: [],
+//             refresh: true,
+//             searchString: ''
+//         },
+//         securedControls: {
+//             filteredRows: [],
+//             noOfRows: 100,
+//             rows: [],
+//             refresh: true,
+//             searchString: ''
+//         },
+//     }
+// })
+
+
 
 function doLogout() {
     resetAppStore()
@@ -126,7 +173,7 @@ function resetAppStore() {
     setAccesstokenInLS('')
     setRefreshTokenInLS('')
     setIsLoggedInInLS(false)
-    
+
     appStore.layouts.value = { ...store.layouts }
     appStore.login.value = { ...store.login }
     appStore.content.value = { ...store.content }

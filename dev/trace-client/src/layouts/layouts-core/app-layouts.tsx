@@ -15,8 +15,6 @@ function AppLayouts() {
       item.selectedComponent = comp
       return (item)
     })
-
-
   }, [isLoggedIn])
 
   return (

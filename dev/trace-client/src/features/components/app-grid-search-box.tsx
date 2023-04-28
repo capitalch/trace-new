@@ -1,5 +1,5 @@
-import { debounceEmit, debounceFilterOn, ebukiMessages, useAgGridUtils, } from '@src/features'
-import { CloseIcon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect, } from '@src/libs'
+import { AppStoreType, debounceEmit, debounceFilterOn, ebukiMessages, useAgGridUtils, } from '@src/features'
+import { CloseIcon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect, State} from '@src/libs'
 // appStore[storeObjectName] and appStaticStore[storeObjectName] gives the required object
 
 function AppGridSearchBox({ appStoreObject, appStaticStoreObject }: { appStoreObject: any, appStaticStoreObject: any }) {
@@ -28,11 +28,15 @@ function AppGridSearchBox({ appStoreObject, appStaticStoreObject }: { appStoreOb
     )
 
     function doFilter() {
+        const obj = {...appStoreObject}
+        const rows: any[] = {...obj.rows}
         const s = appStoreObject.searchString.value
         const arr = s.toLowerCase().split(/\W/).filter((x: any) => x) // filter used to remove emty elements
-        const filteredRows = appStoreObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
+        const fr: any[] = [...appStoreObject.rows]
+        const filteredRows:any[] = fr.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
+        // const filteredRows = appStoreObject.rows.value.filter((row: any) => arr.every((x: string) => Object.values(row).toString().toLowerCase().includes(x.toLowerCase())))
 
-        appStoreObject.filteredRows.value = swapId(filteredRows)
+        appStoreObject.filteredRows.set(swapId(filteredRows))
     }
 
     function handleClearSearch() {
