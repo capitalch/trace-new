@@ -42,6 +42,14 @@ const appStore: State<AppStoreType> = hookstate<AppStoreType>({
         toShowCloseButton: false,
     },
 
+    permissions: {
+        filteredRows: [],
+        noOfRows: 100,
+        rows: [],
+        refresh: true,
+        searchString: ''
+    },
+
     superAdmin: {
         adminUsers: {
             filteredRows: [],
@@ -111,6 +119,14 @@ type AppStoreType = {
         size: string,
         title: string,
         toShowCloseButton: boolean,
+    },
+
+    permissions: {
+        filteredRows: Array<any>,
+        noOfRows: number,
+        rows: any[],
+        refresh: boolean,
+        searchString: string
     },
 
     superAdmin: {

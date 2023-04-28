@@ -59,8 +59,8 @@ function useAppLogin() {
         }
         if (payload.userType === 'S') {
 
-            // authStore.login.userType.set(UserTypesEnum.SUPER_ADMIN)
-            // mainStore.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
+            store.login.userType.set(UserTypesEnum.superAdmin)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.superAdminMenu)
             store.layouts.sideMenuHeading.set(AppConstants.SUPER_ADMIN_USER)
             store.login.uidEmail.set(payload.email)
 
@@ -69,6 +69,10 @@ function useAppLogin() {
             // loginInfo.sideMenuHeading = AppConstants.SUPER_ADMIN_USER
 
         } else if (payload.userType === 'A') {
+            store.login.userType.set(UserTypesEnum.admin)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.adminMenu)
+            store.layouts.sideMenuHeading.set(AppConstants.ADMIN_USER)
+            store.login.uidEmail.set(payload.email)
             // appStore.login.userType.value = UserTypesEnum.ADMIN
             // appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
             // appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
@@ -79,6 +83,10 @@ function useAppLogin() {
             // loginInfo.sideMenuType = 'adminMenu'
             // loginInfo.sideMenuHeading = AppConstants.ADMIN_USER
         } else {
+            store.login.userType.set(UserTypesEnum.businessUser)
+            store.layouts.sideMenuType.set(SideMenuTypesEnum.accountsMenu)
+            store.layouts.sideMenuHeading.set(AppConstants.BUSINESS_USER)
+            store.login.uidEmail.set(payload.email)
             // appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             // appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
             // appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER

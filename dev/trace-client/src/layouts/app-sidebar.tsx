@@ -50,7 +50,7 @@ function AppSidebar() {
           </HStack>
           <AppSideMenu />
         </VStack>
-        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.value}</Heading>
+        <Heading color='gray.500' size="sm" mb='2.5' ml='8'>{store.layouts.sideMenuHeading.get()}</Heading>
       </Flex>
     </Slide>
   );

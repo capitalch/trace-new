@@ -9,8 +9,8 @@ function AppLayouts() {
 
   useEffect(() => {
     const comp = isLoggedIn ? EmptyComponent : AppLogin
-    const compName = isLoggedIn ? 'emptyComponent' : 'appLogin'
-    // store.layouts.selectedComponentName.set(compName)
+    // const compName = isLoggedIn ? 'emptyComponent' : 'appLogin'
+    
     store.layouts.set((item: any) => {
       item.selectedComponent = comp
       return (item)

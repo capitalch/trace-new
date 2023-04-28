@@ -95,7 +95,7 @@ function useAppSideMenu() {
     handleOnClick,
     handleOnOpenChange,
     handleOnSelect,
-    appStore
+    store
   };
 }
 export { useAppSideMenu };
@@ -166,24 +166,24 @@ const superAdminMenu: MenuItemType[] = [
     component: SuperAdminClients,
     componentName: ComponentNamesEnum.superAdminClients,
   },
-  // {
-  //   breadcrumb: "Super admin roles",
-  //   label: "Roles",
-  //   icon: <RolesIcon color="red" />,
-  //   // component: AppRoles,
-  // },
-  // {
-  //   breadcrumb: "Super admin secured controls",
-  //   label: "Secured controls",
-  //   icon: <SecuredControlsIcon color="teal" />,
-  //   // component: SuperAdminSecuredControls,
-  // },
-  // {
-  //   breadcrumb: "Admin users",
-  //   label: "Admin users",
-  //   icon: <UsersIcon color="dodgerBlue" />,
-  //   // component: SuperAdminAdminUsers,
-  // },
+  {
+    breadcrumb: "Super admin roles",
+    label: "Roles",
+    icon: <RolesIcon color="red" />,
+    // component: AppRoles,
+  },
+  {
+    breadcrumb: "Super admin secured controls",
+    label: "Secured controls",
+    icon: <SecuredControlsIcon color="teal" />,
+    // component: SuperAdminSecuredControls,
+  },
+  {
+    breadcrumb: "Admin users",
+    label: "Admin users",
+    icon: <UsersIcon color="dodgerBlue" />,
+    // component: SuperAdminAdminUsers,
+  },
 ];
 
 const adminMenu: MenuItemType[] = [
