@@ -1,5 +1,5 @@
 export { EmptyComponent } from './empty-component'
 export { AppJournals, AppPayments, AppSales } from './accounts'
 export { AppDashboard } from './app-dashboard'
-export { AppLogin, SuperAdminDashboard } from './auth'
+export { AppLogin, SuperAdminDashboard, SuperAdminClients } from './auth'
 

@@ -18,6 +18,7 @@ import {
   AppJournals,
   AppPayments,
   AppSales,
+  SuperAdminClients,
   SuperAdminDashboard
 } from "@src/components";
 // import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
@@ -162,7 +163,7 @@ const superAdminMenu: MenuItemType[] = [
     breadcrumb: "Super admin clients",
     label: "Clients",
     icon: <ClientsIcon color="dodgerBlue" />,
-    // component: SuperAdminClients,
+    component: SuperAdminClients,
     componentName: ComponentNamesEnum.superAdminClients,
   },
   // {
