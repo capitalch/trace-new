@@ -1,9 +1,11 @@
-import { appStore, appStaticStore } from '.'
+import { appStore, appStaticStore, } from '@src/features'
+// import {useHookstate, State} from '@src/libs'
 
 const defaultLayouts = {
   isDrawerOpen: false,
   isSidebarOpen: true,
   selectedComponent: () => <></>,
+  selectedComponentName: 'emptyComponent',
   sideMenuOpenKeys: ['1'],
   sideMenuSelectedKeys: ['2'],
   sideMenuType: '',
@@ -29,6 +31,7 @@ const defaultLoginStaticObject = {
 }
 
 function usingStoreUtils() {
+
   function doLogout() {
     // setAccesstokenInLS('')
     // setRefreshTokenInLS('')

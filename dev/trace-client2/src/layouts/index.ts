@@ -1,5 +1,4 @@
+export { AppContent } from './app-content/app-content'
 export { AppLayouts } from './layouts-core/app-layouts'
 export { AppHeader } from './header/app-header'
-// export { AppContent } from './app-content'
-// export { AppSidebar } from './app-sidebar'
-// export { AppDrawer } from './app-drawer'
+export { AppSidebar } from './app-sidebar'

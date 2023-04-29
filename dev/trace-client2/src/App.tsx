@@ -1,7 +1,7 @@
 import {
   ChakraProvider,
   theme,
-} from "@src/features"
+} from "@src/libs"
 import { AppLayouts } from "@src/layouts"
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS

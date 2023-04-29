@@ -36,21 +36,27 @@ type SqlObjectType = {
 type UserTypesType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | ''
 type SideMenuType = "superAdminMenu" | "adminMenu" | "accountsMenu" | ''
 
+enum ComponentNamesEnum {
+  appDashboard = 'appDashboard',
+  appJournals = 'appJournals',
+  appLogin = 'appLogin',
+  appPayments = 'appPayments',
+  appSales = 'appSales',
+  emptyComponent = 'emptyComponent',
+  superAdminClients = 'superAdminClients',
+  superAdminDashboard = 'superAdminDashboard',
+}
+
 enum UserTypesEnum {
-  "SUPER_ADMIN",
-  "ADMIN",
-  "BUSINESS_USER",
+  superAdmin = "SUPER_ADMIN",
+  admin = "ADMIN",
+  businessUser = "BUSINESS_USER",
 }
 
 enum SideMenuTypesEnum {
-  "superAdminMenu",
-  "adminMenu",
-  "accountsMenu",
+  superAdminMenu = "superAdminMenu",
+  adminMenu = "adminMenu",
+  accountsMenu = "accountsMenu",
 }
 
-// type SideMenuHeadingsType =
-//   | "Super admin user"
-//   | "Admin user"
-//   | "Business user" | string & {}
-
-export { type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type LoginInfoType, type SqlObjectType, UserTypesEnum, type UserTypesType }
+export { ComponentNamesEnum, type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type LoginInfoType, type SqlObjectType, UserTypesEnum, type UserTypesType }

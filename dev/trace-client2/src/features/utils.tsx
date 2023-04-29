@@ -1,5 +1,5 @@
-import { appStaticStore, DeleteIcon, EditIcon, HideIcon, GraphQlQueryResultType, IconButton, Messages, Tooltip, useAppGraphql, useToast } from '@src/features'
-import { FC } from 'react'
+import { DeleteIcon, EditIcon, FC, HideIcon, IconButton, Tooltip, useToast } from '@src/libs'
+import { appStaticStore, GraphQlQueryResultType, Messages, useAppGraphql } from '@src/features'
 
 function usingAuthUtils() {
   function getAccessTokenFromLS() {

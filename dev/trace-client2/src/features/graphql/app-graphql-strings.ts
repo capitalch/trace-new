@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { _ } from '@src/features'
+import { _ } from '@src/libs'
 
 const appGraphqlStrings: any = {
 

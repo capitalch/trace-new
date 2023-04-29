@@ -6,18 +6,15 @@ import {
   Operation,
   NextLink
 } from '@apollo/client'
-// import { setContext } from '@apollo/client/link/context'
+import { axios,urlJoin,} from '@src/libs'
 import {
-  appStaticStore,
-  axios,
-  doLogout,
+  // doLogout,
   getAccessTokenFromLS,
   getHostUrl,
   getRefreshTokenFromLS,
   GraphQlQueryResultType,
   Messages,
   setAccesstokenInLS,
-  urlJoin,
   useFeedback
 } from '@src/features'
 import { appGraphqlStrings } from './app-graphql-strings'
