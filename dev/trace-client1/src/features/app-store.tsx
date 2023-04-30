@@ -131,40 +131,6 @@ const store: any = {
 
 let appStore = deepSignal(_.cloneDeep(store))
 
-// const test: Signal = signal({
-//     superAdmin: {
-//         adminUsers: {
-//             filteredRows: [],
-//             noOfRows: 100,
-//             rows: [],
-//             refresh: true,
-//             searchString: ''
-//         },
-//         clients: {
-//             filteredRows: [],
-//             noOfRows: 100,
-//             rows: [],
-//             refresh: true,
-//             searchString: ''
-//         },
-//         roles: {
-//             filteredRows: [],
-//             noOfRows: 100,
-//             rows: [],
-//             refresh: true,
-//             searchString: ''
-//         },
-//         securedControls: {
-//             filteredRows: [],
-//             noOfRows: 100,
-//             rows: [],
-//             refresh: true,
-//             searchString: ''
-//         },
-//     }
-// })
-
-
 
 function doLogout() {
     resetAppStore()

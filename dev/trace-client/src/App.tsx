@@ -1,14 +1,13 @@
 import {
   ChakraProvider,
   theme,
-} from "@src/features"
+} from "@src/libs"
 import { AppLayouts } from "@src/layouts"
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-material.css"; // Optional theme CSS
 import "ag-grid-community/styles/ag-theme-balham.css"; // Optional theme CSS
-import "@src/features/ag-theme-balham-custom.scss" // Customized the balham theme
-// import './super-admin-clients.scss'
+import "@src/features/vitals/ag-theme-balham-custom.scss" // Customized the balham theme
 
 export const App = () => (
   <ChakraProvider theme={theme}>
