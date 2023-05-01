@@ -6,6 +6,20 @@ const appStore: AppStoreType = {
     isCloseClicked: false,
     isOpenClicked: false,
 
+    alertDialogOk: {
+        body: signal(() => <></>),
+        header: signal(''),
+        isOpen: signal(false),
+    },
+
+    alertDialogYesNo: {
+        action: () => { },
+        body: signal(() => <></>),
+        header: signal(''),
+        isOpen: signal(false),
+        result: signal(false)
+    },
+
     appLoader: {
         isOpen: signal(false)
     },
@@ -49,10 +63,29 @@ const appStore: AppStoreType = {
         toShowCloseButton: signal(false),
     },
 
+    modalDialogB: {
+        body: signal(() => <></>),
+        defaultData: signal(undefined),
+        isOpen: signal(false),
+        size: signal('md'),
+        title: signal(''),
+        toShowCloseButton: signal(false),
+    },
+
+    permissions: {
+        doFilter: () => { },
+        doReload: () => { },
+        filteredRows: signal([]),
+        noOfRows: signal(100),
+        rows: signal([]),
+        refresh: signal(true),
+        searchString: signal('')
+    },
+
     superAdmin: {
         adminUsers: {
-            doFilter: ()=>{},
-            doReload: ()=>{},
+            doFilter: () => { },
+            doReload: () => { },
             filteredRows: signal([]),
             noOfRows: signal(100),
             rows: signal([]),
@@ -60,8 +93,8 @@ const appStore: AppStoreType = {
             searchString: signal('')
         },
         clients: {
-            doFilter: ()=>{},
-            doReload: ()=>{},
+            doFilter: () => { },
+            doReload: () => { },
             filteredRows: signal([]),
             noOfRows: signal(100),
             rows: signal([]),
@@ -72,8 +105,8 @@ const appStore: AppStoreType = {
             doReload: () => { }
         },
         roles: {
-            doFilter: ()=>{},
-            doReload: ()=>{},
+            doFilter: () => { },
+            doReload: () => { },
             filteredRows: signal([]),
             noOfRows: signal(100),
             rows: signal([]),
@@ -81,8 +114,8 @@ const appStore: AppStoreType = {
             searchString: signal('')
         },
         securedControls: {
-            doFilter: ()=>{},
-            doReload: ()=>{},
+            doFilter: () => { },
+            doReload: () => { },
             filteredRows: signal([]),
             noOfRows: signal(100),
             rows: signal([]),
@@ -96,6 +129,20 @@ type AppStoreType = {
     componentHistorySet: Set<string>
     isCloseClicked: boolean,
     isOpenClicked: boolean,
+
+    alertDialogOk: {
+        body: Signal<FC>,
+        header: Signal<string>,
+        isOpen: Signal<boolean>
+    },
+
+    alertDialogYesNo: {
+        action: () => void,
+        body: Signal<FC>,
+        header: Signal<string>,
+        isOpen: Signal<boolean>,
+        result: Signal<boolean>
+    },
 
     appLoader: {
         isOpen: Signal<boolean>
@@ -135,15 +182,35 @@ type AppStoreType = {
         body: Signal<FC>,
         defaultData: Signal<any>,
         isOpen: Signal<boolean>,
-        size: Signal<'md' | 'sm' | 'lg' | 'md' >,
+        size: Signal<'md' | 'sm' | 'lg' | 'md'>,
         title: Signal<string>,
         toShowCloseButton: Signal<boolean>,
     },
 
+    modalDialogB: {
+        body: Signal<FC>,
+        defaultData: Signal<any>,
+        isOpen: Signal<boolean>,
+        size: Signal<'md' | 'sm' | 'lg' | 'md'>,
+        title: Signal<string>,
+        toShowCloseButton: Signal<boolean>,
+    },
+
+    permissions: {
+        doFilter: () => void,
+        doReload: () => void,
+        filteredRows: Signal<Array<any>>,
+        noOfRows: Signal<number>,
+        rows: Signal<Array<any>>,
+        refresh: Signal<boolean>,
+        searchString: Signal<string>
+    },
+
+
     superAdmin: {
         adminUsers: {
-            doFilter: ()=>void,
-            doReload: ()=>void,
+            doFilter: () => void,
+            doReload: () => void,
             filteredRows: Signal<Array<any>>,
             noOfRows: Signal<number>,
             rows: Signal<Array<any>>,
@@ -151,8 +218,8 @@ type AppStoreType = {
             searchString: Signal<string>
         },
         clients: {
-            doFilter: ()=>void,
-            doReload: ()=>void,
+            doFilter: () => void,
+            doReload: () => void,
             filteredRows: Signal<Array<any>>,
             noOfRows: Signal<number>,
             rows: Signal<Array<any>>,
@@ -163,8 +230,8 @@ type AppStoreType = {
             doReload: () => void
         },
         roles: {
-            doFilter: ()=>void,
-            doReload: ()=>void,
+            doFilter: () => void,
+            doReload: () => void,
             filteredRows: Signal<Array<any>>,
             noOfRows: Signal<number>,
             rows: Signal<Array<any>>,
@@ -172,8 +239,8 @@ type AppStoreType = {
             searchString: Signal<string>
         },
         securedControls: {
-            doFilter: ()=>void,
-            doReload: ()=>void,
+            doFilter: () => void,
+            doReload: () => void,
             filteredRows: Signal<Array<any>>,
             noOfRows: Signal<number>,
             rows: Signal<Array<any>>,

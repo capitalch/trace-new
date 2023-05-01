@@ -95,7 +95,7 @@ function useAgGridUtils() {
   return { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId }
 }
 
-function useCellRenderers({ dbName, tableName, appStoreObject, appStaticStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any, appStaticStoreObject: any, EditBodyComponent?: FC, editTitle?: string }) {
+function useCellRenderers({ dbName, tableName, appStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any,  EditBodyComponent?: FC, editTitle?: string }) {
 
   function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
@@ -110,7 +110,11 @@ function useCellRenderers({ dbName, tableName, appStoreObject, appStaticStoreObj
 
     function handleDeleteRow(data: any) {
       const deleteId = data?.id1
-      showAlertDialogYesNo({ action: () => doDelete(deleteId), title: 'Are you sure to delete this row?' })
+      showAlertDialogYesNo(
+        {
+          action: () => doDelete(deleteId), title: 'Are you sure to delete this row?'
+        }
+      )
     }
 
     async function doDelete(id: number) {
@@ -123,7 +127,7 @@ function useCellRenderers({ dbName, tableName, appStoreObject, appStaticStoreObj
       showAppLoader(true)
       const result: GraphQlQueryResultType = await mutateGraphql(q)
       handleUpdateResult(result, () => {
-        appStaticStoreObject.doReload()
+        appStoreObject.doReload()
       })
       showAppLoader(false)
     }
@@ -221,10 +225,10 @@ function useDialogs() {
     body?: any
   }) {
     const b: any = <>This operation cannot be undone </>
-    // appStore.alertDialogYesNo.action.value = action || (() => { })
-    // appStore.alertDialogYesNo.isOpen.value = true
-    // appStore.alertDialogYesNo.header.value = title || 'Are you sure'
-    // appStore.alertDialogYesNo.body.value = body || b
+    appStore.alertDialogYesNo.action = action || (() => { })
+    appStore.alertDialogYesNo.isOpen.value = true
+    appStore.alertDialogYesNo.header.value = title || 'Are you sure'
+    appStore.alertDialogYesNo.body.value = body || (() => b)
   }
 
   function showModalDialogA({

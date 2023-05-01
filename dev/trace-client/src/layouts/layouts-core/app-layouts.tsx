@@ -4,9 +4,9 @@ import {
   // AppConstants,
   appStore,
 
-  // AppLoader,
+  AppLoader,
   // AppAlertDialogOk,
-  // AppAlertDialogYesNo,
+  AppAlertDialogYesNo,
   AppModalDialogA,
   // AppModalDialogB,
   LoginInfoType,
@@ -41,9 +41,9 @@ function AppLayouts() {
         <AppContent />
         <AppModalDialogA />
         {/* <AppModalDialogB />
-        <AppAlertDialogOk />
+        <AppAlertDialogOk /> */}
         <AppLoader />
-        <AppAlertDialogYesNo /> */}
+        <AppAlertDialogYesNo />
       </Box>
     </Box>
   )

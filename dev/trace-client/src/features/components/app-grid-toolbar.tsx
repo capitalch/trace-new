@@ -2,7 +2,7 @@ import { AppConstants, } from "@src/features"
 import {  Box, Button, DownloadIcon, Heading, HStack, IconButton, RefreshIcon, Select, Tooltip, useMediaQuery, } from '@src/libs'
 import {AppGridSearchBox,} from './app-grid-search-box'
 
-function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomControl, toShowLastNoOfRows, gridApiRef }: { appStoreObject: any, appStaticStoreObject: any, title?: string, CustomControl?: any, toShowLastNoOfRows?: any, gridApiRef?: any }) {
+function AppGridToolbar({ appStoreObject, title, CustomControl, toShowLastNoOfRows, gridApiRef }: { appStoreObject: any,  title?: string, CustomControl?: any, toShowLastNoOfRows?: any, gridApiRef?: any }) {
     const [isLargerThan480] = useMediaQuery("(min-width: 480px)", { ssr: false })
     const [isLargerThan992] = useMediaQuery("(min-width: 992px)", { ssr: false })
     let toShow = toShowLastNoOfRows
@@ -35,7 +35,7 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
                         onClick={handleOnClickReload}
                         icon={<RefreshIcon fontSize={26} color='blue.500' />} />
                 </Tooltip>}
-                <AppGridSearchBox appStoreObject={appStoreObject} appStaticStoreObject={appStaticStoreObject} />
+                <AppGridSearchBox appStoreObject={appStoreObject} />
             </HStack>
         </HStack>
     )
@@ -47,12 +47,12 @@ function AppGridToolbar({ appStoreObject, appStaticStoreObject, title, CustomCon
     }
 
     async function handleOnClickReload() {
-        appStaticStoreObject.doReload()
+        appStoreObject.doReload()
     }
 
     function handleOnSelectRows(e: any) {
         appStoreObject.noOfRows.value = e.target.value
-        appStaticStoreObject.doReload()
+        appStoreObject.doReload()
     }
 }
 export { AppGridToolbar }

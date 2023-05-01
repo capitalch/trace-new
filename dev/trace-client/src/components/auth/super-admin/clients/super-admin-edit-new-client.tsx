@@ -80,8 +80,10 @@ function SuperAdminEditNewClient() {
                     </HStack>
                 </FormControl>
 
-                <FormControl>
-                    <input name='isActive' id = 'isActive' {...register('isActive')} type = 'checkbox' style = {{width: '20px', height: '20px', color:'white', backgroundColor:'blue'}} />
+                <FormControl display='flex' flexDir='row' alignItems='center' columnGap={2} >
+                    <input cursor='pointer' name='isActive' id = 'isActive' {...register('isActive')} type = 'checkbox' 
+                    style = {{width: '20px', height: '20px', cursor:'pointer',}} />
+                    <label  htmlFor='isActive' style={{cursor:'pointer'}}>Is this client active?</label>
                     {/* <Checkbox name='isActive' id = 'isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox> */}
                 </FormControl>
 

@@ -2,11 +2,11 @@ import { debounceEmit, debounceFilterOn, ebukiMessages, useAgGridUtils, } from '
 import { CloseIcon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, SearchIcon, useEffect,} from '@src/libs'
 // appStore[storeObjectName] and appStaticStore[storeObjectName] gives the required object
 
-function AppGridSearchBox({ appStoreObject, appStaticStoreObject }: { appStoreObject: any, appStaticStoreObject: any }) {
+function AppGridSearchBox({ appStoreObject}: { appStoreObject: any,}) {
     const { swapId } = useAgGridUtils()
     // const appStoreObject:any = appStore[storeObjectName]
     useEffect(() => {
-        appStaticStoreObject.doFilter = doFilter
+        appStoreObject.doFilter = doFilter
         const subs1 = debounceFilterOn(ebukiMessages.searchStringChangeDebounce.toString(), 1200).subscribe((d: any) => {
             doFilter()
         })

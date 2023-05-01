@@ -17,7 +17,7 @@ function SuperAdminClients() {
         dbName: 'traceAuth'
         , tableName: 'ClientM'
         ,appStoreObject:appStore.superAdmin.clients
-        , appStaticStoreObject: appStore.superAdmin.clients 
+        // , appStaticStoreObject: appStore.superAdmin.clients 
         // , EditBodyComponent: SuperAdminEditNewRole
         // , editTitle:'Edit super admin client'
     })
@@ -111,7 +111,7 @@ function SuperAdminClients() {
 
     return (
         <Flex h='100%'direction='column' className="ag-theme-balham" >
-            <AppGridToolbar appStoreObject={appStore.superAdmin.clients} appStaticStoreObject={appStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} gridApiRef={gridApiRef} />
+            <AppGridToolbar appStoreObject={appStore.superAdmin.clients} title='All clients view' CustomControl={SuperAdminNewClientButtons} gridApiRef={gridApiRef} />
             <AgGridReact
                 gridOptions={gridOptions}
                 onRowDataUpdated={(ev: RowDataUpdatedEvent<any>) => {

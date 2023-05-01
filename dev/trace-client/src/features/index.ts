@@ -15,6 +15,7 @@ export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 
 export {
+  AppAlertDialogYesNo,
   AppGridSearchBox,
   AppGridToolbar,
   AppLoader,
