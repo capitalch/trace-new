@@ -1,7 +1,5 @@
 import {
-    AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
-    Messages, useDialogs, useAppGraphql, useFeedback,
-
+    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, useFeedback,
 } from '@src/features'
 import {
     _, Button, Checkbox, FormControl,
@@ -12,15 +10,15 @@ import { Select } from 'chakra-react-select'
 import { Controller } from 'react-hook-form'
 
 function AdminEditNewBusinessUser() {
-    const meta: any = 
-        {
-            roles: useSignal([])
-            , selectedRole: useSignal({})
-            , bues: useSignal([])
-            , selectedBues: useSignal([])
-            , origBuIdsJson: useSignal([])
-        }
-    
+    const meta: any =
+    {
+        roles: useSignal([])
+        , selectedRole: useSignal({})
+        , bues: useSignal([])
+        , selectedBues: useSignal([])
+        , origBuIdsJson: useSignal([])
+    }
+
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, } = useDialogs()
@@ -158,10 +156,10 @@ function AdminEditNewBusinessUser() {
                         )
                     }
                 />
-
-                <FormControl>
+                <AppCheckbox name='isActive' label='Is this user active?' func={register} />
+                {/* <FormControl>
                     <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this user active?</Checkbox>
-                </FormControl>
+                </FormControl> */}
 
                 <HStack w='100%'>
                     <Button mt={5} w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >

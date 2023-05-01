@@ -1,10 +1,10 @@
 import {
-    _,  Box, Button, Checkbox, FormControl,
-    FormErrorMessage, FormLabel,  HStack, Input,
-     NumberInput, NumberInputField, 
-    useForm, VStack, useState, Text,  useGranularEffect, 
+    _, Box, Button, Checkbox, FormControl,
+    FormErrorMessage, FormLabel, HStack, Input,
+    NumberInput, NumberInputField,
+    useForm, VStack, useState, Text, useGranularEffect,
 } from '@src/libs'
-import {appStore, appValidators,GraphQlQueryResultType,Messages, useDialogs, useAppGraphql,AppRequiredAstrisk, useFeedback,debounceFilterOn, ebukiMessages, debounceEmit,} from '@src/features'
+import { AppCheckbox, appStore, appValidators, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, AppRequiredAstrisk, useFeedback, debounceFilterOn, ebukiMessages, debounceEmit, } from '@src/features'
 import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClientExtDatabase() {
@@ -110,9 +110,10 @@ function SuperAdminEditNewClientExtDatabase() {
                 </FormControl>
 
                 {/* is active */}
-                <FormControl>
+                <AppCheckbox name='isActive' label='Is this client active?' func={register} />
+                {/* <FormControl>
                     <Checkbox id='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
-                </FormControl>
+                </FormControl> */}
 
                 <VStack pt={3}>
                     <HStack w='100%'> <Text fontSize='md' >External database connection details</Text></HStack>
@@ -122,10 +123,10 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground_accounts' name='dbName' size='sm' type='text' {...registerDbName} autoComplete='off' />
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.dbName.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
-                                {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
+                            {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.dbName.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
+                            {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             {/* </HStack> */}
                         </FormControl>
 
@@ -134,10 +135,10 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB host <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground.com' name='host' size='sm' type='text' {...registerHost} autoComplete='off' />
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.host) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
-                                {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
+                            {(!!errors.host) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
+                            {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
                             {/* </HStack> */}
                         </FormControl>
                     </HStack>
@@ -148,9 +149,9 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' htmlFor='user' fontSize='sm'>DB user name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='john123' name='user' size='sm' type='text' {...registerUser} autoComplete='off' />
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
+                            {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
                             {/* </HStack> */}
                         </FormControl>
 
@@ -159,9 +160,9 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' htmlFor='password' fontSize='sm'>DB password <AppRequiredAstrisk /></FormLabel>
                             <Input name='password' size='sm' type='password' {...registerPassword} autoComplete='off' />
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
+                            {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
                             {/* </HStack> */}
                         </FormControl>
                     </HStack>
@@ -176,9 +177,9 @@ function SuperAdminEditNewClientExtDatabase() {
                             </NumberInput>
                             {/* <FormErrorMessage color='red.400' fontSize='xs'>{errors?.port?.message}</FormErrorMessage> */}
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
+                            {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
                             {/* </HStack> */}
                         </FormControl>
 
@@ -187,9 +188,9 @@ function SuperAdminEditNewClientExtDatabase() {
                             <FormLabel fontWeight='bold' fontSize='sm'>DB url</FormLabel>
                             <Input placeholder='e.g http://battledb.com' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
                             {/* <HStack justifyContent='space-between' > */}
-                                {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
-                                    : <>&nbsp;</>
-                                }
+                            {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
+                                : <>&nbsp;</>
+                            }
                             {/* </HStack> */}
                         </FormControl>
                     </HStack>

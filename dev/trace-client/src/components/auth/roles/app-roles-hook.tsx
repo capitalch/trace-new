@@ -201,7 +201,7 @@ function SecuredControlsWithPermissions({ roleId }: { roleId: number }) {
     }
 
     return (
-        <Flex h={400} w='100%' className='ag-theme-balham' direction='column'>
+        <Flex h={400}  className='ag-theme-balham' direction='column'>
             <HStack justifyContent='space-between' mb={5}>
                 <InitPermissionButtons></InitPermissionButtons>
                 <AppGridSearchBox appStoreObject={appStore.permissions} />

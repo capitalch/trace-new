@@ -1,5 +1,6 @@
 // export { AppAlertDialogOk } from './app-alert-dialog-ok'
-export {AppAlertDialogYesNo} from './app-alert-dialog-yes-no'
+export { AppAlertDialogYesNo } from './app-alert-dialog-yes-no'
+export { AppCheckbox } from './app-checkbox'
 export { AppGridSearchBox } from './app-grid-search-box'
 export { AppGridToolbar } from './app-grid-toolbar'
 export { AppLoader } from './app-loader'

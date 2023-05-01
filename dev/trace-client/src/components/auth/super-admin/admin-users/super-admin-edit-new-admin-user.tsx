@@ -1,7 +1,6 @@
 import {
-    AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
+   AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
-
 } from '@src/features'
 import {
     _, Button, Checkbox, FormControl,
@@ -123,10 +122,12 @@ function SuperAdminEditNewAdminUser() {
                     <FormLabel fontWeight='bold'>Description</FormLabel>
                     <Input name='descr' size='sm' type='text' autoComplete='off' {...register('descr')} />
                 </FormControl>
-
-                <FormControl>
+                
+                {/* is active user */}
+                <AppCheckbox name='isActive' label='Is this user active?' func={register} />
+                {/* <FormControl>
                     <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this user active?</Checkbox>
-                </FormControl>
+                </FormControl> */}
 
                 <HStack w='100%'>
                     <Button mt={5} w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >

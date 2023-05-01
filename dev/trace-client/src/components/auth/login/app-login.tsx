@@ -28,8 +28,8 @@ function AppLogin() {
                 <FormControl isInvalid={!!errors.username}>
                     <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
                     <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' 
-                    value='superAdmin' 
-                    // value = 'cap@gmail.com'
+                    // value='superAdmin' 
+                    value = 'cap@gmail.com'
                     {...registerUsername} />
                     {(!!errors.username)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.username.message}</FormErrorMessage>
@@ -41,8 +41,8 @@ function AppLogin() {
                 <FormControl mt={4} isInvalid={!!errors.password}>
                     <FormLabel color='blue.500'>Password</FormLabel>
                     <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" 
-                    value='superadmin@123' 
-                    // value = '@A1I<L/>DBRKb'
+                    // value='superadmin@123' 
+                    value = '@A1I<L/>DBRKb'
                     {...registerPassword} />
                     {(!!errors.password)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>

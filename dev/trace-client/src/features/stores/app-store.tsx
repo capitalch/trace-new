@@ -1,7 +1,7 @@
 import { EmptyComponent } from '@src/components'
-import { FC, Signal, signal, } from '@src/libs'
+import { _, FC, Signal, signal, } from '@src/libs'
 
-const appStore: AppStoreType = {
+const appStoreT: AppStoreType = {
     componentHistorySet: new Set(),
     isCloseClicked: false,
     isOpenClicked: false,
@@ -149,6 +149,8 @@ const appStore: AppStoreType = {
         },
     }
 }
+
+let appStore: AppStoreType = _.cloneDeep(appStoreT)
 
 type AppStoreType = {
     componentHistorySet: Set<string>
@@ -300,8 +302,9 @@ type AppStoreType = {
 
 }
 
-function doLogout() {
-
+function doLogout() {    
+    appStore.login.isLoggedIn.value = false
+    appStore = _.cloneDeep(appStoreT)
 }
 
 

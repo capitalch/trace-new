@@ -16,6 +16,7 @@ export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 
 export {
   AppAlertDialogYesNo,
+  AppCheckbox,
   AppGridSearchBox,
   AppGridToolbar,
   AppLoader,

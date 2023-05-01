@@ -1,5 +1,5 @@
 import {
-    AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
+    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
     debounceFilterOn, ebukiMessages, debounceEmit,
 } from '@src/features'
@@ -10,7 +10,6 @@ import {
 import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClient() {
-    const [, setRefresh] = useState({})
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
@@ -27,7 +26,6 @@ function SuperAdminEditNewClient() {
             (d: any) => {
                 validateClientCode(d.data, setError)
             })
-        // setRefresh({})
         return (() => {
             subs1.unsubscribe()
         })
@@ -80,13 +78,8 @@ function SuperAdminEditNewClient() {
                     </HStack>
                 </FormControl>
 
-                <FormControl display='flex' flexDir='row' alignItems='center' columnGap={2} >
-                    <input cursor='pointer' name='isActive' id = 'isActive' {...register('isActive')} type = 'checkbox' 
-                    style = {{width: '20px', height: '20px', cursor:'pointer',}} />
-                    <label  htmlFor='isActive' style={{cursor:'pointer'}}>Is this client active?</label>
-                    {/* <Checkbox name='isActive' id = 'isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox> */}
-                </FormControl>
-
+                {/* chakra-ui checkbox not working correctly. Not able to retain value when edit, when using with useForm; so created a checkbox from HTML input component */}
+                <AppCheckbox name='isActive' label='Is this client active?' func={register} />
                 <HStack justifyContent='flex-end' w='100%'>
                     <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
@@ -153,3 +146,11 @@ function SuperAdminEditNewClient() {
 }
 
 export { SuperAdminEditNewClient }
+
+{/* <Checkbox name='isActive' id = 'isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox> */ }
+{/* <FormControl display='flex' flexDir='row' alignItems='center' columnGap={2} >
+    <input  id = 'isActive' {...register('isActive')} type = 'checkbox' 
+    style = {{width: '20px', height: '20px', cursor:'pointer',}} />
+    <label  htmlFor='isActive' style={{cursor:'pointer'}}>Is this client active?</label>
+    
+</FormControl> */}
