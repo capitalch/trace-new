@@ -10,19 +10,21 @@ import {
   UsersIcon,
   VouchersIcon,
 } from "@src/libs";
-import {appStore, SideMenuTypesEnum} from '@src/features'
+import { appStore, SideMenuTypesEnum } from '@src/features'
 import {
+  AdminBusinessUnits,
+  AdminBusinessUsers,
+  AdminDashboard,
   AppDashboard,
   AppJournals,
   AppPayments,
+  AppRoles,
   AppSales,
+  SuperAdminAdminUsers,
   SuperAdminClients,
   SuperAdminDashboard,
+  SuperAdminSecuredControls
 } from "@src/components";
-// import { SuperAdminAdminUsers, SuperAdminClients, SuperAdminDashboard, SuperAdminSecuredControls } from "@src/auth/super-admin";
-// import { AdminBusinessUnits, AdminDashboard } from "@src/auth/admin";
-// import { AppRoles } from "@src/auth/roles/app-roles";
-// import { AdminBusinessUsers } from "@src/auth/admin/business-users/admin-business-users";
 
 function useAppSideMenu() {
   const sideMenuType = appStore.layouts.sideMenuType.value;
@@ -151,19 +153,19 @@ const superAdminMenu: MenuItemType[] = [
     breadcrumb: "Super admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    // component: AppRoles,
+    component: AppRoles,
   },
   {
     breadcrumb: "Super admin secured controls",
     label: "Secured controls",
     icon: <SecuredControlsIcon color="teal" />,
-    // component: SuperAdminSecuredControls,
+    component: SuperAdminSecuredControls,
   },
   {
     breadcrumb: "Admin users",
     label: "Admin users",
     icon: <UsersIcon color="dodgerBlue" />,
-    // component: SuperAdminAdminUsers,
+    component: SuperAdminAdminUsers,
   },
 ];
 
@@ -172,24 +174,24 @@ const adminMenu: MenuItemType[] = [
     breadcrumb: 'Admin dashboard',
     label: "Dashboard",
     icon: <DashboardIcon color="green" />,
-    // component: AdminDashboard
+    component: AdminDashboard
   },
   {
     breadcrumb: "Admin business units",
     label: "Business units",
     icon: <BuIcon color="blue" />,
-    // component: AdminBusinessUnits,
+    component: AdminBusinessUnits,
   },
   {
     breadcrumb: "Admin roles",
     label: "Roles",
     icon: <RolesIcon color="red" />,
-    // component: AppRoles,
+    component: AppRoles,
   },
   {
     breadcrumb: "Business users",
     label: "Business users",
     icon: <UsersIcon color="dodgerBlue" />,
-    // component: AdminBusinessUsers,
+    component: AdminBusinessUsers,
   },
 ];

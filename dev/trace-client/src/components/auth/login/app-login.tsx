@@ -27,7 +27,10 @@ function AppLogin() {
                 {/* uid email */}
                 <FormControl isInvalid={!!errors.username}>
                     <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
-                    <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' value='superAdmin' {...registerUsername} />
+                    <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' 
+                    value='superAdmin' 
+                    // value = 'cap@gmail.com'
+                    {...registerUsername} />
                     {(!!errors.username)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.username.message}</FormErrorMessage>
                         : <FormHelperText fontSize='xs' color='gray.400'> {Messages.messNoSpecialSpace4Plus}</FormHelperText>
@@ -37,7 +40,10 @@ function AppLogin() {
                 {/* Password */}
                 <FormControl mt={4} isInvalid={!!errors.password}>
                     <FormLabel color='blue.500'>Password</FormLabel>
-                    <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" value='superadmin@123' {...registerPassword} />
+                    <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" 
+                    value='superadmin@123' 
+                    // value = '@A1I<L/>DBRKb'
+                    {...registerPassword} />
                     {(!!errors.password)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                         : <FormHelperText color='gray.400' fontSize='xs'>{Messages.messMin8Char1Digit1Special}</FormHelperText>

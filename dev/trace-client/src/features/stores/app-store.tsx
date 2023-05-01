@@ -6,6 +6,30 @@ const appStore: AppStoreType = {
     isCloseClicked: false,
     isOpenClicked: false,
 
+    admin: {
+        businessUnits: {
+            doFilter: () => { },
+            doReload: () => { },
+            filteredRows: signal([]),
+            noOfRows: signal(100),
+            rows: signal([]),
+            refresh: signal(true),
+            searchString: signal('')
+        },
+        businessUsers: {
+            doFilter: () => { },
+            doReload: () => { },
+            filteredRows: signal([]),
+            noOfRows: signal(100),
+            rows: signal([]),
+            refresh: signal(true),
+            searchString: signal('')
+        },
+        bues: {
+            doReload: () => { }
+        }
+    },
+
     alertDialogOk: {
         body: signal(() => <></>),
         header: signal(''),
@@ -113,6 +137,7 @@ const appStore: AppStoreType = {
             refresh: signal(true),
             searchString: signal('')
         },
+
         securedControls: {
             doFilter: () => { },
             doReload: () => { },
@@ -129,6 +154,30 @@ type AppStoreType = {
     componentHistorySet: Set<string>
     isCloseClicked: boolean,
     isOpenClicked: boolean,
+
+    admin: {
+        businessUnits: {
+            doFilter: () => void,
+            doReload: () => void,
+            filteredRows: Signal<Array<any>>,
+            noOfRows: Signal<number>,
+            rows: Signal<Array<any>>,
+            refresh: Signal<boolean>,
+            searchString: Signal<string>
+        },
+        businessUsers: {
+            doFilter: () => void,
+            doReload: () => void,
+            filteredRows: Signal<Array<any>>,
+            noOfRows: Signal<number>,
+            rows: Signal<Array<any>>,
+            refresh: Signal<boolean>,
+            searchString: Signal<string>
+        },
+        bues: {
+            doReload: () => void
+        }
+    },
 
     alertDialogOk: {
         body: Signal<FC>,
@@ -205,7 +254,6 @@ type AppStoreType = {
         refresh: Signal<boolean>,
         searchString: Signal<string>
     },
-
 
     superAdmin: {
         adminUsers: {
