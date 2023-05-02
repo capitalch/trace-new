@@ -1,4 +1,4 @@
-import {doLogout, appStore, UserTypesEnum } from '@src/features'
+import { doLogout, appStore, UserTypesEnum, SideMenuTypesEnum } from '@src/features'
 import { AccountsIcon, AdminMenuIcon, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, } from '@src/libs'
 function useLogoutMenuButton() {
     const userType = appStore.login.userType.value
@@ -8,8 +8,8 @@ function useLogoutMenuButton() {
             [
                 <LogoutMenuItem itemText='Change uid' key='1' MenuIcon={ChangeUidIcon} />,
                 <LogoutMenuItem itemText='Change password' key='2' MenuIcon={ChangePasswordIcon} />,
-                <LogoutMenuItem itemText='Show admin menu' key='3' MenuIcon={AdminMenuIcon} />,
-                <LogoutMenuItem itemText='Show accounts menu' key='4' MenuIcon={AccountsIcon} />,
+                <LogoutMenuItem itemText='Show admin menu' key='3' handleOnClick={handleSetAdminMenu} MenuIcon={AdminMenuIcon} />,
+                <LogoutMenuItem itemText='Show accounts menu' handleOnClick={handleSetAccountsMenu} key='4' MenuIcon={AccountsIcon} />,
                 <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='5' MenuIcon={LogoutIcon} />,
             ]
         )
@@ -47,6 +47,14 @@ function useLogoutMenuButton() {
 
     function handleLogoutOnClick() {
         doLogout()
+    }
+
+    function handleSetAccountsMenu() {
+        appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
+    }
+
+    function handleSetAdminMenu() {
+        appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
     }
 
     return ({ getMenuItems, handleLogoutOnClick })

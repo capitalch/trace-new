@@ -72,7 +72,7 @@ function useAppLogin() {
 
         } else if (payload.userType === 'A') {
             appStore.login.userType.value = UserTypesEnum.ADMIN
-            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
+            appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu // By default default menu will be shown. It can be changed to admin menu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
             appStore.login.uidEmail.value = payload.email
             appStore.login.clientId = payload.clientId || 0

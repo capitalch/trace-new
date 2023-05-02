@@ -1,3 +1,23 @@
+## To Do between 02-05-2023 - 07-05-2023
+#. complete lifecycle of access token and refresh tokens as storing them in local storage etc.
+1. Complete testing of Auth
+2. Write email code from server
+3. Change UID
+4. Change PWD
+5. Server side documentation
+6. Client side documentation
+7. Start with replica of existing database
+8. Start coding vouchers
+
+## Logic for change UID: Secured
+1. Display ModalA, defaultdata has old uid
+2. Modal shows one text box to capture new UId. Old UID is shown in disabled text box
+3. Submit, creates new uid at server and confirms the creation through email of user
+
+## Logic for change password: Secured
+1. Display ModalA, Three text boxes with password astrix
+2. Old pwd, new pwd, verify new pwd
+3. Submit runs code to set the password logic
 ## Testing
 # Normal 24 hrs, 4 weeks 
 	accessToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE4NDAzMTMsInN1YiI6eyJ1c2VySWQiOm51bGx9fQ.VTWtthqySK2qYYQ7sU3hLriiV6Gx3vdNDgnESWGIyCU
@@ -120,29 +140,6 @@
 	validateUser url create at server outside of graphql
 5. Select icons at client end
 
-## Dashboard functionality
-1. No of connections
-2. No of clients ( Active / Inactive)
-3. Clients with databases grid. Shows unused databases etc.
-4. Help for Different steps guiding the user for entire Super Admin
-
-## comparison different grids
-1. react-data-grid: dynamic row height missing
-2. ag grid community: Aggregation missing
-3. rsuite-table react: filter is missing
-4. TanStack table: Good need to check
-## react-data-grid check
-1. edit, delete
-2. Search
-3. Export
-4. Grouping
-5. Edit
-6. Select
-7. Filter
-8. refresh
-9. No of rows
-10. Value format
-
 ## Logic for login
 
 ## login test use case
@@ -186,17 +183,15 @@
 
 ## Bug fix
 ### Client side
-1. Logout does not clear the appStore data. 
-	Reproduce:
-	logout as admin
-	login as super admin
-	still the roles of admin are visible
-### Server side
-																											1. Sometimes database server not working. Error connection
-																											2. AppHttpException of type custom exception not working
-																											3. Server side graphql authentication
 
-																											4. get_other_user_bundle error
+### Server side
+																											
+## 25-04-2023 - 02-05-2023
+1. Conversion back from DeepSignals to Signals with Types also in picture
+2. Organized the project properly
+## 13-04-2023 - 24-04-2023
+2. Tried out a new library HookState
+3. Resorted to Original @preact/signals-react and discarded the DeepSignal
 ## 11-04-2023 - 13-04-2023
 1. Completed user management for admin users
 ## 31-03-2023 - 10-04-2023
