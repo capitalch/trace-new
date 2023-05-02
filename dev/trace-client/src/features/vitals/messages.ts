@@ -1,6 +1,7 @@
 const Messages = {
     errAtLeast3Chars: 'Should be at least 3 chars long',
     errAtLeast4Chars: 'Should be at least 4 chars long',
+    errAtLeast6Chars: 'Should be at least 6 chars long',
     errAtLeast8Chars: 'Should be at least 8 chars long',
     errClientExists: 'Client already exists',
     errControlExists: 'Control already exists',
