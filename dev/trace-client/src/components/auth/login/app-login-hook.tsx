@@ -61,6 +61,7 @@ function useAppLogin() {
         }
         if (payload.userType === 'S') {
             // const s:string = UserTypesEnum.SUPER_ADMIN
+            appStore.content.title.value = AppConstants.SUPER_ADMIN_USER_TITLE
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
@@ -71,6 +72,7 @@ function useAppLogin() {
             // loginInfo.sideMenuHeading = AppConstants.SUPER_ADMIN_USER
 
         } else if (payload.userType === 'A') {
+            appStore.content.title.value = `${appStore.login.buName.value} accounts`
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu // By default default menu will be shown. It can be changed to admin menu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
@@ -81,6 +83,7 @@ function useAppLogin() {
             // loginInfo.sideMenuType = 'adminMenu'
             // loginInfo.sideMenuHeading = AppConstants.ADMIN_USER
         } else {
+            appStore.content.title.value = `${appStore.login.buName.value} accounts`
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER

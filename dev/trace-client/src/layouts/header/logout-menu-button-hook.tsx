@@ -1,4 +1,4 @@
-import { doLogout, appStore, UserTypesEnum, SideMenuTypesEnum, useDialogs } from '@src/features'
+import { doLogout, appStore, UserTypesEnum, SideMenuTypesEnum, useDialogs, AppConstants } from '@src/features'
 import { AccountsIcon, AdminMenuIcon, ChangePasswordIcon, ChangeUidIcon, LogoutIcon, MenuItem, } from '@src/libs'
 import { UidChange } from './uid-change'
 import { PasswordChange } from './password-change'
@@ -66,10 +66,12 @@ function useLogoutMenuButton() {
     }
 
     function handleSetAccountsMenu() {
+        appStore.content.title.value = `${appStore.login.buName.value} accounts`
         appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
     }
 
     function handleSetAdminMenu() {
+        appStore.content.title.value = `${appStore.login.buName.value} administration`
         appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
     }
 

@@ -50,7 +50,7 @@ const appStoreT: AppStoreType = {
 
     content: {
         breadcrumb: signal(''),
-        title: signal('testing')
+        title: signal('')
     },
 
     layouts: {
@@ -67,13 +67,13 @@ const appStoreT: AppStoreType = {
         isLoggedIn: signal(false),
         uidEmail: signal(''),
         userType: signal(0),
-
+        buName: signal(''),
         clientId: 0,
         clientCode: '',
         clientName: '',
         buId: 0,
         buCode: '',
-        buName: '',
+
         branchId: 1,
         branchCode: 'head',
         branchName: 'Head office'
@@ -219,13 +219,14 @@ type AppStoreType = {
         isLoggedIn: Signal<boolean>,
         uidEmail: Signal<string>,
         userType: Signal<number>,
+        buName: Signal<string>,
 
         clientId: number,
         clientCode: string,
         clientName: string,
         buId: number,
         buCode: string,
-        buName: string,
+
         branchId: number,
         branchCode: string,
         branchName: string
@@ -304,7 +305,7 @@ type AppStoreType = {
 
 }
 
-function doLogout() {    
+function doLogout() {
     appStore.login.isLoggedIn.value = false
     appStore = _.cloneDeep(appStoreT)
 }

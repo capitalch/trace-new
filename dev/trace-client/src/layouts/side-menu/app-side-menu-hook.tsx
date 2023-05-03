@@ -105,6 +105,7 @@ const accountsMenu: MenuItemType[] = [
     icon: <HomeIcon color="blue" />,
     children: [
       {
+        breadcrumb: "Dashboard",
         label: "Dashboard",
         component: AppDashboard,
       },
@@ -115,10 +116,12 @@ const accountsMenu: MenuItemType[] = [
     icon: <VouchersIcon color="red" />,
     children: [
       {
+        breadcrumb:'Journals',
         label: "Journals",
         component: AppJournals,
       },
       {
+        breadcrumb:'Payments',
         label: "Payments",
         component: AppPayments,
       },
@@ -129,6 +132,7 @@ const accountsMenu: MenuItemType[] = [
     icon: <SalesPurchaseIcon color="green" />,
     children: [
       {
+        breadcrumb:'Sales',
         label: "Sales",
         component: AppSales,
       },
