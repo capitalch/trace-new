@@ -49,7 +49,8 @@ const appStoreT: AppStoreType = {
     },
 
     content: {
-        breadcrumb: signal('')
+        breadcrumb: signal(''),
+        title: signal('testing')
     },
 
     layouts: {
@@ -200,6 +201,7 @@ type AppStoreType = {
     },
 
     content: {
+        title: Signal<string>,
         breadcrumb: Signal<string>
     },
 

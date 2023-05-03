@@ -15,12 +15,14 @@ export { useAppGraphql } from './graphql/app-graphql-hook'
 export { encodeObj, appGraphqlStrings } from './graphql/app-graphql-strings'
 
 export {
+  AppAlertDialogOk,
   AppAlertDialogYesNo,
   AppCheckbox,
   AppGridSearchBox,
   AppGridToolbar,
   AppLoader,
   AppModalDialogA,
+  AppModalDialogB,
   AppRequiredAstrisk
 } from './components'
 export {

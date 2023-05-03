@@ -15,7 +15,7 @@ function AppModalDialogA() {
         <Modal size={appStore.modalDialogA.size.value} isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
-                <ModalHeader mt={-2} fontSize='lg' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>
+                <ModalHeader mt={-2} fontSize='2xl' color='twitter.800' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <appStore.modalDialogA.body.value />

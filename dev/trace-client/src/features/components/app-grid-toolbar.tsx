@@ -29,13 +29,13 @@ function AppGridToolbar({ appStoreObject, title, CustomControl, toShowLastNoOfRo
                     <option value='100'>Last 100 rows</option>
                     <option value='1000'>Last 1000 rows</option>
                     <option value=''>All rows</option>
-                </Select>}
+                </Select>}                
+                <AppGridSearchBox appStoreObject={appStoreObject} />
                 {isLargerThan480 && <Tooltip label='Reload data'>
                     <IconButton size='sm' aria-label="Reload"
                         onClick={handleOnClickReload}
                         icon={<RefreshIcon fontSize={26} color='blue.500' />} />
                 </Tooltip>}
-                <AppGridSearchBox appStoreObject={appStoreObject} />
             </HStack>
         </HStack>
     )

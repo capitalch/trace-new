@@ -3,24 +3,19 @@ import {AppContent, AppDrawer,AppHeader, AppSidebar } from '@src/layouts'
 import {
   // AppConstants,
   appStore,
-
   AppLoader,
-  // AppAlertDialogOk,
+  AppAlertDialogOk,
   AppAlertDialogYesNo,
   AppModalDialogA,
-  // AppModalDialogB,
+  AppModalDialogB,
   LoginInfoType,
   getLoginInfoFromLS,
   getIsLoggedInFromLS,
-  // appStaticStore,
 } from "@src/features"
 import {
   Box,
   useEffect,
 } from '@src/libs'
-
-// import { AppContent, AppDrawer, AppHeader, AppSidebar } from "@src/layouts"
-
 
 function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
@@ -40,8 +35,8 @@ function AppLayouts() {
         <AppDrawer />
         <AppContent />
         <AppModalDialogA />
-        {/* <AppModalDialogB />
-        <AppAlertDialogOk /> */}
+        <AppModalDialogB />
+        <AppAlertDialogOk />
         <AppLoader />
         <AppAlertDialogYesNo />
       </Box>

@@ -2,8 +2,6 @@ import { HStack, IconButton, RefreshIcon, SimpleGrid, Tooltip, } from '@src/libs
 import { AdminCounts } from './admin-counts'
 
 function AdminDashboard() {
-    // const { loadData, } = useSuperAdminDashboard()
-
     return (
         <>
             <HStack justifyContent='flex-end'>

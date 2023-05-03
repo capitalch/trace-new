@@ -40,7 +40,7 @@ function PasswordChange(){
                 </FormControl>
 
                 <FormControl>
-                    <FormLabel fontWeight='bold'>New password<AppRequiredAstrisk /></FormLabel>
+                    <FormLabel fontWeight='bold'>New password&nbsp;<AppRequiredAstrisk /></FormLabel>
                     <Input name='newPassword' placeholder='*****' size='sm' type='password' {...registerNewPassword} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.newPassword) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.newPassword.message}</FormErrorMessage>
@@ -50,7 +50,7 @@ function PasswordChange(){
                 </FormControl>
 
                 <FormControl>
-                    <FormLabel fontWeight='bold'>Confirm new password<AppRequiredAstrisk /></FormLabel>
+                    <FormLabel fontWeight='bold'>Confirm new password&nbsp;<AppRequiredAstrisk /></FormLabel>
                     <Input name='confirmNewPassword' placeholder='*****' size='sm' type='password' {...registerConfirmNewPassword} autoComplete='off' />
                     <HStack justifyContent='space-between' >
                         {(!!errors.confirmNewPassword) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.confirmNewPassword.message}</FormErrorMessage>
