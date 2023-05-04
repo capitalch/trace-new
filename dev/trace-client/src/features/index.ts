@@ -4,7 +4,7 @@ export { appStore, doLogout } from './stores/app-store'
 export { appValidators } from './vitals/app-validators'
 export {
   type GraphQlQueryResultType,
-  type LoginInfoType,
+  // type LoginInfoType,
   SideMenuTypesEnum,
   type SqlObjectType,
   UserTypesEnum,

@@ -140,8 +140,8 @@ function SuperAdminEditNewClient() {
         for (const key in defaultData) {
             setValue(key, defaultData[key])
         }
-        const val = getValues('isActive')
-        console.log(val)
+        // const val = getValues('isActive')
+        // console.log(val)
     }
 }
 

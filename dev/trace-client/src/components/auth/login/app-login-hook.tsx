@@ -1,4 +1,4 @@
-import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, LoginInfoType, UserTypesType, SideMenuType } from '@src/features'
+import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS,  UserTypesType, SideMenuType } from '@src/features'
 import { axios, qs, urlJoin, useSignal } from '@src/libs'
 
 function useAppLogin() {
@@ -50,22 +50,14 @@ function useAppLogin() {
     }
 
     function setLoggedInUser(payload: PayloadType) {
-        // const loginInfo: LoginInfoType = {
-        //     uidEmail: payload.email,
-        //     userType: '',
-        //     clientId: payload.clientId || 0,
-        //     clientCode: payload.clientCode,
-        //     clientName: payload.clientName,
-        //     sideMenuHeading: '',
-        //     sideMenuType: ''
-        // }
+        
         if (payload.userType === 'S') {
             // const s:string = UserTypesEnum.SUPER_ADMIN
             appStore.content.title.value = AppConstants.SUPER_ADMIN_USER_TITLE
             appStore.login.userType.value = UserTypesEnum.SUPER_ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.superAdminMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
-            appStore.login.uidEmail.value = payload.email
+            appStore.login.email.value = payload.email
 
         } else if (payload.userType === 'A') {
             appStore.content.title.value = `${appStore.login.buName.value} accounts`
@@ -83,8 +75,10 @@ function useAppLogin() {
     }
 
     function setCommonFields(payload: PayloadType) {
-        appStore.login.uidEmail.value = payload.email
+        appStore.login.email.value = payload.email
+        appStore.login.uid.value = payload.uid
         appStore.login.clientId = payload.clientId || 0
+        appStore.login.userId = payload.userId || 0
 
         appStore.login.businessUnits = payload.businessUnits
         appStore.login.clientCode = payload.clientCode || ''
@@ -140,6 +134,6 @@ type PayloadType = {
     role?: string
     userName: string
     userType: string
-    uid?: string
+    uid: string
     userId?: number
 }

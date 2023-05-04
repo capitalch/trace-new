@@ -1,7 +1,7 @@
 import {
     AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
-    debounceFilterOn, ebukiMessages, debounceEmit,
+    debounceFilterOn, ebukiMessages, debounceEmit, SqlObjectType,
 } from '@src/features'
 import {
     _, Box, Button, Checkbox, FormControl,
@@ -37,7 +37,7 @@ function UidChange() {
             <VStack>
                 <FormControl>
                     <FormLabel fontWeight='bold'>Current uid</FormLabel>
-                    <Input name='currentUid' size='sm' type='text' isDisabled={true}/>
+                    <Input name='currentUid' size='sm' type='text' isDisabled={true} value={appStore.login.uid.value} />
                 </FormControl>
 
                 <FormControl>
@@ -59,9 +59,42 @@ function UidChange() {
         </form>
     )
 
-    async function onSubmit(values: any){
-
+    async function onSubmit(values: any) {
+        const id = appStore.login.userId
+        const sqlObj: SqlObjectType = {
+            tableName: 'UserM',
+            xData: {
+                id: id,
+                uid: values.uid,
+            }
+        }
+        const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
+        try {
+            setIsSubmitDisabled(true)
+            showAppLoader(true)
+            const result: GraphQlQueryResultType = await mutateGraphql(q)
+            handleUpdateResult(result, () => {
+                closeModalDialogA()
+                appStore.login.uid.value = values.uid
+                // appStore.superAdmin.clients.doReload()
+            }, 'updateClient')
+        } catch (e: any) {
+            showError(Messages.errUpdatingData)
+            console.log(e.message)
+        } finally {
+            showAppLoader(false)
+            setIsSubmitDisabled(false)
+        }
     }
+
+    // function setFormValues() {
+    //     if (_.isEmpty(defaultData)) {
+    //         return
+    //     }
+    //     for (const key in defaultData) {
+    //         setValue(key, defaultData[key])
+    //     }
+    // }
 }
 
 export { UidChange }

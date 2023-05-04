@@ -22,7 +22,7 @@ function LogoutMenuButton() {
                 aria-label='Logout'
                 leftIcon={<PersonIcon fontSize='1.2rem' />}
                 rightIcon={<ChevronDownIcon fontSize='1.2rem' />}
-                variant='ghost'>{appStore.login.uidEmail.value}</MenuButton>
+                variant='ghost'>{appStore.login.email.value}</MenuButton>
             <MenuList p={0} borderRadius={8}>
                 {getMenuItems()}
             </MenuList>

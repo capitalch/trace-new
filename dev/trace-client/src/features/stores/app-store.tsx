@@ -65,7 +65,8 @@ const appStoreT: AppStoreType = {
 
     login: {
         isLoggedIn: signal(false),
-        uidEmail: signal(''),
+        uid: signal(''),
+        email: signal(''),
         userType: signal(0),
         buName: signal(''),
         clientId: 0,
@@ -86,7 +87,8 @@ const appStoreT: AppStoreType = {
         dbName: '',
         dbParams: {},
         lastUsedBuId: 0,
-        lastUsedBranchId: 0
+        lastUsedBranchId: 0,
+        userId: 0
     },
 
     modalDialogA: {
@@ -227,7 +229,8 @@ type AppStoreType = {
 
     login: {
         isLoggedIn: Signal<boolean>,
-        uidEmail: Signal<string>,
+        uid: Signal<string>,
+        email: Signal<string>,
         userType: Signal<number>,
         buName: Signal<string>,
 
@@ -249,6 +252,7 @@ type AppStoreType = {
         dbParams: any
         lastUsedBuId: number
         lastUsedBranchId: number
+        userId: number
     },
 
     modalDialogA: {

@@ -8,7 +8,7 @@ import {
   AppAlertDialogYesNo,
   AppModalDialogA,
   AppModalDialogB,
-  LoginInfoType,
+  // LoginInfoType,
   getLoginInfoFromLS,
   getIsLoggedInFromLS,
 } from "@src/features"
@@ -45,9 +45,9 @@ function AppLayouts() {
 
   function loadLoginInfo() {
     appStore.login.isLoggedIn.value = getIsLoggedInFromLS()
-    const loginInfo: LoginInfoType = getLoginInfoFromLS()
+    // const loginInfo: LoginInfoType = getLoginInfoFromLS()
     // populate appStore properties
-    appStore.login.uidEmail.value = loginInfo.uidEmail
+    // appStore.login.uidEmail.value = loginInfo.uidEmail
     // appStore.login.userType.value = loginInfo.userType
     // appStore.layouts.sideMenuType = loginInfo.sideMenuType || ''
     // appStore.layouts.sideMenuHeading = loginInfo.sideMenuHeading || ''

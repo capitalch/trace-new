@@ -9,21 +9,21 @@ type GraphQlQueryResultType = {
   }
 }
 
-type LoginInfoType = {
-  uidEmail: string
-  userType: UserTypesType
-  clientId?: number
-  clientCode?: string
-  clientName?: string
-  buId?: number
-  buCode?: string
-  buName?: string
-  branchId?: number
-  branchCode?: string
-  branchName?: string
-  sideMenuType: SideMenuType
-  sideMenuHeading: string
-}
+// type LoginInfoType = {
+//   uidEmail: string
+//   userType: UserTypesType
+//   clientId?: number
+//   clientCode?: string
+//   clientName?: string
+//   buId?: number
+//   buCode?: string
+//   buName?: string
+//   branchId?: number
+//   branchCode?: string
+//   branchName?: string
+//   sideMenuType: SideMenuType
+//   sideMenuHeading: string
+// }
 
 type SqlObjectType = {
   tableName: string
@@ -53,4 +53,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export { type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type LoginInfoType, type SqlObjectType, UserTypesEnum, type UserTypesType }
+export { type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type SqlObjectType, UserTypesEnum, type UserTypesType }
