@@ -71,12 +71,22 @@ const appStoreT: AppStoreType = {
         clientId: 0,
         clientCode: '',
         clientName: '',
+        
         buId: 0,
         buCode: '',
 
         branchId: 1,
         branchCode: 'head',
-        branchName: 'Head office'
+        branchName: 'Head office',
+
+        businessUnits:[],
+        isClientActive: false,
+        isUserActive: false,
+        isExternalDb: false,
+        dbName: '',
+        dbParams: {},
+        lastUsedBuId: 0,
+        lastUsedBranchId: 0
     },
 
     modalDialogA: {
@@ -230,6 +240,15 @@ type AppStoreType = {
         branchId: number,
         branchCode: string,
         branchName: string
+
+        businessUnits: any
+        isClientActive: boolean
+        isUserActive: boolean
+        isExternalDb: boolean
+        dbName: string
+        dbParams: any
+        lastUsedBuId: number
+        lastUsedBranchId: number
     },
 
     modalDialogA: {

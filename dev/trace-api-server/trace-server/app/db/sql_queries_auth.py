@@ -207,12 +207,15 @@ class SqlQueriesAuth:
 
     get_user_details = '''
             with "uidOrEmail" as (values(%(uidOrEmail)s))
-            --with "uidOrEmail" as (values('capitalch'))
+            --with "uidOrEmail" as (values('cap@gmail.com'))
             , cte1 as ( -- user details
                 select u.id as "userId", "uid", "userEmail", "hash", "userName"
-                    , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", "isActive", u."roleId"
+                    , "branchIds", "lastUsedBuId", "lastUsedBranchId", u."clientId", "mobileNo", u."isActive" as "isUserActive", u."roleId"
+					, c."clientCode", c."clientName", c."isActive" as "isClientActive", c."isExternalDb", c."dbName", c."dbParams"
                 , CASE when ("roleId" is null) THEN 'A' ELSE 'B' END as "userType"	
                 from "UserM" u
+					join "ClientM" c
+						on c."id" = u."clientId"
                 where (("uid" = (table "uidOrEmail") or ("userEmail" = (table "uidOrEmail")))))
             , cte2 as ( -- get bu's associated with user
                 select b.id as "buId", "buCode", "buName"

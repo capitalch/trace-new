@@ -39,7 +39,8 @@ async def get_other_user_bundle(uidOrEmail, password):
     bundle = None
     userType = None
     # details: list = await exec_generic_query(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
-    details: list = exec_sql(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
+    details: list = exec_sql(sql=SqlQueriesAuth.get_user_details, sqlArgs={
+                             'uidOrEmail': uidOrEmail})
     if (details):
         jsonResultDict = details[0]['jsonResult']
         # jsonResultDict = jsonResult #json.loads(jsonResult)
@@ -47,13 +48,13 @@ async def get_other_user_bundle(uidOrEmail, password):
         businessUnits = jsonResultDict.get('businessUnits')
         role = jsonResultDict.get('role')
 
-        if((userDetails is None)):
+        if ((userDetails is None)):
             raise AppHttpException(
                 detail=Messages.err_invalid_uid, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1002'
             )
 
         userType = userDetails['userType']
-        isActive = userDetails['isActive']
+        isActive = userDetails['isUserActive']
         if (not isActive):
             raise AppHttpException(
                 detail=Messages.err_inactive_user, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1012')
@@ -63,16 +64,26 @@ async def get_other_user_bundle(uidOrEmail, password):
             raise AppHttpException(
                 detail=Messages.err_invalid_pwd, status_code=status.HTTP_401_UNAUTHORIZED, error_code='e1011')
 
-        user = UserClass(userType=userType,
-                         uid=userDetails['uid'],
-                         clientId=userDetails['clientId'],
-                         email=userDetails['userEmail'],
-                         mobileNo=userDetails['mobileNo'],
-                         userName=userDetails['userName'],
-                         userId=userDetails['userId'],
-                         role=role,
-                         businessUnits=businessUnits
-                         )
+        user = UserClass(
+            userType=userType,
+            businessUnits=businessUnits,
+            clientCode=userDetails['clientCode'],
+            clientName=userDetails['clientName'],
+            clientId=userDetails['clientId'],
+            dbName=userDetails['dbName'],
+            dbParams=userDetails['dbParams'],
+            email=userDetails['userEmail'],
+            isClientActive=userDetails['isClientActive'],
+            isUserActive=userDetails['isUserActive'],
+            isExternalDb=userDetails['isExternalDb'],
+            lastUsedBranchId=userDetails['lastUsedBranchId'],
+            lastUsedBuId=userDetails['lastUsedBuId'],
+            mobileNo=userDetails['mobileNo'],
+            role=role,
+            uid=userDetails['uid'],
+            userName=userDetails['userName'],
+            userId=userDetails['userId'],
+        )
         bundle = get_bundle(user)
     return (bundle)
 

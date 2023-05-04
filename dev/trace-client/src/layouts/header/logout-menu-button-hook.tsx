@@ -71,7 +71,7 @@ function useLogoutMenuButton() {
     }
 
     function handleSetAdminMenu() {
-        appStore.content.title.value = `${appStore.login.buName.value} administration`
+        appStore.content.title.value = `${appStore.login.clientName} administration`
         appStore.layouts.sideMenuType.value = SideMenuTypesEnum.adminMenu
     }
 

@@ -1,5 +1,5 @@
-import { appStore, SideMenuTypesEnum,  UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, LoginInfoType, UserTypesType, SideMenuType } from '@src/features'
-import { axios, qs, urlJoin, useSignal} from '@src/libs'
+import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, LoginInfoType, UserTypesType, SideMenuType } from '@src/features'
+import { axios, qs, urlJoin, useSignal } from '@src/libs'
 
 function useAppLogin() {
     const meta: any = {
@@ -50,15 +50,15 @@ function useAppLogin() {
     }
 
     function setLoggedInUser(payload: PayloadType) {
-        const loginInfo: LoginInfoType = {
-            uidEmail: payload.email,
-            userType: '',
-            clientId: payload.clientId || 0,
-            clientCode: payload.clientCode,
-            clientName: payload.clientName,
-            sideMenuHeading: '',
-            sideMenuType: ''
-        }
+        // const loginInfo: LoginInfoType = {
+        //     uidEmail: payload.email,
+        //     userType: '',
+        //     clientId: payload.clientId || 0,
+        //     clientCode: payload.clientCode,
+        //     clientName: payload.clientName,
+        //     sideMenuHeading: '',
+        //     sideMenuType: ''
+        // }
         if (payload.userType === 'S') {
             // const s:string = UserTypesEnum.SUPER_ADMIN
             appStore.content.title.value = AppConstants.SUPER_ADMIN_USER_TITLE
@@ -67,33 +67,34 @@ function useAppLogin() {
             appStore.layouts.sideMenuHeading.value = AppConstants.SUPER_ADMIN_USER
             appStore.login.uidEmail.value = payload.email
 
-            // loginInfo.userType = 'SUPER_ADMIN'
-            // loginInfo.sideMenuType = 'superAdminMenu'
-            // loginInfo.sideMenuHeading = AppConstants.SUPER_ADMIN_USER
-
         } else if (payload.userType === 'A') {
             appStore.content.title.value = `${appStore.login.buName.value} accounts`
             appStore.login.userType.value = UserTypesEnum.ADMIN
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu // By default default menu will be shown. It can be changed to admin menu
             appStore.layouts.sideMenuHeading.value = AppConstants.ADMIN_USER
-            appStore.login.uidEmail.value = payload.email
-            appStore.login.clientId = payload.clientId || 0
-
-            // loginInfo.userType = 'ADMIN'
-            // loginInfo.sideMenuType = 'adminMenu'
-            // loginInfo.sideMenuHeading = AppConstants.ADMIN_USER
+            setCommonFields(payload)
         } else {
             appStore.content.title.value = `${appStore.login.buName.value} accounts`
             appStore.login.userType.value = UserTypesEnum.BUSINESS_USER
             appStore.layouts.sideMenuType.value = SideMenuTypesEnum.accountsMenu
             appStore.layouts.sideMenuHeading.value = AppConstants.BUSINESS_USER
-            appStore.login.uidEmail.value = payload.email
-            appStore.login.clientId = payload.clientId || 0
-
-            // loginInfo.userType = 'BUSINESS_USER'
-            // loginInfo.sideMenuType = 'accountsMenu'
-            // loginInfo.sideMenuHeading = AppConstants.BUSINESS_USER
+            setCommonFields(payload)
         }
+    }
+
+    function setCommonFields(payload: PayloadType) {
+        appStore.login.uidEmail.value = payload.email
+        appStore.login.clientId = payload.clientId || 0
+
+        appStore.login.businessUnits = payload.businessUnits
+        appStore.login.clientCode = payload.clientCode || ''
+        appStore.login.clientName = payload.clientName || ''
+        appStore.login.dbName = payload.dbName || ''
+        appStore.login.dbParams = payload.dbParams
+        appStore.login.isClientActive = payload.isClientActive || false
+        appStore.login.isUserActive = payload.isUserActive || false
+        appStore.login.lastUsedBuId = payload.lastUsedBuId || 0
+        appStore.login.lastUsedBranchId = payload.lastUsedBranchId || 0
     }
 
     function handleTestSubmit(userType: string) {
@@ -123,15 +124,22 @@ function useAppLogin() {
 export { useAppLogin }
 
 type PayloadType = {
+    businessUnits?: any[]
     clientId?: number | undefined
-    clientCode?: string | undefined
-    clientName?: string | undefined
+    clientCode?: string
+    clientName?: string
+    dbName?: string
+    dbParams?: any
+    email: string
+    isClientActive?: boolean
+    isExternalDb?: boolean
+    isUserActive?: boolean
+    lastUsedBuId?: number
+    lastUsedBranchId?: number
+    mobileNo: string
+    role?: string
+    userName: string
     userType: string
     uid?: string
-    email: string
-    mobileNo: string
-    userName: string
     userId?: number
-    businessUnits?: any[]
-    role?: string
 }
