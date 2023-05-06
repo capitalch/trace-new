@@ -51,10 +51,6 @@ def getPasswordHash(pwd):
     return pwdHash
 
 
-def randomStringGenerator(strSize, allowedChars):
-    return ''.join(random.choice(allowedChars) for x in range(strSize))
-
-
 def getRandomPassword():
     rnd = f'@A1{randomStringGenerator(9, (string.ascii_letters + string.punctuation + string.digits))}b'
     # Remove all instances of ':' since clint sends credentials as 'uid:pwd'
@@ -71,3 +67,10 @@ def getSqlQueryObject(dbName: str):
     if(dbName == 'traceAuth'):
         queryObject = SqlQueriesAuth
     return(queryObject)
+
+def randomStringGenerator(strSize, allowedChars):
+    return ''.join(random.choice(allowedChars) for x in range(strSize))
+
+def sendMail(receipents: list(str), message: str, htmlBody: str, attachments: list(any) = None):
+    
+    pass
