@@ -1,5 +1,5 @@
 import {
-    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
+    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, EventTriggersEnum, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
     debounceFilterOn, ebukiMessages, debounceEmit, SqlObjectType,
 } from '@src/features'
@@ -17,7 +17,7 @@ function UidChange() {
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkNoSpace } = appValidators()
     const { handleSubmit, register, getValues, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
 
-    const defaultData = appStore.modalDialogA.defaultData.value
+    // const defaultData = appStore.modalDialogA.defaultData.value
 
     const registerUid = register('uid', {
         required: Messages.errRequired
@@ -66,7 +66,8 @@ function UidChange() {
             xData: {
                 id: id,
                 uid: values.uid,
-            }
+            },
+            onSuccess: EventTriggersEnum.on_success_change_uid
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         try {

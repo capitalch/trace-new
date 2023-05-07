@@ -1,6 +1,10 @@
 // type UserType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | undefined
 // export { type UserType }
 
+enum EventTriggersEnum {
+  on_success_change_uid = 'on_success_change_uid'
+}
+
 type GraphQlQueryResultType = {
   data: {
     genericUpdate?: any
@@ -31,6 +35,8 @@ type SqlObjectType = {
     [key: string]: any
     xDetails?: SqlObjectType
   }
+  onSuccess?: string
+  onFailure?: string
 }
 
 type UserTypesType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | ''
@@ -53,4 +59,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export { type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type SqlObjectType, UserTypesEnum, type UserTypesType }
+export { EventTriggersEnum, type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type SqlObjectType, UserTypesEnum, type UserTypesType }

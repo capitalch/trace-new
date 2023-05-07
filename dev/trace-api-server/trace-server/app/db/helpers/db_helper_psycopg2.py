@@ -6,6 +6,7 @@ from psycopg2 import pool
 from psycopg2.pool import ThreadedConnectionPool
 from psycopg2.extras import RealDictCursor
 from app import AppHttpException,  Config, Messages
+from app import eventTriggersMap
 
 poolStore = {}
 dbParams: dict = {
@@ -137,6 +138,9 @@ def exec_sql_object(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, 
         with conn.cursor(cursor_factory=RealDictCursor) as acur:
             acur.execute(f'set search_path to {schema}')
             records = execSqlObject(sqlObject, acur)
+            triggerName = sqlObject.get('onSuccess', None)
+            if(triggerName is not None):
+                eventTriggersMap[triggerName](records)
     conn.close()
     return (records)
 

@@ -1,0 +1,3 @@
+
+def onSuccessChangeUid(records):
+    pass
