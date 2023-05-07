@@ -1,4 +1,4 @@
-pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool] pycryptodome
+pip inspip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool] pycryptodome fastapi-mail
 
 ## DB comparisons
 1. asyncpg requires so many connections

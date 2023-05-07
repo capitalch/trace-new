@@ -71,6 +71,6 @@ def getSqlQueryObject(dbName: str):
 def randomStringGenerator(strSize, allowedChars):
     return ''.join(random.choice(allowedChars) for x in range(strSize))
 
-def sendMail(receipents: list(str), message: str, htmlBody: str, attachments: list(any) = None):
+# def sendMail(receipents: list(str), message: str, htmlBody: str, attachments: list(any) = None):
     
-    pass
+#     pass
