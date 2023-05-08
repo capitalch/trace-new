@@ -67,7 +67,8 @@ function UidChange() {
                 id: id,
                 uid: values.uid,
             },
-            onSuccess: EventTriggersEnum.on_success_change_uid
+            onSuccessTriggerName: EventTriggersEnum.on_success_change_uid,
+            onSuccessTriggerParams: { email: appStore.login.email.value, uid: appStore.login.uid.value }
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         try {

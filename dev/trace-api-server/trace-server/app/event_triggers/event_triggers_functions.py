@@ -1,3 +1,3 @@
 
-def onSuccessChangeUid(records):
+def onSuccessChangeUid(records, triggerParams):
     pass

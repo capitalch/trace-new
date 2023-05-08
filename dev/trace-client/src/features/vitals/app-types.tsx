@@ -35,8 +35,10 @@ type SqlObjectType = {
     [key: string]: any
     xDetails?: SqlObjectType
   }
-  onSuccess?: string
-  onFailure?: string
+  onSuccessTriggerName?: string
+  onSuccessTriggerParams?: {}
+  onFailureTiggerName?: string
+  onFailureTriggerParams?: {}
 }
 
 type UserTypesType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | ''
