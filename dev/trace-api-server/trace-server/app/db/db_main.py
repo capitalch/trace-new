@@ -18,6 +18,8 @@ from .helpers.db_helper_psycopg2 import exec_sql_object as exec_sql_object_psyco
 from .helpers.db_helper_psycopg2 import exec_sql as exec_sql_psycopg2
 from .helpers.db_helper_psycopg2 import execute_sql_dml as execute_sql_dml_psycopg2
 
+from app import eventTriggersMap
+
 
 async def resolve_generic_query(info, value):
     error = {}
@@ -70,6 +72,11 @@ async def resolve_generic_update(info, value):
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
         data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
         # data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
+        
+        triggerName = sqlObj.get('onSuccessTriggerName', None)
+        triggerParams = sqlObj.get('onSuccessTriggerParams', None)
+        if(triggerName is not None):
+            await eventTriggersMap[triggerName]('', triggerParams)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)

@@ -1,3 +1,5 @@
+from .mail import send_email
 
-def onSuccessChangeUid(records, triggerParams):
+async def onSuccessChangeUid(records, triggerParams):
+    await send_email(subject='test', body='Testing',recipients=['capitalch@gmail.com'])
     pass
