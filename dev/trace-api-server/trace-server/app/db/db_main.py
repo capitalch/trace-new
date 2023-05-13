@@ -70,13 +70,13 @@ async def resolve_generic_update(info, value):
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
-        data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
+        data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
         # data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
         
-        triggerName = sqlObj.get('onSuccessTriggerName', None)
-        triggerParams = sqlObj.get('onSuccessTriggerParams', None)
-        if(triggerName is not None):
-            await eventTriggersMap[triggerName]('', triggerParams)
+        # triggerName = sqlObj.get('onSuccessTriggerName', None)
+        # triggerParams = sqlObj.get('onSuccessTriggerParams', None)
+        # if(triggerName is not None):
+        #     await eventTriggersMap[triggerName]('', triggerParams)
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)
@@ -156,7 +156,7 @@ async def resolve_update_client(info, value):
                         execute_sql_dml_psycopg2(dbName=dbToCreate,
                                                  sql=SqlQueriesAuth.drop_public_schema)
                         
-        data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
+        data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
     
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
@@ -188,7 +188,7 @@ async def resolve_update_user(info, value):
                 tHash = utils.getPasswordHash(pwd)
                 xData['hash'] = tHash
                 toSendMail = True
-        data = exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
+        data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
         if (toSendMail):
             # code to send mail for uid and password
             pass

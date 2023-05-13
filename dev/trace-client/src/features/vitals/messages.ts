@@ -19,6 +19,7 @@ const Messages = {
     errNoSpaceAllowed:'Space is not allowed',
     errNoSpceOrSpecialChar: 'Cannot have space or special character',
     errNoSpecialChar: 'Cannot have special character',
+    errUidValuesSame: 'You must give a new value for uid',
     errRequired: 'This value is required',
     errRoleNameExists: 'Role name already exists',
     errGenericServerError: 'Server side error',

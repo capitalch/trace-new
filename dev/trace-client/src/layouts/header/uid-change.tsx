@@ -1,53 +1,44 @@
 import {
-    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, EventTriggersEnum, GraphQlQueryResultType,
-    Messages, useDialogs, useAppGraphql, useFeedback,
-    debounceFilterOn, ebukiMessages, debounceEmit, SqlObjectType,
+    AppRequiredAstrisk, appStore, appValidators, EventTriggersEnum, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, useFeedback, SqlObjectType,
 } from '@src/features'
 import {
-    _, Box, Button, Checkbox, FormControl,
-    FormErrorMessage, FormLabel, HStack, Input, useForm, VStack, useState, useGranularEffect,
+    _, Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, useForm, VStack, useState,
 } from '@src/libs'
 
 function UidChange() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
-    const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
+    const { closeModalDialogA, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
-    const { checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkNoSpace } = appValidators()
-    const { handleSubmit, register, getValues, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
-
-    // const defaultData = appStore.modalDialogA.defaultData.value
+    const { checkNoSpace } = appValidators()
+    const { handleSubmit, register, formState: { errors }, }: any = useForm({ mode: 'onTouched' })
 
     const registerUid = register('uid', {
         required: Messages.errRequired
         , minLength: { value: 4, message: Messages.errAtLeast6Chars }
         , validate: {
             noSpaceAllowed: (val: string) => checkNoSpace(val),
-            // validate: (val: string) => {
-            //     if (_.isEmpty(defaultData)) { // Allow unique clientCode validation only when inserting data
-            //         debounceEmit(ebukiMessages.clientCodeChangeDebounce.toString(), val)
-            //     }
-            // }
+            noSameUidAllowed: (val: string) => checkSameUid(val)
         }
     })
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
+                {/* old uid */}
                 <FormControl>
                     <FormLabel fontWeight='bold'>Current uid</FormLabel>
                     <Input name='currentUid' size='sm' type='text' isDisabled={true} value={appStore.login.uid.value} />
                 </FormControl>
 
-                <FormControl>
+                {/* new uid */}
+                <FormControl isInvalid={!!errors.uid}>
                     <FormLabel fontWeight='bold'>New uid <AppRequiredAstrisk /></FormLabel>
                     <Input name='uid' placeholder='e.g patikKumar' size='sm' type='text' {...registerUid} autoComplete='off' />
-                    <HStack justifyContent='space-between' >
-                        {(!!errors.uid) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.uid.message}</FormErrorMessage>
-                            : <>&nbsp;</>
-                        }
-                    </HStack>
+                    {(!!errors.uid) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.uid.message}</FormErrorMessage>
+                        : <>&nbsp;</>
+                    }
                 </FormControl>
 
                 <HStack justifyContent='flex-end' w='100%'>
@@ -58,6 +49,16 @@ function UidChange() {
             </VStack>
         </form>
     )
+
+    function checkSameUid(input: string) {
+        let error = null
+        const oldUid = appStore.login.uid.value.toLowerCase().trim()
+        const newUid = (input || '').toLowerCase().trim()
+        if (oldUid === newUid) {
+            error = Messages.errUidValuesSame
+        }
+        return (error)
+    }
 
     async function onSubmit(values: any) {
         const id = appStore.login.userId
@@ -88,15 +89,6 @@ function UidChange() {
             setIsSubmitDisabled(false)
         }
     }
-
-    // function setFormValues() {
-    //     if (_.isEmpty(defaultData)) {
-    //         return
-    //     }
-    //     for (const key in defaultData) {
-    //         setValue(key, defaultData[key])
-    //     }
-    // }
 }
 
 export { UidChange }

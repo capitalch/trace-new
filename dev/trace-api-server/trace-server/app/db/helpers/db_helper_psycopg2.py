@@ -129,7 +129,7 @@ def process_details(sqlObject: Any, acur: Any, fkeyValue=None):
         return (ret)
 
 
-def exec_sql_object(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
+async def exec_sql_object(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, str] = dbParams, schema: str = 'public',  execSqlObject: Any = process_details, sqlObject: Any = None):
     connInfo = get_conn_info(dbName, db_params)
     schema = 'public' if schema is None else schema
     apool: ThreadedConnectionPool = get_connection_pool(connInfo, dbName)
@@ -138,10 +138,10 @@ def exec_sql_object(dbName: str = Config.DB_AUTH_DATABASE, db_params: dict[str, 
         with conn.cursor(cursor_factory=RealDictCursor) as acur:
             acur.execute(f'set search_path to {schema}')
             records = execSqlObject(sqlObject, acur)
-            # triggerName = sqlObject.get('onSuccessTriggerName', None)
-            # triggerParams = sqlObject.get('onSuccessTriggerParams', None)
-            # if(triggerName is not None):
-            #     eventTriggersMap[triggerName](records, triggerParams)
+            triggerName = sqlObject.get('onSuccessTriggerName', None)
+            triggerParams = sqlObject.get('onSuccessTriggerParams', None)
+            if(triggerName is not None):
+                await eventTriggersMap[triggerName](records, triggerParams)
     conn.close()
     return (records)
 

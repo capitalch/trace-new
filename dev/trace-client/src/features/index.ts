@@ -25,7 +25,7 @@ export {
   AppModalDialogA,
   AppModalDialogB,
   AppRequiredAstrisk
-} from './components'
+} from './widgets'
 export {
   emit,
   ebukiMessages,
