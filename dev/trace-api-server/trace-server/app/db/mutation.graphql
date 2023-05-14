@@ -1,4 +1,5 @@
 type Mutation {
+    customMethod(value: Generic): Generic
     genericUpdate(value:Generic): Generic 
     updateClient(value: Generic) : Generic
     updateUser(value: Generic): Generic

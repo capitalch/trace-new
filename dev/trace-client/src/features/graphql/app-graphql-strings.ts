@@ -2,55 +2,61 @@ import { gql } from '@apollo/client'
 import { _ } from '@src/libs'
 
 const appGraphqlStrings: any = {
+    customMethod: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
+        mutation ${dbName} {
+            customMethod(value:"${value}")
+        }`
+  },
 
-    genericQuery: (val: any, dbName: string) => {
-        const value = encodeObj(val)
-        return gql`
+  genericQuery: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
         query ${dbName}{
             genericQuery(value:"${value}")
         }`
-    },
+  },
 
-    genericUpdate: (val: any, dbName: string) => {
-        const value = encodeObj(val)
-        return gql`
+  genericUpdate: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
         mutation ${dbName} {
             genericUpdate(value:"${value}")
         }`
-    },
+  },
 
-    queryClients:(val: any, dbName: string)=>{
-        const value = encodeObj(val)
-        return gql`
+  queryClients: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
         query ${dbName} {
             queryClients(value:"${value}")
         }`
-    },
+  },
 
-    updateClient:(val: any, dbName: string)=>{
-        const value = encodeObj(val)
-        return gql`
+  updateClient: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
         mutation ${dbName} {
             updateClient(value:"${value}")
         }`
-    },
+  },
 
-    updateUser:(val: any, dbName: string)=>{
-        const value = encodeObj(val)
-        return gql`
+  updateUser: (val: any, dbName: string) => {
+    const value = encodeObj(val)
+    return gql`
         mutation ${dbName} {
             updateUser(value:"${value}")
         }`
-    }
+  }
 }
 
-
-function encodeObj(obj: any) {
-    let ret = ''
-    if (!_.isEmpty(obj)) {
-        ret = encodeURI(JSON.stringify(obj))
-    }
-    return ret
+function encodeObj (obj: any) {
+  let ret = ''
+  if (!_.isEmpty(obj)) {
+    ret = encodeURI(JSON.stringify(obj))
+  }
+  return ret
 }
 
 export { appGraphqlStrings, encodeObj }

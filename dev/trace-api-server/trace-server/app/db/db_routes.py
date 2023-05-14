@@ -1,10 +1,15 @@
 from app.vendors import GraphQL, load_schema_from_path, make_executable_schema, MutationType, QueryType
 from fastapi.middleware.cors import CORSMiddleware
-from .db_main import resolve_generic_query, resolve_generic_update, resolve_query_clients, resolve_update_client, resolve_update_user
+from .db_main import resolve_custom_method, resolve_generic_query, resolve_generic_update, resolve_query_clients, resolve_update_client, resolve_update_user
 
 type_defs = load_schema_from_path('app/db')
 query = QueryType()
 mutation = MutationType()
+
+
+@mutation.field('customMethod')
+async def custom_method(_, info, value=''):
+    return (resolve_custom_method(info, value))
 
 
 @query.field('genericQuery')
@@ -26,9 +31,10 @@ async def query_client(_, info, value=''):
 async def update_client(_, info, value=''):
     return (resolve_update_client(info, value))
 
+
 @mutation.field('updateUser')
-async def update_user(_,info, value):
-    return(resolve_update_user(info, value))
+async def update_user(_, info, value):
+    return (resolve_update_user(info, value))
 
 
 schema = make_executable_schema(type_defs, query, mutation)

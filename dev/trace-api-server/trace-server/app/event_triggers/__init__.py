@@ -1,2 +1,2 @@
-from .event_triggers_map import eventTriggersMap
+from .event_triggers_map import event_triggers_map
 # from .event_triggers_functions import onSuccessSChangeUid

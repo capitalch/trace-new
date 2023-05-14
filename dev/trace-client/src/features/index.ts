@@ -3,6 +3,8 @@ export { AppConstants } from './vitals/app-constants'
 export { appStore, doLogout } from './stores/app-store'
 export { appValidators } from './vitals/app-validators'
 export {
+  CustomMethodNamesEnum,
+  type CustomMethodExecutionType,
   EventTriggersEnum,
   type GraphQlQueryResultType,
   // type LoginInfoType,

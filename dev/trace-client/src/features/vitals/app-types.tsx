@@ -35,10 +35,19 @@ type SqlObjectType = {
     [key: string]: any
     xDetails?: SqlObjectType
   }
-  onSuccessTriggerName?: string
-  onSuccessTriggerParams?: {}
-  onFailureTiggerName?: string
-  onFailureTriggerParams?: {}
+  onSuccessTriggerName?: EventTriggersEnum
+  onSuccessTriggerParams?: { [key: string]: any }
+  onFailureTiggerName?: EventTriggersEnum
+  onFailureTriggerParams?: { [key: string]: any }
+}
+
+enum CustomMethodNamesEnum {
+  change_password = "change_password"
+}
+
+type CustomMethodExecutionType = {
+  customMethodName: CustomMethodNamesEnum,
+  customMethodParams?: { [key: string]: any }
 }
 
 type UserTypesType = 'SUPER_ADMIN' | 'ADMIN' | 'BUSINESS_USER' | ''
@@ -61,4 +70,4 @@ enum SideMenuTypesEnum {
 //   | "Admin user"
 //   | "Business user" | string & {}
 
-export { EventTriggersEnum, type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type SqlObjectType, UserTypesEnum, type UserTypesType }
+export { EventTriggersEnum, CustomMethodNamesEnum, type CustomMethodExecutionType, type GraphQlQueryResultType, SideMenuTypesEnum, type SideMenuType, type SqlObjectType, UserTypesEnum, type UserTypesType }

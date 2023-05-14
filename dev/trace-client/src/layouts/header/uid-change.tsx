@@ -1,4 +1,4 @@
-import {
+import { 
     AppRequiredAstrisk, appStore, appValidators, EventTriggersEnum, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, useFeedback, SqlObjectType,
 } from '@src/features'
 import {
@@ -69,7 +69,11 @@ function UidChange() {
                 uid: values.uid,
             },
             onSuccessTriggerName: EventTriggersEnum.on_success_change_uid,
-            onSuccessTriggerParams: { email: appStore.login.email.value, uid: appStore.login.uid.value }
+            onSuccessTriggerParams: {
+                email:  'capitalch@gmail.com'
+                , subject: Messages.messChangeUid
+                , body: Messages.messEmailBodyChangeUid(appStore.login.uid.value, values.uid)
+            }
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')
         try {
@@ -80,7 +84,7 @@ function UidChange() {
                 closeModalDialogA()
                 appStore.login.uid.value = values.uid
                 // appStore.superAdmin.clients.doReload()
-            }, 'updateClient')
+            }, 'genericUpdate')
         } catch (e: any) {
             showError(Messages.errUpdatingData)
             console.log(e.message)
@@ -92,3 +96,4 @@ function UidChange() {
 }
 
 export { UidChange }
+

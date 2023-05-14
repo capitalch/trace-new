@@ -1,6 +1,6 @@
-from app.vendors import Any, json, unquote
-from app import AppHttpException, CustomErrorCodes, logger, Messages, utils
-
+from app.vendors import Any, json,status, unquote
+from app import AppHttpException, CustomErrorCodes, logger, Messages,  utils
+from app import custom_methods_map
 from psycopg2.extras import RealDictCursor
 from .sql_queries_auth import SqlQueriesAuth
 from .sql_queries_client import SqlQueriesClient
@@ -18,8 +18,38 @@ from .helpers.db_helper_psycopg2 import exec_sql_object as exec_sql_object_psyco
 from .helpers.db_helper_psycopg2 import exec_sql as exec_sql_psycopg2
 from .helpers.db_helper_psycopg2 import execute_sql_dml as execute_sql_dml_psycopg2
 
-from app import eventTriggersMap
+# from app import event_triggers_map
 
+
+async def resolve_custom_method(info, value):
+    error = {}
+    data = {}
+    try:
+        valueString = unquote(value)
+        valueDict = json.loads(valueString) if valueString else {}
+        customMethodName = valueDict.get('customMethodName', None)
+        customMethodParams = valueDict.get('customMethodParams',None)
+        
+        dbParams = valueDict.get('dbParams', None)
+        schema = valueDict.get('buCode', None)
+        toReconnect = valueDict.get('toReconnect', False)
+        request = info.context.get('request', None)
+        requestJson = await request.json()
+        operationName = requestJson.get('operationName', None)
+
+        if(customMethodName is None):
+            raise AppHttpException(detail=Messages.err_custom_method_name, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, error_code='e1019')
+        await custom_methods_map[customMethodName](customMethodParams)
+
+    except Exception as e:
+        errorCode = getattr(e, 'errorCode', None)
+        detail = getattr(e, 'detail', None)
+        error['detail'] = Messages.err_query_execution if detail is None else detail
+        error['exception'] = str(e)
+        error['errorCode'] = 'e1007' if errorCode is None else errorCode
+        data['error'] = error
+        logger.error(e)
+    return (data)
 
 async def resolve_generic_query(info, value):
     error = {}
@@ -72,7 +102,7 @@ async def resolve_generic_update(info, value):
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)
         data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
         # data = await exec_sql_object_psycopg_async(dbName=operationName, sqlObject=sqlObj)
-        
+
         # triggerName = sqlObj.get('onSuccessTriggerName', None)
         # triggerParams = sqlObj.get('onSuccessTriggerParams', None)
         # if(triggerName is not None):
@@ -155,9 +185,9 @@ async def resolve_update_client(info, value):
                             dbName=operationName, sql=f'CREATE DATABASE "{dbToCreate}"')
                         execute_sql_dml_psycopg2(dbName=dbToCreate,
                                                  sql=SqlQueriesAuth.drop_public_schema)
-                        
+
         data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
-    
+
     except Exception as e:
         errorCode = getattr(e, 'errorCode', None)
         detail = getattr(e, 'detail', None)

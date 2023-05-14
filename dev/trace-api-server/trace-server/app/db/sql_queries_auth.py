@@ -1,5 +1,12 @@
 class SqlQueriesAuth:
 
+    change_password = '''
+        update "UserM" 
+            set "hash" = %(hash)s 
+                where id = %(id)s 
+                    returning "id"
+    '''
+
     create_database = '''
         create database "%(dbName)s"
     '''
@@ -50,13 +57,13 @@ class SqlQueriesAuth:
             select * from "ClientM" 
                 order by "id" DESC limit %(noOfRows)s
         '''
-    
+
     get_all_clientNames_clentIds = '''
         select "id", "clientName"
             from "ClientM" 
             order by "clientName"
     '''
-    
+
     get_all_roleNames_roleIds = '''
         select "id", "roleName"
             from "RoleM" 
@@ -64,7 +71,7 @@ class SqlQueriesAuth:
                     or "clientId" is null
             order by "roleName"
     '''
-    
+
     get_all_roles_roleIds_buCodes_buIds = '''
         --with "clientId" as (values(1))
         with "clientId" as (values(%(clientId)s))
@@ -111,12 +118,12 @@ class SqlQueriesAuth:
         group by u."id", r."roleName", r.id
         order by id DESC
     '''
-    
+
     get_client = '''
             select 1 from "ClientM"
                 where lower("clientCode") = %(clientCode)s
         '''
-    
+
     get_database = '''
             SELECT datname FROM pg_catalog.pg_database where datname = %(datname)s
         '''
@@ -126,7 +133,7 @@ class SqlQueriesAuth:
                 where COALESCE("clientId",0) = %(clientId)s 
                     order by "id" DESC
         '''
-        
+
     get_secured_controls = '''
             SELECT * from "SecuredControlM" ORDER by "id" DESC
         '''
@@ -160,7 +167,7 @@ class SqlQueriesAuth:
             where
                 "controlNo" = %(controlNo)s
         '''
-        
+
     get_super_admin_dashboard = '''
         with "dbName" as (values(%(dbName)s))
         -- with "dbName" as (values('traceAuth'))

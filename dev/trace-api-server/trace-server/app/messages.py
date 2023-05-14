@@ -6,20 +6,24 @@ class Messages():
     err_access_token_signature_invalid = 'Access token signature is invalid'
     err_access_token_invalid = 'Access token is invalid'
     err_config_file = 'There is some error in config file at server'
+    err_custom_method_name = 'Custom method name not provided by client'
+    err_email_send_error = 'There was error in sending email. Email parameters from client are improper or missing'
     err_inactive_user = 'User is not active. Contact administrator'
     # err_invalid_access_token = 'Invalid or missing access token'
     err_invalid_credentials = 'Token is invalid or already expired'
     err_invalid_super_admin_password = 'Super admin password is invalid'
     err_invalid_pwd = 'Invalid password'
     err_invalid_uid = 'User name or email not found'
+    err_invalid_user_id_or_password = 'Either user id or password provided by the client is invalid. Contact admin'
     err_none_in_deletedids = 'None keyword appears in the deletedIds of sqlObject'
     err_renew_access_token = 'Error in renewing access_token from refresh_token'
     err_query_execution = 'Error executing generic query at server'
     err_query_update = 'Error executing update query at server'
     err_sql_execution_failed = 'Execution of SQL command failed at server'
     err_uid_password_empty = 'User name or password cannot be empty'
+    err_updating_password_hash = 'Error occured while updating password hash in database'
     err_unknown_server_error = 'Unknown server error. Contact administrator'
-    
+
 
 class CustomErrorCodes():
     e1001 = 'Unknown error occured at server. This error was not caught'
@@ -37,4 +41,8 @@ class CustomErrorCodes():
     e1013 = 'Access token signature is expired'
     e1014 = 'Access token signature is invalid'
     e1015 = 'Access token is invalid'
+    e1016 = 'Email send error. Email parameters provided by client are either invalid or missing'
+    e1017 = 'Server found invalid user id or password while changing password for a user'
+    e1018 = 'Error occured while changing password hash in auth database'
+    e1019 = 'Custom method name was not provided by client. Check server'
 # messages = Messages()
