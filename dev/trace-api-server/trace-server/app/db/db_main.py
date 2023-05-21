@@ -227,14 +227,18 @@ async def resolve_update_user(info, value):
         email = xData.get('userEmail', None)
         userName = xData.get('userName', 'user')
         companyName = Config.PACKAGE_NAME + ' team.'
+        roleId = xData.get('roleId', None)
+        userType = 'Admin user' if roleId is None else 'Business user'
         if (isUpdate):
             subject = Config.PACKAGE_NAME + ' ' + \
-                EmailMessages.email_subject_update_admin_user
-            body = EmailMessages.email_body_update_admin_user(userName=userName, companyName=companyName)
+                EmailMessages.email_subject_update_user
+            body = EmailMessages.email_body_update_user(
+                userName=userName, companyName=companyName)
         else:
-            subject = Config.PACKAGE_NAME + ' ' + EmailMessages.email_subject_new_admin_user
-            body = EmailMessages.email_body_new_admin_user(
-                uid=uid, password=pwd, userName=userName, companyName=companyName)
+            subject = Config.PACKAGE_NAME + ' ' + \
+                EmailMessages.email_subject_new_user(userType=userType)
+            body = EmailMessages.email_body_new_user(
+                uid=uid, password=pwd, userName=userName, companyName=companyName, userType=userType)
         recipients = [email]
         try:
             await send_email(subject=subject, body=body, recipients=recipients)

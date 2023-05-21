@@ -28,8 +28,8 @@ function useLogoutMenuButton() {
     function getBusinessUserMenuItems() {
         return (
             [
-                <LogoutMenuItem itemText='Change uid' key='1' MenuIcon={ChangeUidIcon} />,
-                <LogoutMenuItem itemText='Change password' key='2' MenuIcon={ChangePasswordIcon} />,
+                <LogoutMenuItem itemText='Change uid' key='1' MenuIcon={ChangeUidIcon} handleOnClick={handleChangeUid} />,
+                <LogoutMenuItem itemText='Change password' key='2' MenuIcon={ChangePasswordIcon} handleOnClick={handleChangePassword} />,
                 <LogoutMenuItem itemText='Logout' handleOnClick={handleLogoutOnClick} key='3' MenuIcon={LogoutIcon} />,
             ]
         )

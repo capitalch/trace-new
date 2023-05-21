@@ -36,6 +36,6 @@ const Messages = {
   // Email
   messChangeUid: 'Change of uid in Trace accounting software',
   messEmailBodyChangeUid: (oldUid: string, newUid: string) =>
-    `<span>In Trace accounting software, your uid has been changed from <b>${oldUid}</b> to <b>${newUid}</b>. If you have not made this change then kindly report to Admin.</span>`
+    `<span>In Trace accounting software, your uid has been changed from <b>${oldUid}</b> to <b>${newUid}</b>. If you have not made this change then kindly report to your Admin or Super admin.</span>`
 }
 export { Messages }

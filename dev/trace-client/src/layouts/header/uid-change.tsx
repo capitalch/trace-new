@@ -70,7 +70,7 @@ function UidChange() {
             },
             onSuccessTriggerName: EventTriggersEnum.on_success_change_uid,
             onSuccessTriggerParams: {
-                email:  'capitalch@gmail.com'
+                email:  appStore.login.email.value
                 , subject: Messages.messChangeUid
                 , body: Messages.messEmailBodyChangeUid(appStore.login.uid.value, values.uid)
             }

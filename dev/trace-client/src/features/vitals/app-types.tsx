@@ -33,7 +33,7 @@ type SqlObjectType = {
   tableName: string
   xData: {
     [key: string]: any
-    xDetails?: SqlObjectType
+    xDetails?: SqlObjectType[]
   }
   onSuccessTriggerName?: EventTriggersEnum
   onSuccessTriggerParams?: { [key: string]: any }

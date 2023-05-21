@@ -14,17 +14,17 @@
 11.1. Business unit create in server as schema
 12. Admin Roles CRUD
 																					13. Business USERS CRUD
-13.1. Business users email while new/modify
-13.2. server validate email. And also give a meaningful message for email duplication
-14. Email fire when Business user create or modify
-15. Admin user change uid and email
+																					13.1. Business users email while new/modify
+																					13.2. server validate email. And also give a meaningful message for email failure
+																					14. Email fire when Business user create or modify
+																					15. Admin user change uid and email
 16. Admin user change password and email
 
 17. token storage in browser for access token and refresh token
 18. create new access token from refresh token once expired
 19. Check complete lifecycle of tokens
 
-20. Business users change UID and email
+																					20. Business users change UID and email
 21. Business users change password and email
 22. Any user forgot pwd
 

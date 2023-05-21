@@ -1,5 +1,5 @@
 import {
-    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, useFeedback,
+    AppCheckbox, AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType, Messages, useDialogs, useAppGraphql, useFeedback, SqlObjectType,
 } from '@src/features'
 import {
     _, Button, Checkbox, FormControl,
@@ -78,10 +78,11 @@ function AdminEditNewBusinessUser() {
 
                 {/* Mobile no */}
                 <FormControl isInvalid={!!errors.mobileNo}>
-                    <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>Mobile number <AppRequiredAstrisk /></FormLabel>
-                    <NumberInput size='sm'>
+                    <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>Mobile number <AppRequiredAstrisk /></FormLabel>                    
+                    {/* <NumberInput size='sm'>
                         <NumberInputField name='mobileNumber' placeholder='e.g 9999999999' {...registerMobileNo} autoComplete='off' />
-                    </NumberInput>
+                    </NumberInput> */}
+                    <Input name='mobileNo' size='sm' type='number' autoComplete='off' placeholder='e.g 9854522114 ...' {...registerMobileNo} />
                     {(!!errors.mobileNo) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.mobileNo.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
@@ -258,7 +259,7 @@ function AdminEditNewBusinessUser() {
                 })
             })
         }
-        const sqlObj = {
+        const sqlObj: SqlObjectType = {
             tableName: 'UserM',
             xData: {
                 id: id,

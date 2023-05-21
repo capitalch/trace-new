@@ -49,13 +49,12 @@ class CustomErrorCodes():
 
 
 class EmailMessages():
-    email_subject_new_admin_user = 'New Admin user with your email address'
-
-    def email_body_new_admin_user(userName, companyName, uid, password): return f'''
+    def email_subject_new_user(userType): return f'new {userType} with your email address'
+    def email_body_new_user(userName, companyName, uid, password, userType): return f'''
         <!DOCTYPE html>
         <html>
         <head>
-        <title>New Admin User Created</title>
+        <title>New {userType} Created</title>
         <style>
             body {{
             font-family: sans-serif;
@@ -98,9 +97,9 @@ class EmailMessages():
         </head>
         <body>
         <div class="container">
-            <h1>New Admin User Created</h1>
+            <h1>New {userType} Created</h1>
             <p>Dear {userName},</p>
-            <p>This is to inform you that a new admin user has been created with your email address. Your uid and password are as follows:</p>
+            <p>This is to inform you that a new {userType} has been created with your email address. Your uid and password are as follows:</p>
             <ul>
             <li>uid: <b>{uid}</b></li>
             <li>Password: <b>{password}</b></li>
@@ -113,9 +112,8 @@ class EmailMessages():
         </body>
         </html>
     '''
-    email_subject_update_admin_user = 'Update of your user credentials'
-
-    def email_body_update_admin_user(userName, companyName): return f'''
+    email_subject_update_user = 'update of your user credentials'
+    def email_body_update_user(userName, companyName): return f'''
     <!DOCTYPE html>
         <html>
         <head>
@@ -124,7 +122,7 @@ class EmailMessages():
         <body>
         <h1>User Credentials Updated</h1>
         <p>Dear {userName},</p>
-        <p>This is to inform you that your user credentials have been updated by Super Admin. Your uid and password remain the same.</p>
+        <p>This is to inform you that your user credentials have been updated. Your uid and password remain the same.</p>
         <p>Please login using your email address or your uid.</p>
         <p>If you have any questions, please do not hesitate to contact us.</p>
         <p>Thank you,</p>
