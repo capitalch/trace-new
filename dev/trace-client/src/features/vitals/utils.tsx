@@ -209,10 +209,11 @@ function useComponentHistory() {
 }
 
 function useDialogs() {
+  
   function showAlertDialogOk({ title, body }: { title: string; body: any }) {
-    // appStore.alertDialogOk.isOpen.value = true
-    // appStore.alertDialogOk.header.value = title
-    // appStore.alertDialogOk.body.value = body
+    appStore.alertDialogOk.isOpen.value = true
+    appStore.alertDialogOk.header.value = title
+    appStore.alertDialogOk.body.value = body
   }
 
   function showAlertDialogYesNo({

@@ -3,7 +3,7 @@ import {
     Messages, useDialogs, useAppGraphql, useFeedback,
 } from '@src/features'
 import {
-    _, Button, Checkbox, FormControl,
+    _, Button, FormControl,
     FormErrorMessage, FormLabel, HStack, Input, useForm, VStack, useState, useSignal, useGranularEffect, NumberInput, NumberInputField,
 } from '@src/libs'
 import { Select } from 'chakra-react-select'
@@ -109,9 +109,10 @@ function SuperAdminEditNewAdminUser() {
                 {/* Mobile no */}
                 <FormControl isInvalid={!!errors.mobileNo}>
                     <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>Mobile number <AppRequiredAstrisk /></FormLabel>
-                    <NumberInput size='sm'>
+                    {/* <NumberInput size='sm'>
                         <NumberInputField name='mobileNumber' placeholder='e.g 9999999999' {...registerMobileNo} autoComplete='off' />
-                    </NumberInput>
+                    </NumberInput> */}
+                    <Input name='mobileNo' size='sm' type='number' autoComplete='off' placeholder='e.g 0,1,2 ...' {...registerMobileNo} />
                     {(!!errors.mobileNo) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.mobileNo.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
@@ -120,11 +121,12 @@ function SuperAdminEditNewAdminUser() {
                 {/* Description */}
                 <FormControl>
                     <FormLabel fontWeight='bold'>Description</FormLabel>
-                    <Input name='descr' size='sm' type='text' autoComplete='off' {...register('descr')} />
+                    <Input mb={3} name='descr' size='sm' type='text' autoComplete='off' {...register('descr')} />
                 </FormControl>
                 
                 {/* is active user */}
                 <AppCheckbox name='isActive' label='Is this user active?' func={register} />
+                
                 {/* <FormControl>
                     <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this user active?</Checkbox>
                 </FormControl> */}

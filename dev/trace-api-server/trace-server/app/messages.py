@@ -45,4 +45,90 @@ class CustomErrorCodes():
     e1017 = 'Server found invalid user id or password while changing password for a user'
     e1018 = 'Error occured while changing password hash in auth database'
     e1019 = 'Custom method name was not provided by client. Check server'
-# messages = Messages()
+    e1020 = 'Email send error to the user'
+
+
+class EmailMessages():
+    email_subject_new_admin_user = 'New Admin user with your email address'
+
+    def email_body_new_admin_user(userName, companyName, uid, password): return f'''
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>New Admin User Created</title>
+        <style>
+            body {{
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            }}
+            
+            h1 {{
+            font-size: 24px;
+            margin-top: 0;
+            }}
+            
+            p {{
+            margin-bottom: 10px;
+            }}
+            
+            ul {{
+            margin-left: 20px;
+            }}
+            
+            li {{
+            list-style-type: none;
+            margin-bottom: 5px;
+            }}
+            
+            b {{
+            font-weight: bold;
+            }}
+            
+            .container {{
+            width: 500px;
+            }}
+            
+            .footer {{
+            text-align: center;
+            padding: 20px 0;
+            }}
+        </style>
+        </head>
+        <body>
+        <div class="container">
+            <h1>New Admin User Created</h1>
+            <p>Dear {userName},</p>
+            <p>This is to inform you that a new admin user has been created with your email address. Your uid and password are as follows:</p>
+            <ul>
+            <li>uid: <b>{uid}</b></li>
+            <li>Password: <b>{password}</b></li>
+            </ul>
+            <p>Please change your uid and password to a human-readable format as soon as possible. You can login either using your email address or your uid.</p>
+            <p>If you have any questions, please do not hesitate to contact us.</p>
+            <p>Thank you,</p>
+            <p>{companyName}</p>
+        </div>
+        </body>
+        </html>
+    '''
+    email_subject_update_admin_user = 'Update of your user credentials'
+
+    def email_body_update_admin_user(userName, companyName): return f'''
+    <!DOCTYPE html>
+        <html>
+        <head>
+        <title>User Credentials Updated</title>
+        </head>
+        <body>
+        <h1>User Credentials Updated</h1>
+        <p>Dear {userName},</p>
+        <p>This is to inform you that your user credentials have been updated by Super Admin. Your uid and password remain the same.</p>
+        <p>Please login using your email address or your uid.</p>
+        <p>If you have any questions, please do not hesitate to contact us.</p>
+        <p>Thank you,</p>
+        <p>{companyName}</p>
+        </body>
+        </html>
+    '''

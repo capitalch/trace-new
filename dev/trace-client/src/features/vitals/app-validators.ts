@@ -129,7 +129,15 @@ function appValidators() {
         return ret
     }
 
-    return ({ checkIndiaMobileNo, checkNumeric, checkPwd, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail, checkUrl, checkValidEmail })
+    function shouldNotBeZero(input: number): boolean {
+        let ret = true
+        if(input === 0){
+            ret = false
+        }
+        return(ret)
+    }
+
+    return ({ checkIndiaMobileNo, checkNumeric, checkPwd, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUidEmail, checkUrl, checkValidEmail, shouldNotBeZero })
 }
 
 export { appValidators }

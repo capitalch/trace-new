@@ -1,7 +1,8 @@
-from app.vendors import Any, json,status, unquote
-from app import AppHttpException, CustomErrorCodes, logger, Messages,  utils
+from app.vendors import Any, json, status, unquote
+from app import AppHttpException, Config, CustomErrorCodes, EmailMessages, logger, Messages,  utils
 from app import custom_methods_map
 from psycopg2.extras import RealDictCursor
+from ..event_triggers import send_email
 from .sql_queries_auth import SqlQueriesAuth
 from .sql_queries_client import SqlQueriesClient
 from .helpers.db_helper_asyncpg import exec_generic_update as generic_update_asyncpg
@@ -28,8 +29,8 @@ async def resolve_custom_method(info, value):
         valueString = unquote(value)
         valueDict = json.loads(valueString) if valueString else {}
         customMethodName = valueDict.get('customMethodName', None)
-        customMethodParams = valueDict.get('customMethodParams',None)
-        
+        customMethodParams = valueDict.get('customMethodParams', None)
+
         dbParams = valueDict.get('dbParams', None)
         schema = valueDict.get('buCode', None)
         toReconnect = valueDict.get('toReconnect', False)
@@ -37,8 +38,9 @@ async def resolve_custom_method(info, value):
         requestJson = await request.json()
         operationName = requestJson.get('operationName', None)
 
-        if(customMethodName is None):
-            raise AppHttpException(detail=Messages.err_custom_method_name, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, error_code='e1019')
+        if (customMethodName is None):
+            raise AppHttpException(detail=Messages.err_custom_method_name,
+                                   status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, error_code='e1019')
         await custom_methods_map[customMethodName](customMethodParams)
 
     except Exception as e:
@@ -50,6 +52,7 @@ async def resolve_custom_method(info, value):
         data['error'] = error
         logger.error(e)
     return (data)
+
 
 async def resolve_generic_query(info, value):
     error = {}
@@ -209,19 +212,36 @@ async def resolve_update_user(info, value):
         operationName = requestJson.get('operationName', None)
         sqlObj = json.loads(valueString)
         xData = sqlObj.get('xData', None)
-        toSendMail = False
+        pwd = ''
+        isUpdate = True
         if (xData):
             uid = xData.get('uid', None)
             if (uid is None):
+                isUpdate = False
                 xData['uid'] = utils.getRandomUserId()
                 pwd = utils.getRandomPassword()
                 tHash = utils.getPasswordHash(pwd)
                 xData['hash'] = tHash
-                toSendMail = True
         data = await exec_sql_object_psycopg2(dbName=operationName, sqlObject=sqlObj)
-        if (toSendMail):
-            # code to send mail for uid and password
-            pass
+        uid = xData.get('uid', None)
+        email = xData.get('userEmail', None)
+        userName = xData.get('userName', 'user')
+        companyName = Config.PACKAGE_NAME + ' team.'
+        if (isUpdate):
+            subject = Config.PACKAGE_NAME + ' ' + \
+                EmailMessages.email_subject_update_admin_user
+            body = EmailMessages.email_body_update_admin_user(userName=userName, companyName=companyName)
+        else:
+            subject = Config.PACKAGE_NAME + ' ' + EmailMessages.email_subject_new_admin_user
+            body = EmailMessages.email_body_new_admin_user(
+                uid=uid, password=pwd, userName=userName, companyName=companyName)
+        recipients = [email]
+        try:
+            await send_email(subject=subject, body=body, recipients=recipients)
+        except Exception as e:
+            raise AppHttpException(
+                detail='', error_code='e1020', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # pass
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)
         # data = generic_update_psycopg_sync(sqlObject=sqlObj)

@@ -56,5 +56,6 @@ async def handle_middleware(request: Request, call_next):
         }, headers={"X-error": Messages.err_unknown_server_error})
         return (res)
 
+# super admin user: superAdmin, superadmin@123
 # admin user, cap@gmail.com @A1I<L/>DBRKb
 # business user, sush 

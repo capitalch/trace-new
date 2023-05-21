@@ -10,7 +10,7 @@ function AppAlertDialogOk() {
             onClose={handleOnClose}>
             <AlertDialogOverlay />
             <AlertDialogContent >
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold' >
                     {appStore.alertDialogOk.header.value}
                 </AlertDialogHeader>
                 <AlertDialogBody>

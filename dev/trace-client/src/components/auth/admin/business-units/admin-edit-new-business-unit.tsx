@@ -1,10 +1,12 @@
-import {
-     AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType, 
+import { AppCheckbox,
+    AppRequiredAstrisk, appStore, appValidators, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
-     debounceFilterOn, ebukiMessages, debounceEmit, 
+    debounceFilterOn, ebukiMessages, debounceEmit, SqlObjectType,
 } from '@src/features'
-import {_,  Button, FormControl,
-    FormErrorMessage, FormLabel, HStack, Input,useForm, VStack,useState, useGranularEffect, NumberInput, NumberInputField, Checkbox,} from '@src/libs'
+import {
+    _, Button, FormControl,
+    FormErrorMessage, FormLabel, HStack, Input, useForm, VStack, useState, useGranularEffect, NumberInput, NumberInputField, Checkbox,
+} from '@src/libs'
 function AdminEditNewBusinessUnit() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
@@ -70,12 +72,13 @@ function AdminEditNewBusinessUnit() {
                 </FormControl>
 
                 {/* is active */}
-                <FormControl>
+                <AppCheckbox name='isActive' label='Is this business unit active?' func={register} />
+                {/* <FormControl>
                     <Checkbox name='isActive' size='lg' {...register('isActive')}>Is this business unit active?</Checkbox>
-                </FormControl>
+                </FormControl> */}
 
                 <HStack justifyContent='flex-end' w='100%'>
-                    <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
+                    <Button mt={3} w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
                     </Button>
                 </HStack>
@@ -86,7 +89,7 @@ function AdminEditNewBusinessUnit() {
 
     async function onSubmit(values: any) {
         const id = values?.id
-        const sqlObj = {
+        const sqlObj: SqlObjectType = { 
             tableName: 'BuM',
             xData: {
                 id: id,

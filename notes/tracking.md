@@ -1,13 +1,32 @@
-## To Do between 02-05-2023 - 07-05-2023
-#. complete lifecycle of access token and refresh tokens as storing them in local storage etc.
-1. Complete testing of Auth
-2. Write email code from server
-3. Change UID
-4. Change PWD
-5. Server side documentation
-6. Client side documentation
-7. Start with replica of existing database
-8. Start coding vouchers
+## Test script for security
+																					1. Authentication as superAdmin
+																					2. Check dashboard
+																					3. Clients CRUD
+																					4. New Client with external db CRUD
+																					5. Roles CRUD
+																					6. Secured controls CRUD
+																					7. Admin users CRUD
+																					8. EMAIL fire when new admin user created or modified
+
+																					9. Authentication as Admin
+																					10. Admin dashboard
+																					11. Business Units CRUD
+11.1. Business unit create in server as schema
+12. Admin Roles CRUD
+																					13. Business USERS CRUD
+13.1. Business users email while new/modify
+13.2. server validate email. And also give a meaningful message for email duplication
+14. Email fire when Business user create or modify
+15. Admin user change uid and email
+16. Admin user change password and email
+
+17. token storage in browser for access token and refresh token
+18. create new access token from refresh token once expired
+19. Check complete lifecycle of tokens
+
+20. Business users change UID and email
+21. Business users change password and email
+22. Any user forgot pwd
 
 ## Logic for change UID: Secured
 1. Display ModalA, defaultdata has old uid
@@ -18,6 +37,7 @@
 1. Display ModalA, Three text boxes with password astrix
 2. Old pwd, new pwd, verify new pwd
 3. Submit runs code to set the password logic
+
 ## Testing
 # Normal 24 hrs, 4 weeks 
 	accessToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE4NDAzMTMsInN1YiI6eyJ1c2VySWQiOm51bGx9fQ.VTWtthqySK2qYYQ7sU3hLriiV6Gx3vdNDgnESWGIyCU
@@ -185,6 +205,18 @@
 ### Client side
 
 ### Server side
+
+## 21-05-2023
+1. Complete QA of Auth started
+2. Fixed New client with external database
+3. Fixed Super admin roles update
+4. Fixed Super admin secured controls update
+5. Fixed Super admin-> Admin user CRUD
+6. Email when new admin user created / updated
+7. Fixed isActive of business unit CRUD
+
+## 03-05-2023 - 20-05-2023: Few hours. One week only given. Started Netwove project on 8th May
+1. Completed security
 																											
 ## 25-04-2023 - 02-05-2023
 1. Conversion back from DeepSignals to Signals with Types also in picture

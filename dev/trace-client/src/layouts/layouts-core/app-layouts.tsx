@@ -1,5 +1,5 @@
 import { AppLogin, EmptyComponent } from "@src/components";
-import {AppContent, AppDrawer,AppHeader, AppSidebar } from '@src/layouts'
+import { AppContent, AppDrawer, AppHeader, AppSidebar } from '@src/layouts'
 import {
   // AppConstants,
   appStore,

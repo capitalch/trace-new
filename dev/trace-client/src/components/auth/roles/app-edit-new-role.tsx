@@ -66,9 +66,10 @@ function AppEditNewRole() {
                 {/* Rank in enabled for Super admin and disabled for admin user */}
                 <FormControl>
                     <FormLabel fontWeight='bold'>Rank</FormLabel>
-                    <NumberInput size='sm' isDisabled={Boolean(appStore.login.clientId)}>
+                    <Input name='rank' size='sm' type='number' autoComplete='off' placeholder='e.g 0,1,2 ...' {...register('rank')} />
+                    {/* <NumberInput size='sm' isDisabled={Boolean(appStore.login.clientId)}>
                         <NumberInputField name='rank' placeholder='e.g 0,1,2 ...' {...register('rank')} />
-                    </NumberInput>
+                    </NumberInput> */}
                 </FormControl>
 
                 <HStack w='100%'>
@@ -89,7 +90,7 @@ function AppEditNewRole() {
                 clientId: appStore.login.clientId || undefined,
                 roleName: values?.roleName,
                 descr: values?.descr,
-                rank: values?.permission || null
+                rank: values?.rank || null
             }
         }
         const q = appGraphqlStrings['genericUpdate'](sqlObj, 'traceAuth')

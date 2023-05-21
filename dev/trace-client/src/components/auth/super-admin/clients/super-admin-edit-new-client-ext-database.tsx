@@ -8,14 +8,15 @@ import { AppCheckbox, appStore, appValidators, GraphQlQueryResultType, Messages,
 import { useSuperAdminClientsCommon } from './super-admin-clients-common-hook'
 
 function SuperAdminEditNewClientExtDatabase() {
+    const [, setRefresh] = useState({})
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
     const [isTestDbDisabled, setTestDbDisabled] = useState(false)
     const { handleUpdateResult, } = useAppGraphql()
     const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, queryGraphql } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
-    const { checkNumeric, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUrl } = appValidators()
-    const { getValues, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { checkNumeric, checkNoSpace, checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkUrl, shouldNotBeZero } = appValidators()
+    const { getValues, handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'all' })
     const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
@@ -68,7 +69,8 @@ function SuperAdminEditNewClientExtDatabase() {
     const registerPort = register('port', {
         required: Messages.errRequired
         , validate: {
-            onlyNumeric: checkNumeric
+            // onlyNumeric: checkNumeric,
+            shouldNotBeZero: shouldNotBeZero
         }
     })
     const registerUrl = register('url', {
@@ -82,6 +84,7 @@ function SuperAdminEditNewClientExtDatabase() {
             noSpaceOrSpecialChar: checkNoSpaceOrSpecialChar
         }
     })
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack>
@@ -111,35 +114,28 @@ function SuperAdminEditNewClientExtDatabase() {
 
                 {/* is active */}
                 <AppCheckbox name='isActive' label='Is this client active?' func={register} />
-                {/* <FormControl>
-                    <Checkbox id='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
-                </FormControl> */}
 
                 <VStack pt={3}>
                     <HStack w='100%'> <Text fontSize='md' >External database connection details</Text></HStack>
                     <HStack>
+
                         {/* dbName */}
                         <FormControl isInvalid={!!errors.dbName}>
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground_accounts' name='dbName' size='sm' type='text' {...registerDbName} autoComplete='off' />
-                            {/* <HStack justifyContent='space-between' > */}
+
                             {(!!errors.dbName) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.dbName.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
-                            {/* </HStack> */}
                         </FormControl>
 
                         {/* host */}
                         <FormControl isInvalid={!!errors.host}>
                             <FormLabel fontWeight='bold' htmlFor='host' fontSize='sm' >DB host <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='e.g battleground.com' name='host' size='sm' type='text' {...registerHost} autoComplete='off' />
-                            {/* <HStack justifyContent='space-between' > */}
                             {(!!errors.host) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.host.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* <Button size='xs' variant='unstyled' colorScheme='blue' onClick={handleClientNameInfo}>Info</Button> */}
-                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
 
@@ -148,22 +144,18 @@ function SuperAdminEditNewClientExtDatabase() {
                         <FormControl isInvalid={!!errors.user}>
                             <FormLabel fontWeight='bold' htmlFor='user' fontSize='sm'>DB user name <AppRequiredAstrisk /></FormLabel>
                             <Input placeholder='john123' name='user' size='sm' type='text' {...registerUser} autoComplete='off' />
-                            {/* <HStack justifyContent='space-between' > */}
                             {(!!errors.user) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.user.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* </HStack> */}
                         </FormControl>
 
                         {/* password */}
                         <FormControl isInvalid={!!errors.password}>
                             <FormLabel fontWeight='bold' htmlFor='password' fontSize='sm'>DB password <AppRequiredAstrisk /></FormLabel>
                             <Input name='password' size='sm' type='password' {...registerPassword} autoComplete='off' />
-                            {/* <HStack justifyContent='space-between' > */}
                             {(!!errors.password) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
 
@@ -171,33 +163,31 @@ function SuperAdminEditNewClientExtDatabase() {
                         {/* port */}
                         <FormControl flex='1' isInvalid={!!errors.port}>
                             <FormLabel fontWeight='bold' htmlFor='port' fontSize='sm'>DB port <AppRequiredAstrisk /></FormLabel>
-                            {/* <Input placeholder='e.g 1234' name='port' size='sm' type='text' {...registerPort} autoComplete='off' /> */}
-                            <NumberInput size='sm'>
-                                <NumberInputField name='port' placeholder='e.g 5432' {...registerPort} />
-                            </NumberInput>
-                            {/* <FormErrorMessage color='red.400' fontSize='xs'>{errors?.port?.message}</FormErrorMessage> */}
-                            {/* <HStack justifyContent='space-between' > */}
+
+                            {/* <NumberInput size='sm'> */}
+                            {/* <NumberInputField name='port' type='number' placeholder='e.g 5432' {...registerPort} /> */}
+                            <Input name='port' size='sm' type='number' {...registerPort} />
+                            {/* </NumberInput> */}
                             {(!!errors.port) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.port.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* </HStack> */}
                         </FormControl>
 
                         {/* url */}
                         <FormControl flex='2' isInvalid={!!errors.url}>
                             <FormLabel fontWeight='bold' fontSize='sm'>DB url</FormLabel>
                             <Input placeholder='e.g http://battledb.com' name='url' size='sm' type='text' {...registerUrl} autoComplete='off' />
-                            {/* <HStack justifyContent='space-between' > */}
                             {(!!errors.url) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.url.message}</FormErrorMessage>
                                 : <>&nbsp;</>
                             }
-                            {/* </HStack> */}
                         </FormControl>
                     </HStack>
+
                     <HStack w='100%' justify='flex-end'>
                         {/* Test database connection */}
-                        <Button isDisabled={isTestDbDisabled} mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal' onClick={handleTestDb}>Test database connection</Button>
+                        <Button isDisabled={isTestDbDisabled || isDbParamsError()} mt={0} pt={0} size='xs' variant='outline' tabIndex={-1} colorScheme='teal' onClick={handleTestDb}>Test database connection</Button>
                     </HStack>
+
                     <Button w='100%' colorScheme='blue' type='submit' isDisabled={(!_.isEmpty(errors) || isSubmitDisabled)} >
                         Submit
                     </Button>
@@ -227,7 +217,7 @@ function SuperAdminEditNewClientExtDatabase() {
             host: values?.host,
             user: values?.user,
             password: values?.password,
-            port: values?.port,
+            port: +values?.port,
             url: values?.url
         }
         const sqlObj = {
@@ -267,9 +257,15 @@ function SuperAdminEditNewClientExtDatabase() {
         for (const key in defaultData) {
             setValue(key, defaultData[key])
         }
+        setRefresh({}) // Forced refresh to run isDbParamsError() function. Otherwise the "Test database connection" button is not active in edit mode.
     }
 
     async function handleTestDb() {
+        const showFailed: any = () => showAlertDialogOk({ title: 'Information', body: () => <Box color='red.400'>Connection failed</Box> })
+        if (isDbParamsError()) {
+            showFailed()
+            return
+        }
         const values = getValues()
         const dbParams: any = {
             // dbName: values?.dbName,
@@ -290,13 +286,12 @@ function SuperAdminEditNewClientExtDatabase() {
             showAppLoader(true)
             const result: GraphQlQueryResultType = await queryGraphql(q)
             const res: any = result?.data?.genericQuery
-            const showFailed: any = () => showAlertDialogOk({ title: 'Information', body: <Box color='red.400'>Connection failed</Box> })
             if (res) {
                 if (res?.error) {
                     showFailed()
                 } else {
                     if ((res.length > 0)) {
-                        showAlertDialogOk({ title: 'Information', body: <Box color='green.400'>Connection successful</Box> })
+                        showAlertDialogOk({ title: 'Information', body: () => <Box color='green.400'>Connection successful</Box> })
                     } else {
                         showFailed()
                     }
@@ -313,6 +308,23 @@ function SuperAdminEditNewClientExtDatabase() {
             showAppLoader(false)
         }
     }
+
+    function isDbParamsError() {
+        const values = getValues()
+        const ret1: boolean = !(values?.dbName && values?.host && values?.user && values?.password && values?.port)
+        const ret2: boolean = errors!.dbName || errors?.host || errors?.user || errors?.password || errors?.port
+        const ret: boolean = !!(ret1 || ret2)
+        return (ret)
+    }
 }
 
 export { SuperAdminEditNewClientExtDatabase }
+
+
+/*
+<FormControl>
+    <Checkbox id='isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox>
+</FormControl>
+ <HStack justifyContent='space-between' >
+  <Input placeholder='e.g 1234' name='port' size='sm' type='text' {...registerPort} autoComplete='off' />
+*/

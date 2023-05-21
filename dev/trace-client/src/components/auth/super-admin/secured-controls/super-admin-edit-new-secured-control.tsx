@@ -77,9 +77,10 @@ function SuperAdminEditNewSecuredControl() {
                 {/* control no */}
                 <FormControl isInvalid={!!errors.controlNo}>
                     <FormLabel fontWeight='bold'>Control no <AppRequiredAstrisk /></FormLabel>
-                    <NumberInput size='sm'>
+                    {/* <NumberInput size='sm'>
                         <NumberInputField name='permission' placeholder='e.g 0,1,2 ...' {...registerControlNo} />
-                    </NumberInput>
+                    </NumberInput> */}
+                    <Input name='controlNo' size='sm' type='number' autoComplete='off' placeholder='e.g 0,1,2 ...' {...registerControlNo} />
                     {(!!errors.controlNo) ? <FormErrorMessage color='red.400'>{errors.controlNo.message}</FormErrorMessage>
                         : <>&nbsp;</>
                     }
