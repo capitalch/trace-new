@@ -9,7 +9,7 @@ class EmailParams(BaseModel):
     recipents: list[str]
 
 
-async def on_success_change_uid(records, triggerParams: EmailParams):
+async def on_success_send_mail(records, triggerParams: EmailParams):
     try:
         subject = triggerParams.get('subject', None)
         email = triggerParams.get('email', None)

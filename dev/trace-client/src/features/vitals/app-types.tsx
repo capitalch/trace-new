@@ -2,7 +2,7 @@
 // export { type UserType }
 
 enum EventTriggersEnum {
-  on_success_change_uid = 'on_success_change_uid'
+  on_success_send_mail = 'on_success_send_mail'
 }
 
 type GraphQlQueryResultType = {

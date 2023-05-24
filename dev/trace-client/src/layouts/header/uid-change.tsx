@@ -68,7 +68,7 @@ function UidChange() {
                 id: id,
                 uid: values.uid,
             },
-            onSuccessTriggerName: EventTriggersEnum.on_success_change_uid,
+            onSuccessTriggerName: EventTriggersEnum.on_success_send_mail,
             onSuccessTriggerParams: {
                 email:  appStore.login.email.value
                 , subject: Messages.messChangeUid

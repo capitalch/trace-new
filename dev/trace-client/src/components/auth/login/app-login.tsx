@@ -29,8 +29,8 @@ function AppLogin() {
                     <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
                     <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' 
                     // value='superAdmin' 
-                    // value = 'sushant' // admin
-                    value = 'sushant1' // business user
+                    value = 'sushant' // admin
+                    // value = 'sushant1' // business user
                     {...registerUsername} />
                     {(!!errors.username)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.username.message}</FormErrorMessage>
@@ -43,8 +43,8 @@ function AppLogin() {
                     <FormLabel color='blue.500'>Password</FormLabel>
                     <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" 
                     // value='superadmin@123' 
-                    // value = '@A1^gaXn,eZ+b' // admin
-                    value = '@A1TE*KMxxfib' // business user
+                    value = 'sush@nt123' // admin
+                    // value = '@A1TE*KMxxfib' // business user
                     {...registerPassword} />
                     {(!!errors.password)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>

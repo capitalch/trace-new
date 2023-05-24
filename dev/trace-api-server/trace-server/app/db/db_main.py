@@ -31,12 +31,12 @@ async def resolve_custom_method(info, value):
         customMethodName = valueDict.get('customMethodName', None)
         customMethodParams = valueDict.get('customMethodParams', None)
 
-        dbParams = valueDict.get('dbParams', None)
-        schema = valueDict.get('buCode', None)
-        toReconnect = valueDict.get('toReconnect', False)
+        # dbParams = valueDict.get('dbParams', None)
+        # schema = valueDict.get('buCode', None)
+        # toReconnect = valueDict.get('toReconnect', False)
         request = info.context.get('request', None)
         requestJson = await request.json()
-        operationName = requestJson.get('operationName', None)
+        # operationName = requestJson.get('operationName', None)
 
         if (customMethodName is None):
             raise AppHttpException(detail=Messages.err_custom_method_name,

@@ -1,5 +1,5 @@
 import {
-    AppRequiredAstrisk, appStore, appValidators,CustomMethodExecutionType, CustomMethodNamesEnum, GraphQlQueryResultType,
+    AppRequiredAstrisk, appStore, appValidators, CustomMethodExecutionType, CustomMethodNamesEnum, GraphQlQueryResultType,
     Messages, useDialogs, useAppGraphql, useFeedback,
 } from '@src/features'
 import {
@@ -10,17 +10,16 @@ import {
 function PasswordChange() {
     const { handleUpdateResult, } = useAppGraphql()
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
-    const { closeModalDialogA, showAlertDialogOk, } = useDialogs()
+    const { closeModalDialogA, } = useDialogs()
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
-    const { checkNoSpaceOrSpecialChar, checkNoSpecialChar, checkNoSpace } = appValidators()
-    const { handleSubmit, register, getValues, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { handleSubmit, register, getValues, formState: { errors }, }: any = useForm({ mode: 'onTouched' })
     const { checkPwd, } = appValidators()
-    const defaultData = appStore.modalDialogA.defaultData.value
+    // const defaultData = appStore.modalDialogA.defaultData.value
 
     const registerNewPassword = register('newPassword', {
         required: Messages.errRequired
-        , validate: { checkPwd: checkPwd,}
+        , validate: { checkPwd: checkPwd, }
         , minLength: { value: 8, message: Messages.errAtLeast8Chars }
     })
 
@@ -83,7 +82,10 @@ function PasswordChange() {
             customMethodName: CustomMethodNamesEnum.change_password,
             customMethodParams: {
                 userId: userId,
-                password: values['newPassword']
+                password: values['newPassword'],
+                email: appStore.login.email.value,
+                emailSubject: Messages.messChangePassword,
+                emailBody: Messages.messEmailBodyChangePassword(values['newPassword']),
             }
         }
         const q = appGraphqlStrings['customMethod'](dataObj, 'traceAuth')

@@ -18,7 +18,7 @@
 																					13.2. server validate email. And also give a meaningful message for email failure
 																					14. Email fire when Business user create or modify
 																					15. Admin user change uid and email
-16. Admin user change password and email
+																					16. Admin user change password and email
 
 17. token storage in browser for access token and refresh token
 18. create new access token from refresh token once expired
@@ -205,6 +205,9 @@
 ### Client side
 
 ### Server side
+
+## 25-05-2023
+1. Change password with email to user
 
 ## 21-05-2023
 1. Complete QA of Auth started

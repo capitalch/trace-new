@@ -8,6 +8,7 @@ class Messages():
     err_config_file = 'There is some error in config file at server'
     err_custom_method_name = 'Custom method name not provided by client'
     err_email_send_error = 'There was error in sending email. Email parameters from client are improper or missing'
+    err_email_send_error_server = 'There was error in sending email from server'
     err_inactive_user = 'User is not active. Contact administrator'
     # err_invalid_access_token = 'Invalid or missing access token'
     err_invalid_credentials = 'Token is invalid or already expired'
