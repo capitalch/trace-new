@@ -95,7 +95,7 @@ function useAgGridUtils() {
   return { getAlternateColorStyle, getPinnedRowStyle, getRowStyle, swapId }
 }
 
-function useCellRenderers({ dbName, tableName, appStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any,  EditBodyComponent?: FC, editTitle?: string }) {
+function useCellRenderers({ dbName, tableName, appStoreObject, EditBodyComponent, editTitle }: { dbName: string, tableName: string, appStoreObject: any, EditBodyComponent?: FC, editTitle?: string }) {
 
   function DeleteCellRenderer(props: any) {
     const { showAlertDialogYesNo } = useDialogs()
@@ -209,8 +209,8 @@ function useComponentHistory() {
 }
 
 function useDialogs() {
-  
-  function showAlertDialogOk({ title, body }: { title: string; body: any }) {
+
+  function showAlertDialogOk({ title, body, }: { title: string; body: any, }) {
     appStore.alertDialogOk.isOpen.value = true
     appStore.alertDialogOk.header.value = title
     appStore.alertDialogOk.body.value = body
@@ -237,13 +237,15 @@ function useDialogs() {
     title,
     body,
     toShowCloseButton = false,
-    defaultData = undefined
+    defaultData = undefined,
+    isCentered = false
   }: {
     size?: any
     title: string
     body: FC
     toShowCloseButton?: boolean
     defaultData?: { [key: string]: any }
+    isCentered?: boolean
   }) {
     appStore.modalDialogA.size.value = size || 'md'
     appStore.modalDialogA.title.value = title
@@ -251,6 +253,7 @@ function useDialogs() {
     appStore.modalDialogA.body.value = body
     appStore.modalDialogA.defaultData.value = defaultData
     appStore.modalDialogA.isOpen.value = true
+    appStore.modalDialogA.isCentered = isCentered || false
   }
 
   function closeModalDialogA() {
@@ -262,20 +265,23 @@ function useDialogs() {
     title,
     body,
     toShowCloseButton = false,
-    defaultData = undefined
+    defaultData = undefined,
+    isCentered = false
   }: {
-    size?: string
+    size?: any
     title: string
     body: FC
     toShowCloseButton?: boolean
     defaultData?: { [key: string]: any }
+    isCentered?: boolean
   }) {
-    // appStore.modalDialogB.size.value = size || 'sm'
-    // appStore.modalDialogB.title.value = title
-    // appStore.modalDialogB.toShowCloseButton.value = toShowCloseButton
-    // appStore.modalDialogB.body.value = body
-    // appStore.modalDialogB.defaultData.value = defaultData
-    // appStore.modalDialogB.isOpen.value = true
+    appStore.modalDialogB.size.value = size || 'sm'
+    appStore.modalDialogB.title.value = title
+    appStore.modalDialogB.toShowCloseButton.value = toShowCloseButton
+    appStore.modalDialogB.body.value = body
+    appStore.modalDialogB.defaultData.value = defaultData
+    appStore.modalDialogB.isOpen.value = true
+    appStore.modalDialogB.isCentered = isCentered
   }
 
   function closeModalDialogB() {

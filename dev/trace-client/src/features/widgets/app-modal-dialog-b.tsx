@@ -13,7 +13,7 @@ import { appStore } from "@src/features"
 
 function AppModalDialogB() {
     return (
-        <Modal size={appStore.modalDialogB.size.value} isOpen={appStore.modalDialogB.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
+        <Modal isCentered={appStore.modalDialogA.isCentered} size={appStore.modalDialogB.size.value} isOpen={appStore.modalDialogB.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
                 <ModalHeader mt={-2.5} fontSize='xl' color='twitter.800' fontWeight='bold'>{appStore.modalDialogB.title.value}</ModalHeader>

@@ -72,7 +72,7 @@ const appStoreT: AppStoreType = {
         clientId: 0,
         clientCode: '',
         clientName: '',
-        
+
         buId: 0,
         buCode: '',
 
@@ -80,7 +80,7 @@ const appStoreT: AppStoreType = {
         branchCode: 'head',
         branchName: 'Head office',
 
-        businessUnits:[],
+        businessUnits: [],
         isClientActive: false,
         isUserActive: false,
         isExternalDb: false,
@@ -95,6 +95,7 @@ const appStoreT: AppStoreType = {
         body: signal(() => <></>),
         defaultData: signal(undefined),
         isOpen: signal(false),
+        isCentered: false,
         size: signal('md'),
         title: signal(''),
         toShowCloseButton: signal(false),
@@ -104,6 +105,7 @@ const appStoreT: AppStoreType = {
         body: signal(() => <></>),
         defaultData: signal(undefined),
         isOpen: signal(false),
+        isCentered: false,
         size: signal('md'),
         title: signal(''),
         toShowCloseButton: signal(false),
@@ -259,6 +261,7 @@ type AppStoreType = {
         body: Signal<FC>,
         defaultData: Signal<any>,
         isOpen: Signal<boolean>,
+        isCentered?: boolean,
         size: Signal<'md' | 'sm' | 'lg' | 'md'>,
         title: Signal<string>,
         toShowCloseButton: Signal<boolean>,
@@ -268,6 +271,7 @@ type AppStoreType = {
         body: Signal<FC>,
         defaultData: Signal<any>,
         isOpen: Signal<boolean>,
+        isCentered?: boolean,
         size: Signal<'md' | 'sm' | 'lg' | 'md'>,
         title: Signal<string>,
         toShowCloseButton: Signal<boolean>,

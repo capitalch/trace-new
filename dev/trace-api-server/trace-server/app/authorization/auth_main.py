@@ -9,6 +9,9 @@ reuseable_oauth = OAuth2PasswordBearer(
     scheme_name="JWT"
 )
 
+class Item(BaseModel):
+    token: str
+
 
 async def app_login(formData: OAuth2PasswordRequestForm = Depends()):
     '''
@@ -47,10 +50,8 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
             error_code=CustomErrorCodes.e1003
         )
 
-
-class Item(BaseModel):
-    token: str
-
+async def handle_forgot_pwd(email:str):
+    pass
 
 async def renew_access_token_from_refresh_token(item: Item):
     '''

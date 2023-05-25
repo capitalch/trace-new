@@ -8,11 +8,11 @@ import {
     ModalBody,
     ModalCloseButton,
 } from "@src/libs"
-import {appStore} from '@src/features'
+import { appStore } from '@src/features'
 
 function AppModalDialogA() {
     return (
-        <Modal size={appStore.modalDialogA.size.value} isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
+        <Modal isCentered={appStore.modalDialogA.isCentered} size={appStore.modalDialogA.size.value} isOpen={appStore.modalDialogA.isOpen.value} onClose={handleOnClose} closeOnOverlayClick={false} >
             <ModalOverlay />
             <ModalContent pb={2}>
                 <ModalHeader mt={-2.5} fontSize='xl' color='twitter.800' fontWeight='bold'>{appStore.modalDialogA.title.value}</ModalHeader>

@@ -1,7 +1,9 @@
-import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS,  UserTypesType, SideMenuType } from '@src/features'
+import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, useDialogs, UserTypesType, SideMenuType } from '@src/features'
 import { axios, qs, urlJoin, useSignal } from '@src/libs'
+import { AppForfotPassword } from './app-forgot-password'
 
 function useAppLogin() {
+    const { showModalDialogA } = useDialogs()
     const meta: any = {
         serverError: useSignal(''),
     }
@@ -50,7 +52,7 @@ function useAppLogin() {
     }
 
     function setLoggedInUser(payload: PayloadType) {
-        
+
         if (payload.userType === 'S') {
             // const s:string = UserTypesEnum.SUPER_ADMIN
             appStore.content.title.value = AppConstants.SUPER_ADMIN_USER_TITLE
@@ -91,6 +93,15 @@ function useAppLogin() {
         appStore.login.lastUsedBranchId = payload.lastUsedBranchId || 0
     }
 
+    function handleForgotPassword() {
+        showModalDialogA({
+            isCentered: true,
+            size: 'md',
+            title: 'Forgot Password',
+            body: () => <AppForfotPassword />,
+        })
+    }
+
     function handleTestSubmit(userType: string) {
         appStore.login.isLoggedIn.value = true
         // setIsLoggedInInLS(true)
@@ -113,7 +124,7 @@ function useAppLogin() {
         }
     }
 
-    return ({ handleOnSubmit, handleTestSubmit, meta })
+    return ({ handleForgotPassword, handleOnSubmit, handleTestSubmit, meta })
 }
 export { useAppLogin }
 

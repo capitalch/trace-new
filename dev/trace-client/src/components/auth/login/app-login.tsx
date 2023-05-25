@@ -1,9 +1,9 @@
-import { appValidators, Messages,  } from '@src/features'
-import { Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input,Text, useForm} from '@src/libs'
+import {AppRequiredAstrisk, appValidators, Messages, } from '@src/features'
+import { Box, Button, Center, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, HStack, Input, Text, useForm } from '@src/libs'
 import { useAppLogin } from './app-login-hook'
 
 function AppLogin() {
-    const { handleOnSubmit, handleTestSubmit, meta, } = useAppLogin()
+    const { handleForgotPassword, handleOnSubmit, handleTestSubmit, meta, } = useAppLogin()
     const { handleSubmit, register, formState: { errors } }: any = useForm({ mode: 'onTouched' })
     const { checkPwd, checkUidEmail } = appValidators()
 
@@ -26,12 +26,12 @@ function AppLogin() {
 
                 {/* uid email */}
                 <FormControl isInvalid={!!errors.username}>
-                    <FormLabel mt={3} color='blue.500'>User id / Email</FormLabel>
-                    <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com' 
-                    // value='superAdmin' 
-                    value = 'sushant' // admin
-                    // value = 'sushant1' // business user
-                    {...registerUsername} />
+                    <FormLabel mt={3} color='blue.500'>User id / Email <AppRequiredAstrisk /></FormLabel>
+                    <Input id='username' autoFocus autoComplete='username' size='md' type='text' placeholder='test@test.com'
+                        // value='superAdmin' 
+                        value='sushant' // admin
+                        // value = 'sushant1' // business user
+                        {...registerUsername} />
                     {(!!errors.username)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.username.message}</FormErrorMessage>
                         : <FormHelperText fontSize='xs' color='gray.400'> {Messages.messNoSpecialSpace4Plus}</FormHelperText>
@@ -40,12 +40,12 @@ function AppLogin() {
 
                 {/* Password */}
                 <FormControl mt={4} isInvalid={!!errors.password}>
-                    <FormLabel color='blue.500'>Password</FormLabel>
-                    <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******" 
-                    // value='superadmin@123' 
-                    value = 'sush@nt123' // admin
-                    // value = '@A1TE*KMxxfib' // business user
-                    {...registerPassword} />
+                    <FormLabel color='blue.500'>Password <AppRequiredAstrisk /></FormLabel>
+                    <Input id='password' autoComplete='current-password' type="password" size='md' placeholder="*******"
+                        // value='superadmin@123' 
+                        value='sush@nt123' // admin
+                        // value = '@A1TE*KMxxfib' // business user
+                        {...registerPassword} />
                     {(!!errors.password)
                         ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.password.message}</FormErrorMessage>
                         : <FormHelperText color='gray.400' fontSize='xs'>{Messages.messMin8Char1Digit1Special}</FormHelperText>
@@ -54,7 +54,7 @@ function AppLogin() {
 
                 {/* Forgot password */}
                 <HStack justifyContent='right'>
-                    <Button size='xs' variant='ghost' colorScheme='blue' >Forgot password</Button>
+                    <Button size='xs' variant='ghost' onClick={handleForgotPassword} colorScheme='blue' >Forgot password</Button>
                 </HStack>
 
                 {/* Submit */}
