@@ -28,6 +28,14 @@
 21. Business users change password and email
 22. Any user forgot pwd
 
+## Logic for forgot pwd
+1. Not secured url's as /forgotpwd and /pwd-activation, 
+2. UI captures email, hex it and sends to /forgotpwd url as post request by axios
+3. server /forgotpwd code checks and if email exists. if exists then sends /pwd-activation url + id = json token expirable within 30 min's (contains email id) as activation url to 	the client email.
+4. Client click the activation url
+5. /pwd-activation checks jwt, finds email, creates a new pwd, stores the hash of pwd in db and email the new pwd to client email
+6. Client can now change pwd by normal way, after log in from resetted pwd.
+
 ## Logic for change UID: Secured
 1. Display ModalA, defaultdata has old uid
 2. Modal shows one text box to capture new UId. Old UID is shown in disabled text box
