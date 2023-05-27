@@ -14,7 +14,7 @@ async def change_password(params):
 
     if (userId is None or pwd is None):
         raise AppHttpException(detail=Messages.err_invalid_user_id_or_password,
-                               status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, error_code='e1017')
+                               status_code=status.HTTP_404_NOT_FOUND, error_code='e1017')
     hash = utils.getPasswordHash(pwd)
     sql = SqlQueriesAuth.change_password
     try:

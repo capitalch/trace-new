@@ -22,12 +22,20 @@ def verify_password(password: str, hashed_pass: str) -> bool:
 
 def create_access_token(subject: dict) -> str:
     expiresDelta = datetime.utcnow() + timedelta(hours=int(ACCESS_TOKEN_EXPIRE_HOURS))
-    # expiresDelta = datetime.utcnow() + timedelta(seconds=int(ACCESS_TOKEN_EXPIRE_SECONDS))
     toEncode = {
         "exp": expiresDelta, "sub": subject
     }
     encodedJwt = jwt.encode(toEncode, ACCESS_TOKEN_SECRET_KEY, ALGORITHM, )
     return (encodedJwt)
+
+
+def create_jwt_token(expireMinutes: int, data: dict) -> str:
+    expiresDelta = datetime.utcnow + timedelta(minutes=expireMinutes)
+    toEncode = {
+        "exp": expiresDelta, "data": data
+    }
+    encodedJwt = jwt.encode(toEncode, ACCESS_TOKEN_SECRET_KEY, ALGORITHM)
+    return(encodedJwt)
 
 
 def create_refresh_token(subject: Any) -> str:
@@ -38,5 +46,3 @@ def create_refresh_token(subject: Any) -> str:
     }
     encodedJwt = jwt.encode(toEncode, REFRESH_TOKEN_SECRET_KEY, ALGORITHM)
     return (encodedJwt)
-
-

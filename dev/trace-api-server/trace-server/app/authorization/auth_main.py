@@ -1,13 +1,16 @@
 from app.vendors import BaseModel, Depends, jwt, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status, ValidationError
 from app import AppHttpException, Config, CustomErrorCodes, logger, Messages
+from app.db import SqlQueriesAuth
+from app.db.helpers.db_helper_psycopg2 import exec_sql
 from .auth_helper import get_super_admin_bundle, get_other_user_bundle
-from .auth_utils import create_access_token
+from .auth_utils import create_access_token, create_jwt_token
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError, InvalidTokenError
 
 reuseable_oauth = OAuth2PasswordBearer(
     tokenUrl="/login",
     scheme_name="JWT"
 )
+
 
 class Item(BaseModel):
     token: str
@@ -50,8 +53,17 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
             error_code=CustomErrorCodes.e1003
         )
 
-async def handle_forgot_pwd(email:str):
-    pass
+
+async def handle_forgot_pwd(email: str):
+    isUserEmailExists: bool = exec_sql(sql=SqlQueriesAuth.does_user_email_exist, sqlArgs={
+        'email': email})
+    if (isUserEmailExists):
+        create_jwt_token(expireMinutes=30, data={"email": email})
+        pass
+    else:
+        raise AppHttpException(details=Messages.err_invalid_email,
+                               error_code=status.HTTP_404_NOT_FOUND, status_code='e1021')
+
 
 async def renew_access_token_from_refresh_token(item: Item):
     '''

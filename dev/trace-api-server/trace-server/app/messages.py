@@ -12,6 +12,7 @@ class Messages():
     err_inactive_user = 'User is not active. Contact administrator'
     # err_invalid_access_token = 'Invalid or missing access token'
     err_invalid_credentials = 'Token is invalid or already expired'
+    err_invalid_email = 'Invalid email'
     err_invalid_super_admin_password = 'Super admin password is invalid'
     err_invalid_pwd = 'Invalid password'
     err_invalid_uid = 'User name or email not found'
@@ -46,7 +47,8 @@ class CustomErrorCodes():
     e1017 = 'Server found invalid user id or password while changing password for a user'
     e1018 = 'Error occured while changing password hash in auth database'
     e1019 = 'Custom method name was not provided by client. Check server'
-    e1020 = 'Email send error to the user'
+    e1020 = 'Email send error. An email could not be sent'
+    e1021 = 'This email does not exist'
 
 
 class EmailMessages():

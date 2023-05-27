@@ -40,7 +40,7 @@ async def resolve_custom_method(info, value):
 
         if (customMethodName is None):
             raise AppHttpException(detail=Messages.err_custom_method_name,
-                                   status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, error_code='e1019')
+                                   status_code=status.HTTP_400_BAD_REQUEST, error_code='e1019')
         await custom_methods_map[customMethodName](customMethodParams)
 
     except Exception as e:

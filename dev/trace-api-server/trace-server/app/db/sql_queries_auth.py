@@ -10,6 +10,14 @@ class SqlQueriesAuth:
     create_database = '''
         create database "%(dbName)s"
     '''
+    
+    does_user_email_exist = '''
+        --with "email" as (values(%(email)s))
+            with "email" as (values('capitalch@gmail.com'))
+        select exists(select 1
+            from "UserM"
+                where "userEmail" = (table "email"))
+    '''
 
     drop_public_schema = '''
         DROP SCHEMA IF EXISTS public RESTRICT

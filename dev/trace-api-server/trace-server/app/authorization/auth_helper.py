@@ -38,12 +38,10 @@ async def get_other_user_bundle(uidOrEmail, password):
     user = None
     bundle = None
     userType = None
-    # details: list = await exec_generic_query(sql=SqlQueriesAuth.get_user_details, sqlArgs={'uidOrEmail': uidOrEmail})
     details: list = exec_sql(sql=SqlQueriesAuth.get_user_details, sqlArgs={
                              'uidOrEmail': uidOrEmail})
     if (details):
         jsonResultDict = details[0]['jsonResult']
-        # jsonResultDict = jsonResult #json.loads(jsonResult)
         userDetails = jsonResultDict.get('userDetails')
         businessUnits = jsonResultDict.get('businessUnits')
         role = jsonResultDict.get('role')
