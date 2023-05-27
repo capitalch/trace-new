@@ -68,6 +68,7 @@ function AppLogin() {
                     <Button size='xs' variant='ghost' colorScheme='red' onClick={() => handleTestSubmit('admin')}>Sign in admin</Button>
                     <Button size='xs' variant='ghost' colorScheme='blue' onClick={() => handleTestSubmit('businessUser')} >Sign in business user</Button>
                 </HStack>
+                {/* server error */}
                 <Center>
                     <Text as='b' fontSize='small' color='red.400'>{meta.serverError.value}</Text>
                 </Center>

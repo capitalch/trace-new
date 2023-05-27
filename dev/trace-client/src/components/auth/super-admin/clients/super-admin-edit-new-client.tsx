@@ -16,7 +16,7 @@ function SuperAdminEditNewClient() {
     const { appGraphqlStrings, mutateGraphql, } = useAppGraphql()
     const { showAppLoader, showError } = useFeedback()
     const { checkNoSpaceOrSpecialChar, checkNoSpecialChar } = appValidators()
-    const { handleSubmit, register, getValues, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
+    const { handleSubmit, register, formState: { errors }, setError, setValue, }: any = useForm({ mode: 'onTouched' })
     const { validateClientCode } = useSuperAdminClientsCommon()
     const defaultData = appStore.modalDialogA.defaultData.value
 
