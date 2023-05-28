@@ -1,4 +1,4 @@
-from app.vendors import APIRouter, Depends, HTTPException, status, BaseModel, jsonable_encoder
+from app.vendors import APIRouter, Depends, HTTPException, status, BaseModel, jsonable_encoder, Request
 from .auth_main import app_login, get_current_user, handle_forgot_pwd, renew_access_token_from_refresh_token
 from app import AppHttpException, Messages
 from app.utils import getFinalAppHttpException
@@ -22,12 +22,12 @@ async def renew_access_token(payload: renew_access_token_from_refresh_token = De
     return payload
 
 @router.post('/forgot-pwd', summary='logic for when user clicks forgot password in login screen')
-async def forgot_pwd(payload: Payload):
+async def forgot_pwd(payload: Payload, request: Request):
     try:
         email = getattr(payload, 'email', None)
         if(email is None):
             raise AppHttpException(Messages.err_email_not_provided,'e1022', status.HTTP_404_NOT_FOUND)
-        return(await handle_forgot_pwd(email))
+        return(await handle_forgot_pwd(email, request))
     except Exception as e:
         # Accumulate exception
         raise getFinalAppHttpException(e)

@@ -55,7 +55,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
         )
 
 
-async def handle_forgot_pwd(email: str):
+async def handle_forgot_pwd(email: str, request: Request):
     ret: list = exec_sql(sql=SqlQueriesAuth.does_user_email_exist, sqlArgs={
         'email': email})
     if((ret is None) or len(ret) == 0):
@@ -63,9 +63,15 @@ async def handle_forgot_pwd(email: str):
     isExists = ret[0].get('exists', None)
     if(isExists):
         tempToken = create_jwt_token(expireMinutes=30, data={"email": email})
-        url = urljoin('reset-pwd','?code=',tempToken)
+        hostName = request.url.hostname
+        path = request.url.path
+        referer = request.headers.get('referer')
+        baseUrl = str(request.base_url)
+        url = f'{baseUrl}reset-pwd?id={tempToken}'
+        # urljoin(tempUrl'reset-pwd','?code=',tempToken)
         # send mail here
         await send_email(body=url)
+        pass
     else:
         # exception; this email not exists
         raise AppHttpException(detail=Messages.err_invalid_email_current_users,
