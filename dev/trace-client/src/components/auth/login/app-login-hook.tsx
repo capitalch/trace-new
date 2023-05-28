@@ -1,6 +1,6 @@
 import { appStore, SideMenuTypesEnum, UserTypesEnum, AppConstants, getHostUrl, Messages, setAccesstokenInLS, setRefreshTokenInLS, setIsLoggedInInLS, useDialogs, UserTypesType, SideMenuType } from '@src/features'
 import { axios, qs, urlJoin, useSignal } from '@src/libs'
-import { AppForfotPassword } from './app-forgot-password'
+import { AppForgotPassword } from './app-forgot-password'
 
 function useAppLogin() {
     const { showModalDialogA } = useDialogs()
@@ -98,7 +98,7 @@ function useAppLogin() {
             isCentered: true,
             size: 'md',
             title: 'Forgot Password',
-            body: () => <AppForfotPassword />,
+            body: () => <AppForgotPassword />,
         })
     }
 

@@ -1,7 +1,7 @@
 import { _, axios, Box, Button, Center, FormControl, FormLabel, FormErrorMessage, Input, Text, useForm, useState, urlJoin } from '@src/libs'
-import { AppRequiredAstrisk, appStore, appValidators, getHostUrl, Messages, useDialogs, useFeedback } from '@src/features'
+import { AppRequiredAstrisk, appStore, appValidators, getHostUrl, getRefinedError, Messages, useDialogs, useFeedback } from '@src/features'
 
-function AppForfotPassword() {
+function AppForgotPassword() {
     const { handleSubmit, register, formState: { errors } }: any = useForm({ mode: 'onTouched' })
     const { checkValidEmail } = appValidators()
     const [serverError, setServerError] = useState('')
@@ -18,7 +18,7 @@ function AppForfotPassword() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl isInvalid={!!errors.userEmail}>
                 <FormLabel color='blue.500'>Email address to send password reset link <AppRequiredAstrisk /></FormLabel>
-                <Input mt={4} name='userEmail' autoFocus autoComplete='off' size='md' type='text' placeholder='test@test.com'
+                <Input name='userEmail' autoFocus autoComplete='off' size='md' type='text' placeholder='test@test.com'
                     {...registerUserEmail} />
                 {(!!errors.userEmail) ? <FormErrorMessage color='red.400' fontSize='xs'>{errors.userEmail.message}</FormErrorMessage>
                     : <>&nbsp;</>
@@ -52,14 +52,15 @@ function AppForfotPassword() {
                     'content-type': 'application/json'
                 }
             })
-            showAppLoader(false)
             closeModalDialogA()
             // appStore.modalDialogA.isOpen.value = false
         } catch (e: any) {
+            const err = getRefinedError(e)
+            setServerError(err.detail)
+            showError(err.message)
+        } finally {
             showAppLoader(false)
-            setServerError(Messages.errGenericServerError)
-            showError(e.message)
         }
     }
 }
-export { AppForfotPassword }
+export { AppForgotPassword }

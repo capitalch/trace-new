@@ -53,6 +53,18 @@ function getHostUrl() {
   return (url)
 }
 
+function getRefinedError(e: any): any {
+  let detail = Messages.errGenericServerError
+  let errorCode = ''
+  if (e?.response && e?.response?.data) {
+    detail = e.response.data['detail']
+    errorCode = e.response.data['errorCode']
+  }
+  e.message = `${errorCode} ${detail}`
+  e.detail = detail
+  return (e)
+}
+
 function useAgGridUtils() {
   function getAlternateColorStyle(params: any) {
     const id = params?.data?.id
@@ -328,4 +340,4 @@ function useFeedback() {
   return { showAppLoader, showError, showSuccess }
 }
 
-export { getHostUrl, useAgGridUtils, usingAuthUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }
+export { getHostUrl, getRefinedError, useAgGridUtils, usingAuthUtils, useCellRenderers, useComponentHistory, useDialogs, useFeedback, }

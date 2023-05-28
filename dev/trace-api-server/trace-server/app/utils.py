@@ -1,5 +1,5 @@
-from app.vendors import Fernet, HTTPException, JSONResponse, OAuth2PasswordBearer, SqlQueriesAuth, SqlQueriesClient, status
-from app import Config
+from app.vendors import Any, Fernet, HTTPException, JSONResponse, OAuth2PasswordBearer, SqlQueriesAuth, SqlQueriesClient, status
+from app import Config, Messages
 import bcrypt
 import logging
 import random
@@ -54,23 +54,28 @@ def getPasswordHash(pwd):
 def getRandomPassword():
     rnd = f'@A1{randomStringGenerator(9, (string.ascii_letters + string.punctuation + string.digits))}b'
     # Remove all instances of ':' since clint sends credentials as 'uid:pwd'
-    return(rnd.replace(':', '$'))
+    return (rnd.replace(':', '$'))
 
 
 def getRandomUserId():
     rnd = randomStringGenerator(8, string.ascii_letters + string.digits)
     # Remove all instances of ':' since clint sends credentials as 'uid:pwd'
-    return(rnd.replace(':', '$'))
+    return (rnd.replace(':', '$'))
+
 
 def getSqlQueryObject(dbName: str):
     queryObject = SqlQueriesClient
-    if(dbName == 'traceAuth'):
+    if (dbName == 'traceAuth'):
         queryObject = SqlQueriesAuth
-    return(queryObject)
+    return (queryObject)
+
 
 def randomStringGenerator(strSize, allowedChars):
     return ''.join(random.choice(allowedChars) for x in range(strSize))
 
-# def sendMail(receipents: list(str), message: str, htmlBody: str, attachments: list(any) = None):
-    
-#     pass
+
+def getFinalAppHttpException(e: Exception):
+    detail = getattr(e, 'detail', None) or Messages.err_unknown_server_error
+    errorCode= getattr(e, 'errorCode', None) or 'e1001'
+    statusCode = getattr(e, 'statusCode', None) or 500
+    return AppHttpException(detail, errorCode, statusCode)

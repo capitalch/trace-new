@@ -9,10 +9,12 @@ class Messages():
     err_custom_method_name = 'Custom method name not provided by client'
     err_email_send_error = 'There was error in sending email. Email parameters from client are improper or missing'
     err_email_send_error_server = 'There was error in sending email from server'
+    err_email_not_provided = 'Email is not provided'
     err_inactive_user = 'User is not active. Contact administrator'
     # err_invalid_access_token = 'Invalid or missing access token'
     err_invalid_credentials = 'Token is invalid or already expired'
     err_invalid_email = 'Invalid email'
+    err_invalid_email_current_users = 'Invalid email for current users'
     err_invalid_super_admin_password = 'Super admin password is invalid'
     err_invalid_pwd = 'Invalid password'
     err_invalid_uid = 'User name or email not found'
@@ -49,10 +51,15 @@ class CustomErrorCodes():
     e1019 = 'Custom method name was not provided by client. Check server'
     e1020 = 'Email send error. An email could not be sent'
     e1021 = 'This email does not exist'
+    e1022 = 'Email is not provided'
+    e1023 = 'Email does not exist'
+    e1024 = 'This email does not exist for current registered users'
 
 
 class EmailMessages():
-    def email_subject_new_user(userType): return f'new {userType} with your email address'
+    def email_subject_new_user(
+        userType): return f'new {userType} with your email address'
+
     def email_body_new_user(userName, companyName, uid, password, userType): return f'''
         <!DOCTYPE html>
         <html>
@@ -116,6 +123,7 @@ class EmailMessages():
         </html>
     '''
     email_subject_update_user = 'update of your user credentials'
+
     def email_body_update_user(userName, companyName): return f'''
     <!DOCTYPE html>
         <html>

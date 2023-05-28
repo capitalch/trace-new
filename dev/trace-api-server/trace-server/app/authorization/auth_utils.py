@@ -30,7 +30,7 @@ def create_access_token(subject: dict) -> str:
 
 
 def create_jwt_token(expireMinutes: int, data: dict) -> str:
-    expiresDelta = datetime.utcnow + timedelta(minutes=expireMinutes)
+    expiresDelta = datetime.utcnow() + timedelta(minutes=expireMinutes)
     toEncode = {
         "exp": expiresDelta, "data": data
     }

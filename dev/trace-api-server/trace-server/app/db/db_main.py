@@ -244,7 +244,7 @@ async def resolve_update_user(info, value):
             await send_email(subject=subject, body=body, recipients=recipients)
         except Exception as e:
             raise AppHttpException(
-                detail='', error_code='e1020', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                detail=Messages.err_email_send_error_server, error_code='e1020', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
         # pass
         # data = await generic_update_asyncpg(sqlObject=sqlObj)
         # data = await generic_update_psycopg_async(sqlObject=sqlObj)

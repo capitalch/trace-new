@@ -27,6 +27,8 @@
 																					20. Business users change UID and email
 21. Business users change password and email
 22. Any user forgot pwd
+23. Server side proper error handling
+24. Server side proper management of imports etc.
 
 ## Logic for forgot pwd
 1. Not secured url's as /forgotpwd and /pwd-activation, 

@@ -41,6 +41,7 @@ export { Messages } from './vitals/messages'
 
 export {
   getHostUrl,
+  getRefinedError,
   useAgGridUtils,
   usingAuthUtils,
   useCellRenderers,
