@@ -32,6 +32,6 @@ async def forgot_pwd(payload: Payload, request: Request):
         # Accumulate exception
         raise getFinalAppHttpException(e)
     
-@router.get('/reset-password', summary='logic for when user click activation url for reset password in email message')
+@router.get('/reset-pwd', summary='logic for when user clicks activation url for reset password in email message')
 async def reset_password():
     pass

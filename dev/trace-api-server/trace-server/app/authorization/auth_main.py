@@ -1,6 +1,7 @@
-from app.vendors import BaseModel, Depends, jwt,jsonable_encoder, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status
+from app.vendors import BaseModel, Depends, jwt, jsonable_encoder, OAuth2PasswordRequestForm, OAuth2PasswordBearer, Request, status
 from app import AppHttpException, Config, CustomErrorCodes, logger, Messages, urljoin
 from app.db import SqlQueriesAuth
+import base64
 from app.event_triggers.mail import send_email
 from app.db.helpers.db_helper_psycopg2 import exec_sql
 from .auth_helper import get_super_admin_bundle, get_other_user_bundle
@@ -58,25 +59,23 @@ async def get_current_user(token: str = Depends(reuseable_oauth)):
 async def handle_forgot_pwd(email: str, request: Request):
     ret: list = exec_sql(sql=SqlQueriesAuth.does_user_email_exist, sqlArgs={
         'email': email})
-    if((ret is None) or len(ret) == 0):
-        pass # throw exception; this email not exists
+    if ((ret is None) or len(ret) == 0):
+        pass  # throw exception; this email not exists
     isExists = ret[0].get('exists', None)
-    if(isExists):
+    if (isExists):
         tempToken = create_jwt_token(expireMinutes=30, data={"email": email})
-        hostName = request.url.hostname
-        path = request.url.path
-        referer = request.headers.get('referer')
+        # hostName = request.url.hostname
+        # path = request.url.path
+        # referer = request.headers.get('referer')
         baseUrl = str(request.base_url)
-        url = f'{baseUrl}reset-pwd?id={tempToken}'
-        # urljoin(tempUrl'reset-pwd','?code=',tempToken)
-        # send mail here
-        await send_email(body=url)
-        pass
+        tempToken = base64.b64encode(tempToken.encode('utf-8')).decode('utf-8') # convert to base64, otherwise email is treated as spam
+        url = f'{baseUrl}reset-pwd?code={tempToken}'
+        await send_email(body=url, recipients=[email])
     else:
         # exception; this email not exists
         raise AppHttpException(detail=Messages.err_invalid_email_current_users,
-                            error_code='e1024',status_code=status.HTTP_404_NOT_FOUND)
-    
+                               error_code='e1024', status_code=status.HTTP_404_NOT_FOUND)
+
 
 async def renew_access_token_from_refresh_token(item: Item):
     '''
