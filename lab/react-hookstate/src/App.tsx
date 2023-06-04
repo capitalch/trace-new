@@ -8,8 +8,8 @@ function App() {
   return (
     <Box>
       {/* <Main /> */}
-      {/* <FormikComp1 /> */}
-      <Immer1 />
+      <FormikComp1 />
+      {/* <Immer1 /> */}
     </Box>
   );
 }
