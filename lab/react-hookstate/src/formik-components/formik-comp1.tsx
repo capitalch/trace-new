@@ -1,10 +1,10 @@
-import { useFormik, Form, Field, ErrorMessage } from 'formik'
+import { useFormik, } from 'formik'
 import * as Yup from 'yup'
 import { Select1 } from './select1'
-import { MyText1 } from './my-text1'
-import { useEffect } from 'react'
+// import { MyText1 } from './my-text1'
+// import { useEffect } from 'react'
 import { useGranularEffect } from 'granular-hooks'
-import { MyText2UseField } from './my-text2-use-field'
+// import { MyText2UseField } from './my-text2-use-field'
 import { PhoneNumber } from './PhoneNumber'
 import { ZipCode } from './ZipCode'
 
@@ -12,51 +12,56 @@ function FormikComp1() {
 
     const formik = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            item: '',
-            city: '',
-            zip: '',
-            zipCode:'',
-            address1: '',
-            phone: '',
-            phoneNumber:''
+            officeName:'',
+            // name: '',
+            // email: '',
+            // item: '',
+            // city: '',
+            // zip: '',
+            // zipCode:'',
+            // address1: '',
+            // phone: '',
+            // phoneNumber:''
         }
+        , validateOnMount: true
         , onSubmit: //handleOnSubmit 
-            (values: any) => {
-                handleOnSubmit(values)
+           (values: any, actions: any) => {
+                handleOnSubmit(values,actions)
             }
         , validationSchema: Yup.object({
-            name: Yup.string().required('name is required'),
-            email: Yup.string().required('email is required').email('Must be an email address'),
-            item: Yup.string().required('item is required'),
-            city: Yup.string().required('city is required'),
-            zip: Yup.string().required('zip is required'),
-            zipCode: Yup.string().required('zip is required').matches(/\b\d{5}\b/, 'Zip must be 5 digit number'),
-            address1: Yup.string().required('address1 is required'),
-            phone: Yup.string().required('phone is required').matches(/\d{3}-\d{3}-\d{4}$/, 'Phone should be in format ###-###-####'),
-            phoneNumber: Yup.string().required('phone is required').matches(/\d{3}-\d{3}-\d{4}$/, 'Phone should be in format ###-###-####'),
+            officeName: Yup.string().required('Required')
+            // name: Yup.string().required('name is required'),
+            // email: Yup.string().required('email is required'),
+            // item: Yup.string().required('item is required'),
+            // city: Yup.string().required('city is required'),
+            // zip: Yup.string().required('zip is required'),
+            // zipCode: Yup.string().required('zip is required').matches(/\b\d{5}\b/, 'Zip must be 5 digit number'),
+            // address1: Yup.string().required('address1 is required'),
+            // phone: Yup.string().required('phone is required').matches(/\d{3}-\d{3}-\d{4}$/, 'Phone should be in format ###-###-####'),
+            // phoneNumber: Yup.string().required('phone is required').matches(/\d{3}-\d{3}-\d{4}$/, 'Phone should be in format ###-###-####'),
         })
     })
 
-    const { dirty, errors, handleBlur, handleChange, handleSubmit, touched, values, getFieldProps, setFieldValue } = formik
+    const { dirty, errors, handleBlur, handleChange, handleSubmit, isSubmitting, isValid, touched, values, getFieldProps, setFieldValue }:any = formik
 
-    useGranularEffect(() => {
-        setFieldValue('city', 3)
-    }, [], [setFieldValue])
+    // useGranularEffect(() => {
+    //     setFieldValue('city', 3)
+    // }, [], [setFieldValue])
 
     return (
         <div className="container-fluid">
             <form onSubmit={handleSubmit}>
-                <div className='row'>
-                    <input className='col-2' type="text"  {...getFieldProps('name')} />
+                <input type="text" className="form-control" placeholder="Enter name" {...getFieldProps('officeName')} />
+                {touched.officeName && errors.officeName ? <div>Error</div> : null}
+                {/* <div className='row'>
+                    <input className='col-2' type="text"  {...getFieldProps('name')} autoComplete='off' />
                     {errors.name && touched.name ? <div className='text-danger'>{errors.name}</div> : null}
-                </div>
-                <div className='row'>
-                    <input type="text" name='email' onChange={handleChange} value={values.email} onBlur={handleBlur} />
+                </div> */}
+                {/* <div className='row'>
+                    <input type="text" name='email' id='email' onChange={handleChange}  onBlur={handleBlur} />
                     {errors.email && touched.email ? <div>{errors.email}</div> : null}
-                </div>
-                <div className='row'>
+                </div> */}
+                {/* <div className='row'>
                     <select name='item' onChange={handleChange} onBlur={handleBlur} value={values.item} >
                         <option value=''>Select value</option>
                         <option value='1'>value 1</option>
@@ -68,7 +73,7 @@ function FormikComp1() {
                 <div className='row'>
                     <Select1  {...getFieldProps('city')} />
                     {errors.city && touched.city ? <div>{errors.city}</div> : null}
-                </div>
+                </div> */}
                 {/* <div className='row'>
                     <MyText1  {...getFieldProps('zip')} />
                     {errors.zip && touched.zip ? <div>{errors.zip}</div> : null}
@@ -77,7 +82,7 @@ function FormikComp1() {
                 {/* <div className='row'>
                     <MyText2UseField onChange={handleChange} onBlur='handleBlur' label='address1' id='address1' name='address1' />
                 </div> */}
-                <div className='row'>
+                {/* <div className='row'>
                     <ZipCode {...getFieldProps('zipCode')} setFieldValue={setFieldValue} />
                     {errors.zipCode && touched.zipCode ? <div>{errors.zipCode}</div> : null}
                 </div>
@@ -88,10 +93,12 @@ function FormikComp1() {
                 <div className='row'>
                     <PhoneNumber {...getFieldProps('phoneNumber')} setFieldValue={setFieldValue} />
                     {errors.phoneNumber && touched.phoneNumber ? <div>{errors.phoneNumber}</div> : null}
-                </div>
-                <button className='btn btn-sm btn-success' type="submit" >Submit</button>
+                </div> */}
+                {/* <button disabled={isSubmitting} className='btn btn-sm btn-success' type="submit" >Submit</button> */}
+                <button type='button' disabled={ isSubmitting}
+                    className='btn btn-sm btn-success' onClick={handleSubmit}>Change value</button>
             </form>
-            <button onClick={handleChangeValue}>Change value</button>
+
         </div >
     )
 
@@ -124,8 +131,12 @@ function FormikComp1() {
         setFieldValue('phone', formatted)
     }
 
-    function handleOnSubmit(values: any): void {
-        console.log(values)
+    async function handleOnSubmit(values: any, actions: any) {
+        setTimeout(() => {
+            console.log(values)
+            actions.setSubmitting(false)
+        }, 5000);
+
     }
 }
 export { FormikComp1 }
