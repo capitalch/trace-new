@@ -7,12 +7,18 @@ import { useGranularEffect } from 'granular-hooks'
 // import { MyText2UseField } from './my-text2-use-field'
 import { PhoneNumber } from './PhoneNumber'
 import { ZipCode } from './ZipCode'
+import { useRef, useState } from 'react'
 
 function FormikComp1() {
 
+    const [, setRefresh] = useState({})
+
+    const meta: any = useRef({
+        item: ''
+    })
     const formik = useFormik({
         initialValues: {
-            officeName:'',
+            officeName: '',
             // name: '',
             // email: '',
             // item: '',
@@ -25,8 +31,8 @@ function FormikComp1() {
         }
         , validateOnMount: true
         , onSubmit: //handleOnSubmit 
-           (values: any, actions: any) => {
-                handleOnSubmit(values,actions)
+            (values: any, actions: any) => {
+                handleOnSubmit(values, actions)
             }
         , validationSchema: Yup.object({
             officeName: Yup.string().required('Required')
@@ -42,7 +48,7 @@ function FormikComp1() {
         })
     })
 
-    const { dirty, errors, handleBlur, handleChange, handleSubmit, isSubmitting, isValid, touched, values, getFieldProps, setFieldValue }:any = formik
+    const { dirty, errors, handleBlur, handleChange, handleSubmit, isSubmitting, isValid, touched, values, getFieldProps, setFieldValue }: any = formik
 
     // useGranularEffect(() => {
     //     setFieldValue('city', 3)
@@ -61,8 +67,8 @@ function FormikComp1() {
                     <input type="text" name='email' id='email' onChange={handleChange}  onBlur={handleBlur} />
                     {errors.email && touched.email ? <div>{errors.email}</div> : null}
                 </div> */}
-                {/* <div className='row'>
-                    <select name='item' onChange={handleChange} onBlur={handleBlur} value={values.item} >
+                <div className='row'>
+                    <select name='item' {...getFieldProps('item')}>
                         <option value=''>Select value</option>
                         <option value='1'>value 1</option>
                         <option value='2'>value 2</option>
@@ -71,9 +77,9 @@ function FormikComp1() {
                     {errors.item && touched.item ? <div>{errors.item}</div> : null}
                 </div>
                 <div className='row'>
-                    <Select1  {...getFieldProps('city')} />
+                    <Select1  {...getFieldProps('city')} value={meta.current.item} />
                     {errors.city && touched.city ? <div>{errors.city}</div> : null}
-                </div> */}
+                </div>
                 {/* <div className='row'>
                     <MyText1  {...getFieldProps('zip')} />
                     {errors.zip && touched.zip ? <div>{errors.zip}</div> : null}
@@ -95,9 +101,15 @@ function FormikComp1() {
                     {errors.phoneNumber && touched.phoneNumber ? <div>{errors.phoneNumber}</div> : null}
                 </div> */}
                 {/* <button disabled={isSubmitting} className='btn btn-sm btn-success' type="submit" >Submit</button> */}
-                <button type='button' disabled={ isSubmitting}
+                <button type='button' disabled={isSubmitting}
                     className='btn btn-sm btn-success' onClick={handleSubmit}>Change value</button>
             </form>
+
+            <button type='button' onClick={() => {
+                // setFieldValue('item', '3')
+                meta.current.item = '3'
+                setRefresh({})
+            }}>Change value</button>
 
         </div >
     )
@@ -142,3 +154,4 @@ function FormikComp1() {
 export { FormikComp1 }
 
 // style={{ margin: '10px', display: 'flex', flexDirection: 'column', width: '200px', rowGap: '5px' }}
+// onChange={handleChange} onBlur={handleBlur} value={values.item} 
