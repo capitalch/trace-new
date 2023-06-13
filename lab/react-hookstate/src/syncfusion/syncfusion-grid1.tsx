@@ -1,5 +1,5 @@
-import { Box } from "@chakra-ui/react"
-import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel } from "@syncfusion/ej2-react-grids";
+import { Box, Text } from "@chakra-ui/react"
+import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
 import { useRef } from "react";
 
@@ -7,6 +7,13 @@ import { useRef } from "react";
 function SyncfusionGrid1() {
     const model: SelectionSettingsModel = { checkboxMode: "Default" }
     const grid: any = useRef({})
+    // const toolbarOptions = ['Expand', 'Collapse']
+    const toolbarTemplate: any = () => (
+        <Box display='flex' flexDirection='column'>
+            <label>Toolbar</label>
+            <Text onChange={handleToolbarTextChanged} />
+        </Box>
+    )
     return <Box m={10} >
         <GridComponent
             ref={grid}
@@ -21,6 +28,7 @@ function SyncfusionGrid1() {
                 console.log(row.data)
                 console.log(grid.current.getSelectedRecords())
             }}
+            toolbar={toolbarTemplate}
         >
             <ColumnsDirective>
                 <ColumnDirective type='checkbox' width='50' />
@@ -31,8 +39,13 @@ function SyncfusionGrid1() {
                 <ColumnDirective field='gender' width='50' headerText="Gender" />
                 <ColumnDirective field='car' width='50' headerText="Car" />
             </ColumnsDirective>
+            <Inject services={[Toolbar, Group]} />
         </GridComponent>
     </Box>
+
+    function handleToolbarTextChanged(e: any) {
+        console.log(e.target.value)
+    }
 }
 export { SyncfusionGrid1 }
 
