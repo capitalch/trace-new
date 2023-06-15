@@ -4,6 +4,8 @@ import { fdata } from "./fakedata";
 import { useRef } from "react";
 
 // grid.current.selectRows(numbers[]) selects the rows programatically
+// grid.current.getSelectedRecords gets all selected rows
+// grid.persistSelection persists selection in all operations
 function SyncfusionGrid1() {
     const model: SelectionSettingsModel = { checkboxMode: "Default" }
     const grid: any = useRef({})
