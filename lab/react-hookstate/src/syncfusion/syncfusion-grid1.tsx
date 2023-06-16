@@ -7,6 +7,7 @@ import { useRef } from "react";
 // grid.current.getSelectedRecords gets all selected rows
 // grid.persistSelection persists selection in all operations
 function SyncfusionGrid1() {
+    const id = crypto.randomUUID()
     const model: SelectionSettingsModel = { checkboxMode: "Default" }
     const grid: any = useRef({})
     // const toolbarOptions = ['Expand', 'Collapse']
