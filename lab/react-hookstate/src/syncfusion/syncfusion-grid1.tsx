@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react"
-import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group } from "@syncfusion/ej2-react-grids";
+import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
 import { useRef } from "react";
 
@@ -16,6 +16,9 @@ function SyncfusionGrid1() {
             <Text onChange={handleToolbarTextChanged} />
         </Box>
     )
+    const footerCount = (props: any) => {
+        return (<span>Count: {props.Count}</span>)
+    }
     return <Box m={10} >
         <GridComponent
             ref={grid}
@@ -41,7 +44,14 @@ function SyncfusionGrid1() {
                 <ColumnDirective field='gender' width='50' headerText="Gender" />
                 <ColumnDirective field='car' width='50' headerText="Car" />
             </ColumnsDirective>
-            <Inject services={[Toolbar, Group]} />
+            <AggregatesDirective>
+                <AggregateDirective>
+                    <AggregateColumnsDirective>
+                        <AggregateColumnDirective field="id" type='Count' footerTemplate={footerCount} />
+                    </AggregateColumnsDirective>
+                </AggregateDirective>
+            </AggregatesDirective>
+            <Inject services={[Aggregate, Toolbar, Group]} />
         </GridComponent>
     </Box>
 
