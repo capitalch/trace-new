@@ -10,7 +10,6 @@ function Comp1() {
             appStore.items.value.push({ details: 'abcdef' })
             const items = appStore.items.value
             appStore.items.value = [...items]
-            // appStore.refresh.value = !appStore.refresh.value
         }}>Add item</Button>
         {getItems()}
     </Box>)
