@@ -1,5 +1,8 @@
 pip install uvicorn[all] fastapi[uvicorn] ariadne asyncpg "python-jose[cryptography]" "passlib[bcrypt]" python-multipart pyjwt psycopg[binary] psycopg[pool] pycryptodome fastapi-mail
 
+## Text to sql AI
+https://www.text2sql.ai/app
+
 ## DB comparisons
 1. asyncpg requires so many connections
 2. psycopg-async is stable from connection point of view but does if the connection breaks then throws error. Repoducable: restart database server at cloud. Now error is raised

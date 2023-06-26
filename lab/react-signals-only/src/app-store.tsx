@@ -1,4 +1,4 @@
-import { signal, Signal } from '@preact/signals-react'
+import { signal, Signal , } from '@preact/signals-react'
 
 const appStore: AppStoreType = {
     count: signal(0),
@@ -15,7 +15,7 @@ const appStore: AppStoreType = {
 
 type AppStoreType = {
     count: Signal<number>,
-    items: Signal<Array<any>>,
+    items: Signal<any[]>,
     refresh: Signal<boolean>
     admin: {
         name: Signal<string>,

@@ -7,7 +7,9 @@ import { useGranularEffect } from 'granular-hooks'
 // import { MyText2UseField } from './my-text2-use-field'
 import { PhoneNumber } from './PhoneNumber'
 import { ZipCode } from './ZipCode'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import {emit, filterOn } from '@src/features/ibuki'
+import { IbukiMessages } from '@src/features/IbukiEnumns'
 
 function FormikComp1() {
 
@@ -53,6 +55,16 @@ function FormikComp1() {
     // useGranularEffect(() => {
     //     setFieldValue('city', 3)
     // }, [], [setFieldValue])
+
+    useEffect(() => {
+        const subs1 = filterOn(IbukiMessages['REFRESH:SelectableGridHeader:SelectableGrid']).subscribe((d: any) => {
+            console.log(d.data)
+            console.log(IbukiMessages['REFRESH:SelectableGridHeader:SelectableGrid'])
+        })
+        return(()=>{
+            subs1.unsubscribe()
+        })
+    }, [])
 
     return (
         <div className="container-fluid">
@@ -103,6 +115,9 @@ function FormikComp1() {
                 {/* <button disabled={isSubmitting} className='btn btn-sm btn-success' type="submit" >Submit</button> */}
                 <button type='button' disabled={isSubmitting}
                     className='btn btn-sm btn-success' onClick={handleSubmit}>Change value</button>
+                <button type='button' onClick={() => {
+                    emit(IbukiMessages['REFRESH:SelectableGridHeader:SelectableGrid'],'My test ibuki')
+                 }}>Ibuki Message</button>
             </form>
 
             <button type='button' onClick={() => {

@@ -17,9 +17,9 @@ import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
 function App() {
   return (
     <Box>
-      <SyncfusionGrid1 />
+      {/* <SyncfusionGrid1 /> */}
       {/* <Main /> */}
-      {/* <FormikComp1 /> */}
+      <FormikComp1 />
       {/* <Immer1 /> */}
     </Box>
   );

@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react"
 import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // grid.current.selectRows(numbers[]) selects the rows programatically
 // grid.current.getSelectedRecords gets all selected rows
@@ -19,6 +19,11 @@ function SyncfusionGrid1() {
     const footerCount = (props: any) => {
         return (<span>Count: {props.Count}</span>)
     }
+
+    useEffect(()=>{
+        grid.current.selectRows([0,3,6])
+    },[])
+
     return <Box m={10} >
         <GridComponent
             ref={grid}
