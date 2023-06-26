@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 // grid.current.getSelectedRecords gets all selected rows
 // grid.persistSelection persists selection in all operations
 function SyncfusionGrid1() {
+    const id = crypto.randomUUID()
     const model: SelectionSettingsModel = { checkboxMode: "Default" }
     const grid: any = useRef({})
     // const toolbarOptions = ['Expand', 'Collapse']
@@ -19,11 +20,17 @@ function SyncfusionGrid1() {
     const footerCount = (props: any) => {
         return (<span>Count: {props.Count}</span>)
     }
+<<<<<<< HEAD
 
     useEffect(()=>{
         grid.current.selectRows([0,3,6])
     },[])
 
+=======
+    useEffect(() => {
+        grid.current.selectRows([0,3,6])
+    }, [])
+>>>>>>> 6700fe3593c713d464c358a43eb2758778ad4f48
     return <Box m={10} >
         <GridComponent
             ref={grid}
@@ -38,7 +45,7 @@ function SyncfusionGrid1() {
                 console.log(row.data)
                 console.log(grid.current.getSelectedRecords())
             }}
-            toolbar={toolbarTemplate}
+        // toolbar={toolbarTemplate}
         >
             <ColumnsDirective>
                 <ColumnDirective type='checkbox' width='50' />
