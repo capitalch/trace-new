@@ -18,13 +18,9 @@ import { UnderstandUseCallback } from './components/understand-use-callback';
 function App() {
   return (
     <Box>
-<<<<<<< HEAD
-=======
-      <UnderstandUseCallback />
->>>>>>> 6700fe3593c713d464c358a43eb2758778ad4f48
-      {/* <SyncfusionGrid1 /> */}
+      <SyncfusionGrid1 />
       {/* <Main /> */}
-      <FormikComp1 />
+      {/* <FormikComp1 /> */}
       {/* <Immer1 /> */}
     </Box>
   );

@@ -2,6 +2,7 @@ import { Box, Text } from "@chakra-ui/react"
 import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
 import { useEffect, useRef } from "react";
+import dayjs from "dayjs";
 
 // grid.current.selectRows(numbers[]) selects the rows programatically
 // grid.current.getSelectedRecords gets all selected rows
@@ -20,17 +21,16 @@ function SyncfusionGrid1() {
     const footerCount = (props: any) => {
         return (<span>Count: {props.Count}</span>)
     }
-<<<<<<< HEAD
-
-    useEffect(()=>{
-        grid.current.selectRows([0,3,6])
-    },[])
-
-=======
     useEffect(() => {
         grid.current.selectRows([0,3,6])
     }, [])
->>>>>>> 6700fe3593c713d464c358a43eb2758778ad4f48
+
+    const dateFormatter = (field:string, data:any, column:any) => {
+        // return data[field]
+        return(dayjs(data[field])).format("MMM D, YYYY hh:mm A")
+        // return('01/01/2023')
+    }
+
     return <Box m={10} >
         <GridComponent
             ref={grid}
@@ -53,8 +53,9 @@ function SyncfusionGrid1() {
                 <ColumnDirective field='first_name' width='100' headerText="First name" />
                 <ColumnDirective field='last_name' width='100' textAlign="Right" headerText="Last name ID" />
                 <ColumnDirective field='email' width='100' format="C2" textAlign="Left" headerText="Email" />
-                <ColumnDirective field='gender' width='50' headerText="Gender" />
-                <ColumnDirective field='car' width='50' headerText="Car" />
+                <ColumnDirective field='gender' width='50' headerText="Gender" valueAccessor={undefined} />
+                <ColumnDirective field='dob' width='60' headerText='DOB' valueAccessor={dateFormatter} />
+                {/* <ColumnDirective field='car' width='50' headerText="Car" /> */}
             </ColumnsDirective>
             <AggregatesDirective>
                 <AggregateDirective>
