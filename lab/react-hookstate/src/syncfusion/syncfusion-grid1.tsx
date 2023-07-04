@@ -20,17 +20,9 @@ function SyncfusionGrid1() {
     const footerCount = (props: any) => {
         return (<span>Count: {props.Count}</span>)
     }
-<<<<<<< HEAD
-
-    useEffect(()=>{
-        grid.current.selectRows([0,3,6])
-    },[])
-
-=======
     useEffect(() => {
         grid.current.selectRows([0,3,6])
     }, [])
->>>>>>> 6700fe3593c713d464c358a43eb2758778ad4f48
     return <Box m={10} >
         <GridComponent
             ref={grid}
