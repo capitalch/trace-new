@@ -1,11 +1,13 @@
+import { Box } from '@chakra-ui/react';
 import './App.css';
 import { Comp1 } from './components/comp1';
+import { Purchase } from './Purchases/purchase';
 
 function App() {
   return (
-    <div>
-      <Comp1/>
-    </div>
+    <Box m={10}>
+      <Purchase />
+    </Box>
   );
 }
 
