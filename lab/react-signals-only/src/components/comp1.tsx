@@ -1,10 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
-<<<<<<< HEAD
-import { appStore } from "../app-store";
-=======
 import { appStore, itemInstance } from "../app-store";
-import { useImmer } from "use-immer";
->>>>>>> 3d2a02fd0ac2d3a64a9263f58f2e3ad74400167f
+// import { useImmer } from "use-immer";
 import { effect } from '@preact/signals-react'
 import { produce } from 'immer'
 
