@@ -47,8 +47,6 @@ function SyncfusionGrid1() {
                 <ColumnDirective field='last_name' width='100' textAlign="Right" headerText="Last name ID" />
                 <ColumnDirective field='email' width='100' format="C2" textAlign="Left" headerText="Email" />
                 <ColumnDirective field='gender' width='50' headerText="Gender" valueAccessor={undefined} />
-                {/* <ColumnDirective field='dob' width='60' headerText='DOB' valueAccessor={dateFormatter} /> */}
-                {/* <ColumnDirective field='car' width='50' headerText="Car" /> */}
             </ColumnsDirective>
             <AggregatesDirective>
                 <AggregateDirective>

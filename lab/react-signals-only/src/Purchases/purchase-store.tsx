@@ -4,6 +4,7 @@ import _ from 'lodash'
 const PurchaseStoreT: PurchaseStoreType = {
     count: signal(0),
     main: {
+        commonRemarks: signal(undefined),
         lineItems: signal([
             {
                 index: 0,
@@ -19,6 +20,7 @@ const purchaseStore: PurchaseStoreType = _.cloneDeep(PurchaseStoreT)
 type PurchaseStoreType = {
     count: Signal<number>
     main: {
+        commonRemarks: Signal<string | undefined | null>
         lineItems: Signal<LineItemType[]>
     },
 }

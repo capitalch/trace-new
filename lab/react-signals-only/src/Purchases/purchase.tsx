@@ -9,9 +9,19 @@ function Purchase() {
         <Box display='flex' flexDirection='row'>
             <Button size='sm' width={60} onClick={handleAddLineItem}>Add</Button>
             <Button size='sm' width={80} onClick={handleSubmit}>Submit</Button>
+            <Button size='sm' width={80} onClick={handleReset}>Reset</Button>
         </Box>
+        <Input type="text" mt={5} width={120} name="commonRemarks" value={purchaseStore.main.commonRemarks.value || ''} onChange={handleOnChangeCommonRemarks} />
         {getLineItems()}
     </Box>)
+
+    function handleReset(){
+        purchaseStore.main.commonRemarks.value = undefined
+    }
+
+    function  handleOnChangeCommonRemarks(e: any){
+        purchaseStore.main.commonRemarks.value = e.target.value
+    }
 
     function getLineItems() {
         const lineItems: LineItemType[] = purchaseStore.main.lineItems.value
