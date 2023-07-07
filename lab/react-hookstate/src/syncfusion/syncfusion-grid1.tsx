@@ -24,6 +24,10 @@ function SyncfusionGrid1() {
     useEffect(() => {
         grid.current.selectRows([0,3,6])
     }, [])
+
+    const myTemplate = (props: any) => {
+        return(<div>test</div>)
+    }
     return <Box m={10} >
         <GridComponent
             ref={grid}
@@ -37,16 +41,15 @@ function SyncfusionGrid1() {
             rowDeselected={(row: any) => {
                 console.log(row.data)
                 console.log(grid.current.getSelectedRecords())
-            }}
-        // toolbar={toolbarTemplate}
-        >
+            }}>
             <ColumnsDirective>
                 <ColumnDirective type='checkbox' width='50' />
-                <ColumnDirective field='id' width='100' textAlign="Right" headerText="Order ID" />
+                <ColumnDirective field='id' width='100' headerText="Order ID" />
                 <ColumnDirective field='first_name' width='100' headerText="First name" />
                 <ColumnDirective field='last_name' width='100' textAlign="Right" headerText="Last name ID" />
                 <ColumnDirective field='email' width='100' format="C2" textAlign="Left" headerText="Email" />
                 <ColumnDirective field='gender' width='50' headerText="Gender" valueAccessor={undefined} />
+                <ColumnDirective field='actions' width= '30'headerText="Actions" template={myTemplate} />
             </ColumnsDirective>
             <AggregatesDirective>
                 <AggregateDirective>
