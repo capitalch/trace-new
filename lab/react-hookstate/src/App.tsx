@@ -21,8 +21,8 @@ function App() {
   return (
     <Box>
       {/* <UnderstandUseCallback /> */}
-      <Immer2 />
-      {/* <SyncfusionGrid1 /> */}
+      {/* <Immer2 /> */}
+      <SyncfusionGrid1 />
       {/* <SyncfusionAccordion /> */}
       {/* <Main /> */}
       {/* <FormikComp1 /> */}
