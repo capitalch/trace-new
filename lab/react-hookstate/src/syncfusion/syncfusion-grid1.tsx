@@ -33,6 +33,7 @@ function SyncfusionGrid1() {
             ref={grid}
             dataSource={fdata}
             height={500}
+            // width='100%'
             gridLines="Both"
             selectionSettings={model}
             rowSelected={(row: any) => {
@@ -44,11 +45,11 @@ function SyncfusionGrid1() {
                 console.log(grid.current.getSelectedRecords())
             }}>
             <ColumnsDirective>
-                <ColumnDirective type='checkbox' width='15' />
-                <ColumnDirective field='id' width='120' headerText="Order ID" />
-                <ColumnDirective field='first_name' width='100' headerText="First name" />
-                <ColumnDirective field='last_name' width='100' textAlign="Right" headerText="Last name ID" />
-                <ColumnDirective field='email' width='100' format="C2" textAlign="Left" headerText="Email" />
+                <ColumnDirective type='checkbox' width={50} />
+                <ColumnDirective field='id' width={250} headerText="Order ID" />
+                <ColumnDirective field='first_name'  headerText="First name" />
+                <ColumnDirective field='last_name' width={100} textAlign="Right" headerText="Last name ID" />
+                <ColumnDirective field='email' width='150' format="C2" textAlign="Left" headerText="Email" />
                 <ColumnDirective field='gender' width='50' headerText="Gender" valueAccessor={undefined} />
                 <ColumnDirective field='actions' width= '30'headerText="Actions" template={myTemplate} />
             </ColumnsDirective>
