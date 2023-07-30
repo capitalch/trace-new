@@ -1,8 +1,0 @@
-type Query {
-    user: String
-    accounts: Generic
-    allTransactions: Generic
-    apsycopg: Generic
-    genericQuery(value:Generic): Generic
-}
-scalar Generic
