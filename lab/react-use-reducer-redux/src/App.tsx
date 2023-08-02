@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import { ReducerComp1 } from './components/reducer-comp1';
+import { ReduxCounter } from './components/redux-counter';
 
 function App() {
   return (
     <div className="App">
-      <ReducerComp1 />
+        {/* <ReducerComp1 /> */}
+        <ReduxCounter />
     </div>
   );
 }
