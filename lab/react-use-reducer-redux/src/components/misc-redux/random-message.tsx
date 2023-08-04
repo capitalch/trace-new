@@ -5,13 +5,13 @@ function RandomMessageViewer() {
     const view = useSelector((state: any) =>
         state.miscRedux.randomMessage
     )
-    return (<div className="m-10">{view}</div>)
+    return (<div className="w-40">{view}</div>)
 }
 export { RandomMessageViewer }
 
 function RandomMessageEmitter(){
     const dispatch = useDispatch()
-    return(<button className="mx-10 bg-slate-300 p-1 px-3 hover:bg-slate-400" onClick={handleClick}>Random message emit</button>)
+    return(<button className="bg-slate-300 p-1 px-3 hover:bg-slate-400" onClick={handleClick}>Random message emit</button>)
 
     function handleClick(){
         const rnd = Math.random()* 100

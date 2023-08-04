@@ -20,5 +20,7 @@
 ## Phase 2
 - Nested counter: Done
 - send random message to display in a div: Done
-- async query from api and display in div
+- Array update: Done
 - middleware like thunk
+- Typed state
+- async query from api and display in div

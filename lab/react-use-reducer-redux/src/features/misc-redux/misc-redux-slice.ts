@@ -1,18 +1,39 @@
-import { Slice, createSlice } from "@reduxjs/toolkit";
+import { Slice, createSlice } from '@reduxjs/toolkit'
 
 const miscReduxSlice: Slice = createSlice({
-  name: "miscRedux",
+  name: 'miscRedux',
   initialState: {
-    randomMessage: "xxx",
+    randomMessage: 'xxx',
+    items: [{ name: '---select---', value: '' }]
   },
   reducers: {
     sendRandomMessageAction: (state: any, data) => {
-      state.randomMessage = data.payload;
+      state.randomMessage = data.payload
     },
-  },
-});
+    populateItemsAction: (state: any, data) => {
+      state.items.push(data.payload)
+    },
+    changeItemsAction: (state: any, data) => {
+      state.items = data.payload
+    },
+    resetItemsAction: (state: any, data) => {
+      state.items = [{ name: '---select---', value: '' }]
+    }
+  }
+})
 
-const {reducer} = miscReduxSlice
-const {sendRandomMessageAction} = miscReduxSlice.actions
+const { reducer } = miscReduxSlice
+const {
+  changeItemsAction,
+  populateItemsAction,
+  resetItemsAction,
+  sendRandomMessageAction
+} = miscReduxSlice.actions
 
-export {reducer as randomMessageReducer, sendRandomMessageAction}
+export {
+  changeItemsAction,
+  reducer as randomMessageReducer,
+  populateItemsAction,
+  resetItemsAction,
+  sendRandomMessageAction
+}
