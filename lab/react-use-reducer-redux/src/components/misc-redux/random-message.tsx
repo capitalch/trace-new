@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { sendRandomMessageAction } from "../../features/misc-redux/misc-redux-slice"
+import { Dispatch } from "@reduxjs/toolkit"
 
 function RandomMessageViewer() {
     const view = useSelector((state: any) =>
@@ -10,7 +11,7 @@ function RandomMessageViewer() {
 export { RandomMessageViewer }
 
 function RandomMessageEmitter(){
-    const dispatch = useDispatch()
+    const dispatch:Dispatch = useDispatch()
     return(<button className="bg-slate-300 p-1 px-3 hover:bg-slate-400" onClick={handleClick}>Random message emit</button>)
 
     function handleClick(){
