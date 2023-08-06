@@ -21,6 +21,7 @@
 - Nested counter: Done
 - send random message to display in a div: Done
 - Array update: Done
-- middleware like thunk
+- middleware like thunk: Done
 - Typed state
-- async query from api and display in div
+- async query from api and display in div: Done
+- createEntityAdapter
