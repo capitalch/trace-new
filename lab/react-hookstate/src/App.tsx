@@ -22,9 +22,9 @@ function App() {
     <Box>
       {/* <UnderstandUseCallback /> */}
       {/* <Immer2 /> */}
-      {/* <SyncfusionGrid1 /> */}
+      <SyncfusionGrid1 />
       {/* <SyncfusionAccordion /> */}
-      <Main />
+      {/* <Main /> */}
       {/* <FormikComp1 /> */}
       {/* <Immer1 /> */}
     </Box>
