@@ -12,7 +12,7 @@ import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
 import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
 import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
 import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
+import "../node_modules/@syncfusion/ej2-react-grids/styles/tailwind.css";
 import { UnderstandUseCallback } from './components/understand-use-callback';
 import { SyncfusionAccordion } from './syncfusion/syncfusion-accordion';
 import { Immer2 } from './immer-components/immer2';
@@ -22,9 +22,9 @@ function App() {
     <Box>
       {/* <UnderstandUseCallback /> */}
       {/* <Immer2 /> */}
-      {/* <SyncfusionGrid1 /> */}
+      <SyncfusionGrid1 />
       {/* <SyncfusionAccordion /> */}
-      <Main />
+      {/* <Main /> */}
       {/* <FormikComp1 /> */}
       {/* <Immer1 /> */}
     </Box>
