@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { increment1, increment2, increment3, incrementNested } from "../../features/multi-counter/multi-counter-slice"
+import { increment1, increment2, increment3, incrementNestedA, incrementNestedB } from "../../features/multi-counter/multi-counter-slice"
 
 function Counter() {
     const count = useSelector((state:any)=>state.multiCounter.count)
@@ -44,16 +44,27 @@ function Counter3(){
 
 export {Counter3}
 
-function NestedCounter(){
-    const count = useSelector((state:any)=>state.multiCounter.nested.level1.level2.level3.count)
+function NestedCounterA(){
+    const countA = useSelector((state:any)=>state.multiCounter.nested.level1.level2.level3.countA)
     return (
         <div className="bg-slate-200 p-1 px-5">
-            <label className="border-l-amber-400">Nested counter</label>
-            <div className="text-center">{count}</div>
+            <label className="border-l-amber-400">Nested counter A</label>
+            <div className="text-center">{countA}</div>
         </div>)
 }
 
-export {NestedCounter}
+export {NestedCounterA}
+
+function NestedCounterB(){
+    const countB = useSelector((state:any)=>state.multiCounter.nested.level1.level2.level3.countB)
+    return (
+        <div className="bg-slate-200 p-1 px-5">
+            <label className="border-l-amber-400">Nested counter B</label>
+            <div className="text-center">{countB}</div>
+        </div>)
+}
+
+export {NestedCounterB}
 
 function Increment1(){
     const dispatch = useDispatch()
@@ -85,12 +96,22 @@ function Increment3(){
 }
 export {Increment3}
 
-function NestedIncrement(){
+function NestedIncrementA(){
     const dispatch = useDispatch()
-    return(<button onClick={handleClick} className="bg-green-400 p-2 ">Increment 1 time</button>)
+    return(<button onClick={handleClick} className="bg-green-400 p-2 "> Nested A Increment 1 time</button>)
 
     function handleClick(){
-        dispatch(incrementNested(1))
+        dispatch(incrementNestedA(1))
     }
 }
-export {NestedIncrement}
+export {NestedIncrementA}
+
+function NestedIncrementB(){
+    const dispatch = useDispatch()
+    return(<button onClick={handleClick} className="bg-green-400 p-2 ">Nested B Increment 1 time</button>)
+
+    function handleClick(){
+        dispatch(incrementNestedB(1))
+    }
+}
+export {NestedIncrementB}
