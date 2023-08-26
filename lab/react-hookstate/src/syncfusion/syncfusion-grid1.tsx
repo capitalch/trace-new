@@ -1,7 +1,10 @@
 import { Box, Text } from "@chakra-ui/react"
 import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { DatePicker, DatePickerComponent } from '@syncfusion/ej2-react-calendars';
+import { min } from "rxjs";
+import dayjs from "dayjs";
 // import dayjs from "dayjs";
 
 // grid.current.selectRows(numbers[]) selects the rows programatically
@@ -9,6 +12,7 @@ import { useEffect, useRef } from "react";
 // grid.persistSelection persists selection in all operations
 function SyncfusionGrid1() {
     const id = crypto.randomUUID()
+    const [dob, setDob]: any = useState()
     const model: SelectionSettingsModel = { checkboxMode: "Default" }
     const grid: any = useRef({})
     // const toolbarOptions = ['Expand', 'Collapse']
@@ -22,14 +26,23 @@ function SyncfusionGrid1() {
         return (<span>Count: {props.Count}</span>)
     }
     useEffect(() => {
-        grid.current.selectRows([0,3,6])
+        // grid.current.selectRows([0,3,6])
     }, [])
 
     const myTemplate = (props: any) => {
         return(<div>test</div>)
     }
+
+    const minDob = dayjs().subtract(100, 'year').toDate()
+    const maxDob = dayjs().toDate()
+
+    // const dateValue = new Date('5/28/2017');
+    const minDate = new Date('5/28/2011');
+    const maxDate = new Date('8/28/2023');
+    // min={minDob} max = {maxDob} value={dateValue}
     return <Box m={10} >
-        <GridComponent
+        <DatePickerComponent width={200} placeholder="Enter DOB"  className="form-control"   /> 
+        {/* <GridComponent
             ref={grid}
             dataSource={fdata}
             height={500}
@@ -61,7 +74,7 @@ function SyncfusionGrid1() {
                 </AggregateDirective>
             </AggregatesDirective>
             <Inject services={[Aggregate, Toolbar, Group]} />
-        </GridComponent>
+        </GridComponent> */}
     </Box>
 
     function handleToolbarTextChanged(e: any) {
