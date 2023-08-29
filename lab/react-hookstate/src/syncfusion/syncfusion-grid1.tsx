@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react"
-import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate } from "@syncfusion/ej2-react-grids";
+import { GridComponent, ColumnDirective, ColumnsDirective, CheckboxSelectionType, SelectionSettingsModel, Inject, Toolbar, Group, AggregatesDirective, AggregateDirective, AggregateColumnsDirective, AggregateColumnDirective, Aggregate, Page } from "@syncfusion/ej2-react-grids";
 import { fdata } from "./fakedata";
 import { useEffect, useRef, useState } from "react";
 import { DatePicker, DatePickerComponent } from '@syncfusion/ej2-react-calendars';
@@ -43,9 +43,12 @@ function SyncfusionGrid1() {
     return <Box m={10} >
         <DatePickerComponent width={200} placeholder="Enter DOB"  className="form-control"   /> 
         {/* <GridComponent
+    return <div className="w-full">
+        <GridComponent
             ref={grid}
             dataSource={fdata}
             height={500}
+            allowPaging={true}
             // width='100%'
             gridLines="Both"
             selectionSettings={model}

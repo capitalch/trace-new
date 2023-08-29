@@ -5,15 +5,17 @@ import { MultiCounterContainer } from './components/multi-counter/multi-counter-
 import { RandomMessageEmitter, RandomMessageViewer } from './components/misc-redux/random-message';
 import { MiscReduxContainer } from './components/misc-redux/misc-redux-container';
 import { DynamicMenu } from './components/dynamic-menu/dynamic-menu';
+import { ObjectHierarchy } from './components/object-hierarchy';
 
 function App() {
   return (
     <div className="App">
-        {/* <ReducerComp1 /> */}
-        {/* <ReduxCounter /> */}
-        <MultiCounterContainer />
-        <DynamicMenu />
-        <MiscReduxContainer />
+      <ObjectHierarchy />
+      {/* <ReducerComp1 /> */}
+      <ReduxCounter />
+      <MultiCounterContainer />
+      <DynamicMenu />
+      <MiscReduxContainer />
     </div>
   );
 }
