@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { increment1, increment2, increment3, incrementNestedA, incrementNestedB } from "../../features/multi-counter/multi-counter-slice"
+import { increment1, increment2, increment3, incrementNestedA, incrementNestedB, selectCount2 } from "../../features/multi-counter/multi-counter-slice"
 
 function Counter() {
     const count = useSelector((state:any)=>state.multiCounter.count)
@@ -23,7 +23,10 @@ function Counter1(){
 export {Counter1}
 
 function Counter2(){
-    const count = useSelector((state:any)=>state.multiCounter.count2)
+    // const count = useSelector((state:any)=>state.multiCounter.count2)
+    const count = useSelector(selectCount2)
+    // const obj = useSelector((state:any)=>({...state.multiCounter}))
+    // console.log(obj)
     return (
         <div className="bg-slate-200 p-1 px-5">
             <label className="border-l-amber-400">Counter2</label>

@@ -1,4 +1,4 @@
-import { Slice, createSlice } from '@reduxjs/toolkit'
+import { Slice, createSelector, createSlice } from '@reduxjs/toolkit'
 
 const multiCounterSlice: Slice = createSlice({
   name: 'multiCounter',
@@ -73,3 +73,5 @@ export {
   incrementNestedA,
   incrementNestedB
 }
+
+export const selectCount2 = (state:any)=>state.multiCounter.count2

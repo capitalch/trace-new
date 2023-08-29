@@ -6,10 +6,12 @@ import { RandomMessageEmitter, RandomMessageViewer } from './components/misc-red
 import { MiscReduxContainer } from './components/misc-redux/misc-redux-container';
 import { DynamicMenu } from './components/dynamic-menu/dynamic-menu';
 import { ObjectHierarchy } from './components/object-hierarchy';
+import { CustomAccordion } from './components/custom-accordion';
 
 function App() {
   return (
     <div className="App">
+      <CustomAccordion />
       <ObjectHierarchy />
       {/* <ReducerComp1 /> */}
       <ReduxCounter />
