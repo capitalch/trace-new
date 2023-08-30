@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import { changeItemsAction, populateItemsAction, resetItemsAction } from "../../features/misc-redux/misc-redux-slice"
+import { changeItemsAction, populateItemsAction, resetItemsAction, selectRandomItems, selectorRandomItems } from "../../features/misc-redux/misc-redux-slice"
 
 function ReduxList() {
-    const items = useSelector((state: any) => state.miscRedux.items)
+    // const items = useSelector((state: any) => state.miscRedux.items)
+    const items = useSelector(selectorRandomItems)
     return (<div>
         <select >
             {getOptions()}
