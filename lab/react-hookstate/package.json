@@ -10,15 +10,10 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookstate/core": "^4.0.1",
-<<<<<<< HEAD
-    "@syncfusion/ej2-react-calendars": "^19.3.53",
-    "@syncfusion/ej2-react-grids": "^19.3.53",
-    "@syncfusion/ej2-react-navigations": "^19.3.53",
-=======
-    "@syncfusion/ej2-base": "^22.2.5",
-    "@syncfusion/ej2-react-grids": "^22.2.8",
-    "@syncfusion/ej2-react-navigations": "^22.1.36",
->>>>>>> c520ba700ce9eeda5a57a2bd35e90ae3cd2b92ed
+    "@syncfusion/ej2-base": "^22.2.10",
+    "@syncfusion/ej2-react-calendars": "^22.2.11",
+    "@syncfusion/ej2-react-grids": "^22.2.11",
+    "@syncfusion/ej2-react-navigations": "^22.2.11",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
