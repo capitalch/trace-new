@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { counterReducer } from '../features/counter/counter-slice'
+import { counterReducer } from '../components/redux-counter/counter-slice'
 import { multiCounterReducer } from '../features/multi-counter/multi-counter-slice'
 import { randomMessageReducer } from '../features/misc-redux/misc-redux-slice'
 import { dynamicMenuReducer } from '../features/dynamic-menu/dynamic-menu-slice'

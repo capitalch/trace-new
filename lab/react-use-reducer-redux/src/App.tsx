@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReducerComp1 } from './components/reducer-comp1';
-import { ReduxCounter } from './components/redux-counter';
+import { ReduxCounter } from './components/redux-counter/redux-counter';
 import { MultiCounterContainer } from './components/multi-counter/multi-counter-container';
 import { RandomMessageEmitter, RandomMessageViewer } from './components/misc-redux/random-message';
 import { MiscReduxContainer } from './components/misc-redux/misc-redux-container';
@@ -11,13 +11,13 @@ import { CustomAccordion } from './components/custom-accordion';
 function App() {
   return (
     <div className="App">
-      <CustomAccordion />
-      <ObjectHierarchy />
+      {/* <CustomAccordion />
+      <ObjectHierarchy /> */}
       {/* <ReducerComp1 /> */}
       <ReduxCounter />
-      <MultiCounterContainer />
+      {/* <MultiCounterContainer />
       <DynamicMenu />
-      <MiscReduxContainer />
+      <MiscReduxContainer /> */}
     </div>
   );
 }
