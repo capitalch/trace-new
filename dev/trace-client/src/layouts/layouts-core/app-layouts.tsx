@@ -1,15 +1,12 @@
 import { AppLogin, EmptyComponent } from "@src/components";
 import { AppContent, AppDrawer, AppHeader, AppSidebar } from '@src/layouts'
 import {
-  // AppConstants,
   appStore,
   AppLoader,
   AppAlertDialogOk,
   AppAlertDialogYesNo,
   AppModalDialogA,
   AppModalDialogB,
-  // LoginInfoType,
-  getLoginInfoFromLS,
   getIsLoggedInFromLS,
 } from "@src/features"
 import {
@@ -21,7 +18,6 @@ function AppLayouts() {
   const isLoggedIn = appStore.login.isLoggedIn.value;
 
   useEffect(() => {
-    // loadLoginInfo()
     appStore.layouts.selectedComponent.value = (appStore.login.isLoggedIn.value
       ? EmptyComponent
       : AppLogin)
