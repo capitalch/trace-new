@@ -8,10 +8,12 @@ import { TailWindTabs1 } from './components/tailwind-tabs1';
 import { CustomTabs } from './components/tabs/custom-tabs';
 import { ParentComp } from './components/children-concept/parent-comp';
 import { NuTabsUsage } from './components/nu-tabs/n-tabs-usage';
+import { TailWindStates } from './components/tailwind-use-various-events/tailwind-states';
 
 function App() {
   return (
     <div className='m-4'>
+      <TailWindStates />
       <NuTabsUsage />
       {/* <ParentComp /> */}
       {/* <CustomTabs /> */}
