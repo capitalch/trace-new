@@ -46,9 +46,10 @@ async def handle_middleware(request: Request, call_next):
     try:
         path = request.url.path
         accessControl = request.headers.get('access-control-request-headers')
-        if (path.find('graphql') != -1):
-            if (accessControl is None):
-                await auth_main.validate_token(request)
+        # Uncomment below line to enable authentication
+        # if (path.find('graphql') != -1):
+        #     if (accessControl is None):
+        #         await auth_main.validate_token(request)
         return await call_next(request)
     except (Exception) as e:
         logger.error(e)
