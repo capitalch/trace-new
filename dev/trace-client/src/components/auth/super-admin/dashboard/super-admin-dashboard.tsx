@@ -18,8 +18,8 @@ function SuperAdminDashboard() {
             </HStack>
             <SimpleGrid mt={2} spacing={8} templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>
                 <SuperAdminDatabaseConnections />
-                <SuperAdminClientsCard />
-                <SuperAdminCounts />
+                {/* <SuperAdminClientsCard />
+                <SuperAdminCounts /> */}
             </SimpleGrid>
         </>
     )

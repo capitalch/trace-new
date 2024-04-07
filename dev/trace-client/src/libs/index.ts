@@ -2,6 +2,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import qs from 'qs'
 import React from 'react'
+// import moment from 'moment'
 import moment from 'moment'
 import urlJoin from 'url-join'
 import ReactSelect from 'react-select'
@@ -26,7 +27,7 @@ export {
   type GridReadyEvent,
   type RowDataUpdatedEvent
 } from 'ag-grid-community'
-export { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact'
+export { AgGridReact as AgGridReactType } from 'ag-grid-react'  //'ag-grid-react/lib/agGridReact'
 export { useGranularEffect } from 'granular-hooks'
 export { useForm } from 'react-hook-form'
 export { Else, Fallback, If, Then } from 'react-if'
