@@ -17,9 +17,6 @@ function SuperAdminClients() {
         dbName: 'traceAuth'
         , tableName: 'ClientM'
         ,appStoreObject:appStore.superAdmin.clients
-        // , appStaticStoreObject: appStore.superAdmin.clients 
-        // , EditBodyComponent: SuperAdminEditNewRole
-        // , editTitle:'Edit super admin client'
     })
 
     // Alternative of useEffect. Dependency array can be blank with no warning

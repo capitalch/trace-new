@@ -7,7 +7,6 @@ export {
   type CustomMethodExecutionType,
   EventTriggersEnum,
   type GraphQlQueryResultType,
-  // type LoginInfoType,
   SideMenuTypesEnum,
   type SqlObjectType,
   UserTypesEnum,

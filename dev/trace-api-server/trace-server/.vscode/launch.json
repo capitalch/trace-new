@@ -10,7 +10,8 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "main:app","--reload"
+                "main:app","--reload",
+                "--host", "localhost","--port", "8001"
             ],
             "jinja": true,
             "justMyCode": true
