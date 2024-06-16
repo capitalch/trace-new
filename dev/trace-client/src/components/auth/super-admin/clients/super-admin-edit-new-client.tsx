@@ -146,11 +146,3 @@ function SuperAdminEditNewClient() {
 }
 
 export { SuperAdminEditNewClient }
-
-{/* <Checkbox name='isActive' id = 'isActive' size='lg' {...register('isActive')}>Is this client active?</Checkbox> */ }
-{/* <FormControl display='flex' flexDir='row' alignItems='center' columnGap={2} >
-    <input  id = 'isActive' {...register('isActive')} type = 'checkbox' 
-    style = {{width: '20px', height: '20px', cursor:'pointer',}} />
-    <label  htmlFor='isActive' style={{cursor:'pointer'}}>Is this client active?</label>
-    
-</FormControl> */}
